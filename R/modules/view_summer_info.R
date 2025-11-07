@@ -85,8 +85,8 @@ summary_info_server <- function(id, con, main_input) {
       # df is summary data
       df <- summary_data()
       req(df)
-      cat("[DEBUG] Waterbody unique values:", length(unique(df$waterbody)), "\n")
-      cat("[DEBUG] Species unique values:", length(unique(df$common_name)), "\n")
+      cat("[DEBUG] Waterbody unique values:", length(unique(df$Waterbody)), "\n")
+      cat("[DEBUG] Species unique values:", length(unique(df$`Common Name`)), "\n")
       # Grouping Variables: Allow dynamic selection
 
       grouping_choices <- grouping_cols()

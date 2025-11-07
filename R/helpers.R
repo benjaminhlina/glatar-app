@@ -19,12 +19,12 @@ get_selected_table <- function(input) {
 }
 
 # ----- get nice names -----
-get_nice_name <- function(cols) {
+get_nice_name <- function(cols, lookup = nice_name_lookup) {
   unname(sapply(cols, function(col) {
-    if (col %in% names(nice_name_lookup)) {
-      return(nice_name_lookup[[col]])
+    if (col %in% names(lookup)) {
+      lookup[[col]]
     } else {
-      return(col)
+      col
     }
   }))
 }
@@ -62,20 +62,20 @@ get_summary_data <- function(con, table_name) {
     return(data.frame(Message = "Error retrieving data from database."))
   })
   #
-  # df <- df %>%
-  #   mutate(
-  #     year = as.character(year),
-  #     month = as.character(month),
-  #     age = as.character(age),
-  #     tsn = as.character(tsn),
-  #     site_depth = as.character(site_depth)
-  #   )
+  df <- df %>%
+    mutate(
+      year = as.character(year),
+      month = as.character(month),
+      age = as.character(age),
+      tsn = as.character(tsn),
+      site_depth = as.character(site_depth)
+    )
 
-  # names(df) <- get_nice_name(names(df))
-  # df <- df[, !(names(df) %in% c("sample_id",
-  #                               "source_id", "cal_id",
-  #                               "proxcomp_id",
-  #                               "iso_id"))]
+  names(df) <- get_nice_name(names(df), lookup = nice_name_lookup)
+  df <- df[, !(names(df) %in% c("sample_id",
+                                "source_id", "cal_id",
+                                "proxcomp_id",
+                                "iso_id"))]
   # return the data
   return(df)
 }
