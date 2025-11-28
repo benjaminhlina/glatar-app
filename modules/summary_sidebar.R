@@ -45,6 +45,7 @@ summary_sidebar_ui <- function(id) {
 }
 
 
+
 summary_sidebar_server <- function(id, con, main_input) {
   moduleServer(id, function(input, output, session) {
 
@@ -83,7 +84,8 @@ summary_sidebar_server <- function(id, con, main_input) {
                              server = TRUE)
         # Update histogram variable choices
         updateSelectizeInput(session, "summary_y_variable",
-                             choices = setNames(numeric_choices, numeric_choices),
+                             choices = setNames(numeric_choices,
+                                                numeric_choices),
                              # selected = "test",
                              server = TRUE)
 
