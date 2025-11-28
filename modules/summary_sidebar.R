@@ -16,10 +16,22 @@ summary_sidebar_ui <- function(id) {
                          "Select Species",
                          choices = NULL),
       shiny::selectizeInput(ns("summary_y_variable"),
-                         "Select Summary Columns of Interest",
-                         choices = NULL,
-                         multiple = TRUE,
-                         options = list(placeholder = 'Select columns...')),
+                            "Select Summary Columns of Interest",
+                            choices = NULL,
+                            multiple = TRUE,
+                            options = list(placeholder = 'Select columns...',
+                                           render = I("
+          {
+            option: function(item, escape) {
+              return '<div>' + item.label + '</div>';
+            },
+            item: function(item, escape) {
+              return '<div>' + item.label + '</div>';
+            }
+          }
+        ")
+                            )
+      ),
       shiny::selectizeInput(
         inputId = ns("hist_var"),
         label = "Select Variable for Histogram",
