@@ -116,22 +116,26 @@ summary_info_server <- function(id, con, main_input, sidebar_vals) {
                                         "proxcomp_id","iso_id",
                                         "Conversion Factor","Composite (n)"))
 
+      # if empty after filtering
+      if (nrow(df) == 0) return(df)
 
-      # create dynamic groupings and summary round all values to 2 decimials
+      vars_to_summarise <- intersect(y_vals, summary_numeric_cols)
+
+      req(length(vars_to_summarise) > 0)
 
       summary_df <- df %>%
         group_by(across(all_of(summary_grouping_vars))) %>%
         summarise(
           n = n(),
-          across(all_of(intersect(input$summary_y_variable, summary_numeric_cols)),
-                 list(
-                   mean = ~mean(.x, na.rm = TRUE),
-                   sd = ~sd(.x, na.rm = TRUE)
-                 ),
-                 .names = "{.col} ({.fn})"),
+          across(
+            all_of(vars_to_summarise),
+            list(mean = ~ mean(.x, na.rm = TRUE),
+                 sd   = ~ sd(.x, na.rm = TRUE)),
+            .names = "{.col} ({.fn})"
+          ),
           .groups = "drop"
         ) %>%
-        mutate_if(is.numeric, round, digits = 2)
+        mutate(across(where(is.numeric), ~ round(.x, 2)))
 
       return(summary_df)
     })
