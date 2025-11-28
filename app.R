@@ -37,8 +37,14 @@ ui <- dashboardPage(
       )
     ),
     # Modularized panels
-    summary_sidebar_ui("summary_sidebar"),
+      conditionalPanel(
+    "input.tabs == 'summary_info'",
+    summary_sidebar_ui("summary_sidebar")
+    ),
+    conditionalPanel(
+      "input.tabs == 'scatter_plot'",
     scatter_sidebar_ui("scatter_sidebar")
+    )
   ),
   # ---- create display panes ----
   dashboardBody(
