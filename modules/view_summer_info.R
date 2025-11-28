@@ -133,7 +133,7 @@ summary_info_server <- function(id, con, main_input, sidebar_vals) {
 
       return(summary_df)
     })
-    # )}
+
 
     #  ----- Render Summary Table -----
     output$summary_table_output <- renderDT({
