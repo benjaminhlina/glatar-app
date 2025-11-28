@@ -1,14 +1,10 @@
 view_summary_info_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  shiny::tagList(tabName = id,
+  shiny::tagList(
+    # tabName = id,
                  shiny::h2("Summary Statistics"),
-                 # fluidRow(
-                 #   valueBoxOutput("total_records", width = 4),
-                 #   valueBoxOutput("unique_species", width = 4)
-                 # ),
                  shiny::br(),
-
                  shiny::fluidRow(
                    shinydashboard::box(
                      title = "Summary Table",
@@ -22,8 +18,7 @@ view_summary_info_ui <- function(id) {
                  plot_ui(title = "Summary Histograms",
                          plot_id = "summary_histogram",
                          height = "300px",
-                         ns = ns)
-
+                         ns = ns),
   )
 }
 
