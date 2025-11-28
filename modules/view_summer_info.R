@@ -78,9 +78,6 @@ summary_info_server <- function(id, con, main_input, sidebar_vals) {
 
       req(df, grouping_vars)
 
-      req(df, input$summary_grouping_vars)
-      # Apply filters - set ALL to no filter the data at all
-      if (!(input$summary_waterbody_filter %in% "All")) {
       if (!(waterbody_f %in% "All")) {
         df <- df %>%
           filter(Waterbody == waterbody_f)
