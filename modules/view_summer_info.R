@@ -80,21 +80,19 @@ summary_info_server <- function(id, con, main_input, sidebar_vals) {
       req(df, input$summary_grouping_vars)
       # Apply filters - set ALL to no filter the data at all
       if (!(input$summary_waterbody_filter %in% "All")) {
+      if (!(waterbody_f %in% "All")) {
         df <- df %>%
-          filter(Waterbody == input$summary_waterbody_filter)
+          filter(Waterbody == waterbody_f)
       }
-      if (!(input$summary_species_filter %in% "All")) {
+
+      if (!(species_f %in% "All")) {
         df <- df %>%
-          filter(`Common Name` == input$summary_species_filter)
+          filter(`Common Name` == species_f)
       }
+
       return(df)
     })
-    #   if (!(input$summary_y_variable %in% "All")) {
-    #     df <- df %>%
-    #       filter(`Common Name` == input$summary_species_filter)
-    #   }
-    #   return(df)
-    # })
+
 
     filtered_summary <- reactive({
 
