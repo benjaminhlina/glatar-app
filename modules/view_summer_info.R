@@ -154,12 +154,44 @@ summary_info_server <- function(id, con, main_input, sidebar_vals) {
                 ), escape = FALSE)
     })
 
+    # # ---- add in histogram ----
+    output$summary_histogram <- renderPlot({
+      # Get raw data (not summarized)
+      df <- filtered_summary_df()
 
-    # Update histogram variable choices
-    # updateSelectInput(session, "hist_var",
-    #                   choices = setNames(numeric_cols, numeric_cols),
-    #                   selected = "energy_density_mean")
+      # Ensure the selected column exists in the raw data
+      var <- sidebar_vals$hist_vars()
+      req(df, nrow(df) > 0, vars)
+      req(var %in% names(df))
 
+      species_f <- sidebar_vals$species_filter()
+      # Remove NAs from the selected column
+      df <- df %>%
+        filter(!is.na(.data[[var]]))
+
+      nice_label <- get_nice_name(var)[[1]]
+
+      # Plot the histogram of the selected variable
+      p <- ggplot(data = df, aes(x = !!sym(var))) +
+        geom_histogram(fill = "#4DB6AC",
+                       color = "black") +
+        # facet_wrap(~ common_name) +
+        theme_bw(
+          base_size = 15
+        ) +
+        theme(
+          panel.grid = element_blank(),
+          plot.title = element_markdown(hjust = 0.5),
+          axis.title.x = element_markdown()
+        ) +
+        labs(
+          x = nice_label,
+          y = "Frequency",
+          title = paste("Histogram of", nice_label,
+                        "for", species_f)
+        )
+      return(p)
+    })
 
 
     # # ---- add in histogram ----
