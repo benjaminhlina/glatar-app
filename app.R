@@ -36,6 +36,7 @@ ui <- dashboardPage(
                icon = icon("chart-line")
       )
     ),
+    useShinyjs(),
     # Modularized panels
       conditionalPanel(
     "input.tabs == 'summary_info'",
