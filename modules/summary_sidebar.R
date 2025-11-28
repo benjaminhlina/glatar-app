@@ -89,17 +89,15 @@ summary_sidebar_server <- function(id, con, main_input) {
                         selected = "All")
 
 
-        # Update histogram variable choices
-        updateSelectizeInput(session, "hist_var",
-                             choices = setNames(numeric_choices, numeric_choices),
-                             # selected = "test",
-                             server = TRUE)
-        # Update histogram variable choices
-        updateSelectizeInput(session, "summary_y_variable",
-                             choices = setNames(numeric_choices,
-                                                numeric_choices),
-                             # selected = "test",
-                             server = TRUE)
+      # Update y summary  variable choices
+      updateSelectizeInput(session, "summary_y_variable",
+                           choices = setNames(numeric_choices,
+                                              numeric_choices),
+                           server = TRUE)
+      # Update histogram variable choices
+      updateSelectizeInput(session, "hist_var",
+                           choices = setNames(numeric_choices, numeric_choices),
+                           server = TRUE)
 
     })
     return(list(
