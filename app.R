@@ -74,6 +74,8 @@ server <- function(input, output, session) {
   summary_info <- summary_info_server("summary_info", con, main_input = input,
                       sidebar_vals = sidebar_vals )
 
+  sidebar_vals$register_summary(summary_info)
+
 
   # observe({
   #   df <- summary_data()
