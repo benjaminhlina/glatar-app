@@ -136,11 +136,12 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
           shape = 21
         )
       }
-
-
-      p
+      return(p)
     })
 
+      return(list(
+        plot = p
+      ))
   }
   )
 }
