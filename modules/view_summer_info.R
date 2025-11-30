@@ -33,7 +33,10 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     ns <- session$ns
     # ----- first create summary datsa -----
     summary_data <- reactive({
+
+      req(main_input$tabs == "summary_info")
       table_name <- get_selected_table(main_input)
+      req(table_name)
       # errors
       if (is.null(table_name) || is.na(table_name)) {
         cat("[DEBUG] table_name is NULL, Cannot run query.\n")
@@ -43,7 +46,8 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       # db connections
       con_db <- if (inherits(con, "reactive")) con() else con
       # ---- acctuat gert data =----
-      get_summary_data(con = con_db, table_name)
+      df <- get_summary_data(con = con_db, table_name)
+      df
     })
 
     observe({
