@@ -76,6 +76,14 @@ server <- function(input, output, session) {
 
   summary_sidebar_vals$register_summary(summary_info)
 
+  scatter_sidebar_vals <- scatter_sidebar_server("scatter_sidebar",
+                                                 con,
+                                                 main_input = input)
+
+  scatter_plot <- scatter_plot_server("scatter_plot",
+                      con,
+                      main_input = input,
+                      scatter_sidebar_vals = scatter_sidebar_vals)
 
   # })
   # filtered_summary_dats <- reactive({
