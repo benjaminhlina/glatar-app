@@ -1,3 +1,67 @@
+# ---- get good groups -----
+get_good_groups <- function(df) {
+good_groups <- c(
+  "PI Name",
+  "Month",
+  "Year",
+  "Common Name",
+  "Scientific Name",
+  "Genus",
+  "tribe",
+  "subfamily",
+  "Family",
+  "superfamily",
+  "suborder",
+  "Order",
+  "superorder",
+  "Class",
+  "Superclass",
+  "TSN code",
+  "Sex",
+  "Life Stage",
+  "Wild Lab",
+  "Age (yrs)",
+  "composite",
+  "Tissue Type",
+  "sample_procedure",
+  "trt_description",
+  "Waterbody",
+  "Area",
+  "Site",
+  "Site Depth (m)"
+)
+
+# Return only those that are in good_groups
+groups <- sort(intersect(names(df), good_groups))
+return(groups)
+}
+
+# ----- get nice names -----
+get_nice_name <- function(cols, lookup = nice_name_lookup) {
+  unname(sapply(cols, function(col) {
+    if (col %in% names(lookup)) {
+      lookup[[col]]
+    } else {
+      col
+    }
+  }))
+}
+
+# ---- get numerical columns -----
+get_numeric_cols <- function(df) {
+  default_exclude <- c("sample_id",
+                       "source_id",
+                       "cal_id",
+                       "proxcomp_id",
+                       "iso_id",
+                       "Conversion Factor",
+                       "Composite (n)")
+
+  # Ensure numeric columns exist and remove ids
+  cols <- names(df)[sapply(df, is.numeric)]
+  setdiff(cols, default_exclude)
+}
+
 # ---- Helper: determine which table is selected ----
 get_selected_table <- function(input) {
   current_tab <- input$tabs
@@ -17,18 +81,6 @@ get_selected_table <- function(input) {
   if (is.null(out) || is.na(out) || out == "") return(NULL)
   out
 }
-
-# ----- get nice names -----
-get_nice_name <- function(cols, lookup = nice_name_lookup) {
-  unname(sapply(cols, function(col) {
-    if (col %in% names(lookup)) {
-      lookup[[col]]
-    } else {
-      col
-    }
-  }))
-}
-
 
 # ---- Helper: run SQL query and clean the data ----
 get_summary_data <- function(con, table_name) {
@@ -80,56 +132,26 @@ get_summary_data <- function(con, table_name) {
   return(df)
 }
 
+# --- prepar summary function ----
+get_table <- function(con, main_input) {
 
-# ---- get numerical columns -----
-get_numeric_cols <- function(df) {
-  default_exclude <- c("sample_id",
-                       "source_id",
-                       "cal_id",
-                       "proxcomp_id",
-                       "iso_id",
-                       "Conversion Factor",
-                       "Composite (n)")
+  input <- get_selected_table(main_input)
 
-  # Ensure numeric columns exist and remove ids
-  cols <- names(df)[sapply(df, is.numeric)]
-  setdiff(cols, default_exclude)
+  df <- get_summary_data(con, input)
+
+  grouping_choices <- get_good_groups(df)
+  numeric_choices   <- get_numeric_cols(df)
+
+  # Debug prints
+  cat("\n[DEBUG] prepare_summary_choices() called\n")
+  cat("[DEBUG] Waterbody unique values:", length(unique(df$Waterbody)), "\n")
+  cat("[DEBUG] Species unique values:", length(unique(df$`Common Name`)), "\n")
+
+  return(list(
+    df = df,
+    grouping_choices = grouping_choices,
+    numeric_choices = numeric_choices
+  )
+  )
 }
 
-# ---- get good groups -----
-get_good_groups <- function(df) {
-good_groups <- c(
-  "PI Name",
-  "Month",
-  "Year",
-  "Common Name",
-  "Scientific Name",
-  "Genus",
-  "tribe",
-  "subfamily",
-  "Family",
-  "superfamily",
-  "suborder",
-  "Order",
-  "superorder",
-  "Class",
-  "Superclass",
-  "TSN code",
-  "Sex",
-  "Life Stage",
-  "Wild Lab",
-  "Age (yrs)",
-  "composite",
-  "Tissue Type",
-  "sample_procedure",
-  "trt_description",
-  "Waterbody",
-  "Area",
-  "Site",
-  "Site Depth (m)"
-)
-
-# Return only those that are in good_groups
-groups <- sort(intersect(names(df), good_groups))
-return(groups)
-}
