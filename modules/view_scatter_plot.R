@@ -74,20 +74,20 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
       return(df)
 
     })
-    output$scatter_plot <- renderPlot({
-      #     # Get raw data (not summarized)
+      output$scatter_plot <- renderPlot({
+        #     # Get raw data (not summarized)
 
-      df <- filtered_scatter_df()
-      # get the x var
-      x_var <- scatter_sidebar_vals$x_choices
-      # get the y var
-      y_var <- scatter_sidebar_vals$y_choices
-      # get the basic grouping
-      scatter_grouping_vars <- scatter_sidebar_vals$grouping_vars
+        df <- filtered_scatter_df()
+        # get the x var
+        x_var <- scatter_sidebar_vals$x_choices()
+        # get the y var
+        y_var <- scatter_sidebar_vals$y_choices()
+        # get the basic grouping
+        scatter_grouping_vars <- scatter_sidebar_vals$grouping_vars()
 
-      # expose the names/require the names
-      req(x_var %in% names(df),
-          y_var %in% names(df))
+        # expose the names/require the names
+        req(x_var %in% names(df),
+            y_var %in% names(df))
 
       # filter df by x and y vars
       df <- df %>%
