@@ -51,27 +51,22 @@ scatter_sidebar_server <- function(id, con, main_input) {
                         choices = c("All", sort(unique(df$`Common Name`))),
                         selected = "All")
 
-      # Update histogram variable choices
-      updateSelectizeInput(session, "scatter_var",
-                           choices = setNames(numeric_choices, numeric_choices),
-                           server = TRUE)
-      # X Variable Options
-      x_choices <- c(
-        # "Total Length (mm)",
-        # "Fork Length (mm)",
-        "Weight")
 
-      x_choices <- x_choices[x_choices %in% names(df)]  # Ensure they exist
+      x_choices <- make_scatter_choices(df, numeric_choices, "x")
 
       updateSelectInput(session, "x_var",
                         choices = x_choices,
-                        selected = x_choices[1]
-      )
+                        selected = names(x_choices)[1])
 
+      # Update scatter variable choices
+      y_choices <- make_scatter_choices(df, numeric_choices, "y")
+
+      updateSelectizeInput(session, "scatter_var",
+                           choices = y_choices,
+                           server = TRUE)
 
     })
-
-    # ----- export what we need from the severer ----
+    # ---- export what we need from the severer ----
     # we need grouping and hist variables we also need the function
 
 
