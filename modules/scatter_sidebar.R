@@ -4,8 +4,9 @@ scatter_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    shiny::conditionalPanel(
-      condition = "input.tabs == 'scatter_plot'",
+    useShinyjs(),
+    div(id = ns("scatter_ui"),
+        style = "display:none;",
       shiny::selectInput(ns("scatter_plots"),
                          "Select Table",
                          choices = c("Calorimetry" = "tbl_calorimetry",
