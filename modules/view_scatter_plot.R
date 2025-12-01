@@ -24,7 +24,7 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
       req(main_input$tabs == "scatter_plot")
 
       table_name <- scatter_sidebar_vals$selected_table()
-        req(table_name)
+      req(table_name)
       # errors
       if (is.null(table_name) || is.na(table_name)) {
         cat("[DEBUG] table_name is NULL, Cannot run query.\n")
@@ -77,27 +77,45 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
       return(df)
 
     })
-      output$scatter_plot <- renderPlot({
-        #     # Get raw data (not summarized)
+    output$scatter_plot <- renderPlot({
+      #     # Get raw data (not summarized)
 
-        df <- filtered_scatter_df()
-        # get the x var
-        x_var <- scatter_sidebar_vals$x_choices()
-        # get the y var
-        y_var <- scatter_sidebar_vals$y_choices()
-        # get the basic grouping
-        scatter_grouping_vars <- scatter_sidebar_vals$grouping_vars()
+      df <- filtered_scatter_df()
+      # get the x var
 
-        # expose the names/require the names
-        req(x_var %in% names(df),
-            y_var %in% names(df))
+      x_var_raw <- scatter_sidebar_vals$x_choices()
 
-      # filter df by x and y vars
+
+      # get the y var
+      y_var_raw <- scatter_sidebar_vals$y_choices()
+      # get the basic grouping
+      scatter_grouping_vars <- scatter_sidebar_vals$grouping_vars()
+
+      # use generic function to filter and grab the correct for length only
+      fix_x <- fix_var_generic(
+        df = df,
+        var_raw = x_var_raw,
+        get_nice_name = get_nice_name
+      )
+
+      # get the returned objects which are returned in a list
+      df <- fix_x$df
+      x_var <- fix_x$var
+      x_label <- fix_x$var_label
+
+      # now do the same for y
+      fix_y <- fix_var_generic(
+        df = df,
+        var_raw = y_var_raw,
+        get_nice_name = get_nice_name
+      )
+
+      y_var <- fix_y$var
+      y_label <- fix_y$var_label
+   # filter df by x and y vars
       df <- df %>%
         filter(!is.na(.data[[x_var]]), !is.na(.data[[y_var]]))
-      # nice_label <- get_nice_name(var)[[1]]
-      x_label <- get_nice_name(x_var)[[1]]
-      y_label <- get_nice_name(y_var)[[1]]
+
       p <- ggplot(df, aes(
         x = !!sym(x_var),
         y = !!sym(y_var))) +
