@@ -93,6 +93,7 @@ get_summary_data <- function(con, table_name) {
   query <- paste0('
       SELECT t.*,
       l.waterbody, l.area, l.site, l.site_depth,
+      le.length_mm, le.length_type,
       s.pi_name, s.month, s.year, s.weight,
       s.common_name, s.scientific_name, s.genus, s.tribe, s.subfamily,
       s.family, s.superfamily, s.suborder, s.order_sci, s.superorder,
@@ -101,6 +102,7 @@ get_summary_data <- function(con, table_name) {
       s.tissue_type, s.sample_procedure, s.trt_description
       FROM ', table_name, ' t
       LEFT JOIN tbl_sample s ON t.sample_id = s.sample_id
+      LEFT JOIN tbl_length le ON t.sample_id = le.sample_id
       LEFT JOIN tbl_location l ON t.sample_id = l.sample_id;
     ')
 
