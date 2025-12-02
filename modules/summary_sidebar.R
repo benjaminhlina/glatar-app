@@ -63,16 +63,27 @@ summary_sidebar_ui <- function(id) {
 summary_sidebar_server <- function(id, con, main_input) {
   moduleServer(id, function(input, output, session) {
 
+    summary_df <- reactive({
+      req(main_input)
+      df <- get_summary_data(con, get_selected_table(main_input))
+      req(df)
+      df
+    })
     observe({
 
-      df <- get_summary_data(con, get_selected_table(main_input))
+      df <- summary_df()
       grouping_choices <- get_good_groups(df)
       numeric_choices <- get_numeric_cols(df)
+
+      length_vars <- get_length_vars(df)
+
 
       cat("\n[DEBUG] Updating dropdowns...\n")
       # df is summary data
       cat("[DEBUG] Waterbody unique values:", length(unique(df$Waterbody)), "\n")
       cat("[DEBUG] Species unique values:", length(unique(df$`Common Name`)), "\n")
+      cat("[DEBUG] Grouping choices:", paste(grouping_choices, collapse=", "), "\n")
+      cat("[DEBUG] Numeric choices:", paste(numeric_choices, collapse=", "), "\n")
       # Grouping Variables: Allow dynamic selection
 
 
@@ -85,6 +96,7 @@ summary_sidebar_server <- function(id, con, main_input) {
                         choices = c("All", sort(unique(df$Waterbody))),
                         selected = "All")
 
+
       # Species Drop-down
       updateSelectInput(session, "summary_species_filter",
                         choices = c("All", sort(unique(df$`Common Name`))),
@@ -93,8 +105,9 @@ summary_sidebar_server <- function(id, con, main_input) {
 
       # Update y summary  variable choices
       updateSelectizeInput(session, "summary_y_variable",
-                           choices = setNames(numeric_choices,
-                                              numeric_choices),
+                           choices = c(setNames(numeric_choices,
+                                                numeric_choices),
+                                       length_vars),
                            server = TRUE)
       # Update histogram variable choices
       updateSelectizeInput(session, "hist_var",
