@@ -3,22 +3,22 @@ view_summary_info_ui <- function(id) {
 
   shiny::tagList(
     # tabName = id,
-                 shiny::h2("Summary Statistics"),
-                 shiny::br(),
-                 shiny::fluidRow(
-                   shinydashboard::box(
-                     title = "Summary Table",
-                     status = "primary",
-                     solidHeader = TRUE,
-                     width = 12,
-                     DT::DTOutput(ns("summary_table_output"))
-                   )
-                 ),
-                 shiny::br(),
-                 plot_ui(title = "Summary Histograms",
-                         plot_id = "summary_histogram",
-                         height = "300px",
-                         ns = ns),
+    shiny::h2("Summary Statistics"),
+    shiny::br(),
+    shiny::fluidRow(
+      shinydashboard::box(
+        title = "Summary Table",
+        status = "primary",
+        solidHeader = TRUE,
+        width = 12,
+        DT::DTOutput(ns("summary_table_output"))
+      )
+    ),
+    shiny::br(),
+    plot_ui(title = "Summary Histograms",
+            plot_id = "summary_histogram",
+            height = "300px",
+            ns = ns),
   )
 }
 
