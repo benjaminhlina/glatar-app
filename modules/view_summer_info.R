@@ -117,9 +117,21 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       # if empty after filtering
       if (nrow(df) == 0) return(df)
 
-      vars_to_summarise <- intersect(y_vals, summary_numeric_cols)
+      fixed_vars <- lapply(y_vals, function(var) {
+        fix_var_generic(df, var, get_nice_name)
+      })
+      # Update df with filtered length if needed (take intersection of all fixed dfs)
+
+
+      vars_to_summarise <- sapply(fixed_vars, `[[`, "var")
+
+      vars_to_summarise <- intersect(vars_to_summarise, summary_numeric_cols)
 
       req(length(vars_to_summarise) > 0)
+
+      var_labels <- sapply(fixed_vars, `[[`, "var_label")
+      names(vars_to_summarise) <- var_labels
+
 
       summary_df <- df %>%
         group_by(across(all_of(summary_grouping_vars))) %>%
@@ -128,7 +140,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
           across(
             all_of(vars_to_summarise),
             list(mean = ~ mean(.x, na.rm = TRUE),
-                 sd   = ~ sd(.x, na.rm = TRUE)),
+                 sd = ~ sd(.x, na.rm = TRUE)),
             .names = "{.col} ({.fn})"
           ),
           .groups = "drop"
