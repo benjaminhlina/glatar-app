@@ -54,7 +54,7 @@ display_hist <- function(data,
     species_f <- input_source$species_filter()
     waterbody_f <- input_source$waterbody_filter()
     # Remove NAs from the selected column
-    # df <- df %>%
+    # df <- df |>
     #   filter(!is.na(.data[[var]]))
 
     nice_label <- get_nice_name(var)[[1]]
