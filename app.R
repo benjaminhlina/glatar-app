@@ -12,11 +12,17 @@
   library(shiny)
   library(shinydashboard)
   library(shinyjs)
+  library(shinymanager)
 }
 
 
 lapply(list.files("modules", full.names = TRUE), source, local = FALSE)
 
+credentials <- data.frame(
+  user = Sys.getenv("SHINY_USER"),
+  password = Sys.getenv("SHINY_PASSWORD"),
+  stringsAsFactors = FALSE
+)
 # ---- create ui ----
 
 ui <- dashboardPage(
@@ -60,7 +66,44 @@ ui <- dashboardPage(
   )
 )
 
+# ---- make this look nicer -----
+ui <- secure_app(
+  ui,
+  enable_admin = FALSE,
+  theme = "flatly",  # Bootstrap theme: flatly, cerulean, cosmo, etc.
+  language = "en",
+
+  # Customize the login page appearance
+  tags_top = tags$div(
+    tags$h2("North American Aquatic Energy Density Toolbox",
+            style = "text-align: center; color: #2c3e50; margin-bottom: 20px;"),
+    tags$img(
+      src = "https://via.placeholder.com/150x150.png?text=Logo", # Replace with your logo URL
+      width = 150,
+      style = "display: block; margin: 0 auto 20px auto;"
+    )
+  ),
+
+  tags_bottom = tags$div(
+    tags$p("Please login to access the application",
+           style = "text-align: center; color: #7f8c8d;")
+  ),
+
+  # Customize button colors and text
+  choose_language = FALSE,  # Hide language selector
+  lan = list(
+    en = list(
+      title = "Please Authenticate",
+      user = "Email Address",
+      password = "Password"
+    )
+  )
+)
+
 server <- function(input, output, session) {
+  res_auth <- secure_server(
+    check_credentials = check_credentials(credentials)
+  )
   # ----- get tables -----
   view_data_server("view_data", con)
   # ---- get map -----
