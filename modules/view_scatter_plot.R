@@ -22,19 +22,6 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
 
 
 
-    observe({
-      cat("\n[DEBUG] scatter_data triggered\n")
-      df <- try(scatter_data(), silent = TRUE)
-      if (inherits(df, "try-error")) {
-        cat("[DEBUG] scatter_data() failed completely\n")
-      } else if ("Message" %in% names(df)) {
-        cat("[DEBUG] get_summary_data() returned error message:", df$Message[1], "\n")
-      } else {
-        cat("[DEBUG] scatter_data() rows:", nrow(df), "cols:", ncol(df), "\n")
-        cat("[DEBUG] column names:\n")
-        print(names(df))
-      }
-    })
     numeric_cols <- reactive({
       df <- scatter_data()
       req(df)
@@ -146,6 +133,7 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
       tab = "scatter_plot",
       table_name_reactive = scatter_sidebar_vals$selected_table
     )
+    check_summary_data(scatter_data)
   }
   )
 }
