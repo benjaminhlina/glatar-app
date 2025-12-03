@@ -63,7 +63,7 @@ summary_sidebar_ui <- function(id) {
 summary_sidebar_server <- function(id, con, main_input) {
   moduleServer(id, function(input, output, session) {
 
-    summary_df <- create_summary_df(con, main_input)
+    summary_df <- create_summary_data(con, main_input)
 
     observe({
       # get df
