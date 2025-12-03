@@ -1,23 +1,3 @@
-# ---- display summary_table -----
-
-display_table <- function(data, output, output_id = "summary_table_output") {
-  output[[output_id]] <- renderDT({
-    req(data())
-    df <- data()
-    # if there is nothing in df print no data available
-    if (is.null(df) || nrow(df) == 0) {
-      return(datatable(data.frame(Message = "No data available"),
-                       escape = FALSE))
-    }
-
-    datatable(df,
-              options = list(pageLength = 10,
-                             scrollX = TRUE
-                             # autoWidth = TRUE
-              ), escape = FALSE)
-  })
-}
-
 display_hist <- function(data,
                          input_source,
                          output,
