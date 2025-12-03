@@ -34,7 +34,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                                         main_input = main_input,
                                         tab = "summary_info")
 
-    check_summary_data()
+    check_summary_data(summary_data)
 
     numeric_cols <- create_numeric_col(data = summary_data)
     # # ---- Generate Summary Statistics with Dynamic Grouping -----
