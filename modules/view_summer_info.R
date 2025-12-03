@@ -114,53 +114,32 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                                         "proxcomp_id","iso_id",
                                         "Conversion Factor","Composite (n)"))
 
-      # synethic column for each selected variable
-      df_expanded <- df
-      summarise_cols <- list()
-      label_lookup <- list()
-      for (var_raw in y_vals) {
 
-        fixed <- fix_var_generic(df, var_raw, get_nice_name)
-        pretty_label <- fixed$var_label
-        base_col     <- fixed$var  # usually "Length (mm)" or another numeric
+      if (nrow(df) == 0) return(df)
 
-        if (grepl("^length_mm__", var_raw)) {
+      mapped_vars <- lapply(y_vals, function(v)
+        fix_var_generic(df, v, get_nice_name))
 
-          # Extract type (e.g., "fork", "total", etc.)
-          length_type <- sub("^length_mm__", "", var_raw)
-
-          # Name for the synthetic column
-          synthetic_name <- paste0("syn_len__", length_type)
-
-          # Create column: only include values for that length_type, otherwise NA
-          df_expanded[[synthetic_name]] <- ifelse(
-            df$length_type == length_type,
-            df[[base_col]],
-            NA
-          )
-
-          summarise_cols[[length_type]] <- synthetic_name
-          label_lookup[[synthetic_name]] <- pretty_label
-
-        } else {
-
-          # Non-length numeric variable
-          summarise_cols[[var_raw]] <- base_col
-          label_lookup[[base_col]] <- pretty_label
-        }
-      }
-      # summary
-      sum_col_unlist <- unlist(summarise_cols)
-      if (any(grepl("^length_mm__", y_vals))) {
-        summarise_cols <- summarise_cols[!sum_col_unlist %in% "Length (mm)"]
+      for (m in mapped_vars) {
+        df <- m$df
       }
 
-      summary_df <- df_expanded %>%
+      # df <- Reduce(function(d1, d2)
+      #   dplyr::intersect(d1, d2), lapply(mapped_vars, `[[`, "df"))
+
+      vars_to_summarise <- unique(sapply(mapped_vars, `[[`, "var"))
+      # vars_to_summarise <- intersect(y_vals, summary_numeric_cols)
+
+      req(length(vars_to_summarise) > 0)
+
+
+
+      summary_df <- df %>%
         group_by(across(all_of(summary_grouping_vars))) %>%
         summarise(
           n = n(),
           across(
-            all_of(sum_col_unlist),
+            all_of(vars_to_summarise),
             list(mean = ~ mean(.x, na.rm = TRUE),
                  sd = ~ sd(.x, na.rm = TRUE)),
             .names = "{.col} ({.fn})"
@@ -170,25 +149,14 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
         mutate(across(where(is.numeric), ~ round(.x, 2)))
 
 
-      for (syn_col in names(label_lookup)) {
-        # Human-friendly label
-        label <- label_lookup[[syn_col]]
-        clean_label <- trimws(label)  # Keep units like (mm)
+      nice_labels <- sapply(mapped_vars, `[[`, "var_label")
 
-        old_mean <- paste0("mean__", syn_col)
-        old_sd   <- paste0("sd__", syn_col)
-
-        new_mean <- paste0("Mean ", clean_label)
-        new_sd   <- paste0("SD ", clean_label)
-
-        if (old_mean %in% colnames(summary_df)) {
-          colnames(summary_df)[colnames(summary_df) == old_mean] <- new_mean
-        }
-        if (old_sd %in% colnames(summary_df)) {
-          colnames(summary_df)[colnames(summary_df) == old_sd] <- new_sd
-        }
+      for (i in seq_along(vars_to_summarise)) {
+        summary_df <- summary_df %>%
+          rename_with(~ gsub(vars_to_summarise[i],
+                             nice_labels[i], .x, fixed = TRUE),
+                      starts_with(vars_to_summarise[i]))
       }
-
 
 
       return(summary_df)
