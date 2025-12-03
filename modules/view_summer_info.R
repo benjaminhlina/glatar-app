@@ -34,19 +34,8 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                                         main_input = main_input,
                                         tab = "summary_info")
 
-    observe({
-      cat("\n[DEBUG] summary_data triggered\n")
-      df <- try(summary_data(), silent = TRUE)
-      if (inherits(df, "try-error")) {
-        cat("[DEBUG] summary_data() failed completely\n")
-      } else if ("Message" %in% names(df)) {
-        cat("[DEBUG] get_summary_data() returned error message:", df$Message[1], "\n")
-      } else {
-        cat("[DEBUG] summary_data() rows:", nrow(df), "cols:", ncol(df), "\n")
-        cat("[DEBUG] column names:\n")
-        print(names(df))
-      }
-    })
+    check_summary_data()
+
     numeric_cols <- reactive({
       df <- summary_data()
       req(df)
