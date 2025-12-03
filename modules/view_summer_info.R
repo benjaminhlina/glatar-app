@@ -11,7 +11,8 @@ view_summary_info_ui <- function(id) {
         status = "primary",
         solidHeader = TRUE,
         width = 12,
-        DT::DTOutput(ns("summary_table_output"))
+        div(style = "overflow-x: auto; width: 100%;",
+            DT::DTOutput(ns("summary_table_output")))
       )
     ),
     shiny::br(),
@@ -189,13 +190,29 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
 
       # Ensure the selected column exists in the raw data
       var <- summary_sidebar_vals$hist_vars()
-      req(df, nrow(df) > 0, vars)
+      req(df, nrow(df) > 0, var)
       req(var %in% names(df))
+
+
+      if (var %in% unique(df$length_type)) {
+        var <- "Length (mm)"
+        df <- df %>%
+          filter(length_type == var)
+      } else {
+        var <- var
+      }
+
+      req(var %in% names(df))
+
+      df <- df %>%
+        mutate(across(all_of(var), ~ suppressWarnings(as.numeric(.)))) %>%
+        filter(!is.na(.data[[var]]))
+
 
       species_f <- summary_sidebar_vals$species_filter()
       # Remove NAs from the selected column
-      df <- df %>%
-        filter(!is.na(.data[[var]]))
+      # df <- df %>%
+      #   filter(!is.na(.data[[var]]))
 
       nice_label <- get_nice_name(var)[[1]]
 
