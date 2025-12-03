@@ -26,30 +26,13 @@ view_summary_info_ui <- function(id) {
 # ----- summmary server --------
 summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
   moduleServer(id, function(input, output, session) {
-    # ---- errrors -----
-    cat("[DEBUG] summary_info_server initialized for ID:", id, "\n")
-    cat("[DEBUG] con object class:", class(con), "\n")
 
-    # ---- namespaces
+    # ---- namespaces -----
     ns <- session$ns
-    # ----- first create summary datsa -----
-    summary_data <- reactive({
-
-      req(main_input$tabs == "summary_info")
-      table_name <- get_selected_table(main_input)
-      req(table_name)
-      # errors
-      if (is.null(table_name) || is.na(table_name)) {
-        cat("[DEBUG] table_name is NULL, Cannot run query.\n")
-      } else {
-        cat("[DEBUG] table_name from get_selected_table():", table_name, "\n")
-      }
-      # db connections
-      con_db <- if (inherits(con, "reactive")) con() else con
-      # ---- acctuat gert data =----
-      df <- get_summary_data(con = con_db, table_name)
-      df
-    })
+    # ----- first create summary data -----
+    summary_data <- create_summary_data(con = con,
+                                        main_input = main_input,
+                                        tab = "summary_info")
 
     observe({
       cat("\n[DEBUG] summary_data triggered\n")
