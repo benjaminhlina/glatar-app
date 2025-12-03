@@ -7,23 +7,38 @@ scatter_sidebar_ui <- function(id) {
     useShinyjs(),
     div(id = ns("scatter_ui"),
         style = "display:none;",
-      shiny::selectInput(ns("scatter_plots"),
-                         "Select Table",
-                         choices = c("Calorimetry" = "tbl_calorimetry",
-                                     "Proximate Composition" = "tbl_proxcomp",
-                                     "Isotopes" = "tbl_isotope"),
-                         selected = "tbl_calorimetry"),
-      shiny::selectInput(ns("scatter_grouping_vars"),
-                         "Select Grouping Variables",
-                         choices = NULL, multiple = TRUE),
-      shiny::selectInput(ns("scatter_waterbody_filter"),
-                         "Select Waterbody", choices = NULL),
-      shiny::selectInput(ns("scatter_species_filter"),
-                         "Select Species", choices = NULL),
-      shiny::selectInput(ns("x_var"),
-                         "Select X Variable", choices = NULL),
-      shiny::selectInput(ns("scatter_var"),
-                         "Select Y Variable", choices = NULL)
+        shiny::selectInput(ns("scatter_plots"),
+                           "Select Table",
+                           choices = c("Calorimetry" = "tbl_calorimetry",
+                                       "Proximate Composition" = "tbl_proxcomp",
+                                       "Isotopes" = "tbl_isotope"),
+                           selected = "tbl_calorimetry"),
+        shiny::selectInput(ns("scatter_grouping_vars"),
+                           "Select Grouping Variables",
+                           choices = NULL, multiple = TRUE),
+        shiny::selectInput(ns("scatter_waterbody_filter"),
+                           "Select Waterbody", choices = NULL),
+        shiny::selectInput(ns("scatter_species_filter"),
+                           "Select Species", choices = NULL),
+        shiny::selectInput(ns("x_var"),
+                           "Select X Variable", choices = NULL),
+        shiny::selectizeInput(
+          ns("scatter_var"),
+          "Select Y Variable",
+          choices = NULL,
+          options = list(
+            render = I("
+          {
+            option: function(item, escape) {
+              return '<div>' + item.label + '</div>';
+            },
+            item: function(item, escape) {
+              return '<div>' + item.label + '</div>';
+            }
+          }
+        ")
+          )
+        )
     )
   )
 }
@@ -48,7 +63,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         sort()
 
       species_choices <- unique(df$`Common Name`) |>
-                                sort()
+        sort()
       #       # Grouping Variables: Allow dynamic selection
       updateSelectInput(session, "scatter_grouping_vars",
                         choices = grouping_choices,
