@@ -60,6 +60,8 @@ display_hist <- function(data,
       var <- "Length (mm)"
       nice_label <- var
 
+
+
     } else {
 
       # ---- NON-LENGTH VARIABLES ----
