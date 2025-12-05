@@ -95,7 +95,7 @@ get_selected_table <- function(input) {
 }
 
 # ---- Helper: run SQL query and clean the data ----
-get_summary_data <- function(con, table_name) {
+get_summary_data_old <- function(con, table_name) {
 
   req(con, table_name)
 
@@ -146,7 +146,7 @@ get_summary_data <- function(con, table_name) {
   return(df)
 }
 
-get_summary_data_dbplyr <- function(con, table_name, debug_sql = FALSE) {
+get_summary_data <- function(con, table_name, debug_sql = FALSE) {
 
   req(con, table_name)
 
