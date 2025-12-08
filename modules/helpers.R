@@ -35,8 +35,7 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
 
 
 # ----- make scater choices -----
-make_scatter_choices <- function(df, numeric_choices,
-                                 var_type = c("x", "y")) {
+make_scatter_choices <- function(df, numeric_choices) {
   var_type <- match.arg(var_type)
 
   # ----------- Build synthetic length choices -----------
@@ -50,20 +49,10 @@ make_scatter_choices <- function(df, numeric_choices,
     paste0(stringr::str_to_title(length_types), " Length (mm)")
   )
 
-  # ----------- X-variable rules -----------
-  if (var_type == "x") {
-    return(c(
-      length_choices,
-      "Weight"
-    ))
-  }
-
-  # ----------- Y-variable rules -----------
-  if (var_type == "y") {
     numeric_clean <- numeric_choices[numeric_choices != "Length (mm)"]
     return(c(
       length_choices,
+      "Weight",
       setNames(numeric_clean, numeric_clean)
     ))
-  }
 }
