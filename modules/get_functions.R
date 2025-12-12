@@ -95,7 +95,7 @@ get_selected_table <- function(input) {
 }
 
 # ---- Helper: run SQL query and clean the data ----
-get_summary_data_old <- function(con, table_name) {
+get_summary_data <- function(con, table_name) {
 
   req(con, table_name)
 
@@ -106,14 +106,14 @@ get_summary_data_old <- function(con, table_name) {
       SELECT t.*,
       l.waterbody, l.area, l.site, l.site_depth,
       le.length_mm, le.length_type,
-      s.pi_name, s.month, s.year, s.weight,
+      s.pi_name, s.month, s.sample_year, s.weight,
       s.common_name, s.scientific_name, s.genus, s.tribe, s.subfamily,
       s.family, s.superfamily, s.suborder, s.order_sci, s.superorder,
       s.class_sci, s.superclass, s.tsn, s.sex, s.lifestage, s.wild_lab,
       s.age, s.composite,s.composite_n,
       s.tissue_type, s.sample_procedure, s.trt_description
       FROM ', table_name, ' t
-      LEFT JOIN tbl_sample s ON t.sample_id = s.sample_id
+      LEFT JOIN tbl_samples s ON t.sample_id = s.sample_id
       LEFT JOIN tbl_length le ON t.sample_id = le.sample_id
       LEFT JOIN tbl_location l ON t.sample_id = l.sample_id;
     ')
@@ -130,7 +130,7 @@ get_summary_data_old <- function(con, table_name) {
   #
   df <- df |>
     mutate(
-      year = as.character(year),
+      sample_year = as.character(sample_year),
       month = as.character(month),
       age = as.character(age),
       tsn = as.character(tsn),
@@ -142,67 +142,6 @@ get_summary_data_old <- function(con, table_name) {
                                 "source_id", "cal_id",
                                 "proxcomp_id",
                                 "iso_id"))]
-  # return the data
-  return(df)
-}
-
-get_summary_data <- function(con, table_name, debug_sql = FALSE) {
-
-  req(con, table_name)
-
-
-  # select df.* from data_frame df left join other_thing ot on df.key = ot.key
-  # Build SQL query dynamically based on selected table
-
-  cli::cli_inform(c(
-    "v" = "Starting summary data query.",
-    "•" = "Table selected: {.val {table_name}}"
-  ))
-
-  # dbplyr table objects
-  desired_tbl <- tbl(con, table_name)
-  sample_tbl <- tbl(con, "tbl_sample")
-  length_tbl <- tbl(con, "tbl_length")
-  loc_tbl  <- tbl(con, "tbl_location")
-
-
-  # Build lazy query
-  df_db <- desired_tbl |>
-    left_join(sample_tbl) |>
-    left_join(length_tbl ) |>
-    left_join(loc_tbl |>
-                select(-lon, -lat)) |>
-    mutate(
-      year = as.character(year),
-      month = as.character(month),
-      age = as.character(age),
-      tsn = as.character(tsn),
-      site_depth = as.character(site_depth)
-    )
-
-  # Show SQL if requested
-  if (debug_sql) {
-    cli::cli_inform(c(
-      ">" = "Generated SQL using {.pkg dbplyr}:"
-    ))
-
-    # Print pretty SQL
-    df_db |>
-      show_query()
-  }
-
-  df <- df_db |>
-    collect()
-
-
-  names(df) <- get_nice_name(names(df), lookup = nice_name_lookup)
-
-  df <- df[, !(names(df) %in% c("sample_id",
-                                "source_id",
-                                "cal_id",
-                                "proxcomp_id",
-                                "iso_id",
-                                "len_id"))]
   # return the data
   return(df)
 }
