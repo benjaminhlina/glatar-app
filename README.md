@@ -12,4 +12,4 @@ This is a Shiny App that interfaces with the NAAEDdb to provide a user rich
 interface allowing the ability to upload, map, view raw data, summary data, 
 and summary scatter plots. 
 
-The name of the App will be changing. 
+The name of the App will be changing in the future. 
