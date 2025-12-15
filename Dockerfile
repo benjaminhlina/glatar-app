@@ -35,7 +35,7 @@ RUN R -e "install.packages('pak', repos = 'https://cran.rstudio.com/')"
 
 # Install packages
 RUN R -e "pak::pkg_install(c(\ 
-    'cli', 'DBI', 'dplyr','DT','ggplot2','ggtext', 'here', \
+    'cli', 'DBI', 'dplyr', 'dbplyr', 'DT','ggplot2','ggtext', 'here', \
     'plotly', 'pryr', 'readr', 'readxl', 'RPostgres','RPostgreSQL', \ 
     'shiny', 'shinydashboard','shinyjs','shinymanager', \
     'stringr', 'writexl'\ 
@@ -49,6 +49,9 @@ COPY app.R /srv/shiny-server/
 COPY www /srv/shiny-server/www
 COPY data /srv/shiny-server/data
 COPY modules /srv/shiny-server/modules
+
+RUN chown -R shiny:shiny /srv/shiny-server && \
+    chmod -R 755 /srv/shiny-server
 
 # Expose port
 EXPOSE 3838
