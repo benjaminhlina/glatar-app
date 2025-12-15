@@ -5,7 +5,7 @@ LABEL \
     org.opencontainers.image.authors="Benjamin Hlina <benjamin.hlina@gmail.com>" \
     org.opencontainers.image.vendor="naaed-app" \
     org.opencontainers.image.version="0.0.0.9999" \
-    org.opencontainers.image.source="https://github.com/benjaminhlina/NAAED-App" \
+    org.opencontainers.image.source="https://github.com/benjaminhlina/naaed-app" \
     org.opencontainers.image.licenses="MIT"
 
 # Install system dependencies for R packages
