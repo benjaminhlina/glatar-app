@@ -5,6 +5,8 @@
 }
 
 # ----- create connection to database -----
+sslmode <- Sys.getenv("POSTGRES_SSLMODE", unset = "disable") 
+
 con <- DBI::dbConnect(RPostgres::Postgres(),
                       dbname = Sys.getenv("POSTGRES_DB"),
                       host = Sys.getenv("POSTGRES_HOST"),
