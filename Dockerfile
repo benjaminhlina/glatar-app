@@ -41,6 +41,8 @@ RUN apt-get update && apt-get install -y \
 # ---- Set working directory ----
 WORKDIR /srv/shiny-server
 
+# ---- ops for got to install renv ---- 
+RUN R -e "install.packages('renv', repos = 'https://cran.rstudio.com')"
 # ---- Copy renv files ----
 COPY renv.lock renv.lock
 COPY renv/ renv/
