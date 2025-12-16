@@ -68,4 +68,4 @@ RUN chown -R shiny:shiny /srv/shiny-server && \
 EXPOSE 3838
 
 # Run app
-CMD ["/usr/bin/shiny-server"]
+CMD ["R", "-e", "shiny::runApp('/app', host='0.0.0.0', port=3838)"]
