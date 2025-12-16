@@ -1,7 +1,6 @@
 {
   library(DBI)
   library(RPostgres)
-  library(RPostgreSQL)
 }
 
 # ----- create connection to database -----
