@@ -61,9 +61,6 @@ COPY data /app/data
 COPY modules /app/modules
 
 
-RUN chown -R shiny:shiny /srv/shiny-server && \
-    chmod -R 755 /srv/shiny-server
-
 # Expose port
 EXPOSE 3838
 
