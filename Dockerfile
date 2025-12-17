@@ -38,28 +38,30 @@ RUN apt-get update && apt-get install -y \
     proj-data \
     && rm -rf /var/lib/apt/lists/*
 
-# ---- Set working directory ----
-WORKDIR /srv/shiny-server
+
+# ---- remove shiny-server template apps --- 
+RUN rm -rf /srv/shiny-server/*
 
 # ---- ops for got to install renv ---- 
 RUN R -e "install.packages('renv', repos = 'https://cran.rstudio.com')"
+# ---- Set working directory ----
+WORKDIR /srv/shiny-server/NAAED-App/
 # ---- Copy renv files ----
-COPY renv.lock ./NAAED-App/renv.lock
-COPY renv/ ./NAAED-App/renv/
+COPY renv.lock renv.lock
+COPY renv/ renv/
 
 # ---- Restore R packages ----
 ENV RENV_PATHS_CACHE=/renv/cache
 RUN R -e "renv::restore()"
 
 
-# ---- remove shiny-server template apps --- 
-RUN rm -rf /srv/shiny-server/*
+
 
 # Copy app files
-COPY app.R ./NAAED-App/
-COPY www ./NAAED-App/www
-COPY data ./NAAED-App/data
-COPY modules ./NAAED-App/modules
+COPY app.R app.R
+COPY www ./www
+COPY data ./data
+COPY modules ./modules
 COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 
 # ---- change file ownership and rew -----
