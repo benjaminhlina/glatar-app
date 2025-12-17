@@ -32,7 +32,6 @@ jobs:
 
       - name: Deploy to AWS Server
         env:
-          SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
           SERVER_HOST: ${{ secrets.AWS_SERVER_HOST }}
           SERVER_USER: ${{ secrets.AWS_SERVER_USER }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
