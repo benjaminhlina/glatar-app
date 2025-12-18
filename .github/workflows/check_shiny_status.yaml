@@ -5,9 +5,6 @@
     workflows: ["Deploy to AWS"]
     types:
       - completed
-    branches:
-      - main
-      - master
   workflow_dispatch:
   
   env:
