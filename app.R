@@ -77,7 +77,7 @@ ui <- secure_app(
 
   # Customize the login page appearance
   tags_top = tags$div(
-    tags$h2("North American Aquatic Energy Density Toolbox",
+    tags$h2("Aquatic Tissue Library for Analyses & Synthesis (ATLAS)",
             style = "text-align: center; color: #2c3e50; margin-bottom: 20px;"),
     tags$img(
       src = "logo/glfc-logo.png",
