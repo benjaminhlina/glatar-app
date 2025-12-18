@@ -106,12 +106,9 @@ server <- function(input, output, session) {
   res_auth <- secure_server(
     check_credentials = check_credentials(credentials)
   )
-  # ----- get tables -----
-  view_data_server("view_data", con)
+
   # ---- get map -----
   view_map_server("view_map", con)
-  # ---- upload data -----
-  upload_data_server("insert_data", con)
   # ----- summary table -----
   summary_sidebar_vals <- summary_sidebar_server("summary_sidebar", con,
                                                  main_input = input)
@@ -133,6 +130,11 @@ server <- function(input, output, session) {
     con,
     main_input = input,
     scatter_sidebar_vals = scatter_sidebar_vals)
+  # ----- get tables -----
+  view_data_server("view_data", con)
+
+  # ---- upload data -----
+  upload_data_server("insert_data", con)
 
   ram_tracker()
 }
