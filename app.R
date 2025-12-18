@@ -28,7 +28,7 @@ credentials <- data.frame(
 
 ui <- dashboardPage(
   # ----- title -----
-  dashboardHeader(title = "North American Aquatic Energy Density Toolbox",
+  dashboardHeader(title = "Aquatic Tissue Library for Analyses & Synthesis (ATLAS)",
                   titleWidth = 500),
   # ---- sidebar -----
   dashboardSidebar(
