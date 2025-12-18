@@ -40,8 +40,7 @@ jobs:
           docker ps | grep naaed-app
           
           echo "Checking HTTP status code..."
-          STATUS_CODE=$(docker exec naaed-app \
-            sh -c "curl -s -o /dev/null -w '%{http_code}' http://localhost:3838/NAAED-App/")
+            STATUS_CODE=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3838/NAAED-App/)
 
           echo "HTTP status code: $STATUS_CODE"
 
