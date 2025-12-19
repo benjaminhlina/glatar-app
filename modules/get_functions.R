@@ -110,69 +110,6 @@ get_selected_table <- function(input) {
   out
 }
 
-# ---- Helper: run SQL query and clean the data ----
-get_summary_data <- function(con, table_name, debug_sql = FALSE) {
-
-  req(con, table_name)
-
-
-  # select df.* from data_frame df left join other_thing ot on df.key = ot.key
-  # Build SQL query dynamically based on selected table
-
-  cli::cli_inform(c(
-    "v" = "Starting summary data query.",
-    "•" = "Table selected: {.val {table_name}}"
-  ))
-
-  # dbplyr table objects
-  desired_tbl <- tbl(con, table_name)
-  sample_tbl <- tbl(con, "tbl_samples")
-  length_tbl <- tbl(con, "tbl_length")
-  loc_tbl <- tbl(con, "tbl_location")
-
-
-  # Build lazy query
-  df_db <- desired_tbl |>
-    left_join(sample_tbl) |>
-    left_join(length_tbl ) |>
-    left_join(loc_tbl |>
-                select(-lon, -lat)) |>
-    mutate(
-      sample_year = as.character(sample_year),
-      month = as.character(month),
-      age = as.character(age),
-      tsn = as.character(tsn),
-      site_depth = as.character(site_depth)
-    )
-
-  # Show SQL if requested
-  if (debug_sql) {
-    cli::cli_inform(c(
-      ">" = "Generated SQL using {.pkg dbplyr}:"
-    ))
-
-    # Print pretty SQL
-    df_db |>
-      show_query()
-  }
-
-  df <- df_db |>
-    collect()
-
-
-  names(df) <- get_nice_name(names(df), lookup = nice_name_lookup)
-
-  df <- df[, !(names(df) %in% c("sample_id",
-                                "source_id",
-                                "cal_id",
-                                "proxcomp_id",
-                                "iso_id",
-                                "len_id",
-                                "loc_id",
-                                "user_sample_id"))]
-  # return the data
-  return(df)
-}
 
 
 get_summary_data <- function(con, selected_vars, debug_sql = FALSE) {
