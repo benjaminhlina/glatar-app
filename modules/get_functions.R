@@ -190,18 +190,10 @@ get_summary_data <- function(con, selected_vars, debug_sql = FALSE) {
   needed_tables <- setdiff(get_tables_needed(con = con,
                                              vars = selected_vars), "tbl_samples")
 
-  # Controlled joins
-  if ("tbl_length" %in% needed_tables) {
-    df <- df |> left_join(tbl(con, "tbl_length"), by = "sample_id")
-  }
 
-  if ("tbl_location" %in% needed_tables) {
-    df <- df |>
-      left_join(
-        tbl(con, "tbl_location") |> select(-lon, -lat),
-        by = "sample_id"
-      )
-  }
+
+  df <- needed_tables |>
+    reduce(.init = df, ~ get_join_table(.x, .y, con))
 
   # Select only requested columns (plus keys if needed)
   df <- df |> select(any_of(selected_vars))
@@ -217,6 +209,7 @@ get_summary_data <- function(con, selected_vars, debug_sql = FALSE) {
 get_tables_needed <- function(con, vars) {
 
   req(con, vars)
+
   get_column_map(con) |>
     filter(field_name %in% vars) |>
     distinct(table_name) |>
