@@ -187,7 +187,8 @@ get_summary_data <- function(con, selected_vars, debug_sql = FALSE) {
   # Always start from samples
   df <- tbl(con, "tbl_samples")
 
-  needed_tables <- setdiff(tables_needed(selected_vars), "tbl_samples")
+  needed_tables <- setdiff(get_tables_needed(con = con,
+                                             vars = selected_vars), "tbl_samples")
 
   # Controlled joins
   if ("tbl_length" %in% needed_tables) {
