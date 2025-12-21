@@ -137,22 +137,10 @@ create_summary_data <- function(con, main_input, tab = NULL,
       req(main_input$tabs == tab)
     }
 
-    table_name <- if (!is.null(table_name_reactive)) {
-      table_name_reactive()
-    } else {
-      get_selected_table(main_input)
-    }
 
-    # req(table_name)
-    #
-    # table_name <- get_selected_table(main_input)
-
-    req(table_name)
-
-    check_table_name(table_name)
     con_db <- if (inherits(con, "reactive")) con() else con
     # ---- acctuat gert data =----
-    df <- get_summary_data(con = con_db, table_name)
+    df <- get_summary_data(con = con_db, selected_vars = vars)
 
     df
   })
