@@ -30,7 +30,7 @@ get_good_groups <- function(df) {
     "Life Stage",
     "Wild Lab",
     "Age (yrs)",
-    "composite",
+    "omposite",
     "Tissue Type",
     "Sampling Procedure",
     "Treatment Description",
