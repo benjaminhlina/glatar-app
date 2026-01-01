@@ -60,14 +60,17 @@ summary_sidebar_ui <- function(id) {
 summary_sidebar_server <- function(id, con, main_input) {
   moduleServer(id, function(input, output, session) {
 
-    summary_df <- reactive({
-
+    sidebar_df <- reactive({
+      # create connection reactively
       con_db <- if (inherits(con, "reactive")) con() else con
       req(con_db)
 
-      get_summary_data(
+      # get sample_ids and locatiosn
+      df <- get_data(
         con = con_db
       )
+      cli::cli_alert_success("df is running")
+      return(df)
     })
 
     observeEvent(summary_df(), {
