@@ -73,7 +73,8 @@ summary_sidebar_server <- function(id, con, main_input) {
       return(df)
     })
 
-    observeEvent(summary_df(), {
+    observeEvent(main_input$tabs, {
+      req(main_input$tabs == "summary_info")
       # get df
       df <- summary_df()
 
