@@ -198,7 +198,7 @@ get_summary_data <- function(con, selected_vars = NULL, debug_sql = FALSE) {
   }
 
   if (debug_sql) {
-    message(dbplyr::sql_render(df))
+    cli::cli_alert_info(dbplyr::sql_render(df))
   }
 
   df
