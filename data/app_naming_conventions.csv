@@ -43,6 +43,8 @@ sample_weight_type,Weight Type
 energy_measurement,Energy Density
 energy_units,Units
 energy_type,Measurement Type
+intercept, Intercept
+slope, Slope
 percent_water,Percent Water (%)
 percent_ash,Percent Ash (%)
 percent_lipid,Percent Lipid (%)
