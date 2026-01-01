@@ -62,7 +62,7 @@ create_mean_data <- function(input_source,
     if (nrow(df) == 0) return(df)
 
     summary_list <- lapply(y_vals, function(v) {
-      mapped_var <- fix_var_generic(df, v, get_nice_name)
+      mapped_var <- fix_var_generic(df, v, convert_nice_name)
       df_filtered <- mapped_var$df
       var_to_summarise <- mapped_var$var
       var_label <- mapped_var$var_label
