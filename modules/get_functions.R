@@ -26,6 +26,7 @@ get_data <- function(con, debug_sql = FALSE) {
 
 # ---- get good groups -----
 get_good_groups <- function(df) {
+
   good_groups <- c(
     "PI Name",
     "Month",
@@ -47,7 +48,7 @@ get_good_groups <- function(df) {
     "Life Stage",
     "Wild Lab",
     "Age (yrs)",
-    "omposite",
+    "Composite",
     "Tissue Type",
     "Sampling Procedure",
     "Treatment Description",
@@ -57,10 +58,34 @@ get_good_groups <- function(df) {
     "Site Depth (m)"
   )
 
-  # Return only those that are in good_groups
-  groups <- sort(intersect(names(df), good_groups))
+  cols <- dplyr::tbl_vars(df) |>
+    as.character()
+
+  convert_names <- convert_nice_name(cols)
+
+
+  # # Return only those that are in good_groups
+  groups <- sort(intersect(convert_names, good_groups))
+
+  cli::cli_alert_info("Converted names: {.val {cols}}"
+  )
   return(groups)
 }
+
+
+get_groups <- function(df, debug_sql = FALSE) {
+  req(df)
+
+  groups <- get_good_groups(df)
+
+  cli::cli_inform(c(
+    "v" = "Selecting groups.",
+    "•" = "Groups selected: {.val {groups}}"
+  )
+  )
+  return(groups)
+}
+
 
 # ----- simple function to get a tb use dbplyr -----
 #
