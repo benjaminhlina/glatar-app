@@ -102,8 +102,12 @@ get_join_table <- function(df, table, con) {
 
 # ---- get length_vars ----
 get_length_vars <- function(df) {
+
+  length_types <- df |>
+    distinct(length_type) |>
+    arrange(length_type) |>
+    dplyr::pull(length_type)
   # Only keep non-NA length types
-  length_types <- unique(df$length_type)
   length_types <- length_types[!is.na(length_types)]
 
   # Create synthetic variable names and labels
