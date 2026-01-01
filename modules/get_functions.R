@@ -118,19 +118,6 @@ get_nice_name <- function(cols, lookup = nice_name_lookup) {
   }))
 }
 
-# ---- get numerical columns -----
-get_numeric_cols <- function(df) {
-  default_exclude <- c("sample_id",
-                       "source_id",
-                       "cal_id",
-                       "proxcomp_id",
-                       "iso_id",
-                       "Conversion Factor",
-                       "Composite (n)")
-
-  # Ensure numeric columns exist and remove ids
-  cols <- names(df)[sapply(df, is.numeric)]
-  setdiff(cols, default_exclude)
 }
 
 get_numeric_vars <- function(con) {
