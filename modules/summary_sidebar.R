@@ -95,13 +95,22 @@ summary_sidebar_server <- function(id, con, main_input) {
                                          numeric_choices),
                                 length_vars))
 
-      waterbody_choices <- unique(df$Waterbody) |>
-        sort()
-
-      common_name_choices <- unique(df$`Common Name`) |>
-        sort()
 
       # make console talk about what it is doing
+      # summary_choices <- sort(c(setNames(numeric_choices,
+      #                                    numeric_choices),
+      #                           length_vars))
+
+      waterbody_choices <- df |>
+        distinct(waterbody) |>
+        arrange(waterbody) |>
+        pull(waterbody)
+
+      #
+      species_choices <-  df |>
+        distinct(scientific_name) |>
+        arrange(scientific_name) |>
+        pull(scientific_name)
       # check_dropdowns()
       cli::cli_alert_success("Updating dropdowns")
       cli::cli_ul(c(
