@@ -134,7 +134,7 @@ summary_sidebar_server <- function(id, con, main_input) {
 
       # Species Drop-down
       updateSelectInput(session, "summary_species_filter",
-                        choices = c("All", common_name_choices),
+                        choices = c("All", species_choices),
                         selected = "All")
 
 
