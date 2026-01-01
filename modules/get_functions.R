@@ -118,7 +118,7 @@ get_length_vars <- function(df) {
 }
 
 # ----- get nice names -----
-get_nice_name <- function(cols, lookup = nice_name_lookup) {
+convert_nice_name <- function(cols, lookup = nice_name_lookup) {
   unname(sapply(cols, function(col) {
     if (col %in% names(lookup)) {
       lookup[[col]]
