@@ -120,6 +120,7 @@ get_nice_name <- function(cols, lookup = nice_name_lookup) {
 
 }
 
+# ---- get numeric vars -----
 get_numeric_vars <- function(con) {
   get_column_map(con) |>
     dplyr::filter(
@@ -130,8 +131,8 @@ get_numeric_vars <- function(con) {
     dplyr::pull(field_name)
 }
 
-# ---- Helper: determine which table is selected ----
-get_selected_table <- function(input) {
+# ---- Helper: determine which tab is selected ----
+get_selected_tab <- function(input) {
   current_tab <- input$tabs
   if (is.null(current_tab) || length(current_tab) != 1) {
     cli::cli_alert_info("current_tab is NULL or invalid")
@@ -150,6 +151,7 @@ get_selected_table <- function(input) {
 }
 
 
+# ---- get summary data frame -----
 
 get_summary_data <- function(con, selected_vars = NULL, debug_sql = FALSE) {
 
