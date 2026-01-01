@@ -48,7 +48,7 @@ display_hist <- function(data,
         mutate(across(all_of(var), ~ suppressWarnings(as.numeric(.)))) |>
         filter(!is.na(.data[[var]]))
 
-      nice_label <- get_nice_name(var)[[1]]
+      nice_label <- convet_nice_names(var)[[1]]
     }
 
     species_f <- input_source$species_filter()
@@ -57,7 +57,7 @@ display_hist <- function(data,
     # df <- df |>
     #   filter(!is.na(.data[[var]]))
 
-    nice_label <- get_nice_name(var)[[1]]
+    nice_label <- convert_nice_name(var)[[1]]
 
     # Plot the histogram of the selected variable
     p <- ggplot(data = df, aes(x = !!sym(var))) +
@@ -107,7 +107,7 @@ display_scatter_plot <- function(data,
     fix_x <- fix_var_generic(
       df = df,
       var_raw = x_var_raw,
-      get_nice_name = get_nice_name
+      get_nice_name = convert_nice_name
     )
 
     # get the returned objects which are returned in a list
@@ -119,7 +119,7 @@ display_scatter_plot <- function(data,
     fix_y <- fix_var_generic(
       df = df,
       var_raw = y_var_raw,
-      get_nice_name = get_nice_name
+      get_nice_name = convert_nice_name
     )
 
     y_var <- fix_y$var
