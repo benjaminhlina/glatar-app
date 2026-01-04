@@ -214,14 +214,15 @@ get_summary_data <- function(con, selected_vars = NULL,
   # --grab location
   df <- get_data(con)
 
-  if (!is.null(selected_vars)) {
+  if (!is.null(selected_vars) && length(selected_vars) > 0) {
     needed_tables <- setdiff(get_tables_needed(con = con,
                                                vars = selected_vars),
                              "tbl_samples")
 
-    # if (!is.null(needed_tables)) {
-    df <- needed_tables |>
-      reduce(.init = df, ~ get_join_table(.x, .y, con))
+    if (!is.null(needed_tables)) {
+      df <- needed_tables |>
+        reduce(.init = df, ~ get_join_table(.x, .y, con))
+    }
 
     # Select only requested columns (plus keys if needed)
     df <- df |>
