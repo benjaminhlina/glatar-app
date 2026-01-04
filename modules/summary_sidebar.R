@@ -82,19 +82,32 @@ summary_sidebar_server <- function(id, con, main_input) {
       req(df)
 
       # get grouping snad numerical values
-      grouping_choices <- get_good_groups(df)
-
-      numeric_choices <- get_numeric_cols(df)
       grouping_choices <- get_groups(df)
+      numeric_choices <- get_numeric_vars(con)
 
-      # remove Length (mm) from numerical choices
-      numeric_choices <- setdiff(numeric_choices, "Length (mm)")
+      # ---- remove grouping or non needed variblaes ----
+
+      numeric_choices <-  setdiff(numeric_choices, c(
+        "calorimeter_conversion_factor",
+        "issue",
+        "length_mm",
+        "latitude",
+        "longitude",
+        "month",
+        "publication_year",
+        "site",
+        "site_depth",
+        "source_id",
+        "user_sample_id",
+        "volume")
+      )
+      numeric_names <- convert_nice_name(numeric_choices)
       # get length variables
       length_vars <- get_length_vars(df)
 
       # create summary choices
       summary_choices <- sort(c(setNames(numeric_choices,
-                                         numeric_choices),
+                                         numeric_names),
                                 length_vars))
 
 
