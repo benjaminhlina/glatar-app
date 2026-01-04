@@ -224,12 +224,20 @@ get_summary_data <- function(con, selected_vars = NULL,
         reduce(.init = df, ~ get_join_table(.x, .y, con))
     }
 
-    # Select only requested columns (plus keys if needed)
-    df <- df |>
-      select(waterbody,
-             scientific_name,
-             any_of(selected_vars))
-    # }
+    if (is.null(grouping_vars)) {
+      # Select only requested columns (plus keys if needed)
+      df <- df |>
+        select(waterbody,
+               scientific_name,
+               any_of(selected_vars))
+      # }
+    } else {
+      df <- df |>
+        select(waterbody,
+               scientific_name,
+               any_of(grouping_vars),
+               any_of(selected_vars))
+    }
   } else {
     df
   }
@@ -238,7 +246,7 @@ get_summary_data <- function(con, selected_vars = NULL,
     cli::cli_alert_info(dbplyr::sql_render(df))
   }
 
-  df
+  return(df)
 }
 
 # ---- get teh tables we need to filter by based on what the user selects -----
@@ -246,7 +254,10 @@ get_tables_needed <- function(con, vars) {
 
   req(con)
 
-  if (length(vars) == 0) return(NULL)
+  if (is.null(vars) || length(vars) == 0) {
+    return(character(0))
+  }
+
 
   get_column_map(con) |>
     filter(field_name %in% vars) |>
