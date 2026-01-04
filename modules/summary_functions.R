@@ -127,8 +127,12 @@ create_numeric_col <- function(data) {
 # ---- sumary data -----
 # args here are con and main input with tab being used in view_summary and
 # view_plot
-create_summary_data <- function(con, main_input, tab = NULL,
-                                table_name_reactive = NULL) {
+create_summary_data <- function(con,
+                                main_input,
+                                input_source,
+                                tab = NULL,
+                                vars = NULL
+) {
   reactive({
 
     if (!is.null(tab)) {
