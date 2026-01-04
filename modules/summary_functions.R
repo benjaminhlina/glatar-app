@@ -12,14 +12,14 @@ create_filtered_data <- function(input_source,
     species_f <- input_source$species_filter()
 
 
-    if (!(waterbody_f %in% "All")) {
+    if (!is.null(waterbody_f) && !"All" %in% waterbody_f) {
       df <- df |>
-        filter(Waterbody == waterbody_f)
+        filter(waterbody %in% waterbody_f)
     }
 
-    if (!(species_f %in% "All")) {
+    if (!is.null(species_f) && !"All" %in% species_f) {
       df <- df |>
-        filter(`Common Name` == species_f)
+        filter(scientific_name %in% species_f)
     }
 
     return(df)
