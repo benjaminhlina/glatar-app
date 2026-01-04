@@ -212,14 +212,7 @@ get_summary_data <- function(con, selected_vars = NULL,
 
   # Always start from samples
   # --grab location
-  tbl_loc <- tbl(con, "tbl_location")
-  # ---- grab sampels
-  df <- tbl(con, "tbl_samples")
-
-  df <- df |>
-    left_join(
-      tbl_loc
-    )
+  df <- get_data(con)
 
   if (!is.null(selected_vars)) {
     needed_tables <- setdiff(get_tables_needed(con = con,
