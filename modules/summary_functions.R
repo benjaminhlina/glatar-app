@@ -8,11 +8,9 @@ create_filtered_data <- function(input_source,
 
     df <- data()
 
-    grouping_vars <- input_source$grouping_vars()
     waterbody_f <- input_source$waterbody_filter()
     species_f <- input_source$species_filter()
 
-    req(df, grouping_vars)
 
     if (!(waterbody_f %in% "All")) {
       df <- df |>
