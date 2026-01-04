@@ -75,6 +75,7 @@ summary_sidebar_server <- function(id, con, main_input) {
 
     exclusive_all_observer(input, session, "summary_waterbody_filter")
     exclusive_all_observer(input, session, "summary_species_filter")
+
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
       # get df
@@ -139,8 +140,8 @@ summary_sidebar_server <- function(id, con, main_input) {
 
       updateSelectInput(session, "summary_grouping_vars",
                         choices = grouping_choices,
-                        selected = c("Waterbody",
-                                     "Common Name")
+                        selected = c("waterbody",
+                                     "scientific_name")
       )
       updateSelectInput(session, "summary_waterbody_filter",
                         choices = c("All", waterbody_choices),
