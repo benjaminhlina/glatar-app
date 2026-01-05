@@ -43,6 +43,10 @@ create_mean_data <- function(input_source,
     summary_grouping_vars <- input_source$grouping_vars()
     y_vals <- input_source$y_variable()
 
+    # cli check
+    check_mean_data(df = df,
+                    summary_grouping_vars = summary_grouping_vars,
+                    y_vals = y_vals)
 
     if (is.null(y_vals) || length(y_vals) == 0) {
       # Return just the grouped counts
