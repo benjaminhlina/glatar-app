@@ -47,19 +47,26 @@ create_mean_data <- function(input_source,
                     summary_grouping_vars = summary_grouping_vars,
                     y_vals = y_vals)
 
-    # if selected_vars is null just produce base query -----
+    # can create base_df
+    base_df <- df |>
+      group_by(across(all_of(summary_grouping_vars))) |>
+      summarise(n = n()) |>
+      ungroup()
+
+      # if selected_vars is null just produce base query -----
     if (is.null(y_vals) || length(y_vals) == 0) {
       # Return just the grouped counts
       cli::cli_inform("No y_variable selected → returning grouped n only")
-      grouped_summary_df <- df |>
-        group_by(across(all_of(summary_grouping_vars))) |>
-        summarise(n = n()) |>
-        ungroup()
+      grouped_summary_df <- base_df |>
+        collect() |>
+        arrange(across(all_of(summary_grouping_vars)))
 
       cli::cli_ul(c(
         "collected class: {paste(class(grouped_summary_df), collapse = ', ')}",
         "rows: {nrow(grouped_summary_df)}"
       ))
+      return(grouped_summary_df)
+
     }
 
     #     # run query x
