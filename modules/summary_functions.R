@@ -69,65 +69,48 @@ create_mean_data <- function(input_source,
 
     }
 
-    #     # run query x
-    #     grouped_summary_df <- grouped_summary_df |>
-    #       collect()
-    #
-    #     return(grouped_summary_df)
-    # })
+    summary_list <- lapply(y_vals, function(v) {
+      mapped_var <- fix_var_generic(df = df, var_raw = v,
+                                    get_nice_name = convert_nice_name)
+      df_filtered <- mapped_var$df
+      var_to_summarise <- mapped_var$var
+      var_label <- mapped_var$var_label
 
-    # summary_list <- lapply(y_vals, function(v) {
-    #   mapped_var <- fix_var_generic(df, v, convert_nice_name)
-    #   df_filtered <- mapped_var$df
-    #   var_to_summarise <- mapped_var$var
-    #   var_label <- mapped_var$var_label
-    #
-    #   # Check if variable exists after filtering
-    #   if (nrow(df) == 0 || !var_to_summarise %in% colnames(df)) {
-    #     return(NULL)
-    #   }
-    #
-    #   grouped_summary_df <- df |>
-    #     group_by(across(all_of(summary_grouping_vars))) |>
-    #     summarise(
-    #       n = n(),
-    #       !!paste0(var_label, " (mean)") := mean(.data[[var_to_summarise]],
-    #                                              na.rm = TRUE),
-    #       !!paste0(var_label, " (sd)") := sd(.data[[var_to_summarise]],
-    #                                          na.rm = TRUE),
-    #       .groups = "drop"
-    #     ) |>
-    #     mutate(across(where(is.numeric), ~ round(.x, 2)))
-    #   return(grouped_summary_df)
-    # })
-    #
-    # # Remove NULL results
-    # summary_list <- summary_list[!sapply(summary_list, is.null)]
-    # req(length(summary_list) > 0)
-    # # Combine all summaries by joining on grouping vars
-    # grouped_summary_df <- Reduce(function(x, y) {
-    #   full_join(x, y, by = summary_grouping_vars)
-    # }, summary_list)
-    #
-    # # Combine 'n' columns if multiple exist
-    # n_cols <- grep("^n($|\\.)", colnames(grouped_summary_df), value = TRUE)
-    # if (length(n_cols) > 1) {
-    #   # Multiple n columns exist, combine them
-    #   grouped_summary_df <- grouped_summary_df |>
-    #     mutate(n_combined = rowSums(across(all_of(n_cols)), na.rm = TRUE)) |>
-    #     select(-all_of(n_cols)) |>
-    #     rename(n = n_combined) |>
-    #     relocate(n, .after = all_of(summary_grouping_vars))
-    # } else if (length(n_cols) == 1 && n_cols != "n") {
-    #   # Single n column but it's named n.x or similar, rename it
-    #   grouped_summary_df <- grouped_summary_df |>
-    #     rename(n = all_of(n_cols)) |>
-    #     relocate(n, .after = all_of(summary_grouping_vars))
-    # }
+
+      # Check if variable exists after filtering
+      if (!var_to_summarise %in% colnames(df_filtered)) {
+        cli::cli_warn("Skipping {.field {v}} — column not present after mapping")
+        return(NULL)
+      }
+
+      grouped_summary_df <- df_filtered |>
+        group_by(across(all_of(summary_grouping_vars))) |>
+        summarise(
+          !!paste0(var_label, " (mean)") := mean(.data[[var_to_summarise]],
+                                                 na.rm = TRUE),
+          !!paste0(var_label, " (sd)") := sd(.data[[var_to_summarise]],
+                                             na.rm = TRUE),
+        ) |>
+        ungroup()
+
+    })
+    # Remove NULL results
+    summary_list <- summary_list[!sapply(summary_list, is.null)]
+    req(length(summary_list) > 0)
+
+    # Combine all summaries by joining on grouping vars
+    #  # can use  init = base_df
+    grouped_summary_df <- Reduce(function(x, y) {
+      full_join(x, y, by = summary_grouping_vars)
+    }, summary_list,
+    init = base_df)
 
     # run query x
     grouped_summary_df <- grouped_summary_df |>
       collect()
+      collect() |>
+      arrange(across(all_of(summary_grouping_vars))) |>
+      mutate(across(where(is.numeric), ~ round(.x, 2)))
 
     return(grouped_summary_df)
   })
