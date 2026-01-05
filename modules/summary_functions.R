@@ -123,12 +123,6 @@ create_mean_data <- function(input_source,
     grouped_summary_df <- grouped_summary_df |>
       collect()
 
-# ---- create numerical_col
-create_numeric_col <- function(data) {
-  reactive({
-    df <- data()
-    req(df)
-    get_numeric_cols(df)
     return(grouped_summary_df)
   })
 }
