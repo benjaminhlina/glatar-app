@@ -92,3 +92,10 @@ check_summary_data <- function(obj) {
     cli::cli_text("{.field {sort(names(df))}}")  # Inline with field styling
   })
 }
+
+check_selected_vars <- function(selected_vars) {
+  cli::cli_ul(c(
+    "y_variable value: {if (is.null(selected_vars)) 'NULL' else paste(selected_vars, collapse = ', ')}",
+    "length(y_variable): {length(selected_vars)}"
+  ))
+}
