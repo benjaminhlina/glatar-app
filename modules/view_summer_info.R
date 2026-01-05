@@ -37,8 +37,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     # Cehck if summary is being triggered
     check_summary_data(summary_data)
 
-
-    # # ---- Generate Summary Statistics with Dynamic Grouping -----
+    # filtered summary by waterbody and species
     filtered_summary_data <- create_filtered_data(
       input_source = summary_sidebar_vals,
       data = summary_data)
