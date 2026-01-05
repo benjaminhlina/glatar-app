@@ -26,7 +26,18 @@ check_input_source <- function(input_source_name, envir = parent.frame()) {
   # DON'T check existence here - it might not exist yet at module initialization
 }
 
+# ---- check lenght_ui -----
+check_length_ui <- function(
+    df,
+    var,
+    length_type_val) {
+  cli::cli_alert_info("UI var: {var}")
+  cli::cli_alert_info("Mapped length_type_val: {length_type_val}")
+  cli::cli_alert_info(
+    "Unique df$length_type: {paste(unique(df$length_type), collapse=', ')}")
+}
 
+# ----- chekc mean_data ------
 check_mean_data <- function(df,
                             summary_grouping_vars,
                             y_vals) {
