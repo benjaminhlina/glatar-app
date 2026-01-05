@@ -11,8 +11,8 @@ display_hist <- function(data,
     var <- input_source$hist_vars()
 
     # detect length-type UI choices
-    is_length <- grepl("length", var, ignore.case = TRUE) &&
-      !var %in% names(df)
+    is_length <- grepl("length_mm", var, ignore.case = TRUE) &&
+      !var %in% colnames(df)
 
     if (is_length) {
 
