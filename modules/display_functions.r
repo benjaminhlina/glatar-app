@@ -45,7 +45,7 @@ display_hist <- function(data,
     } else {
 
       # ---- NON-LENGTH VARIABLES ----
-      req(var %in% names(df))
+      req(var %in% colnames(df))
       df <- df |>
         mutate(across(all_of(var), ~ suppressWarnings(as.numeric(.)))) |>
         filter(!is.na(.data[[var]]))
