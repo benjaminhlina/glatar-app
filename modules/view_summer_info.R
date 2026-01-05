@@ -2,24 +2,27 @@ view_summary_info_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    # tabName = id,
-    shiny::h2("Summary Statistics"),
-    shiny::br(),
-    shiny::fluidRow(
-      shinydashboard::box(
-        title = "Summary Table",
-        status = "primary",
-        solidHeader = TRUE,
-        width = 12,
-        div(style = "overflow-x: auto; width: 100%;",
-            DT::DTOutput(ns("summary_table_output")))
-      )
-    ),
-    shiny::br(),
-    plot_ui(title = "Summary Histograms",
-            plot_id = "summary_histogram",
-            height = "300px",
-            ns = ns),
+    useShinyjs(),
+    div(id = ns("summary_ui"),
+        style = "display:none;",
+        shiny::h2("Summary Statistics"),
+        shiny::br(),
+        shiny::fluidRow(
+          shinydashboard::box(
+            title = "Summary Table",
+            status = "primary",
+            solidHeader = TRUE,
+            width = 12,
+            div(style = "overflow-x: auto; width: 100%;",
+                DT::DTOutput(ns("summary_table_output")))
+          )
+        ),
+        shiny::br(),
+        plot_ui(title = "Summary Histograms",
+                plot_id = "summary_histogram",
+                height = "300px",
+                ns = ns),
+    )
   )
 }
 
@@ -62,8 +65,6 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                    input_source = summary_sidebar_vals,
                    output)
 
-  }
-  )
       # we need to return fileted summary to then use in donload
       return(list(
         # summary_data = mean_summary_data
