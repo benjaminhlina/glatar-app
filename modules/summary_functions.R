@@ -133,8 +133,7 @@ create_mean_data <- function(input_source,
 create_summary_data <- function(con,
                                 main_input,
                                 input_source,
-                                tab = NULL,
-                                vars = NULL
+                                tab = NULL
 ) {
   reactive({
 
