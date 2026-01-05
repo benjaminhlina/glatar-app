@@ -4,7 +4,8 @@ display_hist <- function(data,
                          output_id = "summary_histogram") {
   output[[output_id]] <- renderPlot({
     # Get raw data (not summarized)
-    df <- data()
+    df <- data() |>
+      collect()
     req(df, nrow(df) > 0)
     # Ensure the selected column exists in the raw data
     var <- input_source$hist_vars()
