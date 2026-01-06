@@ -64,6 +64,11 @@ summary_sidebar_ui <- function(id) {
 summary_sidebar_server <- function(id, con, main_input) {
   moduleServer(id, function(input, output, session) {
 
+    observe({
+      shinyjs::toggle(id = "summary_ui",
+                      condition = main_input$tabs == "summary_info")
+    })
+
     sidebar_df <- reactive({
       # create connection reactively
       con_db <- if (inherits(con, "reactive")) con() else con
