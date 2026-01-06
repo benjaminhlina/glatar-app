@@ -225,6 +225,10 @@ get_summary_data <- function(con,
         reduce(.init = df, ~ get_join_table(.x, .y, con))
     }
 
+    vars_for_select <- selected_vars
+    vars_for_select <- gsub("^length_mm__(fork|total|standard)$", "length_mm",
+                            vars_for_select)
+    vars_for_select <- unique(vars_for_select)
     if (is.null(grouping_vars)) {
       # Select only requested columns (plus keys if needed)
       df <- df |>
