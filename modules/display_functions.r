@@ -188,6 +188,11 @@ display_table <- function(data, output, output_id = "summary_table_output") {
   output[[output_id]] <- renderDT({
     req(data())
     df <- data()
+    validate(
+      need(is.data.frame(df), "Waiting for data…"),
+      need(nrow(df) > 0, "No data available")
+    )
+
     # if there is nothing in df print no data available
     if (is.null(df) || nrow(df) == 0) {
       return(datatable(data.frame(Message = "No data available"),
