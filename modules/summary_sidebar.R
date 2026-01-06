@@ -2,24 +2,27 @@ summary_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    shiny::conditionalPanel(
-      condition = "input.tabs == 'summary_info'",
-      shiny::selectInput(ns("summary_grouping_vars"),
-                         "Select Grouping Variables",
-                         choices = NULL, multiple = TRUE),
-      shiny::selectInput(ns("summary_waterbody_filter"),
-                         "Select Waterbody", choices = NULL,
-                         multiple = TRUE),
-      shiny::selectInput(ns("summary_species_filter"),
-                         "Select Species",
-                         choices = NULL,
-                         multiple = TRUE),
-      shiny::selectizeInput(ns("summary_y_variable"),
-                            "Select Summary Columns of Interest",
-                            choices = NULL,
-                            multiple = TRUE,
-                            options = list(placeholder = 'Select columns...',
-                                           render = I("
+    useShinyjs(),
+    div(id = ns("summary_ui"),
+        style = "display:none;",
+        shiny::conditionalPanel(
+          condition = "input.tabs == 'summary_info'",
+          shiny::selectInput(ns("summary_grouping_vars"),
+                             "Select Grouping Variables",
+                             choices = NULL, multiple = TRUE),
+          shiny::selectInput(ns("summary_waterbody_filter"),
+                             "Select Waterbody", choices = NULL,
+                             multiple = TRUE),
+          shiny::selectInput(ns("summary_species_filter"),
+                             "Select Species",
+                             choices = NULL,
+                             multiple = TRUE),
+          shiny::selectizeInput(ns("summary_y_variable"),
+                                "Select Summary Columns of Interest",
+                                choices = NULL,
+                                multiple = TRUE,
+                                options = list(placeholder = 'Select columns...',
+                                               render = I("
           {
             option: function(item, escape) {
               return '<div>' + item.label + '</div>';
@@ -29,14 +32,14 @@ summary_sidebar_ui <- function(id) {
             }
           }
         ")
-                            )
-      ),
-      shiny::selectizeInput(
-        inputId = ns("hist_var"),
-        label = "Select Variable for Histogram",
-        choices = NULL,
-        options = list(
-          render = I("
+                                )
+          ),
+          shiny::selectizeInput(
+            inputId = ns("hist_var"),
+            label = "Select Variable for Histogram",
+            choices = NULL,
+            options = list(
+              render = I("
           {
             option: function(item, escape) {
               return '<div>' + item.label + '</div>';
@@ -46,11 +49,12 @@ summary_sidebar_ui <- function(id) {
             }
           }
         ")
+            )
+          ),
+          shiny::downloadButton(ns("download_summary"),
+                                "Download Summary as Excel",
+                                class = "btn-primary")
         )
-      ),
-      shiny::downloadButton(ns("download_summary"),
-                            "Download Summary as Excel",
-                            class = "btn-primary")
     )
   )
 }
