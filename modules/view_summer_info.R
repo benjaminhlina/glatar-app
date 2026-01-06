@@ -38,6 +38,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
 
     # ---- namespaces -----
     ns <- session$ns
+
     summary_export_df <- reactiveVal(NULL)
     # ----- first create summary data -----
     observeEvent(main_input$tabs, {
@@ -71,10 +72,12 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                    input_source = summary_sidebar_vals,
                    output)
 
-      # we need to return fileted summary to then use in donload
+      # ----- grab reactive summary as recative val- ----
       summary_export_df(summary_mean_df)
 
     }, ignoreInit = TRUE)
+
+    # return this so it can be exported -----
     return(list(
       summary_df = summary_export_df
     ))
