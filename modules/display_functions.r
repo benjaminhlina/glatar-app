@@ -39,8 +39,6 @@ display_hist <- function(data,
 
       var <- "length_mm"
 
-
-
     } else {
 
       # ---- NON-LENGTH VARIABLES ----
@@ -72,6 +70,7 @@ display_hist <- function(data,
       "<br><b>Species:</b> ", fix_title_label(species_f),
       "<br><b>Waterbody:</b> ", fix_title_label(waterbody_f)
     )
+
     # Plot the histogram of the selected variable
     p <- ggplot(data = df, aes(x = !!sym(var))) +
       geom_histogram(fill = "#4DB6AC",
@@ -88,8 +87,7 @@ display_hist <- function(data,
       labs(
         x = nice_label,
         y = "Frequency",
-        title = paste("Histogram of", nice_label,
-                      "for", species_f, "in", waterbody_f)
+        title = title_text
       )
     return(p)
   })
