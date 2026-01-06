@@ -47,7 +47,6 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                                           input_source = summary_sidebar_vals,
                                           tab = "summary_info")
       # Cehck if summary is being triggered
-      check_summary_data(summary_data)
 
       # filtered summary by waterbody and species
       filtered_summary_data <- create_filtered_data(
@@ -57,6 +56,12 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       # # ---- Generate Summary Statistics with Dynamic Grouping -----
       summary_mean_df <- create_mean_data(input_source = summary_sidebar_vals,
                                           data = filtered_summary_data)
+
+
+      observeEvent(summary_mean_df(), {
+        req(summary_mean_df())
+        check_summary_data(summary_mean_df())
+      }, ignoreInit = TRUE)
 
       #  ----- Render Summary Table -----
       display_table(data = summary_mean_df, output)
