@@ -18,7 +18,6 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
     var <- "length_mm"
 
   } else {
-
     cli::cli_alert_info("Checking for {.field {var_raw}} in columns...")
     cli::cli_inform("Available columns: {.val {colnames(df)}}")
     cli::cli_inform("var_raw %in% colnames(df): {var_raw %in% colnames(df)}")
@@ -36,7 +35,19 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
 
 }
 
-
+fix_title_label <-  function(x, max = NULL) {
+    if (is.null(max)) {
+      max <- 4
+    }
+    if (length(x) <= max) {
+      paste(x, collapse = ", ")
+    } else {
+      paste0(
+        paste(head(x, max), collapse = ", "),
+        ", <br>… (", length(x) - max, " more)"
+      )
+    }
+  }
 # ----- make scater choices -----
 make_scatter_choices <- function(df, numeric_choices) {
 
