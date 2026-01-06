@@ -187,17 +187,16 @@ display_scatter_plot <- function(data,
 display_table <- function(data, output, output_id = "summary_table_output") {
   output[[output_id]] <- renderDT({
     req(data())
+    # get data
     df <- data()
+
+    # validate data
     validate(
       need(is.data.frame(df), "Waiting for data…"),
       need(nrow(df) > 0, "No data available")
     )
 
-    # if there is nothing in df print no data available
-    if (is.null(df) || nrow(df) == 0) {
-      return(datatable(data.frame(Message = "No data available"),
-                       escape = FALSE))
-    }
+    # display data
 
     datatable(df,
               options = list(pageLength = 10,
