@@ -58,6 +58,11 @@ ui <- dashboardPage(
   ),
   # ---- create display panes ----
   dashboardBody(
+
+    # CSS for fixed footer
+    app_version_head(),
+    app_version_label(app_version),
+    # tab itimes
     tabItems(
       tabItem(tabName = "home", home_tab_ui("home")),
       tabItem(tabName = "view_map", view_map_ui("view_map")),
