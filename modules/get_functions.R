@@ -274,8 +274,15 @@ get_summary_data <- function(con,
     }
 
     vars_for_select <- selected_vars
-    vars_for_select <- gsub("^length_mm__(fork|total|standard)$", "length_mm",
-                            vars_for_select)
+
+
+    vars_for_select <- dplyr::case_when(
+      grepl("^length_mm__(fork|total|standard)$",
+            vars_for_select) ~ "length_mm",
+      grepl("^energy_units__.*$",
+            vars_for_select) ~ "energy_measurement",
+      .default = vars_for_select
+    )
     vars_for_select <- unique(vars_for_select)
 
     if (is.null(grouping_vars)) {
