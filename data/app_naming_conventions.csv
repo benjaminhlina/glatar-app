@@ -41,7 +41,6 @@ calorimeter_conversion_factor,Conversion Factor
 sample_weight,Sample Weight
 sample_weight_type,Weight Type
 energy_measurement,Energy Density
-energy_units,Units
 energy_type,Measurement Type
 intercept, Intercept
 slope, Slope
