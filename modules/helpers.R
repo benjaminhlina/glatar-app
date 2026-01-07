@@ -17,6 +17,18 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
     var_label <- paste0(stringr::str_to_title(var_type), " Length (mm)")
     var <- "length_mm"
 
+  } else if (grepl("^energy_units__", var_raw)) {
+
+    parts <- strsplit(var_raw, "__")[[1]]
+    # grab the second element of part
+    var_type <- parts[2]
+
+    df <- df %>%
+      dplyr::filter(energy_units == var_type)
+    # Dynamic label
+    var_label <- paste0("Energy Density (", var_type, ")")
+    var <- "energy_measurement"
+
   } else {
     cli::cli_alert_info("Checking for {.field {var_raw}} in columns...")
     cli::cli_inform("Available columns: {.val {colnames(df)}}")
