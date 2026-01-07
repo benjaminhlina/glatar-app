@@ -46,7 +46,6 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
   )
 
 }
-
 # ---- fix tittle label -----
 fix_title_label <-  function(x, max = NULL) {
   if (is.null(max)) {
@@ -75,10 +74,10 @@ make_scatter_choices <- function(df, numeric_choices) {
     paste0(stringr::str_to_title(length_types), " Length (mm)")
   )
 
-    numeric_clean <- numeric_choices[numeric_choices != "Length (mm)"]
-    return(c(
-      length_choices,
-      "Weight",
-      setNames(numeric_clean, numeric_clean)
-    ))
+  numeric_clean <- numeric_choices[numeric_choices != "Length (mm)"]
+  return(c(
+    length_choices,
+    "Weight",
+    setNames(numeric_clean, numeric_clean)
+  ))
 }
