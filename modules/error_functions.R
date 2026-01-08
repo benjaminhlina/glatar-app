@@ -27,14 +27,16 @@ check_input_source <- function(input_source_name, envir = parent.frame()) {
 }
 
 # ---- check lenght_ui -----
-check_length_ui <- function(
+check_hist_ui <- function(
     df,
     var,
-    length_type_val) {
+    type_val,
+    col) {
   cli::cli_alert_info("UI var: {var}")
-  cli::cli_alert_info("Mapped length_type_val: {length_type_val}")
+  cli::cli_alert_info("Mapped type_val: {type_val}")
   cli::cli_alert_info(
-    "Unique df$length_type: {paste(unique(df$length_type), collapse=', ')}")
+    "Unique df$type_val: {paste(unique(df$col), collapse=', ')}")
+}
 }
 
 # ----- chekc mean_data ------
