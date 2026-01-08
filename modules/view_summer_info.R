@@ -75,12 +75,14 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                                           tab = "summary_info",
                                           var_field = "hist_vars")
       # Cehck if summary is being triggered
+
       # filtered summary by waterbody and species
       filtered_summary_data_hist <- create_filtered_data(
         input_source = summary_sidebar_vals,
         data = summary_data_hist)
+
       # # ---- add in histogram ----
-      display_hist(data = filtered_summary_data,
+      display_hist(data = filtered_summary_data_hist,
                    input_source = summary_sidebar_vals,
                    output)
 
