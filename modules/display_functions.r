@@ -40,12 +40,14 @@ display_hist <- function(data,
       req("length_type" %in% colnames(df))
 
       check_hist_vars(df, var = "length_mm", ba = "before")
+
       df <- df |>
         filter(length_type == length_type_val) |>
         mutate(length_mm = suppressWarnings(as.numeric(length_mm))) |>
         filter(!is.na(length_mm))
 
       check_hist_vars(df, var, ba = "after")
+
       var <- "length_mm"
 
     } else if (is_energy) {
@@ -106,7 +108,6 @@ display_hist <- function(data,
       nice_label <- paste(stringr::str_to_title(length_type_val),
                           convert_nice_name(var)[[1]],
                           sep = " ")
-    }
     } else if (nice_label %in% "Energy Density") {
         nice_label <- paste(convert_nice_name(var)[[1]], " (",
                             energy_type_val, ")", sep = "")
@@ -117,6 +118,8 @@ display_hist <- function(data,
       "<br><b>Species:</b> ", fix_title_label(species_f),
       "<br><b>Waterbody:</b> ", fix_title_label(waterbody_f)
     )
+
+    cli::cli_alert_info("selected var prior to plotting is: {.field {var}}")
 
     # Plot the histogram of the selected variable
     p <- ggplot(data = df, aes(x = !!sym(var))) +
