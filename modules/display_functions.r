@@ -19,6 +19,8 @@ display_hist <- function(data,
 
     is_energy <- grepl("Joules/g", var, ignore.case = TRUE) &&
       !var %in% colnames(df)
+
+    cli::cli_alert_info("colnames are: {.val {colnames(df)}}")
     if (is_length) {
 
       # Convert UI label to the length_type in the data
