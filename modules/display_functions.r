@@ -80,12 +80,17 @@ display_hist <- function(data,
     } else {
 
       # ---- NON-LENGTH VARIABLES ----
+      cli::cli_alert_success("entered else statement")
+
       req(var %in% colnames(df))
+      check_hist_vars(df, var, ba = "before")
+
       df <- df |>
         mutate(across(all_of(var), ~ suppressWarnings(as.numeric(.)))) |>
         filter(!is.na(.data[[var]]))
 
-      nice_label <- convert_nice_name(var)[[1]]
+      check_hist_vars(df, var, ba = "after")
+
     }
 
     species_f <- input_source$species_filter()
