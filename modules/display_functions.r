@@ -29,11 +29,11 @@ display_hist <- function(data,
         grepl("total", var, ignore.case = TRUE) ~ "total",
         grepl("standard", var, ignore.case = TRUE) ~ "standard",
         grepl("carapace", var, ignore.case = TRUE) ~ "carapace",
-
         .default = NA
       )
 
-      check_length_ui(df, var, length_type_val)
+      # check_hist_ui(df = df, var = var, type_val = length_type_val,
+      #               col = "length_type")
 
       req(!is.na(length_type_val))
       req("length_mm" %in% colnames(df))
