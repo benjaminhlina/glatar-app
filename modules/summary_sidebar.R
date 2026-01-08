@@ -94,6 +94,7 @@ summary_sidebar_server <- function(id, con, main_input) {
         "calorimeter_conversion_factor",
         "issue",
         "length_mm",
+        "energy_measurement",
         "latitude",
         "longitude",
         "month",
@@ -107,12 +108,13 @@ summary_sidebar_server <- function(id, con, main_input) {
       )
       numeric_names <- convert_nice_name(numeric_choices)
       # get length variables
-      length_vars <- get_length_vars(df)
+      length_vars <- get_var_types(df, var = "length_type")
+      energy_vars <- get_var_types(df, var = "energy_units")
 
       # create summary choices
       summary_choices <- sort(c(setNames(numeric_choices,
                                          numeric_names),
-                                length_vars))
+                                length_vars, energy_vars))
 
       waterbody_choices <- df |>
         distinct(waterbody) |>
