@@ -17,6 +17,8 @@ display_hist <- function(data,
     is_length <- grepl("length_mm", var, ignore.case = TRUE) &&
       !var %in% colnames(df)
 
+    is_energy <- grepl("Joules/g", var, ignore.case = TRUE) &&
+      !var %in% colnames(df)
     if (is_length) {
 
       # Convert UI label to the length_type in the data
