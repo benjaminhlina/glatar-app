@@ -146,6 +146,23 @@ create_summary_data <- function(con,
 
     selected_vars <- if (inherits(vars, "reactive")) vars() else vars
     check_selected_vars(selected_vars = selected_vars)
+    # vars <- input_source$y_variable
+    #
+    # selected_vars <- if (inherits(vars, "reactive")) vars() else vars
+
+    # Get y_variable
+    y_vars <- input_source$y_variable
+    y_selected <- if (inherits(y_vars, "reactive")) y_vars() else y_vars
+
+    # Get hist_vars
+    hist_vars <- input_source$hist_vars
+    hist_selected <- if (inherits(hist_vars, "reactive")) hist_vars() else hist_vars
+
+    # Combine both sets of variables (removing duplicates)
+    all_vars <- unique(c(y_selected, hist_selected))
+
+
+    check_selected_vars(selected_vars = all_vars)
     # get groups
 
     gv <- input_source$grouping_vars
@@ -155,7 +172,7 @@ create_summary_data <- function(con,
 
     # ---- acctuat gert data =----
     df <- get_summary_data(con = con_db,
-                           selected_vars = selected_vars,
+                           selected_vars = all_vars,
                            grouping_vars = group_vars)
 
     # run query
