@@ -59,10 +59,15 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       summary_mean_df <- create_mean_data(input_source = summary_sidebar_vals,
                                           data = filtered_summary_data)
 
+      # ---- fix names ----
 
-      observeEvent(summary_mean_df(), {
+      summary_mean_df_names <- reactive({
         req(summary_mean_df())
-        check_summary_data(summary_mean_df())
+
+        df <- summary_mean_df() |>
+          dplyr::rename_with(~ convert_nice_name(.x))
+
+      })
       }, ignoreInit = TRUE)
 
       #  ----- Render Summary Table -----
