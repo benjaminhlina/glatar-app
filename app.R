@@ -139,7 +139,6 @@ server <- function(input, output, session) {
   scatter_sidebar_vals <- scatter_sidebar_server("scatter_sidebar",
                                                  con,
                                                  main_input = input)
-
   # ---- create and view scatter plot -----
   scatter_plot <- scatter_plot_server(
     "scatter_plot",
