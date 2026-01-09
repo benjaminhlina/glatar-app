@@ -124,12 +124,14 @@ summary_sidebar_server <- function(id, con, main_input) {
 
       waterbody_choices <- df |>
         distinct(waterbody) |>
+        # filter(!(is.na(waterbody))) |>
         arrange(waterbody) |>
         pull(waterbody)
 
       # species
       species_choices <-  df |>
         distinct(scientific_name) |>
+        # filter(!(is.na(scientific_name))) |>
         arrange(scientific_name) |>
         pull(scientific_name)
 
