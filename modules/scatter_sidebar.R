@@ -105,7 +105,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
       energy_vars <- get_var_types(df, var = "energy_units")
 
       # create summary choices
-      summary_choices <- sort(c(setNames(numeric_choices,
+      axis_choices <- sort(c(setNames(numeric_choices,
                                          numeric_names),
                                 length_vars, energy_vars))
 
