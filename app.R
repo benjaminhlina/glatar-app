@@ -30,7 +30,7 @@ app_version <- "0.1.0"
 
 ui <- dashboardPage(
   # ----- title -----
-  dashboardHeader(title = "Aquatic Tissue Library for Analyses & Synthesis (ATLAS)",
+  dashboardHeader(title = "Great Lakes Aquatic Tissue Analysis Repository (GLATARx)",
                   titleWidth = 500),
   # ---- sidebar -----
   dashboardSidebar(
