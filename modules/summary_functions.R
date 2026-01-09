@@ -173,9 +173,6 @@ create_summary_data <- function(con,
                            selected_vars = selected_vars,
                            grouping_vars = group_vars)
 
-    # run query
-    # df <- df |>
-    #   collect()
     return(df)
   })
 }
