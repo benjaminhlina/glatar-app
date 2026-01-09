@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     libabsl-dev \
     libcairo2-dev \
     libcurl4-openssl-dev \
+    libfreetype6-dev \
     libgeos-dev \
     libgdal-dev \
     libicu-dev \
@@ -34,6 +35,7 @@ RUN apt-get update && apt-get install -y \
     libxt-dev \
     make \
     pandoc \
+    pkg-config \
     proj-bin \
     proj-data \
     && rm -rf /var/lib/apt/lists/*
