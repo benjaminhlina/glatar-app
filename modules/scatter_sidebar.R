@@ -112,7 +112,6 @@ scatter_sidebar_server <- function(id, con, main_input) {
 
 
     return(list(
-      selected_table = reactive(input$scatter_plots),
       grouping_vars = reactive(input$scatter_grouping_vars),
       waterbody_filter = reactive(input$scatter_waterbody_filter),
       species_filter = reactive(input$scatter_species_filter),
