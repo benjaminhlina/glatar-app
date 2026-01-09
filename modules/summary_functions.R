@@ -143,24 +143,15 @@ create_summary_data <- function(con,
     con_db <- if (inherits(con, "reactive")) con() else con
 
     # get selected vars
+    # Handle multiple var_fields
+    selected_vars <- c()
 
-    vars <- input_source[[var_field]]
-    #
-    selected_vars <- if (inherits(vars, "reactive")) vars() else vars
-
-    # Get y_variable
-    # y_vars <- input_source$y_variable
-    # y_selected <- if (inherits(y_vars, "reactive")) y_vars() else y_vars
-    #
-    # # Get hist_vars
-    # hist_vars <- input_source$hist_vars
-    # hist_selected <- if (inherits(hist_vars, "reactive")) hist_vars() else hist_vars
-    #
-    # # Combine both sets of variables (removing duplicates)
-    # all_vars <- unique(c(y_selected, hist_selected))
-
-
-    check_selected_vars(selected_vars = selected_vars)
+    for (field in var_field) {
+      vars <- input_source[[field]]
+      vars_val <- if (inherits(vars, "reactive")) vars() else vars
+      selected_vars <- c(selected_vars, vars_val)
+    }
+    selected_vars <- unique(selected_vars[!is.null(selected_vars)])
     # get groups
 
     gv <- input_source$grouping_vars
