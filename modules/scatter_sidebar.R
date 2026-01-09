@@ -125,7 +125,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
       n_wb <- length(waterbody_choices)
       n_sp <- length(species_choices)
       grp <- paste(grouping_choices, collapse = ', ')
-      nc <- paste(summary_choices, collapse = ', ')
+      nc <- paste(axis_choices, collapse = ', ')
       # check_dropdowns()
       cli::cli_alert_success("Updating dropdowns")
       cli::cli_ul(c(
