@@ -70,17 +70,17 @@ summary_sidebar_server <- function(id, con, main_input) {
     })
 
     # --- get sidebar info -----
-    sidebar_df <- get_sidebar_df(con)
-
-    exclusive_all_observer(input, session, "summary_waterbody_filter")
-    exclusive_all_observer(input, session, "summary_species_filter")
+    # sidebar_df <- get_sidebar_df(con)
+    #
+    # exclusive_all_observer(input, session, "summary_waterbody_filter")
+    # exclusive_all_observer(input, session, "summary_species_filter")
     # ---- go into observe event
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
-      # sidebar_df <- get_sidebar_df(con)
-      #
-      # exclusive_all_observer(input, session, "summary_waterbody_filter")
-      # exclusive_all_observer(input, session, "summary_species_filter")
+      sidebar_df <- get_sidebar_df(con)
+
+      exclusive_all_observer(input, session, "summary_waterbody_filter")
+      exclusive_all_observer(input, session, "summary_species_filter")
       # get df
       df <- sidebar_df()
       req(df)
