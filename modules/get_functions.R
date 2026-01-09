@@ -99,22 +99,7 @@ get_join_table <- function(df, table, con) {
     left_join(tbl(con, table))
 }
 
-# ---- get length_vars ----
-get_length_vars <- function(df) {
-
-  length_types <- df |>
-    distinct(length_type) |>
-    arrange(length_type) |>
-    dplyr::pull(length_type)
-  # Only keep non-NA length types
-  length_types <- length_types[!is.na(length_types)]
-
-  # Create synthetic variable names and labels
-  vars <- paste0("length_mm__", length_types)
-  labels <- paste0(stringr::str_to_title(length_types), " Length (mm)")
-
-  setNames(vars, labels)  # names = labels, values = synthetic variable codes
-}
+# ---- get vart types ----
 
 get_var_types <- function(df, var) {
 
