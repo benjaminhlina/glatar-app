@@ -148,26 +148,20 @@ scatter_sidebar_server <- function(id, con, main_input) {
       updateSelectInput(session, "scatter_species_filter",
                         choices = c("All", species_choices),
                         selected = "All")
-
-
-      x_choices <- make_scatter_choices(df, numeric_choices) |>
-        sort()
-
-      # x_choices_sel <- names(x_choices)[1]
+      # make x_choices
 
       updateSelectizeInput(session, "x_var",
-                        choices = x_choices,
-                        server = TRUE
-                        # selected = x_choices_sel
+                        choices = axis_choices,
+                        server = TRUE,
+                        selected = "age"
                         )
 
-      # # Update scatter variable choices
-      y_choices <- make_scatter_choices(df, numeric_choices) |>
-        sort()
+      # make y_choices
 
       updateSelectizeInput(session, "y_var",
-                           choices = y_choices,
-                           server = TRUE)
+                           choices = axis_choices,
+                           server = TRUE,
+                           selected = "age")
 
     },
     ignoreInit = FALSE
