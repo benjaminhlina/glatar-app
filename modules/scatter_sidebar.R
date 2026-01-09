@@ -154,13 +154,15 @@ scatter_sidebar_server <- function(id, con, main_input) {
       x_choices <- make_scatter_choices(df, numeric_choices) |>
         sort()
 
-      x_choices_sel <- names(x_choices)[1]
+      # x_choices_sel <- names(x_choices)[1]
 
-      updateSelectInput(session, "x_var",
+      updateSelectizeInput(session, "x_var",
                         choices = x_choices,
-                        selected = x_choices_sel)
+                        server = TRUE
+                        # selected = x_choices_sel
+                        )
 
-      # Update scatter variable choices
+      # # Update scatter variable choices
       y_choices <- make_scatter_choices(df, numeric_choices) |>
         sort()
 
@@ -168,7 +170,9 @@ scatter_sidebar_server <- function(id, con, main_input) {
                            choices = y_choices,
                            server = TRUE)
 
-    }, ignoreInit = FALSE)
+    },
+    ignoreInit = FALSE
+    )
     # ---- export what we need from the severer ----
     # we need grouping and hist variables we also need the function
 
@@ -181,7 +185,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
       x_choices = reactive(input$x_var)
     )
     )
-  }
-  )
+}
+)
 }
 
