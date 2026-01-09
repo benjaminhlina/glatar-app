@@ -32,7 +32,7 @@ scatter_sidebar_ui <- function(id) {
                            )
         ),
         shiny::selectizeInput(
-          ns("scatter_var"),
+          ns("y_var"),
           "Select Y Variable",
           choices = NULL,
           options = list(
@@ -102,7 +102,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
       y_choices <- make_scatter_choices(df, numeric_choices) |>
         sort()
 
-      updateSelectizeInput(session, "scatter_var",
+      updateSelectizeInput(session, "y_var",
                            choices = y_choices,
                            server = TRUE)
 
@@ -116,7 +116,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
       grouping_vars = reactive(input$scatter_grouping_vars),
       waterbody_filter = reactive(input$scatter_waterbody_filter),
       species_filter = reactive(input$scatter_species_filter),
-      y_choices = reactive(input$scatter_var),
+      y_choices = reactive(input$y_var),
       x_choices = reactive(input$x_var)
     )
     )
