@@ -30,7 +30,7 @@ credentials <- data.frame(
 
 ui <- dashboardPage(
   # ----- title -----
-  dashboardHeader(title = "Great Lakes Aquatic Tissue Analysis Repository (GLATARx)",
+  dashboardHeader(title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
                   titleWidth = 500),
   # ---- sidebar -----
   dashboardSidebar(
