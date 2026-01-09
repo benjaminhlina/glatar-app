@@ -1,82 +1,161 @@
+# ----- get COLUMN_MPA ------
+
+get_column_map <- function(con) {
+  tbl(con, "tbl_data_dictionary")
+}
+
+get_data <- function(con, debug_sql = FALSE) {
+
+  req(con)
+
+  # Always start from samples
+  # --grab location
+  tbl_loc <- tbl(con, "tbl_location")
+  # ---- grab sampels
+  df <- tbl(con, "tbl_samples")
+
+  # grab_+length
+  tbl_length <- tbl(con, "tbl_length")
+
+  df <- df |>
+    left_join(
+      tbl_loc, by = "sample_id"
+    ) |>
+    left_join(
+      tbl_length, by = "sample_id"
+    )
+  if (debug_sql == TRUE) {
+    cli::cli_alert_info(dbplyr::sql_render(df))
+  }
+  return(df)
+}
+
 # ---- get good groups -----
 get_good_groups <- function(df) {
+
   good_groups <- c(
-    "PI Name",
-    "Month",
-    "Sample Year",
-    "Common Name",
-    "Scientific Name",
-    "Genus",
+    "pi_name",
+    "month",
+    "sample_year",
+    "common_name",
+    "scientific_name",
+    "genus",
     "tribe",
     "subfamily",
-    "Family",
+    "family",
     "superfamily",
     "suborder",
-    "Order",
+    "order",
     "superorder",
-    "Class",
-    "Superclass",
-    "TSN code",
-    "Sex",
-    "Life Stage",
-    "Wild Lab",
-    "Age (yrs)",
+    "class",
+    "superclass",
+    "tsn",
+    "sex",
+    "life_stage",
+    "wild_lab",
+    "age",
     "composite",
-    "Tissue Type",
+    "tissue_type",
     "sample_procedure",
     "trt_description",
-    "Waterbody",
-    "Area",
-    "Site",
-    "Site Depth (m)"
+    "waterbody",
+    "area",
+    "site",
+    "site_depth"
   )
 
-  # Return only those that are in good_groups
-  groups <- sort(intersect(names(df), good_groups))
+  # get column names
+  cols <- dplyr::tbl_vars(df) |>
+    as.character()
+
+
+    # # Return only those that are in good_groups
+    groups <- sort(intersect(cols, good_groups))
+
+    cli::cli_alert_info("Converted names: {.val {cols}}"
+    )
   return(groups)
 }
 
-# ---- get length_vars ----
-get_length_vars <- function(df) {
+
+get_groups <- function(df) {
+  req(df)
+
+  groups <- get_good_groups(df)
+
+  cli::cli_inform(c(
+    "v" = "Selecting groups.",
+    "•" = "Groups selected: {.val {groups}}"
+  )
+  )
+  return(groups)
+}
+
+
+# ----- simple function to get a tb use dbplyr -----
+#
+get_join_table <- function(df, table, con) {
+  df |>
+    left_join(tbl(con, table))
+}
+
+# ---- get vart types ----
+
+get_var_types <- function(df, var) {
+
+  var_types <- df |>
+    distinct(.data[[var]]) |>
+    arrange(.data[[var]]) |>
+    dplyr::pull(.data[[var]])
   # Only keep non-NA length types
-  length_types <- unique(df$length_type)
-  length_types <- length_types[!is.na(length_types)]
+  var_types <- var_types[!is.na(var_types)]
 
   # Create synthetic variable names and labels
-  vars <- paste0("length_mm__", length_types)
-  labels <- paste0(stringr::str_to_title(length_types), " Length (mm)")
+  if (any(var_types %in% c("fork", "standard", "total"))) {
+    vars <- paste0("length_mm__", var_types)
+    labels <- paste0(stringr::str_to_title(var_types), " Length (mm)")
+  }
+  if (any(var_types %in% c(
+    "Joules/g dry weight",
+    "Joules/g wet weight"
+  ))) {
+
+    # cleaned_var_types <- gsub("/", " ", var_types)
+    # cleaned_var_types <- gsub("\\s+", "_", cleaned_var_types)
+
+    vars <- paste0("energy_units__", var_types)
+    labels <- paste0("Energy Density (", var_types, ")")
+  }
 
   setNames(vars, labels)  # names = labels, values = synthetic variable codes
 }
 
 # ----- get nice names -----
-get_nice_name <- function(cols, lookup = nice_name_lookup) {
+convert_nice_name <- function(cols, lookup = nice_name_lookup) {
   unname(sapply(cols, function(col) {
     if (col %in% names(lookup)) {
       lookup[[col]]
     } else {
       col
     }
-  }))
+  }
+  )
+  )
 }
 
-# ---- get numerical columns -----
-get_numeric_cols <- function(df) {
-  default_exclude <- c("sample_id",
-                       "source_id",
-                       "cal_id",
-                       "proxcomp_id",
-                       "iso_id",
-                       "Conversion Factor",
-                       "Composite (n)")
-
-  # Ensure numeric columns exist and remove ids
-  cols <- names(df)[sapply(df, is.numeric)]
-  setdiff(cols, default_exclude)
+# ---- get numeric vars -----
+get_numeric_vars <- function(con) {
+  get_column_map(con) |>
+    dplyr::filter(
+      field_class %in% c("integer", "numeric", "double")
+    )  |>
+    dplyr::distinct(field_name) |>
+    dplyr::arrange(field_name) |>
+    dplyr::pull(field_name)
 }
 
-# ---- Helper: determine which table is selected ----
-get_selected_table <- function(input) {
+# ---- Helper: determine which tab is selected ----
+get_selected_tab <- function(input) {
   current_tab <- input$tabs
   if (is.null(current_tab) || length(current_tab) != 1) {
     cli::cli_alert_info("current_tab is NULL or invalid")
@@ -94,54 +173,118 @@ get_selected_table <- function(input) {
   out
 }
 
-# ---- Helper: run SQL query and clean the data ----
-get_summary_data <- function(con, table_name) {
+# ----- get sidebr df -----
+get_sidebar_df <- function(con) {
+  reactive({
+    # create connection reactively
+    con_db <- if (inherits(con, "reactive")) con() else con
+    req(con_db)
 
-  req(con, table_name)
+    # get sample_ids and locatiosn
+    df <- get_data(
+      con = con_db
+    ) |>
+      left_join(tbl(con_db, "tbl_calorimetry") |>
+                  select(sample_id, energy_units))
 
-
-  # select df.* from data_frame df left join other_thing ot on df.key = ot.key
-  # Build SQL query dynamically based on selected table
-  query <- paste0('
-      SELECT t.*,
-      l.waterbody, l.area, l.site, l.site_depth,
-      le.length_mm, le.length_type,
-      s.pi_name, s.month, s.sample_year, s.weight,
-      s.common_name, s.scientific_name, s.genus, s.tribe, s.subfamily,
-      s.family, s.superfamily, s.suborder, s.order_sci, s.superorder,
-      s.class_sci, s.superclass, s.tsn, s.sex, s.lifestage, s.wild_lab,
-      s.age, s.composite,s.composite_n,
-      s.tissue_type, s.sample_procedure, s.trt_description
-      FROM ', table_name, ' t
-      LEFT JOIN tbl_samples s ON t.sample_id = s.sample_id
-      LEFT JOIN tbl_length le ON t.sample_id = le.sample_id
-      LEFT JOIN tbl_location l ON t.sample_id = l.sample_id;
-    ')
-
-  # cat("[DEBUG] SQL query:\n", query, "\n")
-  # # create error if query failed
-  #
-  df <- tryCatch({
-    dbGetQuery(con, query)
-  }, error = function(e) {
-    message("Database Query Failed: ", e$message)
-    return(data.frame(Message = "Error retrieving data from database."))
+    cli::cli_alert_success("sidebar base tbl has completed")
+    return(df)
   })
-  #
-  df <- df |>
-    mutate(
-      sample_year = as.character(sample_year),
-      month = as.character(month),
-      age = as.character(age),
-      tsn = as.character(tsn),
-      site_depth = as.character(site_depth)
+}
+
+# ---- get summary data frame -----
+
+get_summary_data <- function(con,
+                             selected_vars = NULL,
+                             grouping_vars = NULL,
+                             debug_sql = FALSE) {
+
+  req(con)
+
+  if (is.null(selected_vars)) {
+    selected_vars <- NULL
+  }
+
+  cli::cli_inform(c(
+    "v" = "Starting summary data query.",
+    "•" = "Variables selected: {.val {selected_vars}}"
+  ))
+
+
+  # Always start from samples
+  # --grab location
+  df <- get_data(con) |>
+    left_join(
+      tbl(con, "tbl_calorimetry")
     )
 
-  names(df) <- get_nice_name(names(df), lookup = nice_name_lookup)
-  df <- df[, !(names(df) %in% c("sample_id",
-                                "source_id", "cal_id",
-                                "proxcomp_id",
-                                "iso_id"))]
-  # return the data
+  # ----- grab seelected vars ----
+
+  if (!is.null(selected_vars) && length(selected_vars) > 0) {
+    needed_tables <- setdiff(get_tables_needed(con = con,
+                                               vars = selected_vars),
+                             "tbl_samples")
+
+    if (!is.null(needed_tables)) {
+      df <- needed_tables |>
+        reduce(.init = df, ~ get_join_table(.x, .y, con))
+    }
+
+    # --- get selected vars -----
+    vars_for_select <- selected_vars
+
+
+    vars_for_select <- dplyr::case_when(
+      grepl("^length_mm__(fork|total|standard)$",
+            vars_for_select) ~ "length_mm",
+      grepl("^energy_units__.*$",
+            vars_for_select) ~ "energy_measurement",
+      .default = vars_for_select
+    )
+
+    vars_for_select <- unique(vars_for_select)
+
+    if (is.null(grouping_vars)) {
+      # Select only requested columns (plus keys if needed)
+      df <- df |>
+        select(waterbody,
+               scientific_name,
+               length_type,
+               energy_units,
+               any_of(vars_for_select))
+      # }
+    } else {
+      df <- df |>
+        select(waterbody,
+               scientific_name,
+               length_type,
+               energy_units,
+               any_of(grouping_vars),
+               any_of(vars_for_select))
+    }
+  } else {
+    df
+  }
+
+  if (debug_sql) {
+    cli::cli_alert_info(dbplyr::sql_render(df))
+  }
+
   return(df)
+}
+
+# ---- get teh tables we need to filter by based on what the user selects -----
+get_tables_needed <- function(con, vars) {
+
+  req(con)
+
+  if (is.null(vars) || length(vars) == 0) {
+    return(character(0))
+  }
+
+
+  get_column_map(con) |>
+    filter(field_name %in% vars) |>
+    distinct(table_name) |>
+    pull(table_name)
 }

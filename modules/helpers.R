@@ -15,14 +15,28 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
 
     # Dynamic label
     var_label <- paste0(stringr::str_to_title(var_type), " Length (mm)")
-    var <- "Length (mm)"
+    var <- "length_mm"
+
+  } else if (grepl("^energy_units__", var_raw)) {
+
+    parts <- strsplit(var_raw, "__")[[1]]
+    # grab the second element of part
+    var_type <- parts[2]
+
+    df <- df %>%
+      dplyr::filter(energy_units == var_type)
+    # Dynamic label
+    var_label <- paste0("Energy Density (", var_type, ")")
+    var <- "energy_measurement"
 
   } else {
-
-    req(var_raw %in% names(df))
+    cli::cli_alert_info("Checking for {.field {var_raw}} in columns...")
+    cli::cli_inform("Available columns: {.val {colnames(df)}}")
+    cli::cli_inform("var_raw %in% colnames(df): {var_raw %in% colnames(df)}")
+    req(var_raw %in% colnames(df))
     # Normal variable
     var <- var_raw
-    var_label <- get_nice_name(var)[[1]]
+    var_label <- convert_nice_name(var)[[1]]
   }
 
   list(
@@ -32,8 +46,20 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
   )
 
 }
-
-
+# ---- fix tittle label -----
+fix_title_label <-  function(x, max = NULL) {
+  if (is.null(max)) {
+    max <- 4
+  }
+  if (length(x) <= max) {
+    paste(x, collapse = ", ")
+  } else {
+    paste0(
+      paste(head(x, max), collapse = ", "),
+      ", <br>… (", length(x) - max, " more)"
+    )
+  }
+}
 # ----- make scater choices -----
 make_scatter_choices <- function(df, numeric_choices) {
 
@@ -48,10 +74,10 @@ make_scatter_choices <- function(df, numeric_choices) {
     paste0(stringr::str_to_title(length_types), " Length (mm)")
   )
 
-    numeric_clean <- numeric_choices[numeric_choices != "Length (mm)"]
-    return(c(
-      length_choices,
-      "Weight",
-      setNames(numeric_clean, numeric_clean)
-    ))
+  numeric_clean <- numeric_choices[numeric_choices != "Length (mm)"]
+  return(c(
+    length_choices,
+    "Weight",
+    setNames(numeric_clean, numeric_clean)
+  ))
 }

@@ -41,8 +41,9 @@ calorimeter_conversion_factor,Conversion Factor
 sample_weight,Sample Weight
 sample_weight_type,Weight Type
 energy_measurement,Energy Density
-energy_units,Units
 energy_type,Measurement Type
+intercept, Intercept
+slope, Slope
 percent_water,Percent Water (%)
 percent_ash,Percent Ash (%)
 percent_lipid,Percent Lipid (%)
@@ -52,4 +53,4 @@ percent_nitrogen,Percent Nitrogen (%)
 d13c,\U03B4<sup>13</sup>C
 d15n,\U03B4<sup>15</sup>N
 d34s,\U03B4<sup>34</sup>S
-c_n_ratio,C:N
+c_n,C:N

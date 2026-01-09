@@ -17,25 +17,34 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     # ---- namespaces
     ns <- session$ns
 
+    scatter_data <- reactiveVal(NULL)
+    observeEvent(main_input$tabs, {
+      req(main_input$tabs == "scatter_plot")
+    # Make scatter raw data
+    scatter_data <- create_summary_data(con = con,
+                                        main_input = main_input,
+                                        input_source = scatter_sidebar_vals,
+                                        tab = "scatter_plot",
+                                        var_field = c(
+                                          "x_choices",
+                                          "y_choices"
 
-    scatter_data <- create_summary_data(
-      con = con,
-      main_input = main_input,
-      tab = "scatter_plot",
-      table_name_reactive = scatter_sidebar_vals$selected_table
-    )
+                                        ))
+    cli::cli_alert_info("scatter_data is: {.val {class(scatter_data)}}")
+    check_summary_data(scatter_data())
 
-    check_summary_data(scatter_data)
 
-    numeric_cols <- create_numeric_col(data = scatter_data)
 
     filtered_scatter_data <- create_filtered_data(
       input_source = scatter_sidebar_vals,
       data = scatter_data)
-
+    #
     display_scatter_plot(data = filtered_scatter_data,
                          input_source = scatter_sidebar_vals,
                          output)
+  },
+  ignoreInit = TRUE
+  )
   }
   )
 }

@@ -4,15 +4,23 @@ display_hist <- function(data,
                          output_id = "summary_histogram") {
   output[[output_id]] <- renderPlot({
     # Get raw data (not summarized)
-    df <- data()
+    df <- data() |>
+      collect()
     req(df, nrow(df) > 0)
     # Ensure the selected column exists in the raw data
     var <- input_source$hist_vars()
 
-    # detect length-type UI choices
-    is_length <- grepl("length", var, ignore.case = TRUE) &&
-      !var %in% names(df)
+    cli::cli_alert_info("selected var initially is: {.field {var}}")
 
+    cli::cli_alert_info("colnames is present: {.val {any(colnames(df) %in% var)}}")
+    # detect length-type UI choices
+    is_length <- grepl("length_mm", var, ignore.case = TRUE) &&
+      !var %in% colnames(df)
+
+    is_energy <- grepl("Joules/g", var, ignore.case = TRUE) &&
+      !var %in% colnames(df)
+
+    cli::cli_alert_info("colnames are: {.val {colnames(df)}}")
     if (is_length) {
 
       # Convert UI label to the length_type in the data
@@ -20,35 +28,71 @@ display_hist <- function(data,
         grepl("fork", var, ignore.case = TRUE) ~ "fork",
         grepl("total", var, ignore.case = TRUE) ~ "total",
         grepl("standard", var, ignore.case = TRUE) ~ "standard",
-        TRUE ~ NA_character_
+        grepl("carapace", var, ignore.case = TRUE) ~ "carapace",
+        .default = NA
       )
-      cli::cli_alert_info("UI var: {var}")
-      cli::cli_alert_info("Mapped length_type_val: {length_type_val}")
-      cli::cli_alert_info(
-        "Unique df$length_type: {paste(unique(df$length_type), collapse=', ')}")
+
+      # check_hist_ui(df = df, var = var, type_val = length_type_val,
+      #               col = "length_type")
+
       req(!is.na(length_type_val))
-      req("Length (mm)" %in% names(df))
-      req("length_type" %in% names(df))
+      req("length_mm" %in% colnames(df))
+      req("length_type" %in% colnames(df))
+
+      check_hist_vars(df, var = "length_mm", ba = "before")
 
       df <- df |>
         filter(length_type == length_type_val) |>
-        mutate(`Length (mm)` = suppressWarnings(as.numeric(`Length (mm)`))) |>
-        filter(!is.na(`Length (mm)`))
+        mutate(length_mm = suppressWarnings(as.numeric(length_mm))) |>
+        filter(!is.na(length_mm))
 
-      var <- "Length (mm)"
-      nice_label <- var
+      check_hist_vars(df, var, ba = "after")
 
+      var <- "length_mm"
 
+    } else if (is_energy) {
+
+      # Convert UI label to the length_type in the data
+      energy_type_val <- case_when(
+        grepl("Joules/g dry weight", var,
+              ignore.case = TRUE) ~ "Joules/g dry weight",
+        grepl("Joules/g wet weight", var,
+              ignore.case = TRUE) ~ "Joules/g wet weight",
+
+        .default = NA
+      )
+
+      # check_hist_ui(df, var, type_val = energy_type_val)
+
+      req(!is.na(energy_type_val))
+      req("energy_measurement" %in% colnames(df))
+      req("energy_units" %in% colnames(df))
+
+      check_hist_vars(df, var = "energy_measurement", ba = "before")
+
+      df <- df |>
+        filter(energy_units == energy_type_val) |>
+        mutate(energy_measurement = suppressWarnings(
+          as.numeric(energy_measurement))) |>
+        filter(!is.na(energy_measurement))
+      check_hist_vars(df, var, ba = "after")
+
+      var <- "energy_measurement"
 
     } else {
 
       # ---- NON-LENGTH VARIABLES ----
-      req(var %in% names(df))
+      cli::cli_alert_success("entered else statement")
+
+      req(var %in% colnames(df))
+      check_hist_vars(df, var, ba = "before")
+
       df <- df |>
         mutate(across(all_of(var), ~ suppressWarnings(as.numeric(.)))) |>
         filter(!is.na(.data[[var]]))
 
-      nice_label <- get_nice_name(var)[[1]]
+      check_hist_vars(df, var, ba = "after")
+
     }
 
     species_f <- input_source$species_filter()
@@ -57,7 +101,25 @@ display_hist <- function(data,
     # df <- df |>
     #   filter(!is.na(.data[[var]]))
 
-    nice_label <- get_nice_name(var)[[1]]
+    nice_label <- convert_nice_name(var)[[1]]
+
+
+    if (nice_label %in% "Length (mm)") {
+      nice_label <- paste(stringr::str_to_title(length_type_val),
+                          convert_nice_name(var)[[1]],
+                          sep = " ")
+    } else if (nice_label %in% "Energy Density") {
+        nice_label <- paste(convert_nice_name(var)[[1]], " (",
+                            energy_type_val, ")", sep = "")
+      }
+
+    title_text <- paste0(
+      "Histogram of ", nice_label,
+      "<br><b>Species:</b> ", fix_title_label(species_f),
+      "<br><b>Waterbody:</b> ", fix_title_label(waterbody_f)
+    )
+
+    cli::cli_alert_info("selected var prior to plotting is: {.field {var}}")
 
     # Plot the histogram of the selected variable
     p <- ggplot(data = df, aes(x = !!sym(var))) +
@@ -75,8 +137,7 @@ display_hist <- function(data,
       labs(
         x = nice_label,
         y = "Frequency",
-        title = paste("Histogram of", nice_label,
-                      "for", species_f, "in", waterbody_f)
+        title = title_text
       )
     return(p)
   })
@@ -107,7 +168,7 @@ display_scatter_plot <- function(data,
     fix_x <- fix_var_generic(
       df = df,
       var_raw = x_var_raw,
-      get_nice_name = get_nice_name
+      get_nice_name = convert_nice_name
     )
 
     # get the returned objects which are returned in a list
@@ -119,7 +180,7 @@ display_scatter_plot <- function(data,
     fix_y <- fix_var_generic(
       df = df,
       var_raw = y_var_raw,
-      get_nice_name = get_nice_name
+      get_nice_name = convert_nice_name
     )
 
     y_var <- fix_y$var
@@ -176,12 +237,16 @@ display_scatter_plot <- function(data,
 display_table <- function(data, output, output_id = "summary_table_output") {
   output[[output_id]] <- renderDT({
     req(data())
+    # get data
     df <- data()
-    # if there is nothing in df print no data available
-    if (is.null(df) || nrow(df) == 0) {
-      return(datatable(data.frame(Message = "No data available"),
-                       escape = FALSE))
-    }
+
+    # validate data
+    validate(
+      need(is.data.frame(df), "Waiting for data…"),
+      need(nrow(df) > 0, "No data available")
+    )
+
+    # display data
 
     datatable(df,
               options = list(pageLength = 10,

@@ -8,6 +8,7 @@
   library(leaflet)
   library(mapview)
   library(plotly)
+  library(purrr)
   library(readr)
   library(sf)
   library(shiny)
@@ -19,6 +20,7 @@
 
 lapply(list.files("modules", full.names = TRUE), source, local = FALSE)
 
+app_version <- "0.1.0"
 credentials <- data.frame(
   user = Sys.getenv("SHINY_USER"),
   password = Sys.getenv("SHINY_PASSWORD"),
@@ -28,10 +30,11 @@ credentials <- data.frame(
 
 ui <- dashboardPage(
   # ----- title -----
-  dashboardHeader(title = "Aquatic Tissue Library for Analyses & Synthesis (ATLAS)",
+  dashboardHeader(title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
                   titleWidth = 500),
   # ---- sidebar -----
   dashboardSidebar(
+    width = 275,
     sidebarMenu(
       id = "tabs",
       menuItem("Home", tabName = "home", icon = icon("home")),
@@ -56,6 +59,11 @@ ui <- dashboardPage(
   ),
   # ---- create display panes ----
   dashboardBody(
+
+    # CSS for fixed footer
+    app_version_head(),
+    app_version_label(app_version),
+    # tab itimes
     tabItems(
       tabItem(tabName = "home", home_tab_ui("home")),
       tabItem(tabName = "view_map", view_map_ui("view_map")),
@@ -74,10 +82,11 @@ ui <- secure_app(
   # Bootstrap flatly, cerulean, cosmo,
   theme = "flatly",
   language = "en",
+  timeout = 15.0,
 
   # Customize the login page appearance
   tags_top = tags$div(
-    tags$h2("Aquatic Tissue Library for Analyses & Synthesis (ATLAS)",
+    tags$h2("Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
             style = "text-align: center; color: #2c3e50; margin-bottom: 20px;"),
     tags$img(
       src = "logo/glfc-logo.png",
@@ -109,22 +118,28 @@ server <- function(input, output, session) {
 
   # ---- get map -----
   view_map_server("view_map", con)
-  # ----- summary table -----
+  # ----- summary pane -----
+  # ----- summary dropdowns -----
   summary_sidebar_vals <- summary_sidebar_server("summary_sidebar", con,
                                                  main_input = input)
 
+  # ----- view summary ------
   summary_info <- summary_info_server("summary_info",
-    con,
-    main_input = input,
-    summary_sidebar_vals = summary_sidebar_vals)
+                                      con,
+                                      main_input = input,
+                                      summary_sidebar_vals = summary_sidebar_vals)
+
+  # make the download button run
 
   summary_sidebar_vals$register_summary(summary_info)
 
+
   # ---- scatter plot -----
+  # ---- scatter plot dropdowns -----
   scatter_sidebar_vals <- scatter_sidebar_server("scatter_sidebar",
                                                  con,
                                                  main_input = input)
-
+  # ---- create and view scatter plot -----
   scatter_plot <- scatter_plot_server(
     "scatter_plot",
     con,
