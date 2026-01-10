@@ -228,6 +228,13 @@ display_scatter_plot <- function(data,
       "<br><b>Species:</b> ", fix_title_label(species_f),
       "<br><b>Waterbody:</b> ", fix_title_label(waterbody_f)
     )
+
+
+    # df <- df |>
+    #   dplyr::rename_with(~ convert_nice_name(.x))
+
+    # ----- plot -----
+    p <- ggplot(data  = df, aes(
       x = !!sym(x_var),
       y = !!sym(y_var))) +
       scale_fill_viridis_d(name = scatter_grouping_vars[1],
@@ -242,12 +249,13 @@ display_scatter_plot <- function(data,
         plot.title = element_markdown(hjust = 0.5),
         axis.title = element_markdown(),
         legend.title = element_markdown(),
-        legend.text = element_markdown()
+        legend.text = element_markdown(),
+        strip.background = element_blank()
       ) +
       labs(
         x = x_label,
         y = y_label,
-        title = paste("Scatter Plot of", y_label, "vs", x_label)
+        title = title_text
       )
 
     if (scatter_grouping_vars != "None") {
