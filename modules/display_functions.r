@@ -157,6 +157,25 @@ display_scatter_plot <- function(data,
     cli::cli_alert_warning("df class: {.val {class(df)}}")
     # get the basic grouping
     scatter_grouping_vars <- input_source$grouping_vars()
+
+    # # Normalize "None"
+    # if (identical(scatter_grouping_vars, "None")) {
+    #   scatter_grouping_vars <- character(0)
+    # }
+
+    n_groups <- length(scatter_grouping_vars)
+
+    # ---- if 4 or more groups
+    if (n_groups >= 4) {
+      plot.new()
+      text(
+        x = 0.5, y = 0.5,
+        labels = "You have selected 4 or more grouping variables.\nPlease select 3 or fewer.",
+        cex = 1.2
+      )
+      return(invisible())
+    }
+
     # get the x var
 
     x_var_raw <- input_source$x_choices()
