@@ -47,17 +47,17 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
 
     cli::cli_alert_warning("Class of scatter_data: {.val {class(scatter_data)}}")
     # ---- allow filtering -----
-    filtered_summary_data <- create_filtered_data(
+    filtered_scatter_data <- create_filtered_data(
       input_source = scatter_sidebar_vals,
       data = scatter_data)
 
-    observeEvent(filtered_summary_data(), {
-      req(filtered_summary_data())
-      check_summary_data(filtered_summary_data())
+    observeEvent(filtered_scatter_data(), {
+      req(filtered_scatter_data())
+      check_summary_data(filtered_scatter_data())
     }, ignoreInit = TRUE)
 
     # ---- display plot -----
-    display_scatter_plot(data = filtered_summary_data,
+    display_scatter_plot(data = filtered_scatter_data,
                          input_source = scatter_sidebar_vals,
                          output)
   },
