@@ -232,12 +232,13 @@ display_scatter_plot <- function(data,
 
     # df <- df |>
     #   dplyr::rename_with(~ convert_nice_name(.x))
-
+    #
+    legend_title <- convert_nice_name(scatter_grouping_vars[1])
     # ----- plot -----
     p <- ggplot(data  = df, aes(
       x = !!sym(x_var),
       y = !!sym(y_var))) +
-      scale_fill_viridis_d(name = scatter_grouping_vars[1],
+      scale_fill_viridis_d(name = legend_title,
                            option = "B",
                            begin = 0.1,
                            end = 0.9,
