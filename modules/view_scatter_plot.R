@@ -1,18 +1,32 @@
 view_scatter_plot_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  shinydashboard::tabItem(tabName = id,
+  shinydashboard::tabItem(
+
+    useShinyjs(),
+    div(id = ns("scatter_ui"),
+        style = "display:none;",
                           h2("Scatter Plot"),
                           plot_ui(title = "Scatter Plot",
                                   plot_id = "scatter_plot",
                                   height = "600px",
                                   ns = ns)
   )
+  )
 }
 
 
 scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
   moduleServer(id, function(input, output, session) {
+
+    observeEvent(main_input$tabs, {
+      shinyjs::toggle(
+        id = "scatter_ui",
+        condition = main_input$tabs == "scatter_plot"
+      )
+    }, ignoreInit = TRUE)
+
+
 
     # ---- namespaces
     ns <- session$ns
