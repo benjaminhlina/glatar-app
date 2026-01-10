@@ -270,6 +270,7 @@ get_summary_data <- function(con,
     cli::cli_alert_info(dbplyr::sql_render(df))
   }
 
+  cli::cli_alert_success("selected qery completed: df is {.val {class(df)}}")
   return(df)
 }
 
