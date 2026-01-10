@@ -208,7 +208,26 @@ display_scatter_plot <- function(data,
     df <- df |>
       filter(!is.na(.data[[x_var]]), !is.na(.data[[y_var]]))
 
-    p <- ggplot(df, aes(
+    # ---- create nice_title -----
+    # nice_label_y <- convert_nice_name(y_var)[[1]]
+    #
+    #
+    # if (nice_label %in% "Length (mm)") {
+    #   nice_label <- paste(stringr::str_to_title(length_type_val),
+    #                       convert_nice_name(var)[[1]],
+    #                       sep = " ")
+    # } else if (nice_label %in% "Energy Density") {
+    #   nice_label <- paste(convert_nice_name(var)[[1]], " (",
+    #                       energy_type_val, ")", sep = "")
+    # }
+    species_f <- input_source$species_filter()
+    waterbody_f <- input_source$waterbody_filter()
+
+    title_text <- paste0(
+      "Scatter plot of ", y_label, " by ", x_label,
+      "<br><b>Species:</b> ", fix_title_label(species_f),
+      "<br><b>Waterbody:</b> ", fix_title_label(waterbody_f)
+    )
       x = !!sym(x_var),
       y = !!sym(y_var))) +
       theme_bw(base_size = 15) +
