@@ -50,6 +50,14 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     filtered_summary_data <- create_filtered_data(
       input_source = scatter_sidebar_vals,
       data = scatter_data)
+
+    observeEvent(filtered_summary_data(), {
+      req(filtered_summary_data())
+      check_summary_data(filtered_summary_data())
+    }, ignoreInit = TRUE)
+
+    # ---- display plot -----
+    display_scatter_plot(data = filtered_summary_data,
                          input_source = scatter_sidebar_vals,
                          output)
   },
