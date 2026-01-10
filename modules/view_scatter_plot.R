@@ -42,14 +42,11 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
                                         var_field = c(
                                           "x_choices",
                                           "y_choices"
-
                                         ))
-    cli::cli_alert_info("scatter_data is: {.val {class(scatter_data)}}")
-    check_summary_data(scatter_data())
-
 
 
     filtered_scatter_data <- create_filtered_data(
+    cli::cli_alert_warning("Class of scatter_data: {.val {class(scatter_data)}}")
       input_source = scatter_sidebar_vals,
       data = scatter_data)
     #
