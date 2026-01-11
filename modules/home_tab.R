@@ -5,8 +5,9 @@ home_tab_ui <- function(id) {
     tabName = "home",
     h2("Welcome to the Great Lakes Aquatic Tissue Analysis Repository (GLATAR)"),
     p("This toolbox allows you to explore, visualize, and manage
-    energy density, proximate composition and stable isotope data
-    related to for fish and aquatic invertabrates throughout North America."),
+    energy density, proximate composition, and stable isotope data
+    related to for fish and aquatic invertebrates throughout the Great Lakes and
+      North America."),
     shiny::br(),
     shiny::fluidRow(
       shinydashboard::box(
@@ -17,10 +18,16 @@ home_tab_ui <- function(id) {
         shiny::p("Use the sidebar to:"),
         tags$ul(
           tags$li("Visualize sampling locations on a map"),
-          tags$li("View summary statistic tables"),
-          tags$li("View visualizations of energy density data"),
-          tags$li("View and filter your uploaded raw data"),
-          tags$li("Upload new data into the database")
+          tags$li("View and downlaod summary statistic tables"),
+          tags$li("View visualizations of energy density,
+                   proximate composition, and stable isotope data"),
+             tags$li("Upload new data into the database (i.e.,
+                  if you're a contributing member; see below on how
+                  to contribute"),
+             tags$li("View and filter your uploaded raw data (i.e.,
+                  if you're a contributing member; see below on how
+                  to contribute")
+
         )
       ),
       shinydashboard::box(
@@ -31,10 +38,10 @@ home_tab_ui <- function(id) {
         shiny::p("The Great Lakes Aquatic Tissue Analysis Repository (GLATAR)
           contains data on energy density, proximate composition,
           and stable isotopes for fish and aquatic invertebrats
-          collected across North America.
+          collected across the Great Lakes and North America.
           The data helps researchers and managers understand
-          ecosystem health, bioenergtics, enegery transfer, and food web d
-                 ynamics."),
+          ecosystem health, bioenergtics, enegery transfer, and food web
+                 dynamics."),
         tags$ul(
           tags$li(
             tags$span("Data entry templates can be found by "),
@@ -48,9 +55,9 @@ home_tab_ui <- function(id) {
           tags$li("If you would like to contribute to this database,
           please create a username using your email address on the data upload
                   pane and wait for registeration code to be sent to you."),
-          tags$li("Any quesations can be directed to the ATLAS
+          tags$li("Any questions can be directed to the GLATAR
                   manager at:", tags$a(href = "mailto:benjamin.hlina@gmail.com",
-                                     "benjamin.hlina@gmail.com"))
+                                       "benjamin.hlina@gmail.com"))
         )
       )
     )
