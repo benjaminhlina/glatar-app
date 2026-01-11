@@ -5,6 +5,7 @@
   library(DT)
   library(ggplot2)
   library(ggtext)
+  library(grid)
   library(leaflet)
   library(mapview)
   library(plotly)
