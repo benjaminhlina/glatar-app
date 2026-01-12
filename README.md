@@ -21,3 +21,10 @@ This app has the the ability to upload (i.e.,
 if you are a contributing member), map, view raw data (i.e., 
 if you are a contributing member), view summarised data, 
 and view scatter plots of the raw data. 
+
+Many of the functions created in this project have been moved to package
+`{glatar}` which will eventually be loaded and a lot of the sturucture of 
+this project will fall into being documented in that package. The 
+GitHub repo can be found [here](https://github.com/benjaminhlina/glatar) 
+with the pkgdown webpage being found 
+[here](https://benjaminhlina.github.io/glatar/). 
