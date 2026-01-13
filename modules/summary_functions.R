@@ -69,8 +69,7 @@ create_mean_data <- function(input_source,
 
 
     summary_list <- lapply(y_vals, function(v) {
-      mapped_var <- fix_var_generic(df = df, var_raw = v,
-                                    get_nice_name = convert_nice_name)
+      mapped_var <- fix_var_generic(df = df, var_raw = v)
 
 
       df_filtered <- mapped_var$df
