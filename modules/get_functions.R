@@ -222,7 +222,7 @@ get_summary_data <- function(con,
 
   if (!is.null(selected_vars) && length(selected_vars) > 0) {
     needed_tables <- setdiff(get_tables_needed(con = con,
-                                               vars = selected_vars),
+                                               var = selected_vars),
                              "tbl_samples")
 
     if (!is.null(needed_tables)) {
@@ -275,17 +275,17 @@ get_summary_data <- function(con,
 }
 
 # ---- get teh tables we need to filter by based on what the user selects -----
-get_tables_needed <- function(con, vars) {
+get_tables_needed <- function(con, var) {
 
   req(con)
 
-  if (is.null(vars) || length(vars) == 0) {
+  if (is.null(var) || length(var) == 0) {
     return(character(0))
   }
 
 
   get_column_map(con) |>
-    filter(field_name %in% vars) |>
+    filter(field_name %in% var) |>
     distinct(table_name) |>
     pull(table_name)
 }
