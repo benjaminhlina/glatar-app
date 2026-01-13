@@ -191,8 +191,7 @@ display_scatter_plot <- function(data,
     # use generic function to filter and grab the correct for length only
     fix_x <- fix_var_generic(
       df = df,
-      var_raw = x_var_raw,
-      get_nice_name = convert_nice_name
+      var_raw = x_var_raw
     )
 
     # get the returned objects which are returned in a list
@@ -203,8 +202,7 @@ display_scatter_plot <- function(data,
     # now do the same for y
     fix_y <- fix_var_generic(
       df = df,
-      var_raw = y_var_raw,
-      get_nice_name = convert_nice_name
+      var_raw = y_var_raw
     )
 
     y_var <- fix_y$var
