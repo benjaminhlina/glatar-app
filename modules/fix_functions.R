@@ -1,4 +1,4 @@
-fix_var_generic <- function(df, var_raw, get_nice_name) {
+fix_var_generic <- function(df, var_raw) {
 
 
   # detect if it's one of the synthetic length vars
@@ -59,25 +59,4 @@ fix_title_label <-  function(x, max = NULL) {
       ", <br>… (", length(x) - max, " more)"
     )
   }
-}
-# ----- make scater choices -----
-make_scatter_choices <- function(df, numeric_choices) {
-
-  # ----------- Build synthetic length choices -----------
-  length_types <- df |>
-    dplyr::filter(!is.na(`Length (mm)`), !is.na(length_type)) |>
-    dplyr::pull(length_type) %>%
-    unique()
-
-  length_choices <- setNames(
-    paste0("length_mm__", length_types),
-    paste0(stringr::str_to_title(length_types), " Length (mm)")
-  )
-
-  numeric_clean <- numeric_choices[numeric_choices != "Length (mm)"]
-  return(c(
-    length_choices,
-    "Weight",
-    setNames(numeric_clean, numeric_clean)
-  ))
 }
