@@ -70,16 +70,6 @@ check_mean_data <- function(df,
   cli::cli_rule()
 }
 
-# ---- check table name -----
-check_table_name <- function(table_name) {
-
-  if (is.null(table_name) || is.na(table_name)) {
-    cli::cli_alert_danger("table_name is NULL, cannot run query")
-  } else {
-    cli::cli_alert_success("table_name from get_selected_tab():
-                               {.val {table_name}}")
-  }
-}
 # ---- check tab name -----
 
 check_tab_name <- function(tab) {
