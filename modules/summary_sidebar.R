@@ -183,7 +183,10 @@ summary_sidebar_server <- function(id, con, main_input) {
                            choices = summary_choices,
                            server = TRUE)
 
-    }, ignoreInit = TRUE)
+      initialized(TRUE)
+
+    },
+    ignoreInit = TRUE)
     # make this into a function that sidebar exports out
     register_summary <- function(input_source) {
 
