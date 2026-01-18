@@ -75,8 +75,13 @@ summary_sidebar_server <- function(id, con, main_input) {
     # exclusive_all_observer(input, session, "summary_waterbody_filter")
     # exclusive_all_observer(input, session, "summary_species_filter")
     # ---- go into observe event
+    # Add at the top of your moduleServer
+    initialized <- reactiveVal(FALSE)
+
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
+      req(!initialized())
+
       sidebar_df <- get_sidebar_df(con)
 
       exclusive_all_observer(input, session, "summary_waterbody_filter")
