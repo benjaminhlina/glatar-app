@@ -41,7 +41,56 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     ns <- session$ns
 
     summary_export_df <- reactiveVal(NULL)
-    # ----- first create summary data -----
+
+    summary_activated <- reactiveVal(FALSE)
+    #
+    # # ----- Cache input values to prevent reset -----
+    # cached_vals <- reactiveVal(list())
+    # # Update cache whenever inputs change (only when tab is active)
+    # observe({
+    #   req(main_input$tabs == "summary_info")
+    #   # req(summary_activated())
+    #
+    #   current_vals <- summary_sidebar_vals
+    #
+    #   # Cache all the sidebar values
+    # valid_vals <- list()
+    #   for (name in names(current_vals)) {
+    #     val <- current_vals[[name]]
+    #     # Only cache if not NULL and not empty string
+    #     if (!is.null(val) && length(val) > 0 && val != "") {
+    #       valid_vals[[name]] <- val
+    #     }
+    #   }
+    #
+    # if (length(valid_vals) > 0) {
+    #   cached_vals(valid_vals)
+    # }
+    # })
+    #
+    # # Create a reactive that returns cached values when tab is inactive
+    # sidebar_vals_stable <- reactive({
+    #   cache <- cached_vals()
+    #
+    #   if (main_input$tabs == "summary_info" && summary_activated()) {
+    #     # Use live values when on tab, but fall back to cache for empty values
+    #     current_vals <- summary_sidebar_vals()
+    #
+    #     # Merge: use current values if valid, otherwise use cached
+    #     merged <- cache
+    #     for (name in names(current_vals)) {
+    #       val <- current_vals[[name]]
+    #       if (!is.null(val) && length(val) > 0 && val != "") {
+    #         merged[[name]] <- val
+    #       }
+    #     }
+    #     merged
+    #   } else {
+    #     # Use cached values when off tab
+    #     cache
+    #   }
+    # })
+    # # ----- first create summary data -----
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
       summary_data <- create_summary_data(con = con,
