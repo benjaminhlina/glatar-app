@@ -125,7 +125,8 @@ create_summary_data <- function(con,
                                 main_input,
                                 input_source,
                                 var_field,
-                                tab = NULL
+                                tab = NULL,
+                                summary_activated = NULL
 ) {
   reactive({
 
@@ -134,6 +135,10 @@ create_summary_data <- function(con,
       check_tab_name(tab)
 
       req(main_input$tabs == tab)
+    }
+
+    if (!is.null(summary_activated)) {
+      req(summary_activated())
     }
 
     # get connection
