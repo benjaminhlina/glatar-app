@@ -93,6 +93,9 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     # # ----- first create summary data -----
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
+      summary_activated(TRUE)
+    }, ignoreInit = TRUE)
+
       summary_data <- create_summary_data(con = con,
                                           main_input = main_input,
                                           input_source = summary_sidebar_vals,
