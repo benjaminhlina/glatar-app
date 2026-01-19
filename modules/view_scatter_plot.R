@@ -52,7 +52,7 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
                                         var_field = c(
                                           "x_choices",
                                           "y_choices"
-                                        ))
+                                        ), activated = scatter_activated())
 
 
     cli::cli_alert_warning("Class of scatter_data: {.val {class(scatter_data)}}")
@@ -70,9 +70,10 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     display_scatter_plot(data = filtered_scatter_data,
                          input_source = scatter_sidebar_vals,
                          output)
-  },
-  ignoreInit = TRUE
-  )
+
+  # },
+  # ignoreInit = TRUE
+  # )
   }
   )
 }
