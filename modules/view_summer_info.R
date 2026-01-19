@@ -57,8 +57,9 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                                           main_input = main_input,
                                           input_source = summary_sidebar_vals,
                                           tab = "summary_info",
-                                          var_field = "y_variable")
-      # Cehck if summary is being triggered
+                                          var_field = "y_variable",
+                                          activated = summary_activated())
+
 
       # filtered summary by waterbody and species
       filtered_summary_data <- create_filtered_data(
@@ -94,7 +95,8 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                                           main_input = main_input,
                                           input_source = summary_sidebar_vals,
                                           tab = "summary_info",
-                                          var_field = "hist_vars")
+                                          var_field = "hist_vars",
+                                          activated = summary_activated())
       # Cehck if summary is being triggered
 
       # filtered summary by waterbody and species
