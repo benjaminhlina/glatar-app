@@ -60,10 +60,13 @@ scatter_sidebar_server <- function(id, con, main_input) {
                       condition = main_input$tabs == "scatter_plot")
     })
 
+    initialized_scatter <- reactiveVal(FALSE)
 
     observeEvent(main_input$tabs, {
       # req(input$scatter_plot)
       req(main_input$tabs == "scatter_plot")
+      req(!initialized_scatter())
+
       sidebar_df <- get_sidebar_df(con)
 
       exclusive_all_observer(input, session, "scatter_waterbody_filter")
@@ -162,6 +165,8 @@ scatter_sidebar_server <- function(id, con, main_input) {
                            choices = axis_choices,
                            server = TRUE,
                            selected = "age")
+
+      initialized_scatter(TRUE)
 
     },
     ignoreInit = FALSE
