@@ -85,7 +85,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       observeEvent(summary_mean_df_names(), {
         req(summary_mean_df_names())
         check_summary_data(summary_mean_df_names())
-      }, ignoreInit = TRUE, once = FALSE)
+      }, ignoreInit = TRUE)
 
       #  ----- Render Summary Table -----
       display_table(data = summary_mean_df_names, output)
