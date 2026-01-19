@@ -40,10 +40,14 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     # ---- namespaces -----
     ns <- session$ns
 
+    # reactive export df
     summary_export_df <- reactiveVal(NULL)
 
+    # reactive when summary is actived
     summary_activated <- reactiveVal(FALSE)
-    # # ----- first create summary data -----
+
+    #  ----- first create summary data -----
+    # summary actived_true only if summary_info
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
       summary_activated(TRUE)
