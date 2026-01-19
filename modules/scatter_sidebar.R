@@ -47,6 +47,15 @@ scatter_sidebar_ui <- function(id) {
           }
         ")
           )
+        ),
+        div(id = ns("grouping_message"),
+            style = "padding: 10px;
+                     margin: 10px 0;
+                     background-color: #000000;
+                     border-left: 4px solid #2196F3;
+                     border-radius: 4px;",
+            icon("info-circle"),
+            " Select one or more grouping variables to generate a plot"
         )
     )
   )
