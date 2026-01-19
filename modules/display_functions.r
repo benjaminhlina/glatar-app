@@ -151,21 +151,23 @@ display_scatter_plot <- function(data,
                                  output_id = "scatter_plot") {
   # ----- display scatter plot -----
   output[[output_id]] <- renderPlot({
+
+
     #     # Get raw data (not summarized)
 
     df <- data()
 
+    # ---- if data is null/no grouping varialbes display message -----
+    if (is.null(df)) {
+      p <- empty_plot("Select one or more (max 3) grouping variables\n from the sidebar to generate a plot")
+      return(p)
+    }
+
     cli::cli_alert_warning("df class: {.val {class(df)}}")
+
     # get the basic grouping
 
     scatter_grouping_vars <- input_source$grouping_vars()
-    # req(scatter_grouping_vars)
-    if (is.null(scatter_grouping_vars) || length(scatter_grouping_vars) == 0) {
-      show_plot_message(
-        "Please select at least one grouping variable\nto generate the plot"
-      )
-      return(invisible())
-    }
 
       # ---- get the number of groups ----
     n_groups <- length(scatter_grouping_vars)
