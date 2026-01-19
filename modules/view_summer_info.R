@@ -40,16 +40,26 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     # ---- namespaces -----
     ns <- session$ns
 
+    # reactive export df
     summary_export_df <- reactiveVal(NULL)
-    # ----- first create summary data -----
+
+    # reactive when summary is actived
+    summary_activated <- reactiveVal(FALSE)
+
+    #  ----- first create summary data -----
+    # summary actived_true only if summary_info
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
+      summary_activated(TRUE)
+    }, ignoreInit = TRUE)
+
       summary_data <- create_summary_data(con = con,
                                           main_input = main_input,
                                           input_source = summary_sidebar_vals,
                                           tab = "summary_info",
-                                          var_field = "y_variable")
-      # Cehck if summary is being triggered
+                                          var_field = "y_variable",
+                                          activated = summary_activated())
+
 
       # filtered summary by waterbody and species
       filtered_summary_data <- create_filtered_data(
@@ -85,7 +95,8 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                                           main_input = main_input,
                                           input_source = summary_sidebar_vals,
                                           tab = "summary_info",
-                                          var_field = "hist_vars")
+                                          var_field = "hist_vars",
+                                          activated = summary_activated())
       # Cehck if summary is being triggered
 
       # filtered summary by waterbody and species
@@ -101,7 +112,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       # ----- grab reactive summary as recative val- ----
       summary_export_df(summary_mean_df_names)
 
-    }, ignoreInit = TRUE)
+    # }, ignoreInit = TRUE)
 
     # return this so it can be exported -----
     return(list(
