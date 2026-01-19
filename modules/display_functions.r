@@ -206,22 +206,12 @@ display_scatter_plot <- function(data,
 
     y_var <- fix_y$var
     y_label <- fix_y$var_label
+
     # filter df by x and y vars
     df <- df |>
       filter(!is.na(.data[[x_var]]), !is.na(.data[[y_var]]))
 
-    # ---- create nice_title -----
-    # nice_label_y <- convert_nice_name(y_var)[[1]]
-    #
-    #
-    # if (nice_label %in% "Length (mm)") {
-    #   nice_label <- paste(stringr::str_to_title(length_type_val),
-    #                       convert_nice_name(var)[[1]],
-    #                       sep = " ")
-    # } else if (nice_label %in% "Energy Density") {
-    #   nice_label <- paste(convert_nice_name(var)[[1]], " (",
-    #                       energy_type_val, ")", sep = "")
-    # }
+    # ----- create nice title -----
     species_f <- input_source$species_filter()
     waterbody_f <- input_source$waterbody_filter()
 
@@ -231,11 +221,9 @@ display_scatter_plot <- function(data,
       "<br><b>Waterbody:</b> ", fix_title_label(waterbody_f)
     )
 
-
-    # df <- df |>
-    #   dplyr::rename_with(~ convert_nice_name(.x))
-    #
+    # use convert_nice_name to make title nice
     legend_title <- convert_nice_name(scatter_grouping_vars[1])
+
     # ----- plot -----
     p <- ggplot(data  = df, aes(
       x = !!sym(x_var),
@@ -269,12 +257,6 @@ display_scatter_plot <- function(data,
           size = 5,
           shape = 21
         )
-        # scale_fill_viridis_d(name = scatter_grouping_vars[1],
-        #                      option = "B",
-        #                      begin = 0.1,
-        #                      end = 0.9,
-        #                      alpha = 0.5
-        # )
     } else {
       p <- p + geom_point(
         alpha = 0.7,
@@ -284,7 +266,7 @@ display_scatter_plot <- function(data,
     }
     # ---- Faceting logic ----
     if (n_groups %in% 2) {
-      # Second variable → facet_wrap
+      # Second variable facet_wrap
       p <- p +
         facet_wrap(
           vars(!!sym(scatter_grouping_vars[2]))
@@ -292,7 +274,7 @@ display_scatter_plot <- function(data,
     }
 
     if (n_groups %in% 3) {
-      # Second + third → facet_grid
+      # Second + third  facet_grid
       p <- p +
         facet_grid(
           rows = vars(!!sym(scatter_grouping_vars[2])),
