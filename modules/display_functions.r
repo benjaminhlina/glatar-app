@@ -166,20 +166,17 @@ display_scatter_plot <- function(data,
       )
       return(invisible())
     }
-    # ---- get the number of groups ----
+
+      # ---- get the number of groups ----
     n_groups <- length(scatter_grouping_vars)
 
     cli::cli_alert_info("The number of groups is {.field {n_groups}}")
 
-    # ---- no groups ----
-
 
     # ---- too many groups ----
     if (n_groups > 3) {
-      show_plot_message(
-        "You have selected 4 or more grouping variables.\nPlease select 3 or fewer."
-      )
-      return(invisible())
+      p <- empty_plot("You have selected 4 or more grouping variables.\nPlease select 3 or fewer.")
+      return(p)
     }
     # get the x var
 
