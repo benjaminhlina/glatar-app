@@ -69,15 +69,9 @@ summary_sidebar_server <- function(id, con, main_input) {
                       condition = main_input$tabs == "summary_info")
     })
 
-    # --- get sidebar info -----
-    # sidebar_df <- get_sidebar_df(con)
-    #
-    # exclusive_all_observer(input, session, "summary_waterbody_filter")
-    # exclusive_all_observer(input, session, "summary_species_filter")
-    # ---- go into observe event
-    # Add at the top of your moduleServer
+    # ---- initalize ------
     initialized <- reactiveVal(FALSE)
-
+    # --- get sidebar info -----
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
       req(!initialized())
@@ -127,6 +121,7 @@ summary_sidebar_server <- function(id, con, main_input) {
                                          numeric_names),
                                 length_vars, energy_vars))
 
+      # watervody
       waterbody_choices <- df |>
         distinct(waterbody) |>
         # filter(!(is.na(waterbody))) |>
@@ -140,6 +135,7 @@ summary_sidebar_server <- function(id, con, main_input) {
         arrange(scientific_name) |>
         pull(scientific_name)
 
+      # get info to make pretty console info
       n_wb <- length(waterbody_choices)
       n_sp <- length(species_choices)
       grp <- paste(grouping_choices, collapse = ', ')
@@ -152,28 +148,25 @@ summary_sidebar_server <- function(id, con, main_input) {
         "Grouping choices: {.val {grp}}",
         "Numeric choices: {.val {nc}}"
       ))
-      # Grouping Variables: Allow dynamic selection
 
-
+      # grouping choices
       updateSelectInput(session, "summary_grouping_vars",
                         choices = grouping_choices,
                         selected = c("waterbody",
                                      "scientific_name")
       )
+      # waterbody
       updateSelectInput(session, "summary_waterbody_filter",
                         choices = c("All", waterbody_choices),
                         selected = "All")
-
-
       # Species Drop-down
-      #
 
       updateSelectInput(session, "summary_species_filter",
                         choices = c("All", species_choices),
                         selected = "All")
-      #
-      #
+
       # Update y summary  variable choices
+
       updateSelectizeInput(session, "summary_y_variable",
                            choices = summary_choices,
                            server = TRUE)
@@ -183,10 +176,12 @@ summary_sidebar_server <- function(id, con, main_input) {
                            choices = summary_choices,
                            server = TRUE)
 
+      # set inalize as true to make this trigger once it is hit
       initialized(TRUE)
 
     },
     ignoreInit = TRUE)
+
     # make this into a function that sidebar exports out
     register_summary <- function(input_source) {
 
@@ -213,9 +208,8 @@ summary_sidebar_server <- function(id, con, main_input) {
       })
     }
 
-    # ----- export what we need from the severer ----
+    # ----- export what we need from the server ----
     # we need grouping and hist variables we also need the function
-    #
 
     return(list(
       grouping_vars = reactive(input$summary_grouping_vars),
@@ -225,8 +219,6 @@ summary_sidebar_server <- function(id, con, main_input) {
       hist_vars = reactive(input$hist_var),
       register_summary = register_summary
     ))
-
-
 
   })
 }
