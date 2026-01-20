@@ -42,8 +42,7 @@ jobs:
 
           sudo mkdir -p /opt/glatar
           sudo chown ${SERVER_USER}:${SERVER_USER} /opt/glatar
-          
-          EOF 
+  
           # Copy nginx.conf to the server
           
           scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
