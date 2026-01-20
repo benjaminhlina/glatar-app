@@ -48,11 +48,11 @@ jobs:
           sudo mkdir -p /opt/glatar
           sudo chown ${SERVER_USER}:${SERVER_USER} /opt/glatar
           
-          # SSH back to deploy Docker stack
+          # # SSH back to deploy Docker stack
           
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << 'EOF'
+          # ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
           
-          set -e
+          # set -e
           
           cd /opt/glatar
           
