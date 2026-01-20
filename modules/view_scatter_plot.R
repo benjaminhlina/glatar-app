@@ -51,8 +51,10 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     # ---- allow filtering -----
     filtered_scatter_data <- create_filtered_data(
       input_source = scatter_sidebar_vals,
-      data = scatter_data)
+      data = scatter_data,
+      pane = "scatter_plot")
 
+    # ---- check filtered scatter  -----
     observeEvent(filtered_scatter_data(), {
       req(filtered_scatter_data())
       check_summary_data(filtered_scatter_data())
