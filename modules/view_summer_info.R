@@ -53,42 +53,42 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       summary_activated(TRUE)
     }, ignoreInit = TRUE)
 
-      summary_data <- create_summary_data(con = con,
-                                          main_input = main_input,
-                                          input_source = summary_sidebar_vals,
-                                          tab = "summary_info",
-                                          var_field = "y_variable",
-                                          activated = summary_activated())
-
-
       # filtered summary by waterbody and species
       filtered_summary_data <- create_filtered_data(
         input_source = summary_sidebar_vals,
         data = summary_data)
 
-      # # ---- Generate Summary Statistics with Dynamic Grouping -----
-      summary_mean_df <- create_mean_data(input_source = summary_sidebar_vals,
-                                          data = filtered_summary_data)
-
-      # ---- fix names ----
-
-      summary_mean_df_names <- reactive({
-        req(summary_mean_df())
-
-        df <- summary_mean_df() |>
-          dplyr::rename_with(~ convert_nice_name(.x))
-
-      })
+    # create summary data
+    summary_data <- create_summary_data(con = con,
+                                        main_input = main_input,
+                                        input_source = summary_sidebar_vals,
+                                        tab = "summary_info",
+                                        var_field = "y_variable",
+                                        activated = summary_activated())
 
 
-      # ---- check summary_data
-      observeEvent(summary_mean_df_names(), {
-        req(summary_mean_df_names())
-        check_summary_data(summary_mean_df_names())
-      }, ignoreInit = TRUE)
 
-      #  ----- Render Summary Table -----
-      display_table(data = summary_mean_df_names, output)
+    # ---- Generate summary stats with dynamic grouping -----
+    summary_mean_df <- create_mean_data(input_source = summary_sidebar_vals,
+                                        data = filtered_summary_data)
+
+    # ---- fix names ----
+    summary_mean_df_names <- reactive({
+      req(summary_mean_df())
+
+      df <- summary_mean_df() |>
+        dplyr::rename_with(~ convert_nice_name(.x))
+
+    })
+
+    # ---- check summary_data
+    observeEvent(summary_mean_df_names(), {
+      req(summary_mean_df_names())
+      check_summary_data(summary_mean_df_names())
+    }, ignoreInit = TRUE)
+
+    #  ----- Render Summary Table -----
+    display_table(data = summary_mean_df_names, output)
 
       # ---- create summary dats for histogram -----
       summary_data_hist <- create_summary_data(con = con,
