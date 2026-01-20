@@ -43,7 +43,8 @@ jobs:
           
           # Copy nginx.conf to the server
           
-          scp -i ~/.ssh/deploy_key nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
+          scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
+
           
           # SSH back to deploy Docker stack
           
