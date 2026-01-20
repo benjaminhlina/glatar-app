@@ -106,10 +106,20 @@ jobs:
           EOF
 
       - name: Verify Deployment
-        run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }} << EOF
-            echo "Container logs:"
-            docker logs --tail 50 naaed-app
+          run: |
+            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }} << EOF
+            cd ~/glatar
+
+            echo "=== Stack Status ==="
+            docker compose ps
+
+            echo ""
+            echo "=== Nginx Logs ==="
+            docker compose logs --tail=50 nginx
+
+            echo ""
+            echo "=== Shiny Logs (all replicas) ==="
+            docker compose logs --tail=50 shiny
           EOF
 
       - name: Cleanup SSH Key
