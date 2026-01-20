@@ -1,18 +1,30 @@
 
 # ---- create fileted summary ----
 create_filtered_data <- function(input_source,
-                                 data) {
+                                 data,
+                                 pane) {
 
   reactive({
 
 
     df <- data()
 
+    # add pane to have this switch from req to null depending on pane
+    if (pane == "scatter_plot") {
+      if (is.null(df)) {
+        return(NULL)
+      }
+    }
+
+    if (pane == "summary_info"){
+      req(df)
+    }
+
+    # ----- create filters -----
     waterbody_f <- input_source$waterbody_filter()
     species_f <- input_source$species_filter()
 
-    req(df)
-
+    # ----- filters -----
     if (!is.null(waterbody_f) && !"All" %in% waterbody_f) {
       df <- df |>
         filter(waterbody %in% waterbody_f)
@@ -154,25 +166,31 @@ create_summary_data <- function(con,
       cli::cli_alert_info("Field: {field}, Value: {vars_val}, Length: {length(vars_val)}")
       selected_vars <- c(selected_vars, vars_val)
     }
-    selected_vars <- unique(selected_vars[!is.null(selected_vars)])
-    # vars <- input_source[[var_field]]
-    # # Get y_variable
-    # selected_vars <- if (inherits(vars, "reactive")) vars() else vars
 
+    # remove null selected_vars
+    selected_vars <- unique(selected_vars[!is.null(selected_vars)])
+
+    # alert
     cli::cli_alert("selected vars is: {.var {selected_vars}}")
-    # if (length(selected_vars) > 1) {
-    #   lapply(selected_vars, check_selected_vars)
-    # } else {
-      check_selected_vars(selected_vars = selected_vars)
-    # }
+
+    # check slected _vars
+    check_selected_vars(selected_vars = selected_vars)
+
     # get groups
 
     gv <- input_source$grouping_vars
 
     group_vars <- if(inherits(gv, "reactive")) gv() else gv
-    req(con_db, group_vars)
 
-    # ---- acctuat gert data =----
+    req(con_db)
+
+    # ----- if grouping_vars is null or length is 0 return a null object all
+    # together
+
+    if (is.null(group_vars) || length(group_vars) == 0) {
+      return(NULL)
+    }
+    # ---- actually get data when group_vars is valid ----
     df <- get_summary_data(con = con_db,
                            selected_vars = selected_vars,
                            grouping_vars = group_vars)

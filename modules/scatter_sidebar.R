@@ -1,5 +1,4 @@
-# mod_scatter_sidebar.R
-
+# ----- scatter sidebar -----
 scatter_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -10,6 +9,7 @@ scatter_sidebar_ui <- function(id) {
         shiny::selectInput(ns("scatter_grouping_vars"),
                            "Select Grouping Variables",
                            choices = NULL, multiple = TRUE),
+
         shiny::selectInput(ns("scatter_waterbody_filter"),
                            "Select Waterbody", choices = NULL,
                            multiple = TRUE),
@@ -47,11 +47,20 @@ scatter_sidebar_ui <- function(id) {
           }
         ")
           )
+        ),
+        div(id = ns("grouping_message"),
+            style = "padding: 10px;
+                     margin: 10px 0;
+                     background-color: #000000;
+                     border-left: 4px solid #2196F3;
+                     border-radius: 4px;",
+            icon("info-circle"),
+            " Select one or more grouping variables to generate a plot"
         )
     )
   )
 }
-
+# ---- scatter_sidebar_server -----
 scatter_sidebar_server <- function(id, con, main_input) {
   moduleServer(id, function(input, output, session) {
 
@@ -60,32 +69,37 @@ scatter_sidebar_server <- function(id, con, main_input) {
                       condition = main_input$tabs == "scatter_plot")
     })
 
+    # ---- intialize scatter plot -----
     initialized_scatter <- reactiveVal(FALSE)
 
+    # ---- observe events -----
     observeEvent(main_input$tabs, {
-      # req(input$scatter_plot)
+      # require scatter tab and initalize scatter
       req(main_input$tabs == "scatter_plot")
       req(!initialized_scatter())
 
+      # get sidebar df
       sidebar_df <- get_sidebar_df(con)
 
+      # make input for filters to exclude all when it hits
       exclusive_all_observer(input, session, "scatter_waterbody_filter")
       exclusive_all_observer(input, session, "scatter_species_filter")
-      # get df
+
+      # get use the reactive
       df <- sidebar_df()
       req(df)
 
-      # get grouping snad numerical values
+      # get grouping
       grouping_choices <- get_groups(df) |>
         sort()
 
       grouping_choices <- setNames(grouping_choices,
                                    convert_nice_name(grouping_choices))
 
+      # get numerical vals
       numeric_choices <- get_numeric_vars(con)
 
-
-
+      # remove columns we don't want/need that are numerics
       numeric_choices <- setdiff(numeric_choices, c(
         "calorimeter_conversion_factor",
         "issue",
@@ -102,16 +116,19 @@ scatter_sidebar_server <- function(id, con, main_input) {
         "sample_year",
         "volume")
       )
+      # make numeric names nice
       numeric_names <- convert_nice_name(numeric_choices)
-      # get length variables
+
+      # get long variables that we need wide
       length_vars <- get_var_types(df, var = "length_type")
       energy_vars <- get_var_types(df, var = "energy_units")
 
-      # create summary choices
+      # create axis choices
       axis_choices <- sort(c(setNames(numeric_choices,
                                          numeric_names),
                                 length_vars, energy_vars))
 
+      # waterbody
       waterbody_choices <- df |>
         distinct(waterbody) |>
         # filter(!(is.na(waterbody))) |>
@@ -125,10 +142,12 @@ scatter_sidebar_server <- function(id, con, main_input) {
         arrange(scientific_name) |>
         pull(scientific_name)
 
+      # get info for check dropdown
       n_wb <- length(waterbody_choices)
       n_sp <- length(species_choices)
       grp <- paste(grouping_choices, collapse = ', ')
       nc <- paste(axis_choices, collapse = ', ')
+
       # check_dropdowns()
       cli::cli_alert_success("Updating dropdowns")
       cli::cli_ul(c(
@@ -137,7 +156,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         "Grouping choices: {.val {grp}}",
         "Numeric choices: {.val {nc}}"
       ))
-      #       # Grouping Variables: Allow dynamic selection
+      # Grouping Variables: Allow dynamic selection
       updateSelectInput(session, "scatter_grouping_vars",
                         choices = grouping_choices,
       )
@@ -171,9 +190,18 @@ scatter_sidebar_server <- function(id, con, main_input) {
     },
     ignoreInit = FALSE
     )
+
+    # ----- add in toggle for grouping var on sidebar ------
+    observe({
+      if (is.null(input$scatter_grouping_vars) ||
+          length(input$scatter_grouping_vars) == 0) {
+        shinyjs::show("grouping_message")
+      } else {
+        shinyjs::hide("grouping_message")
+      }
+    })
     # ---- export what we need from the severer ----
     # we need grouping and hist variables we also need the function
-
 
     return(list(
       grouping_vars = reactive(input$scatter_grouping_vars),
