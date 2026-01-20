@@ -18,7 +18,10 @@ view_scatter_plot_ui <- function(id) {
 
 scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
   moduleServer(id, function(input, output, session) {
+    # ---- namespaces -----
+    ns <- session$ns
 
+    # ----- add in ui ------
     observeEvent(main_input$tabs, {
       shinyjs::toggle(
         id = "scatter_ui",
@@ -26,25 +29,17 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
       )
     }, ignoreInit = TRUE)
 
-
-
-    # ---- namespaces
-    ns <- session$ns
-
-    # scatter_data <- reactiveVal(NULL)
-    # observeEvent(main_input$tabs, {
-    #   req(main_input$tabs == "scatter_plot")
-    # reactive when summary is actived
+    # add activation
     scatter_activated <- reactiveVal(FALSE)
 
-    #  ----- first create summary data -----
-    # summary actived_true only if summary_info
+
+    # summary activate only if scatter_plot
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "scatter_plot")
       scatter_activated(TRUE)
     }, ignoreInit = TRUE)
 
-    # Make scatter raw data
+    # ---- Make scatter raw data -----
     scatter_data <- create_summary_data(con = con,
                                         main_input = main_input,
                                         input_source = scatter_sidebar_vals,
@@ -53,9 +48,6 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
                                           "x_choices",
                                           "y_choices"
                                         ), activated = scatter_activated())
-
-
-    cli::cli_alert_warning("Class of scatter_data: {.val {class(scatter_data)}}")
     # ---- allow filtering -----
     filtered_scatter_data <- create_filtered_data(
       input_source = scatter_sidebar_vals,
