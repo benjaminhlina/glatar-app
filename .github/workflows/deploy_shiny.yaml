@@ -56,7 +56,28 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
             # Pull latest image
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            docker compose pull
+            
+            # Stop stack
+
+            docker compose down
+            
+            # Start stack with scale
+            
+            POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
+            POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" \
+            POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" \
+            POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+            POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+            POSTGRES_SSLMODE="${{ secrets.POSTGRES_SSLMODE }}" \
+            SHINY_USER="${{ secrets.SHINY_USER }}" \
+            SHINY_PASSWORD="${{ secrets.SHINY_PASSWORD }}" \
+            docker compose up -d --scale shiny=3
+            
+            docker image prune -f
+            docker compose ps
+            
+            # docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             
             # Stop and remove old container if exists
             docker stop naaed-app || true
