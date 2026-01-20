@@ -53,11 +53,6 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       summary_activated(TRUE)
     }, ignoreInit = TRUE)
 
-      # filtered summary by waterbody and species
-      filtered_summary_data <- create_filtered_data(
-        input_source = summary_sidebar_vals,
-        data = summary_data)
-
     # create summary data
     summary_data <- create_summary_data(con = con,
                                         main_input = main_input,
@@ -67,6 +62,11 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                                         activated = summary_activated())
 
 
+    # filtered summary by waterbody and species
+    filtered_summary_data <- create_filtered_data(
+      input_source = summary_sidebar_vals,
+      data = summary_data,
+      pane = "summary_info")
 
     # ---- Generate summary stats with dynamic grouping -----
     summary_mean_df <- create_mean_data(input_source = summary_sidebar_vals,
