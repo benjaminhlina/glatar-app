@@ -159,7 +159,7 @@ display_scatter_plot <- function(data,
 
     # ---- if data is null/no grouping varialbes display message -----
     if (is.null(df)) {
-      p <- empty_plot("Select one or more (max 3) grouping variables\n from the sidebar to generate a plot")
+      p <- empty_plot("Select one or more grouping variables from the sidebar to generate a plot")
       return(p)
     }
 
