@@ -90,10 +90,6 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     #  ----- Render Summary Table -----
     display_table(data = summary_mean_df_names, output)
 
-      # filtered summary by waterbody and species
-      filtered_summary_data_hist <- create_filtered_data(
-        input_source = summary_sidebar_vals,
-        data = summary_data_hist)
     # ---- create summary dats for histogram -----
     summary_data_hist <- create_summary_data(con = con,
                                              main_input = main_input,
@@ -101,6 +97,12 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                                              tab = "summary_info",
                                              var_field = "hist_vars",
                                              activated = summary_activated())
+
+    # filtered summary by waterbody and species
+    filtered_summary_data_hist <- create_filtered_data(
+      input_source = summary_sidebar_vals,
+      data = summary_data_hist,
+      pane = "summary_info")
 
     # ---- add in histogram ----
     display_hist(data = filtered_summary_data_hist,
