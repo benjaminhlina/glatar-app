@@ -26,7 +26,9 @@ jobs:
           echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.AWS_SERVER_HOST }} >> ~/.ssh/known_hosts
-
+      - name: Debug files
+        run: ls -lah
+      
       - name: Deploy with Docker Compose     
         env:
          SERVER_HOST: ${{ secrets.AWS_SERVER_HOST }}
@@ -37,10 +39,11 @@ jobs:
 
           set -e
           # go into the folder and login into docker 
-          
+
           sudo mkdir -p /opt/glatar
           sudo chown ${SERVER_USER}:${SERVER_USER} /opt/glatar
           
+          EOF 
           # Copy nginx.conf to the server
           
           scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
