@@ -181,9 +181,16 @@ create_summary_data <- function(con,
     gv <- input_source$grouping_vars
 
     group_vars <- if(inherits(gv, "reactive")) gv() else gv
-    req(con_db, group_vars)
 
-    # ---- acctuat gert data =----
+    req(con_db)
+
+    # ----- if grouping_vars is null or length is 0 return a null object all
+    # together
+
+    if (is.null(group_vars) || length(group_vars) == 0) {
+      return(NULL)
+    }
+    # ---- actually get data when group_vars is valid ----
     df <- get_summary_data(con = con_db,
                            selected_vars = selected_vars,
                            grouping_vars = group_vars)
