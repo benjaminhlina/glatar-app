@@ -35,6 +35,11 @@ jobs:
          SERVER_USER: ${{ secrets.AWS_SERVER_USER }}
          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         run: |
+          # Copy nginx.conf to the server
+          
+          scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
+          
+          # login into the server 
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
 
           set -e
@@ -42,11 +47,6 @@ jobs:
 
           sudo mkdir -p /opt/glatar
           sudo chown ${SERVER_USER}:${SERVER_USER} /opt/glatar
-  
-          # Copy nginx.conf to the server
-          
-          scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
-
           
           # SSH back to deploy Docker stack
           
