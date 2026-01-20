@@ -15,7 +15,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -40,29 +40,30 @@ jobs:
           SHINY_USER: ${{ secrets.SHINY_USER }}
           SHINY_PASSWORD: ${{ secrets.SHINY_PASSWORD }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          scp -i ~/.ssh/deploy_key docker_compose.yaml nginx.conf \
-          ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }}:~/glatar/
-      - name: Deploy to Server  
+      # - name: Copy compose files
+      #   run: |
+      #     scp -i ~/.ssh/deploy_key docker_compose.yaml nginx.conf \
+      #     ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }}:~/glatar/
+      - name: Deploy to Server
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
-            
+
             # Create app directory
             # mkdir -p ~/glatar
             # cd ~/glatar
-            
+
             # Login to GHCR
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-        
+
             # Pull latest image
             # docker compose pull
-            
+
             # # Stop stack
 
             # docker compose down
-            
+
             # # Start stack with scale
-            
+
             # POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
             # POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" \
             # POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" \
@@ -72,16 +73,16 @@ jobs:
             # SHINY_USER="${{ secrets.SHINY_USER }}" \
             # SHINY_PASSWORD="${{ secrets.SHINY_PASSWORD }}" \
             # docker compose up -d --scale shiny=3
-            
+
             # docker image prune -f
             # docker compose ps
-            
+
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            
+
             Stop and remove old container if exists
             docker stop glatar-app || true
             docker rm glatar-app || true
-            
+
             Run new container
             docker run -d \
               --name glatar-app \
@@ -96,10 +97,10 @@ jobs:
               -e SHINY_USER="${{ secrets.SHINY_USER }}" \
               -e SHINY_PASSWORD="${{ secrets.SHINY_PASSWORD }}" \
               ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            
+
             # Clean up old images
             docker image prune -f
-            
+
             # Check container status
             docker ps | grep glatar-app
           EOF
@@ -108,7 +109,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }} << EOF
             echo "Container logs:"
-            docker logs --tail 50 naaed-app
+            docker logs --tail 50 glatar-app
           EOF
 
       - name: Cleanup SSH Key
