@@ -31,13 +31,3 @@ services:
 networks:
   shiny-net:
     driver: bridge
-# shiny:
-#     image: ghcr.io/benjaminhlina/glatar-app:latest
-#     env_file:
-#       - .env
-#     restart: unless-stopped
-#     healthcheck:
-#       test: ["CMD", "curl", "-f", "http://localhost:3838/ || exit 1"]
-#       interval: 30s
-#       timeout: 10s
-#       retries: 3
