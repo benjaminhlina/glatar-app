@@ -20,9 +20,11 @@ create_filtered_data <- function(input_source,
       req(df)
     }
 
+    # ----- create filters -----
     waterbody_f <- input_source$waterbody_filter()
     species_f <- input_source$species_filter()
 
+    # ----- filters -----
     if (!is.null(waterbody_f) && !"All" %in% waterbody_f) {
       df <- df |>
         filter(waterbody %in% waterbody_f)
