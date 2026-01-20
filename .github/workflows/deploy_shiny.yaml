@@ -49,54 +49,54 @@ jobs:
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
             
             # Create app directory
-            mkdir -p ~/glatar
-            cd ~/glatar
+            # mkdir -p ~/glatar
+            # cd ~/glatar
             
             # Login to GHCR
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
         
             # Pull latest image
-            docker compose pull
+            # docker compose pull
             
-            # Stop stack
+            # # Stop stack
 
-            docker compose down
+            # docker compose down
             
-            # Start stack with scale
+            # # Start stack with scale
             
-            POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
-            POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" \
-            POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" \
-            POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
-            POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
-            POSTGRES_SSLMODE="${{ secrets.POSTGRES_SSLMODE }}" \
-            SHINY_USER="${{ secrets.SHINY_USER }}" \
-            SHINY_PASSWORD="${{ secrets.SHINY_PASSWORD }}" \
-            docker compose up -d --scale shiny=3
+            # POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
+            # POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" \
+            # POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" \
+            # POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+            # POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+            # POSTGRES_SSLMODE="${{ secrets.POSTGRES_SSLMODE }}" \
+            # SHINY_USER="${{ secrets.SHINY_USER }}" \
+            # SHINY_PASSWORD="${{ secrets.SHINY_PASSWORD }}" \
+            # docker compose up -d --scale shiny=3
             
-            docker image prune -f
-            docker compose ps
+            # docker image prune -f
+            # docker compose ps
             
-            # docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             
-            # Stop and remove old container if exists
-            # docker stop glatar-app || true
-            # docker rm glatar-app || true
+            Stop and remove old container if exists
+            docker stop glatar-app || true
+            docker rm glatar-app || true
             
-            # Run new container
-            # docker run -d \
-            #   --name glatar-app \
-            #   --restart unless-stopped \
-            #   -p 3838:3838 \
-            #   -e POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
-            #   -e POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" \
-            #   -e POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" \
-            #   -e POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
-            #   -e POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
-            #   -e POSTGRES_SSLMODE="${{ secrets.POSTGRES_SSLMODE }}" \
-            #   -e SHINY_USER="${{ secrets.SHINY_USER }}" \
-            #   -e SHINY_PASSWORD="${{ secrets.SHINY_PASSWORD }}" \
-            #   ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            Run new container
+            docker run -d \
+              --name glatar-app \
+              --restart unless-stopped \
+              -p 3838:3838 \
+              -e POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
+              -e POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" \
+              -e POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" \
+              -e POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+              -e POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+              -e POSTGRES_SSLMODE="${{ secrets.POSTGRES_SSLMODE }}" \
+              -e SHINY_USER="${{ secrets.SHINY_USER }}" \
+              -e SHINY_PASSWORD="${{ secrets.SHINY_PASSWORD }}" \
+              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             
             # Clean up old images
             docker image prune -f
@@ -106,20 +106,10 @@ jobs:
           EOF
 
       - name: Verify Deployment
-          run: |
-            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }} << EOF
-            cd ~/glatar
-
-            echo "=== Stack Status ==="
-            docker compose ps
-
-            echo ""
-            echo "=== Nginx Logs ==="
-            docker compose logs --tail=50 nginx
-
-            echo ""
-            echo "=== Shiny Logs (all replicas) ==="
-            docker compose logs --tail=50 shiny
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }} << EOF
+            echo "Container logs:"
+            docker logs --tail 50 naaed-app
           EOF
 
       - name: Cleanup SSH Key
