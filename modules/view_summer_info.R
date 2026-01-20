@@ -112,7 +112,6 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     # ----- grab reactive summary as recative val- ----
     summary_export_df(summary_mean_df_names)
 
-    # }, ignoreInit = TRUE)
 
     # ----- return this so it can be exported -----
     return(list(
