@@ -166,17 +166,24 @@ create_summary_data <- function(con,
       cli::cli_alert_info("Field: {field}, Value: {vars_val}, Length: {length(vars_val)}")
       selected_vars <- c(selected_vars, vars_val)
     }
+
+    # remove null selected_vars
     selected_vars <- unique(selected_vars[!is.null(selected_vars)])
     # vars <- input_source[[var_field]]
     # # Get y_variable
     # selected_vars <- if (inherits(vars, "reactive")) vars() else vars
 
+    # alert
     cli::cli_alert("selected vars is: {.var {selected_vars}}")
     # if (length(selected_vars) > 1) {
     #   lapply(selected_vars, check_selected_vars)
     # } else {
       check_selected_vars(selected_vars = selected_vars)
     # }
+
+    # check slected _vars
+    check_selected_vars(selected_vars = selected_vars)
+
     # get groups
 
     gv <- input_source$grouping_vars
