@@ -40,6 +40,11 @@ jobs:
           SHINY_USER: ${{ secrets.SHINY_USER }}
           SHINY_PASSWORD: ${{ secrets.SHINY_PASSWORD }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Copy compose files
+        run: |
+          scp -i ~/.ssh/deploy_key docker_compose.yaml nginx.conf \
+          ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }}:~/glatar/
+      - name: Deploy to Server  
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
             # Login to GHCR
