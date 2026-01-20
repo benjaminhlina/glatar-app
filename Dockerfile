@@ -3,9 +3,9 @@ FROM rocker/shiny:latest
 # https://specs.opencontainers.org/image-spec/annotations/
 LABEL \
     org.opencontainers.image.authors="Benjamin Hlina <benjamin.hlina@gmail.com>" \
-    org.opencontainers.image.vendor="naaed-app" \
+    org.opencontainers.image.vendor="glatar-app" \
     org.opencontainers.image.version="0.0.0.9999" \
-    org.opencontainers.image.source="https://github.com/benjaminhlina/naaed-app" \
+    org.opencontainers.image.source="https://github.com/benjaminhlina/glatar-app" \
     org.opencontainers.image.licenses="MIT"
 
 # Install system dependencies for R packages
@@ -50,7 +50,7 @@ RUN rm -rf /srv/shiny-server/*
 RUN R -e "install.packages(c('renv', 'pak'), repos = 'https://cran.rstudio.com')"
 
 # # ---- Set working directory ----
-WORKDIR /srv/shiny-server/NAAED-App/
+WORKDIR /srv/shiny-server/GLATAR-App/
 # ---- Copy renv files ----
 COPY renv.lock renv.lock
 COPY renv/ renv/

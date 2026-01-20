@@ -40,21 +40,52 @@ jobs:
           SHINY_USER: ${{ secrets.SHINY_USER }}
           SHINY_PASSWORD: ${{ secrets.SHINY_PASSWORD }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Copy compose files
+        run: |
+          scp -i ~/.ssh/deploy_key docker_compose.yaml nginx.conf \
+          ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }}:~/glatar/
+      - name: Deploy to Server  
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
+            
+            # Create app directory
+            # mkdir -p ~/glatar
+            # cd ~/glatar
+            
             # Login to GHCR
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            
+        
             # Pull latest image
+            # docker compose pull
+            
+            # # Stop stack
+
+            # docker compose down
+            
+            # # Start stack with scale
+            
+            # POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
+            # POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" \
+            # POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" \
+            # POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+            # POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+            # POSTGRES_SSLMODE="${{ secrets.POSTGRES_SSLMODE }}" \
+            # SHINY_USER="${{ secrets.SHINY_USER }}" \
+            # SHINY_PASSWORD="${{ secrets.SHINY_PASSWORD }}" \
+            # docker compose up -d --scale shiny=3
+            
+            # docker image prune -f
+            # docker compose ps
+            
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             
-            # Stop and remove old container if exists
-            docker stop naaed-app || true
-            docker rm naaed-app || true
+            Stop and remove old container if exists
+            docker stop glatar-app || true
+            docker rm glatar-app || true
             
-            # Run new container
+            Run new container
             docker run -d \
-              --name naaed-app \
+              --name glatar-app \
               --restart unless-stopped \
               -p 3838:3838 \
               -e POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
@@ -71,7 +102,7 @@ jobs:
             docker image prune -f
             
             # Check container status
-            docker ps | grep naaed-app
+            docker ps | grep glatar-app
           EOF
 
       - name: Verify Deployment

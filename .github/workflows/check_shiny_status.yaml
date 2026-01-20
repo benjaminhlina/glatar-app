@@ -37,7 +37,7 @@ jobs:
           sleep 15
 
           echo "Checking container is running..."
-          docker ps | grep naaed-app
+          docker ps | grep glatar-app
           
           echo "Checking HTTP status code..."
             STATUS_CODE=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3838/NAAED-App/)
@@ -50,8 +50,8 @@ jobs:
           fi
 
           echo "Locating Shiny app logs..."
-          LOG_FILE=$(docker exec naaed-app \
-            sh -c "ls -t /var/log/shiny-server/NAAED-App-shiny-*.log 2>/dev/null | head -n 1")
+          LOG_FILE=$(docker exec glatar-app \
+            sh -c "ls -t /var/log/shiny-server/GLATAR-App-shiny-*.log 2>/dev/null | head -n 1")
 
           if [ -z "$LOG_FILE" ]; then
             echo "No Shiny app log file found"
@@ -60,11 +60,11 @@ jobs:
 
           echo "Using log file: $LOG_FILE"
           echo "--------------------"
-          docker exec naaed-app tail -n 100 "$LOG_FILE"
+          docker exec glatar-app tail -n 100 "$LOG_FILE"
           echo "--------------------"
 
           echo "Checking logs for fatal errors..."
-          if docker exec naaed-app grep -E "Error|Execution halted|exited with code|segfault" "$LOG_FILE"; then
+          if docker exec glatar-app grep -E "Error|Execution halted|exited with code|segfault" "$LOG_FILE"; then
             echo "Shiny app error detected in logs"
             exit 1
           fi
