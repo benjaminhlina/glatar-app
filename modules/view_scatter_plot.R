@@ -64,10 +64,6 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     display_scatter_plot(data = filtered_scatter_data,
                          input_source = scatter_sidebar_vals,
                          output)
-
-  # },
-  # ignoreInit = TRUE
-  # )
   }
   )
 }
