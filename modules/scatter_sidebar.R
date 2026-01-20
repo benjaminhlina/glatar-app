@@ -190,9 +190,18 @@ scatter_sidebar_server <- function(id, con, main_input) {
     },
     ignoreInit = FALSE
     )
+
+    # ----- add in toggle for grouping var on sidebar ------
+    observe({
+      if (is.null(input$scatter_grouping_vars) ||
+          length(input$scatter_grouping_vars) == 0) {
+        shinyjs::show("grouping_message")
+      } else {
+        shinyjs::hide("grouping_message")
+      }
+    })
     # ---- export what we need from the severer ----
     # we need grouping and hist variables we also need the function
-
 
     return(list(
       grouping_vars = reactive(input$scatter_grouping_vars),
