@@ -47,6 +47,11 @@ jobs:
       - name: Deploy to Server  
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
+            
+            # Create app directory
+            mkdir -p ~/glatar
+            cd ~/glatar
+            
             # Login to GHCR
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
