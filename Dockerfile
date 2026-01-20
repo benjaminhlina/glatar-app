@@ -69,8 +69,6 @@ COPY modules/ modules/
 # copy shiny-server config file 
 COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 
-# copy nginx config files 
-COPY nginx.conf nginx.conf
 
 # ---- change file ownership and rew -----
 RUN chown -R shiny:shiny /srv/shiny-server && \
