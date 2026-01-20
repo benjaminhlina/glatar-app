@@ -90,24 +90,22 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     #  ----- Render Summary Table -----
     display_table(data = summary_mean_df_names, output)
 
-      # ---- create summary dats for histogram -----
-      summary_data_hist <- create_summary_data(con = con,
-                                          main_input = main_input,
-                                          input_source = summary_sidebar_vals,
-                                          tab = "summary_info",
-                                          var_field = "hist_vars",
-                                          activated = summary_activated())
-      # Cehck if summary is being triggered
-
       # filtered summary by waterbody and species
       filtered_summary_data_hist <- create_filtered_data(
         input_source = summary_sidebar_vals,
         data = summary_data_hist)
+    # ---- create summary dats for histogram -----
+    summary_data_hist <- create_summary_data(con = con,
+                                             main_input = main_input,
+                                             input_source = summary_sidebar_vals,
+                                             tab = "summary_info",
+                                             var_field = "hist_vars",
+                                             activated = summary_activated())
 
-      # # ---- add in histogram ----
-      display_hist(data = filtered_summary_data_hist,
-                   input_source = summary_sidebar_vals,
-                   output)
+    # ---- add in histogram ----
+    display_hist(data = filtered_summary_data_hist,
+                 input_source = summary_sidebar_vals,
+                 output)
 
       # ----- grab reactive summary as recative val- ----
       summary_export_df(summary_mean_df_names)
