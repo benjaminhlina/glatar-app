@@ -6,12 +6,12 @@ view_scatter_plot_ui <- function(id) {
     useShinyjs(),
     div(id = ns("scatter_ui"),
         style = "display:none;",
-                          h2("Scatter Plot"),
-                          plot_ui(title = "Scatter Plot",
-                                  plot_id = "scatter_plot",
-                                  height = "600px",
-                                  ns = ns)
-  )
+        h2("Scatter Plot"),
+        plot_ui(title = "Scatter Plot",
+                plot_id = "scatter_plot",
+                height = "600px",
+                ns = ns)
+    )
   )
 }
 
