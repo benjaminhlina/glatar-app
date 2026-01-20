@@ -35,17 +35,29 @@ jobs:
          SERVER_USER: ${{ secrets.AWS_SERVER_USER }}
          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         run: |
-          # # Copy nginx.conf to the server
+          # Copy nginx.conf to the server
           
-          # scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
+          scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
+          scp -i ~/.ssh/deploy_key ./docker-compose.yaml ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/docker-compose.yaml
           
           # login into the server 
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
+
+          set -e
+          # go into the folder and login into docker 
+
+          sudo mkdir -p /opt/glatar
+          sudo chown ${SERVER_USER}:${SERVER_USER} /opt/glatar
+          
+          # # SSH back to deploy Docker stack
+          
+          # ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
+          
+          # set -e
+          
+          cd /opt/glatar
           
           # Login to GHCR
-          
-          cd /opt/glatar || exit 1
-          git pull
           
           echo "${GHCR_TOKEN}" | docker login ghcr.io -u benjaminhlina --password-stdin
 
