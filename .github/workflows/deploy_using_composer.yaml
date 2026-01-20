@@ -38,8 +38,8 @@ jobs:
           set -e
           # go into the folder and login into docker 
           
-          # sudo mkdir -p /opt/glatar
-          # sudo chown ${USER}:${USER} /opt/glatar
+          sudo mkdir -p /opt/glatar
+          sudo chown ${SERVER_USER}:${SERVER_USER} /opt/glatar
           
           # Copy nginx.conf to the server
           
