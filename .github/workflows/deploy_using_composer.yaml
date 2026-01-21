@@ -44,13 +44,9 @@ jobs:
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
 
           set -e
-          # go into the folder and login into docker 
-
-          sudo mkdir -p /opt/glatar
-          sudo chown ${SERVER_USER}:${SERVER_USER} /opt/glatar
+          # go into the folder 
         
           cd /opt/glatar
-
           # Write .env file with GH secrets
           cat <<EOT > .env
           POSTGRES_DB=${POSTGRES_DB}
@@ -68,11 +64,11 @@ jobs:
           
           # Login to GHCR
           
-          echo "${GHCR_TOKEN}" | docker login ghcr.io -u benjaminhlina --password-stdin
+          # echo "${GHCR_TOKEN}" | docker login ghcr.io -u benjaminhlina --password-stdin
 
           # docker compose everything together 
           docker compose pull
-
+          cat .env
           docker compose up -d --remove-orphans
 
           docker image prune -f
