@@ -54,7 +54,7 @@ home_tab_ui <- function(id) {
           ),
           tags$li("If you would like to contribute to this database,
           please create a username using your email address on the data upload
-                  pane and wait for registeration code to be sent to you."),
+                  pane and wait for registration code to be sent to you."),
           tags$li("Any questions can be directed to the GLATAR
                   manager at:", tags$a(href = "mailto:benjamin.hlina@gmail.com",
                                        "benjamin.hlina@gmail.com"))
