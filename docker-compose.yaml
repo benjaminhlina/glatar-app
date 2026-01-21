@@ -42,3 +42,28 @@ networks:
 #       interval: 30s
 #       timeout: 10s
 #       retries: 3
+# nginx.conf
+
+# all Shiny containers are on the same 
+# network and share the same service name shiny. 
+# Docker DNS will load balance automatically:
+# worker_processes auto;
+# events { worker_connections 1024; }
+
+# http {
+#     upstream shiny_upstream {
+#         server shiny:3838;  # Docker DNS will resolve multiple containers automatically
+#     }
+
+#     server {
+#         listen 80;
+
+#         location / {
+#             proxy_pass http://shiny_upstream;
+#             proxy_set_header Host $host;
+#             proxy_set_header X-Real-IP $remote_addr;
+#             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#             proxy_set_header X-Forwarded-Proto $scheme;
+#         }
+#     }
+# }
