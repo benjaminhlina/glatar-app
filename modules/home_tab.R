@@ -37,7 +37,7 @@ home_tab_ui <- function(id) {
         solidHeader = TRUE,
         shiny::p("The Great Lakes Aquatic Tissue Analysis Repository (GLATAR)
           contains data on energy density, proximate composition,
-          and stable isotopes for fish and aquatic invertebrats
+          and stable isotopes for fish and aquatic invertebrates
           collected across the Great Lakes and North America.
           The data helps researchers and managers understand
           ecosystem health, bioenergtics, enegery transfer, and food web
