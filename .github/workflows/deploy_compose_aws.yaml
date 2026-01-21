@@ -84,7 +84,7 @@ jobs:
           # docker compose everything together 
           docker compose pull
   
-          docker compose up -d --remove-orphans
+          docker compose up -d --scale shiny=3 --remove-orphans
 
           docker image prune -f
 
