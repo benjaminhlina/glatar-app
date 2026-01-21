@@ -57,15 +57,16 @@ jobs:
             sh -c "cat \$(ls -t /var/log/shiny-server/GLATAR-App-shiny-*.log 2>/dev/null | head -n 1)")
 
           if [ -z "$LOG_FILE" ]; then
-            echo "No Shiny app log file found"
-            exit 1
+              echo "No Shiny app log file found yet, dumping docker logs instead"
+              docker logs glatar-shiny-1 --tail 200
+              exit 1
           fi
 
           echo "Using log file: $LOG_FILE"
           echo "--------------------"
-          docker  exec glatar-shiny-1 tail -n 100 "$LOG_FILE"
+          docker exec glatar-shiny-1 tail -n 100 "$LOG_FILE"
           echo "--------------------"
-
+          
           echo "Checking logs for fatal errors..."
           if docker  exec glatar-shiny-1 grep -E "Error|Execution halted|exited with code|segfault" "$LOG_FILE"; then
             echo "Shiny app error detected in logs"
