@@ -39,6 +39,9 @@ jobs:
           echo "Checking container is running..."
           docker ps | grep glatar-shiny*
           
+          echo "Hitting app to generate logs..."
+            curl -L -s http://localhost/GLATAR-App/ > /dev/null
+
           echo "Checking HTTP status code..."
             STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}\n" http://localhost/GLATAR-App/)
 
