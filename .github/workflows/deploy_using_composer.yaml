@@ -28,12 +28,17 @@ jobs:
           ssh-keyscan -H ${{ secrets.AWS_SERVER_HOST }} >> ~/.ssh/known_hosts
       - name: Debug files
         run: ls -lah
-      
-      - name: Deploy with Docker Compose     
+
+      - name: create .env 
         env:
-         SERVER_HOST: ${{ secrets.AWS_SERVER_HOST }}
-         SERVER_USER: ${{ secrets.AWS_SERVER_USER }}
-         GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_SSLMODE: ${{ secrets.POSTGRES_SSLMODE }}
+          SHINY_USER: ${{ secrets.SHINY_USER }}
+          SHINY_PASSWORD: ${{ secrets.SHINY_PASSWORD }}
         run: |
           # Write .env file with GH secrets
           cat <<EOT > .env
