@@ -50,7 +50,7 @@ jobs:
           fi
 
           echo "Locating Shiny app logs..."
-          LOG_FILE=$ocker exec glatar-shiny-1 \
+          LOG_FILE=$docker exec glatar-shiny-1 \
             sh -c "cat \$(ls -t /var/log/shiny-server/GLATAR-App-shiny-*.log 2>/dev/null | head -n 1)"
 
           if [ -z "$LOG_FILE" ]; then
