@@ -32,7 +32,8 @@ jobs:
       - name: Deploy with Docker Compose     
         env:
          SERVER_HOST: ${{ secrets.AWS_SERVER_HOST }}
-         SERVER_USER: ${{ secrets.AWS_SERVER_USER }} 
+         SERVER_USER: ${{ secrets.AWS_SERVER_USER }}
+         GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         run: |
           # Copy nginx.conf to the server
           
@@ -72,11 +73,15 @@ jobs:
           # Optional: secure permissions
           chmod 600 .env
           
+          # Login to GHCR
+          
+          echo "${GHCR_TOKEN}" | docker login ghcr.io -u benjaminhlina --password-stdin
+
           # docker compose everything together 
           docker compose pull
-
+          cat .env
           docker compose up -d --remove-orphans
-          
+
           docker image prune -f
 
           docker compose ps
