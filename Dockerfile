@@ -78,6 +78,7 @@ RUN chown -R shiny:shiny /srv/shiny-server && \
 # --- copy shiny_entry and change rew ---- 
 COPY shiny_entry.sh /usr/local/bin/shiny_entry.sh
 RUN chmod 755 /usr/local/bin/shiny_entry.sh
+
 # Expose port
 USER shiny
 EXPOSE 3838
