@@ -1,4 +1,4 @@
-name: Deploy Composer to AWS 
+name: Deploy Docker Compse to AWS 
 
 on:
   workflow_run:
@@ -51,7 +51,7 @@ jobs:
           SHINY_USER=${SHINY_USER}
           SHINY_PASSWORD=${SHINY_PASSWORD}
           EOT
-          
+
       - name: Deploy with Docker Compose     
         env:
          SERVER_HOST: ${{ secrets.AWS_SERVER_HOST }}
