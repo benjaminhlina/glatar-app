@@ -12,7 +12,7 @@ https://github.com/benjaminhlina/glatar-app/actions/workflows/build_docker.yaml
 
 <!-- badges: end -->
 
-# [GLATAR-App](www.glatar.org) 
+# GLATAR-App 
 
 This is a Shiny App that interfaces with the GLATAR database to provide a 
 seamless and rich interface with the GLATAR database. 
