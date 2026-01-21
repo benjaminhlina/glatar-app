@@ -20,7 +20,8 @@ seamless and rich interface with the GLATAR database.
 This app has the the ability to upload (i.e., 
 if you are a contributing member), map, view raw data (i.e., 
 if you are a contributing member), view summarised data, 
-and view scatter plots of the raw data. 
+and view scatter plots of the raw data and can be found at 
+[www.glatar.org](www.glatar.org)
 
 Many of the functions created in this project have been moved to package
 `{glatar}` which will eventually be loaded and a lot of the structure of 
