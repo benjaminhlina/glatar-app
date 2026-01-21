@@ -55,6 +55,7 @@ jobs:
           
           echo "${GHCR_TOKEN}" | docker login ghcr.io -u benjaminhlina --password-stdin
 
+          # docker compose everything together 
           docker compose pull
 
           docker compose up -d --remove-orphans
