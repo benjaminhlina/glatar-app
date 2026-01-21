@@ -35,29 +35,6 @@ jobs:
          SERVER_USER: ${{ secrets.AWS_SERVER_USER }}
          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         run: |
-          # Copy nginx.conf to the server
-          
-          scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
-          scp -i ~/.ssh/deploy_key ./docker-compose.yaml ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/docker-compose.yaml
-          
-          # login into the server 
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
-
-          set -e
-          # go into the folder 
-        
-          cd /opt/glatar
-
-          # export every variable to then be written in .env 
-          export POSTGRES_DB=${POSTGRES_DB}
-          export POSTGRES_HOST=${POSTGRES_HOST}
-          export POSTGRES_PORT=${POSTGRES_PORT}
-          export POSTGRES_USER=${POSTGRES_USER}
-          export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-          export POSTGRES_SSLMODE=${POSTGRES_SSLMODE}
-          export SHINY_USER=${SHINY_USER}
-          export SHINY_PASSWORD=${SHINY_PASSWORD}
-
           # Write .env file with GH secrets
           cat <<EOT > .env
           POSTGRES_DB=${POSTGRES_DB}
