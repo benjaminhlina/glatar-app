@@ -13,8 +13,7 @@ services:
       - shiny
     networks:
       - shiny-net
-
-certbot:
+  certbot:
     image: certbot/certbot
     volumes:
       - ./certbot/www:/var/www/certbot
@@ -24,8 +23,7 @@ certbot:
       certbot renew --webroot -w /var/www/certbot;
       sleep 12h;
       done"
-
-shiny:
+  shiny:
     image: ghcr.io/benjaminhlina/glatar-app:latest
     restart: unless-stopped
     expose:
