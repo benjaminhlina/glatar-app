@@ -18,7 +18,7 @@ home_tab_ui <- function(id) {
         shiny::p("Use the sidebar to:"),
         tags$ul(
           tags$li("Visualize sampling locations on a map"),
-          tags$li("View and downlaod summary statistic tables"),
+          tags$li("View and download summary statistic tables"),
           tags$li("View visualizations of energy density,
                    proximate composition, and stable isotope data"),
              tags$li("Upload new data into the database (i.e.,
