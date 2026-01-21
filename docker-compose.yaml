@@ -31,6 +31,7 @@ services:
 networks:
   shiny-net:
     driver: bridge
+    
 # shiny:
 #     image: ghcr.io/benjaminhlina/glatar-app:latest
 #     env_file:
