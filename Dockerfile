@@ -80,5 +80,5 @@ COPY shiny_entry.sh /usr/local/bin/shiny_entry.sh
 RUN chmod 755 /usr/local/bin/shiny_entry.sh
 # Expose port
 USER shiny
-EXPOSE 3838
+# EXPOSE 3838
 CMD ["/usr/local/bin/shiny_entry.sh"]
