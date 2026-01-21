@@ -39,8 +39,7 @@ jobs:
           echo "Checking container is running..."
           docker ps | grep glatar-shiny*
           
-          echo "Hitting app to generate logs..."
-            curl -L -s http://localhost/GLATAR-App/ > /dev/null
+        
 
           echo "Checking HTTP status code..."
             STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}\n" http://localhost/GLATAR-App/)
@@ -51,29 +50,45 @@ jobs:
             echo "Shiny app returned non-200 status"
             exit 1
           fi
+          
+          echo "Resolving shiny container..."
+          
+          SHINY_CONTAINER=$(docker ps --filter "name=glatar-shiny" --format "{{.Names}}" | head -n 1)
 
-          echo "Locating Shiny app logs..."
-          LOG_FILE=$(docker exec glatar-shiny-1 \
-            sh -c "cat \$(ls -t /var/log/shiny-server/GLATAR-App-shiny-*.log 2>/dev/null | head -n 1)")
-
-          if [ -z "$LOG_FILE" ]; then
-              echo "No Shiny app log file found yet, dumping docker logs instead"
-              docker logs glatar-shiny-1 --tail 200
-              exit 1
+          if [ -z "$SHINY_CONTAINER" ]; then
+            echo "No shiny container found"
+            docker ps
+            exit 1
           fi
 
-          echo "Using log file: $LOG_FILE"
+          echo "Using container: $SHINY_CONTAINER"
+
+          echo "Waiting for Shiny log file..."
+          for i in {1..20}; do
+            LOG_PATH=$(docker exec "$SHINY_CONTAINER" sh -c "ls -t /var/log/shiny-server/GLATAR-App-shiny-*.log 2>/dev/null | head -n 1")
+            if [ -n "$LOG_PATH" ]; then
+              break
+            fi
+            sleep 2
+          done
+
+          if [ -z "$LOG_PATH" ]; then
+            echo "No Shiny app log file found, dumping docker logs instead"
+            docker logs "$SHINY_CONTAINER" --tail 200
+            exit 1
+          fi
+
+          echo "Using log file: $LOG_PATH"
           echo "--------------------"
-          docker exec glatar-shiny-1 tail -n 100 "$LOG_FILE"
+          docker exec "$SHINY_CONTAINER" tail -n 100 "$LOG_PATH"
           echo "--------------------"
-          
+
           echo "Checking logs for fatal errors..."
-          if docker  exec glatar-shiny-1 grep -E "Error|Execution halted|exited with code|segfault" "$LOG_FILE"; then
+          if docker exec "$SHINY_CONTAINER" grep -E "Error|Execution halted|exited with code|segfault" "$LOG_PATH"; then
             echo "Shiny app error detected in logs"
             exit 1
           fi
 
-          echo "Shiny app is healthy (logs + HTTP check passed)"
           EOF
 
       - name: Cleanup SSH Key
