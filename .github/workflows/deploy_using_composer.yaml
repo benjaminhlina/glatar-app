@@ -79,7 +79,7 @@ jobs:
 
           # docker compose everything together 
           docker compose pull
-          cat .env
+          # cat .env
           docker compose up -d --remove-orphans
 
           docker image prune -f
