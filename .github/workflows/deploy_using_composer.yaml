@@ -52,6 +52,12 @@ jobs:
           SHINY_PASSWORD=${SHINY_PASSWORD}
           EOT
           
+      - name: Deploy with Docker Compose     
+        env:
+         SERVER_HOST: ${{ secrets.AWS_SERVER_HOST }}
+         SERVER_USER: ${{ secrets.AWS_SERVER_USER }}
+         GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        run: |      
           # Copy nginx.conf to the server
           scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
           
