@@ -74,9 +74,9 @@ jobs:
           
           # docker compose everything together 
           docker compose pull
-          # cat .env
-          docker compose up -d --remove-orphans
 
+          docker compose up -d --remove-orphans
+          
           docker image prune -f
 
           docker compose ps
