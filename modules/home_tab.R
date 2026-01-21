@@ -40,7 +40,7 @@ home_tab_ui <- function(id) {
           and stable isotopes for fish and aquatic invertebrates
           collected across the Great Lakes and North America.
           The data helps researchers and managers understand
-          ecosystem health, bioenergetics, enegery transfer, and food web
+          ecosystem health, bioenergetics, energy transfer, and food web
                  dynamics."),
         tags$ul(
           tags$li(
