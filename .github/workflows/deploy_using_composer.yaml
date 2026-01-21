@@ -46,6 +46,22 @@ jobs:
           SHINY_USER=${SHINY_USER}
           SHINY_PASSWORD=${SHINY_PASSWORD}
           EOT
+          
+          # Copy nginx.conf to the server
+          scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
+          
+          # copy docker-compose.yaml 
+          scp -i ~/.ssh/deploy_key ./docker-compose.yaml ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/docker-compose.yaml
+          # copy .env 
+          scp -i ~/.ssh/deploy_key .env ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/.env
+          
+          # login into the server 
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} << EOF
+
+          set -e
+          # go into the folder 
+        
+          cd /opt/glatar
 
           # Optional: secure permissions
           chmod 600 .env
