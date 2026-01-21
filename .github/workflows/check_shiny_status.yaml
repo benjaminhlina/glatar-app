@@ -42,7 +42,7 @@ jobs:
         
 
           echo "Checking HTTP status code..."
-            STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}\n" http://localhost/GLATAR-App/)
+            STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}\n" http://localhost/)
 
           echo "HTTP status code: $STATUS_CODE"
 
