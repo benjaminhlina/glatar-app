@@ -2,7 +2,7 @@ name: Check App Status
 
 on:
   workflow_run:
-    workflows: ["Deploy to AWS"]
+    workflows: ["Deploy Docker Compose to AWS"]
     types:
       - completed
   workflow_dispatch:
@@ -37,10 +37,10 @@ jobs:
           sleep 15
 
           echo "Checking container is running..."
-          docker ps | grep glatar-app
+          docker ps | grep glatar-shiny*
           
           echo "Checking HTTP status code..."
-            STATUS_CODE=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3838/NAAED-App/)
+            STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}\n" http://localhost/GLATAR-App/)
 
           echo "HTTP status code: $STATUS_CODE"
 
