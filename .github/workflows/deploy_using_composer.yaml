@@ -49,14 +49,14 @@ jobs:
           cd /opt/glatar
 
           # export every variable to then be written in .env 
-          export POSTGRES_DB=${POSTGRES_DB}
-          export POSTGRES_HOST=${POSTGRES_HOST}
-          export POSTGRES_PORT=${POSTGRES_PORT}
-          export POSTGRES_USER=${POSTGRES_USER}
-          export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-          export POSTGRES_SSLMODE=${POSTGRES_SSLMODE}
-          export SHINY_USER=${SHINY_USER}
-          export SHINY_PASSWORD=${SHINY_PASSWORD}
+          # export POSTGRES_DB=${POSTGRES_DB}
+          # export POSTGRES_HOST=${POSTGRES_HOST}
+          # export POSTGRES_PORT=${POSTGRES_PORT}
+          # export POSTGRES_USER=${POSTGRES_USER}
+          # export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+          # export POSTGRES_SSLMODE=${POSTGRES_SSLMODE}
+          # export SHINY_USER=${SHINY_USER}
+          # export SHINY_PASSWORD=${SHINY_PASSWORD}
 
           # Write .env file with GH secrets
           cat <<EOT > .env
