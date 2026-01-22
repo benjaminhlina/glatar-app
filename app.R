@@ -114,6 +114,10 @@ ui <- secure_app(
 )
 
 server <- function(input, output, session) {
+  options(shiny.usecairo = FALSE)
+  
+  session$allowReconnect("force")
+  
   res_auth <- secure_server(
     check_credentials = check_credentials(credentials)
   )
