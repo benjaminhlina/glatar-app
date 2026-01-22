@@ -64,7 +64,10 @@ ui <- dashboardPage(
   ),
   # ---- create display panes ----
   dashboardBody(
-
+    # add google analytics 
+    tags$head(
+    tags$script(src = "gtag.js")
+  ),
     # CSS for fixed footer
     app_version_head(),
     app_version_label(app_version),
