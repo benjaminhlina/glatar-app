@@ -31,8 +31,6 @@ credentials <- data.frame(
 # ---- create ui ----
 
 ui <- dashboardPage(
-  # ---- shiny.tictoc ----
-
   # ----- title -----
   dashboardHeader(title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
                   titleWidth = 500),
@@ -64,9 +62,14 @@ ui <- dashboardPage(
   ),
   # ---- create display panes ----
   dashboardBody(
-    # add google analytics
+    # add  analytics
     tags$head(
-      tags$script(src = "gtag.js")
+      # ----- add google analytics -----
+      tags$script(src = "gtag.js"),
+      # ---- shiny.tictoc ----
+      tags$script(
+        src = "https://cdn.jsdelivr.net/gh/Appsilon/shiny.tictoc@v0.2.0/shiny-tic-toc.min.js"
+      )
     ),
     # CSS for fixed footer
     app_version_head(),
