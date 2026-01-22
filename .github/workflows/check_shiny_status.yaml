@@ -40,7 +40,7 @@ jobs:
           docker ps | grep glatar-shiny*
 
           echo "Checking HTTP status code..."
-            STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}\n" http://localhost/)
+            STATUS_CODE=$(curl -s -k -o /dev/null -w "%{http_code}\n" https://localhost/)
 
           echo "HTTP status code: $STATUS_CODE"
 
