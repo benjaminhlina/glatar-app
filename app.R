@@ -31,9 +31,13 @@ credentials <- data.frame(
 # ---- create ui ----
 
 ui <- dashboardPage(
+  # ---- shiny.tictoc ---- 
+  tags$script(
+    src = "https://cdn.jsdelivr.net/gh/Appsilon/shiny.tictoc@v0.2.0/shiny-tic-toc.min.js"), 
   # ----- title -----
   dashboardHeader(title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
                   titleWidth = 500),
+  
   # ---- sidebar -----
   dashboardSidebar(
     width = 275,
