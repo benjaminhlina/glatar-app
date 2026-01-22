@@ -83,7 +83,10 @@ jobs:
 
           # docker compose everything together 
           docker compose pull
-  
+
+          # add down 
+          docker compose down
+          
           docker compose up -d --scale shiny=3 --remove-orphans
 
           docker image prune -f
