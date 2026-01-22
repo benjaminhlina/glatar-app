@@ -31,12 +31,12 @@ credentials <- data.frame(
 # ---- create ui ----
 
 ui <- dashboardPage(
-  # ---- shiny.tictoc ---- 
+  # ---- shiny.tictoc ----
 
   # ----- title -----
   dashboardHeader(title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
                   titleWidth = 500),
-  
+
   # ---- sidebar -----
   dashboardSidebar(
     width = 275,
@@ -64,10 +64,10 @@ ui <- dashboardPage(
   ),
   # ---- create display panes ----
   dashboardBody(
-    # add google analytics 
+    # add google analytics
     tags$head(
-    tags$script(src = "gtag.js")
-  ),
+      tags$script(src = "gtag.js")
+    ),
     # CSS for fixed footer
     app_version_head(),
     app_version_label(app_version),
@@ -121,9 +121,9 @@ ui <- secure_app(
 
 server <- function(input, output, session) {
   options(shiny.usecairo = FALSE)
-  
+
   session$allowReconnect("force")
-  
+
   res_auth <- secure_server(
     check_credentials = check_credentials(credentials)
   )
