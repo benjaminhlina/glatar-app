@@ -61,9 +61,13 @@ jobs:
 
           echo "Using container: $SHINY_CONTAINER"
 
+          # echo "Waiting for Shiny to initialize..."sleep 20
+          echo "Triggering app to generate logs..."
+          docker exec "$SHINY_CONTAINER" sh -c "curl -s https://localhost/ > /dev/null || true"
+
           echo "Waiting for Shiny log file..."
-          for i in {1..20}; do
-            LOG_PATH=$(docker exec "$SHINY_CONTAINER" sh -c "ls -t /var/log/shiny-server/GLATAR-App-shiny-*.log 2>/dev/null | head -n 1")
+          for i in {1..30}; do
+            LOG_PATH=$(docker exec "$SHINY_CONTAINER" sh -c "ls -t /var/log/shiny-server/*GLATAR*.log 2>/dev/null | head -n 1")
             if [ -n "$LOG_PATH" ]; then
               break
             fi
