@@ -7,6 +7,7 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-KP6R7HNSDB');
+
 // ---- Shiny page tracking ----
 $(document).on('shiny:connected', function() {
   gtag('event', 'page_view', { page_path: location.pathname });
