@@ -130,11 +130,9 @@ server <- function(input, output, session) {
                                       con,
                                       main_input = input,
                                       summary_sidebar_vals = summary_sidebar_vals)
-
   # make the download button run
 
   summary_sidebar_vals$register_summary(summary_info)
-
 
   # ---- scatter plot -----
   # ---- scatter plot dropdowns -----
