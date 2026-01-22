@@ -1,7 +1,7 @@
 services:
   nginx:
     image: nginx:latest
-    container_name: glatar-nginx
+    # container_name: glatar-nginx
     ports:
       - "80:80"
       - "443:443"
