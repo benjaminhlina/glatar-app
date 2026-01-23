@@ -231,7 +231,7 @@ get_summary_data <- function(con,
     }
 
     # --- get selected vars -----
-    vars_for_select <- selected_vars
+    vars_for_select <- as.character(selected_vars)
 
 
     vars_for_select <- dplyr::case_when(
