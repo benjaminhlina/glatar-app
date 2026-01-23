@@ -204,6 +204,7 @@ display_scatter_plot <- function(data,
       var_raw = y_var_raw
     )
 
+    df <- fix_y$df
     y_var <- fix_y$var
     y_label <- fix_y$var_label
 

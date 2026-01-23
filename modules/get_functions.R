@@ -231,13 +231,13 @@ get_summary_data <- function(con,
     }
 
     # --- get selected vars -----
-    vars_for_select <- selected_vars
+    vars_for_select <- as.character(selected_vars)
 
 
     vars_for_select <- dplyr::case_when(
       grepl("^length_mm__(fork|total|standard)$",
             vars_for_select) ~ "length_mm",
-      grepl("^energy_units__.*$",
+      grepl("^energy_units__",
             vars_for_select) ~ "energy_measurement",
       .default = vars_for_select
     )
