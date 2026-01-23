@@ -22,12 +22,21 @@ fix_var_generic <- function(df, var_raw) {
     parts <- strsplit(var_raw, "__")[[1]]
     # grab the second element of part
     var_type <- parts[2]
+    cli::cli_alert_danger("var_type is: {.field {var_type}}")
 
     df <- df %>%
       dplyr::filter(energy_units == var_type)
+
+    eu <- df |>
+      distinct(energy_units) |>
+      pull()
+    cli::cli_alert_danger("units is: {.field {eu}}")
     # Dynamic label
     var_label <- paste0("Energy Density (", var_type, ")")
     var <- "energy_measurement"
+
+    cli::cli_alert_danger("var_label is: {.field {var_label}}")
+
 
   } else {
     cli::cli_alert_info("Checking for {.field {var_raw}} in columns...")
