@@ -5,7 +5,7 @@ app_version_head <- function() {
         #app-version {
           position: fixed;
           bottom: 6px;
-          left: 10px;
+          left: 280px;
           font-size: 12px;
           color: #888;
           z-index: 1000;
