@@ -82,7 +82,7 @@ upload_data_server <- function(id, con) {
 
         output$upload_status <- renderUI({
           tagList(
-            p("✖ Validation failed",
+            p("✖ Validation failed - please fix the following issues:",
               style = "color:red; font-weight:600;"),
             shiny::tableOutput(ns("error_table"))
           )
