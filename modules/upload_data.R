@@ -69,7 +69,8 @@ upload_data_server <- function(id, con) {
           tagList(
             p("✔ All validations passed",
               style = "color:green; font-weight:600;"),
-            pointblank::get_agent_report(agent)
+            p(paste0("Ready to submit ", nrow(tbl_samples), " rows to database."),
+              style = "color:green;")
           )
         })
 
