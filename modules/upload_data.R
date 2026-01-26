@@ -54,7 +54,9 @@ upload_data_server <- function(id, con) {
         file_path,
         sheet = "tbl_samples",
         skip = 4
-      )
+      ) |>
+        janitor::clean_names()
+
 
       # ---- run pointblank validation ----
       agent <- validate_tbl_samples(tbl_samples)
