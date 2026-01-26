@@ -136,8 +136,12 @@ server <- function(input, output, session) {
   session$allowReconnect("force")
 
   res_auth <- secure_server(
-    check_credentials = check_credentials(credentials)
+    check_credentials = check_credentials(credentials),
+
   )
+  observeEvent(input$logout, {
+    session$reload()
+  })
 
   # ---- get map -----
   view_map_server("view_map", con)
