@@ -102,7 +102,7 @@ ui <- secure_app(
   theme = "flatly",
   language = "en",
   timeout = 15.0,
-
+  fab_position = "none",
   # Customize the login page appearance
   tags_top = tags$div(
     tags$h2("Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
