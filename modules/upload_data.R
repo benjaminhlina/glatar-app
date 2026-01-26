@@ -80,6 +80,8 @@ upload_data_server <- function(id, con) {
 
         validated_samples(NULL)
 
+        error_report <- pretty_pointblank_report(agent)
+
         output$upload_status <- renderUI({
           tagList(
             p("✖ Validation failed - please fix the following issues:",
