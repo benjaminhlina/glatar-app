@@ -84,8 +84,12 @@ upload_data_server <- function(id, con) {
           tagList(
             p("✖ Validation failed",
               style = "color:red; font-weight:600;"),
-            pointblank::get_agent_report(agent)
+            shiny::tableOutput(ns("error_table"))
           )
+        })
+
+        output$error_table <- shiny::renderTable({
+          error_report
         })
       }
     })
