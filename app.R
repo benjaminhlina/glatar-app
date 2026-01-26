@@ -58,6 +58,14 @@ ui <- dashboardPage(
     conditionalPanel(
       "input.tabs == 'scatter_plot'",
       scatter_sidebar_ui("scatter_sidebar")
+    ),
+    actionButton(
+      "logout",
+      "Logout",
+      style = "position: fixed; bottom: 20px; left: 10px;
+      width: 225px; padding: 10px;",
+      icon = icon("sign-out-alt"),
+      class = "btn-primary",
     )
   ),
   # ---- create display panes ----
