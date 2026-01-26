@@ -54,27 +54,35 @@ validate_tbl_samples <- function(df) {
 # ----- pretty pointblank -----
 pretty_pointblank_report <- function(agent) {
 
-  x <- agent |>
-    pointblank::get_agent_report() |>
-    dplyr::filter(n_failed > 0) |>
+  report_df <- pointblank::get_agent_x_list(agent)$validation_set
+
+  failed <- report_df |>
+    dplyr::filter(!all_passed) |>
     dplyr::transmute(
-      Column = columns,
-      Rule = brief,
-      Failed_Rows = n_failed,
-      Message = dplyr::case_when(
-        grepl("col_is_date", type) ~ "Must be a valid date (YYYY-MM-DD)",
-        grepl("col_vals_in_set", type) ~ "Contains invalid values",
-        grepl("col_vals_between", type) ~ "Values out of allowed range",
-        grepl("col_vals_not_null", type) ~ "Missing required values",
-        grepl("col_is_numeric", type) ~ "Must be numeric",
-        TRUE ~ brief
-      )
+      Column = vapply(column, function(x) paste(x, collapse = ", "), character(1)),
+      Issue = dplyr::case_when(
+        assertion_type == "col_exists" ~ "Column is missing from the data",
+        assertion_type == "col_is_posix" ~ "Must be a valid date",
+        assertion_type == "col_is_date" ~ "Must be a valid date (YYYY-MM-DD)",
+        assertion_type == "col_vals_in_set" ~ paste0(
+          "Contains invalid values. Allowed: ",
+          vapply(values, function(v) paste(v, collapse = ", "), character(1))
+        ),
+        assertion_type == "col_vals_between" ~ paste0(
+          "Values out of range. Must be between ", values[[1]][1], " and ", values[[1]][2]
+        ),
+        assertion_type == "col_vals_not_null" ~ "Required field - cannot be empty",
+        assertion_type == "col_is_numeric" ~ "Must contain only numbers",
+        assertion_type == "col_is_character" ~ "Must contain text values",
+        TRUE ~ assertion_type
+      ),
+      `Rows Failed` = n_failed
     )
 
-  if (nrow(x) == 0) {
-    return(data.frame(Status = "✅ All checks passed"))
+  if (nrow(failed) == 0) {
+    return(NULL)
   }
 
-  return(x)
+  return(failed)
 }
 
