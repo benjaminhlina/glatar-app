@@ -23,27 +23,31 @@ validate_tbl_samples <- function(df) {
       vars(pi_name, genus_species, wild_lab, tissue_type,
            sample_procedure)
     ) |>
-    col_is_date(date) |>
 
-    col_vals_between(month, 1, 12) |>
+    # Excel dates are read as POSIXct, not Date - check for date-like class
+    col_is_posix(date) |>
+
+    col_vals_between(
+      month, 1, 12,
+      preconditions = ~ !is.na(month)
+    ) |>
 
     col_vals_in_set(
       season,
-      c("spring", "summer", "fall", "winter")
+      c("spring", "summer", "fall", "winter"),
+      preconditions =  ~ !is.na(season)
     ) |>
 
     col_vals_in_set(
       sex,
-      c("male", "female", "unknown")
+      c("male", "female", "unknown"),
+      preconditions = ~ !is.na(sex)
     ) |>
-
-
-    # col_vals_between(latitude, -90, 90) |>
-    # col_vals_between(longitude, -180, 180) |>
 
     col_is_numeric(vars(length_mm, weight)) |>
 
     interrogate()
+
   return(report)
 }
 
