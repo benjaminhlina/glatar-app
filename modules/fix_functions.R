@@ -10,7 +10,7 @@ fix_var_generic <- function(df, var_raw) {
     var_type <- parts[2]
 
     # Filter df to matching length type
-    df <- df %>%
+    df <- df |>
       dplyr::filter(length_type == var_type)
 
     # Dynamic label
@@ -23,7 +23,7 @@ fix_var_generic <- function(df, var_raw) {
     # grab the second element of part
     var_type <- parts[2]
 
-    df <- df %>%
+    df <- df |>
       dplyr::filter(energy_units == var_type)
     # Dynamic label
     var_label <- paste0("Energy Density (", var_type, ")")
