@@ -1,65 +1,76 @@
 # Match Excel column to DB column using progressive matching
 match_to_db_col <- function(col_name, db_cols) {
-  # Special cases that can't be derived
-  special <- c(
-    latitude = "lat",
-    longitude = "lon",
-    genus_species = "scientific_name",
-    class_sci = "class",
-    order_sci = "order"
-  )
 
-  # Check special cases first
-  if (col_name %in% names(special)) {
-    return(special[[col_name]])
+  # Strip example markers: split on "_e_g_" or "_i_e_" and take the first part
+  # ., "common_name_e_g_lake_trout" -> "common_name"
+  candidate_col <- col_name
+  if (grepl("_e_g_|_i_e_", col_name)) {
+    candidate_col <- strsplit(col_name, "_e_g_|_i_e_")[[1]][1]
   }
 
-  # If exact match exists, use it
+  key <- candidate_col
 
-  if (col_name %in% db_cols) {
-    return(col_name)
+  # ---- special mappings ----
+  if (key %in% c("longitude")) {
+    candidate_col <- "lon"
   }
 
-  # Split by underscore and try progressively shorter names
-  parts <- strsplit(col_name, "_")[[1]]
-  for (i in seq(length(parts) - 1, 1)) {
-    candidate <- paste(parts[1:i], collapse = "_")
-    if (candidate %in% db_cols) {
-      return(candidate)
-    }
+  if (key %in% c("latitude")) {
+    candidate_col <- "lat"
   }
 
-  # No match found
+  # ---- final match ----
+  if (candidate_col %in% db_cols) {
+    return(candidate_col)
+  }
+
+  # ---- No match found ----
   return(col_name)
 }
 
 # Rename Excel columns to match database schema
 rename_to_db_col <- function(df, con, table_name) {
+
   db_cols <- get_column_map(con) |>
     dplyr::filter(table_name == !!table_name) |>
     dplyr::pull(field_name)
 
-  df_cols <- colnames(df)
-
   cli::cli_alert_info("Found {length(db_cols)} fields in {table_name}")
+  cli::cli_alert_info("Found {.field {db_cols}} fields in {table_name}")
 
- rename_vec <- sapply(df_cols, function(excel_col) {
-    cleaned <- clean_excel_col(excel_col)
-    if (cleaned %in% db_cols) return(cleaned)
-    if (excel_col %in% db_cols) return(excel_col)
-    return(excel_col)
-  })
+  old_names <- names(df)
 
-  rename_vec <- rename_vec[rename_vec != names(rename_vec)]
+  new_names <- vapply(
+    old_names,
+    match_to_db_col,
+    character(1),
+    db_cols = db_cols
+  )
 
-  if (length(rename_vec) > 0) {
-    cli::cli_alert_success("Renamed {length(rename_vec)} columns")
-    rename_vec <- setNames(names(rename_vec), rename_vec)
-    df <- df |> dplyr::rename(dplyr::all_of(rename_vec))
+  # log matches
+  changed <- old_names != new_names
+
+  if (any(changed)) {
+    purrr::walk2(
+      old_names[changed],
+      new_names[changed],
+      ~ cli::cli_alert_info("Matching: {.field { .x }} -> {.field { .y }}")
+    )
+    cli::cli_alert_success("Renamed {sum(changed)} columns")
   }
 
-  matched_cols <- intersect(colnames(df), db_cols)
-  cli::cli_alert_info("Selecting {length(matched_cols)} matching columns")
+  names(df) <- new_names
 
-  df |> dplyr::select(dplyr::any_of(db_cols))
+  cli::cli_alert_info("Columns after rename: {paste(names(df), collapse = ', ')}")
+
+  # drop example cols
+  return(df)
+  # df <- df |>
+  #   dplyr::select(-dplyr::matches("_e_g_"))
+  #
+  # matched_cols <- intersect(names(df), db_cols)
+  # cli::cli_alert_info("Selecting {length(matched_cols)} matching columns")
+  #
+  # df |>
+  #   dplyr::select(dplyr::any_of(db_cols))
 }
