@@ -47,7 +47,7 @@ home_tab_ui <- function(id) {
             tags$span("Data entry templates can be found by "),
             tags$a(
               "clicking here",
-              href = "data-entry-template/GLATAR_data_entry_template_v12.xlsx",
+              href = "data-entry-template/GLATAR_data_entry_template_v13.xlsx",
               download = "GLATAR_data_entry_template_v12.xlsx"
             ),
             tags$span(" and in the documentation pane.")
