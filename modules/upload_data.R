@@ -55,13 +55,14 @@ upload_data_server <- function(id, con) {
         sheet = "tbl_samples",
         skip = 4
       ) |>
-        janitor::clean_names()
+        janitor::clean_names() |>
+        rename_to_db_col(con, "tbl_samples")
 
 
       # ---- run pointblank validation ----
       agent <- validate_tbl_samples(tbl_samples)
 
-      if (all_passed(agent)) {
+      if (all(agent)) {
 
         validated_samples(tbl_samples)
 
@@ -80,7 +81,7 @@ upload_data_server <- function(id, con) {
 
         validated_samples(NULL)
 
-        error_report <- pretty_pointblank_report(agent)
+        error_report <- pretty_validate_report(agent)
 
         output$upload_status <- renderUI({
           tagList(
