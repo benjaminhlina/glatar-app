@@ -94,26 +94,31 @@ pretty_validate_report <- function(confrontation) {
   # ----- if tehre are non-return NULL -----
   if (nrow(bad) == 0) return(NULL)
 
+
+  out <- bad |>
     mutate(
-      Row = row_number(),
-      Column = stringr::str_extract(expression, "(?<=\\().+?(?=[,\\)])"),
       Issue = case_when(
-        grepl("required_cols", expression) ~ "Missing required columns",
+        grepl("required_cols", expression) ~ "Missing required columns - you have
+        altered the data entry template - please reupload an unaltered file",
+        grepl("is.na\\(as.Date", expression) ~"Date format does not follow the
+        required format of yyyy-mm-dd or is an invalid date",
         grepl("is.na", expression) ~ "Required field - cannot be empty",
         grepl("month", expression) ~ "Month must be between 1 and 12",
-        grepl("season", expression) ~ "Invalid season",
-        grepl("sex", expression) ~ "Invalid sex",
-        grepl("inherits", expression) ~ "Must be a valid date",
-        grepl("is.numeric", expression) ~ "Must be numeric",
+        grepl("season", expression) ~ "Invalid season - must be spring,
+        summer, fall, winter",
+        grepl("sex", expression) ~ "Invalid sex - must be female, male,
+        unknown, or mixed",
+        grepl("is.numeric", expression) ~ "Must be numeric value",
         TRUE ~ expression
       )
     ) |>
-    select(Row, Column, Issue)
+    select(Row = data_row, Column = col_name, Issue)
 
   out <- out |>
     group_by(Column, Issue) |>
     summarise(`Row Index` = paste(sort(unique(Row)), collapse = ", ")) |>
     ungroup()
+
 
   return(out)
 }
