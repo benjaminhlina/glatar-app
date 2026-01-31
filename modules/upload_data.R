@@ -50,9 +50,22 @@ upload_data_server <- function(id, con) {
         return()
       }
 
+
+      col_types <-  c(rep("text", 3),
+                      "date", "numeric", "text",
+                      "numeric", rep('text', 10),
+                      rep("numeric", 2), "text", "numeric",
+                      rep("text", 2), "numeric",
+                      rep("text", 6), rep("numeric", 3), "text",
+                      rep("numeric", 2), 'text', 'numeric',
+                      "text", rep('numeric', 2),
+                      rep("text", 2), rep('numeric', 10)
+      )
+
       tbl_samples <- readxl::read_excel(
         file_path,
         sheet = "tbl_samples",
+        col_types = col_types,
         skip = 4
       ) |>
         janitor::clean_names() |>
