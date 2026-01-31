@@ -17,6 +17,7 @@
   library(shinyjs)
   library(shinymanager)
   library(stringr)
+  library(stringdist)
   library(tidyr)
   library(validate)
 }
