@@ -88,6 +88,12 @@ pretty_validate_report <- function(confrontation) {
       col_name = trimws(gsub('"', '', col_name))
       # col_name = sub(".*\\(([^,\\)]+).*", "\\1", expression)
     )
+  # ----- grab only bad columns -----
+  bad <- df |>
+    filter(value %in% FALSE)
+  # ----- if tehre are non-return NULL -----
+  if (nrow(bad) == 0) return(NULL)
+
     mutate(
       Row = row_number(),
       Column = stringr::str_extract(expression, "(?<=\\().+?(?=[,\\)])"),
