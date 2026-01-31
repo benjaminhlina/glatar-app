@@ -23,7 +23,7 @@ validate_tbl_samples <- function(df) {
 
     # ---- not null ----
     !is.na(pi_name),
-    !is.na(genus),
+    !is.na(scientific_name),
     !is.na(wild_lab),
     !is.na(tissue_type),
     !is.na(sample_procedure),
