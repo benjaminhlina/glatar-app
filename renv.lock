@@ -483,46 +483,6 @@
       "Maintainer": "Jeroen Ooms <jeroenooms@gmail.com>",
       "Repository": "CRAN"
     },
-    "assertr": {
-      "Package": "assertr",
-      "Version": "3.0.1",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Assertive Programming for R Analysis Pipelines",
-      "Authors@R": "person(\"Tony\", \"Fischetti\", email=\"tony.fischetti@gmail.com\", role = c(\"aut\", \"cre\"))",
-      "Description": "Provides functionality to assert conditions that have to be met so that errors in data used in analysis pipelines can fail quickly. Similar to 'stopifnot()' but more powerful, friendly, and easier for use in pipelines.",
-      "URL": "https://docs.ropensci.org/assertr/ (website) https://github.com/ropensci/assertr",
-      "BugReports": "https://github.com/ropensci/assertr/issues",
-      "License": "MIT + file LICENSE",
-      "ByteCompile": "TRUE",
-      "Depends": [
-        "R (>= 3.1.0)"
-      ],
-      "Imports": [
-        "dplyr (>= 0.7.0)",
-        "MASS",
-        "methods",
-        "stats",
-        "utils",
-        "rlang (>= 0.3.0)"
-      ],
-      "Suggests": [
-        "knitr",
-        "testthat (>= 3.0.0)",
-        "magrittr",
-        "rmarkdown",
-        "tibble",
-        "covr"
-      ],
-      "VignetteBuilder": "knitr",
-      "RoxygenNote": "7.2.3",
-      "Encoding": "UTF-8",
-      "Config/testthat/edition": "3",
-      "NeedsCompilation": "no",
-      "Author": "Tony Fischetti [aut, cre]",
-      "Maintainer": "Tony Fischetti <tony.fischetti@gmail.com>",
-      "Repository": "CRAN"
-    },
     "base64enc": {
       "Package": "base64enc",
       "Version": "0.1-3",
@@ -1172,56 +1132,6 @@
       "NeedsCompilation": "yes",
       "Author": "Tyson Barrett [aut, cre] (ORCID: <https://orcid.org/0000-0002-2137-1391>), Matt Dowle [aut], Arun Srinivasan [aut], Jan Gorecki [aut], Michael Chirico [aut] (ORCID: <https://orcid.org/0000-0003-0787-087X>), Toby Hocking [aut] (ORCID: <https://orcid.org/0000-0002-3146-0865>), Benjamin Schwendinger [aut] (ORCID: <https://orcid.org/0000-0003-3315-8114>), Ivan Krylov [aut] (ORCID: <https://orcid.org/0000-0002-0172-3812>), Pasha Stetsenko [ctb], Tom Short [ctb], Steve Lianoglou [ctb], Eduard Antonyan [ctb], Markus Bonsch [ctb], Hugh Parsonage [ctb], Scott Ritchie [ctb], Kun Ren [ctb], Xianying Tan [ctb], Rick Saporta [ctb], Otto Seiskari [ctb], Xianghui Dong [ctb], Michel Lang [ctb], Watal Iwasaki [ctb], Seth Wenchel [ctb], Karl Broman [ctb], Tobias Schmidt [ctb], David Arenburg [ctb], Ethan Smith [ctb], Francois Cocquemas [ctb], Matthieu Gomez [ctb], Philippe Chataignon [ctb], Nello Blaser [ctb], Dmitry Selivanov [ctb], Andrey Riabushenko [ctb], Cheng Lee [ctb], Declan Groves [ctb], Daniel Possenriede [ctb], Felipe Parages [ctb], Denes Toth [ctb], Mus Yaramaz-David [ctb], Ayappan Perumal [ctb], James Sams [ctb], Martin Morgan [ctb], Michael Quinn [ctb], @javrucebo [ctb], @marc-outins [ctb], Roy Storey [ctb], Manish Saraswat [ctb], Morgan Jacob [ctb], Michael Schubmehl [ctb], Davis Vaughan [ctb], Leonardo Silvestri [ctb], Jim Hester [ctb], Anthony Damico [ctb], Sebastian Freundt [ctb], David Simons [ctb], Elliott Sales de Andrade [ctb], Cole Miller [ctb], Jens Peder Meldgaard [ctb], Vaclav Tlapak [ctb], Kevin Ushey [ctb], Dirk Eddelbuettel [ctb], Tony Fischetti [ctb], Ofek Shilon [ctb], Vadim Khotilovich [ctb], Hadley Wickham [ctb], Bennet Becker [ctb], Kyle Haynes [ctb], Boniface Christian Kamgang [ctb], Olivier Delmarcell [ctb], Josh O'Brien [ctb], Dereck de Mezquita [ctb], Michael Czekanski [ctb], Dmitry Shemetov [ctb], Nitish Jha [ctb], Joshua Wu [ctb], Iago Giné-Vázquez [ctb], Anirban Chetia [ctb], Doris Amoakohene [ctb], Angel Feliz [ctb], Michael Young [ctb], Mark Seeto [ctb], Philippe Grosjean [ctb], Vincent Runge [ctb], Christian Wia [ctb], Elise Maigné [ctb], Vincent Rocher [ctb], Vijay Lulla [ctb], Aljaž Sluga [ctb], Bill Evans [ctb]",
       "Maintainer": "Tyson Barrett <t.barrett88@gmail.com>",
-      "Repository": "CRAN"
-    },
-    "data.validator": {
-      "Package": "data.validator",
-      "Version": "0.2.1",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Automatic Data Validation and Reporting",
-      "Authors@R": "c(person(\"Marcin\", \"Dubel\", email = \"opensource+marcin@appsilon.com\", role = c(\"aut\", \"cre\")), person(\"Paweł\", \"Przytuła\", email = \"pawel@appsilon.com\", role = c(\"aut\")), person(\"Jakub\", \"Nowicki\", email = \"kuba@appsilon.com\", role = c(\"aut\")), person(\"Krystian\", \"Igras\", email = \"krystian8207@gmail.com\", role = c(\"aut\")), person(\"Dominik\", \"Krzeminski\", email = \"craymon92@gmail.com\", role = c(\"ctb\")), person(\"Servet Ahmet\", \"Çizmeli\", email = \"ahmet.cizmeli@contractors.appsilon.com\", role = c(\"ctb\")), person(family = \"Appsilon Sp. z o.o.\", role = c(\"cph\")))",
-      "Description": "Validate dataset by columns and rows using convenient predicates inspired by 'assertr' package. Generate good looking HTML report or print console output to display in logs of your data processing pipeline.",
-      "URL": "https://appsilon.github.io/data.validator/, https://github.com/Appsilon/data.validator",
-      "BugReports": "https://github.com/Appsilon/data.validator/issues",
-      "License": "MIT + file LICENSE",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.2.3",
-      "Language": "en-US",
-      "Imports": [
-        "assertr (>= 2.8)",
-        "shiny.semantic (>= 0.3.3)",
-        "knitr",
-        "purrr",
-        "dplyr",
-        "tidyr",
-        "utils",
-        "R6",
-        "rlang",
-        "rmarkdown",
-        "htmltools",
-        "htmlwidgets",
-        "tibble"
-      ],
-      "Suggests": [
-        "covr",
-        "fixtuRes",
-        "fs",
-        "lintr",
-        "magrittr",
-        "rcmdcheck",
-        "readr",
-        "shiny",
-        "spelling",
-        "targets",
-        "testthat",
-        "visNetwork",
-        "withr"
-      ],
-      "Collate": "'results_parsers.R' 'semantic_report_constructors.R' 'utils.R' 'report.R' 'assertions.R'",
-      "NeedsCompilation": "no",
-      "Author": "Marcin Dubel [aut, cre], Paweł Przytuła [aut], Jakub Nowicki [aut], Krystian Igras [aut], Dominik Krzeminski [ctb], Servet Ahmet Çizmeli [ctb], Appsilon Sp. z o.o. [cph]",
-      "Maintainer": "Marcin Dubel <opensource+marcin@appsilon.com>",
       "Repository": "CRAN"
     },
     "dbplyr": {
@@ -4136,31 +4046,6 @@
       "Author": "Bob Jansen [ctb, cre], Andy Kipp [aut], Colin Percival [aut, cph], RStudio [cph]",
       "Repository": "CRAN"
     },
-    "semantic.assets": {
-      "Package": "semantic.assets",
-      "Version": "1.1.0",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Assets for 'shiny.semantic'",
-      "Authors@R": "c( person(\"Jakub\", \"Nowicki\", role = c(\"aut\", \"cre\"), email = \"opensource+kuba@appsilon.com\") )",
-      "Description": "Style sheets and JavaScript assets for 'shiny.semantic' package.",
-      "URL": "https://github.com/Appsilon/semantic.assets",
-      "BugReports": "https://github.com/Appsilon/semantic.assets/issues",
-      "License": "LGPL-3",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.2.3",
-      "Imports": [
-        "htmlwidgets"
-      ],
-      "Suggests": [
-        "shiny",
-        "shiny.semantic"
-      ],
-      "NeedsCompilation": "no",
-      "Author": "Jakub Nowicki [aut, cre]",
-      "Maintainer": "Jakub Nowicki <opensource+kuba@appsilon.com>",
-      "Repository": "CRAN"
-    },
     "servr": {
       "Package": "servr",
       "Version": "0.32",
@@ -4193,6 +4078,32 @@
       "NeedsCompilation": "no",
       "Author": "Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>), Carson Sievert [ctb], Jesse Anderson [ctb], Ramnath Vaidyanathan [ctb], Romain Lesur [ctb], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Yihui Xie <xie@yihui.name>",
+      "Repository": "CRAN"
+    },
+    "settings": {
+      "Package": "settings",
+      "Version": "0.2.7",
+      "Source": "Repository",
+      "Type": "Package",
+      "Title": "Software Option Settings Manager for R",
+      "Author": "Mark van der Loo",
+      "Maintainer": "Mark van der Loo <mark.vanderloo@gmail.com>",
+      "Description": "Provides option settings management that goes beyond R's default 'options' function. With this package, users can define their own option settings manager holding option names, default values and  (if so desired) ranges or sets of allowed option values that will be  automatically checked. Settings can then be retrieved, altered and reset  to defaults with ease. For R programmers and package developers it offers  cloning and merging functionality which allows for conveniently defining  global and local options, possibly in a multilevel options hierarchy. See  the package vignette for some examples concerning functions, S4 classes,  and reference classes. There are convenience functions to reset par()  and options() to their 'factory defaults'.",
+      "URL": "https://github.com/markvanderloo/settings",
+      "BugReports": "https://github.com/markvanderloo/settings/issues",
+      "License": "GPL-3",
+      "VignetteBuilder": "knitr",
+      "Imports": [
+        "grDevices",
+        "graphics"
+      ],
+      "Suggests": [
+        "knitr",
+        "rmarkdown",
+        "tinytest"
+      ],
+      "RoxygenNote": "7.1.1",
+      "NeedsCompilation": "no",
       "Repository": "CRAN"
     },
     "sf": {
@@ -4379,58 +4290,6 @@
       "NeedsCompilation": "no",
       "Author": "Winston Chang [aut] (ORCID: <https://orcid.org/0000-0002-1576-2126>), Joe Cheng [aut], JJ Allaire [aut], Carson Sievert [aut, cre] (ORCID: <https://orcid.org/0000-0002-4958-2844>), Barret Schloerke [aut] (ORCID: <https://orcid.org/0000-0001-9986-114X>), Garrick Aden-Buie [aut] (ORCID: <https://orcid.org/0000-0002-7111-0077>), Yihui Xie [aut], Jeff Allen [aut], Jonathan McPherson [aut], Alan Dipert [aut], Barbara Borges [aut], Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>), jQuery Foundation [cph] (jQuery library and jQuery UI library), jQuery contributors [ctb, cph] (jQuery library; authors listed in inst/www/shared/jquery-AUTHORS.txt), jQuery UI contributors [ctb, cph] (jQuery UI library; authors listed in inst/www/shared/jqueryui/AUTHORS.txt), Mark Otto [ctb] (Bootstrap library), Jacob Thornton [ctb] (Bootstrap library), Bootstrap contributors [ctb] (Bootstrap library), Twitter, Inc [cph] (Bootstrap library), Prem Nawaz Khan [ctb] (Bootstrap accessibility plugin), Victor Tsaran [ctb] (Bootstrap accessibility plugin), Dennis Lembree [ctb] (Bootstrap accessibility plugin), Srinivasu Chakravarthula [ctb] (Bootstrap accessibility plugin), Cathy O'Connor [ctb] (Bootstrap accessibility plugin), PayPal, Inc [cph] (Bootstrap accessibility plugin), Stefan Petre [ctb, cph] (Bootstrap-datepicker library), Andrew Rowls [ctb, cph] (Bootstrap-datepicker library), Brian Reavis [ctb, cph] (selectize.js library), Salmen Bejaoui [ctb, cph] (selectize-plugin-a11y library), Denis Ineshin [ctb, cph] (ion.rangeSlider library), Sami Samhuri [ctb, cph] (Javascript strftime library), SpryMedia Limited [ctb, cph] (DataTables library), Ivan Sagalaev [ctb, cph] (highlight.js library), R Core Team [ctb, cph] (tar implementation from R)",
       "Maintainer": "Carson Sievert <carson@posit.co>",
-      "Repository": "CRAN"
-    },
-    "shiny.semantic": {
-      "Package": "shiny.semantic",
-      "Version": "0.5.1",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Semantic UI Support for Shiny",
-      "Authors@R": "c(person(\"Filip\", \"Stachura\", email = \"filip@appsilon.com\", role = \"aut\"), person(\"Dominik\", \"Krzeminski\", role = \"aut\"), person(\"Krystian\", \"Igras\", role = \"aut\"), person(\"Adam\", \"Forys\", role = \"aut\"), person(\"Paweł\", \"Przytuła\", email = \"pawel@appsilon.com\", role = \"aut\"), person(\"Jakub\", \"Chojna\", email = \"jakub.chojna@appsilon.com\", role = \"aut\"), person(\"Olga\", \"Mierzwa-Sulima\", email = \"olga@appsilon.com\", role = \"aut\"), person(\"Jakub\", \"Nowicki\", email = \"opensource+kuba@appsilon.com\", role = c(\"aut\", \"cre\")), person(\"Tymoteusz\", \"Makowski\", email = \"tymoteusz.makowski@appsilon.com\", role = \"aut\"), person(\"Ashley\", \"Baldry\", role = \"ctb\"), person(\"Pedro\", \"Manuel Coutinho da Silva\", email = \"pedro@appsilon.com\", role = \"ctb\"), person(\"Kamil\", \"Żyła\", email = \"kamil@appsilon.com\", role = \"ctb\"), person(\"Rabii\", \"Bouhestine\", role = \"ctb\"), person(\"Federico\", \"Rivandeira\", email = \"federico@appsilon.com\", role = \"ctb\"), person(family = \"Appsilon Sp. z o.o.\", role = c(\"cph\")))",
-      "Description": "Creating a great user interface for your Shiny apps can be a hassle, especially if you want to work purely in R and don't want to use, for instance HTML templates. This package adds support for a powerful UI library Fomantic UI - <https://fomantic-ui.com/> (before Semantic). It also supports universal UI input binding that works with various DOM elements.",
-      "License": "MIT + file LICENSE",
-      "URL": "https://appsilon.github.io/shiny.semantic/, https://github.com/Appsilon/shiny.semantic",
-      "BugReports": "https://github.com/Appsilon/shiny.semantic/issues",
-      "Imports": [
-        "glue",
-        "grDevices",
-        "htmltools (>= 0.2.6)",
-        "htmlwidgets (>= 0.8)",
-        "jsonlite",
-        "magrittr",
-        "purrr (>= 0.2.2)",
-        "R6",
-        "semantic.assets (>= 1.1.0)",
-        "shiny (>= 0.12.1)",
-        "stats"
-      ],
-      "Suggests": [
-        "covr",
-        "chromote",
-        "dplyr",
-        "DT",
-        "gapminder",
-        "knitr",
-        "leaflet",
-        "lintr",
-        "markdown",
-        "mockery",
-        "plotly",
-        "rcmdcheck",
-        "rmarkdown",
-        "testthat",
-        "shinytest2",
-        "tibble",
-        "withr"
-      ],
-      "VignetteBuilder": "knitr",
-      "Encoding": "UTF-8",
-      "Language": "en-US",
-      "RoxygenNote": "7.3.1",
-      "NeedsCompilation": "no",
-      "Author": "Filip Stachura [aut], Dominik Krzeminski [aut], Krystian Igras [aut], Adam Forys [aut], Paweł Przytuła [aut], Jakub Chojna [aut], Olga Mierzwa-Sulima [aut], Jakub Nowicki [aut, cre], Tymoteusz Makowski [aut], Ashley Baldry [ctb], Pedro Manuel Coutinho da Silva [ctb], Kamil Żyła [ctb], Rabii Bouhestine [ctb], Federico Rivandeira [ctb], Appsilon Sp. z o.o. [cph]",
-      "Maintainer": "Jakub Nowicki <opensource+kuba@appsilon.com>",
       "Repository": "CRAN"
     },
     "shinydashboard": {
@@ -4624,6 +4483,34 @@
       "NeedsCompilation": "yes",
       "Author": "Edzer Pebesma [aut, cre], Roger Bivand [aut], Barry Rowlingson [ctb], Virgilio Gomez-Rubio [ctb], Robert Hijmans [ctb], Michael Sumner [ctb], Don MacQueen [ctb], Jim Lemon [ctb], Finn Lindgren [ctb], Josh O'Brien [ctb], Joseph O'Rourke [ctb], Patrick Hausmann [ctb]",
       "Maintainer": "Edzer Pebesma <edzer.pebesma@uni-muenster.de>",
+      "Repository": "CRAN"
+    },
+    "stringdist": {
+      "Package": "stringdist",
+      "Version": "0.9.15",
+      "Source": "Repository",
+      "Maintainer": "Mark van der Loo <mark.vanderloo@gmail.com>",
+      "License": "GPL-3",
+      "Title": "Approximate String Matching, Fuzzy Text Search, and String Distance Functions",
+      "Type": "Package",
+      "LazyLoad": "yes",
+      "Authors@R": "c( person(\"Mark\", \"van der Loo\", role=c(\"aut\",\"cre\") , email=\"mark.vanderloo@gmail.com\" , comment= c(ORCID=\"0000-0002-9807-4686\")) , person(\"Jan\", \"van der Laan\", role=\"ctb\") , person(\"R Core Team\",\"\"     , role=\"ctb\") , person(\"Nick\",\"Logan\"       , role=\"ctb\") , person(\"Chris\",\"Muir\"       , role=\"ctb\") , person(\"Johannes\", \"Gruber\" , role=\"ctb\") , person(\"Brian\",\"Ripley\"     , role=\"ctb\"))",
+      "Description": "Implements an approximate string matching version of R's native 'match' function. Also offers fuzzy text search based on various string distance measures. Can calculate various string distances based on edits (Damerau-Levenshtein, Hamming, Levenshtein, optimal sting alignment), qgrams (q- gram, cosine, jaccard distance) or heuristic metrics (Jaro, Jaro-Winkler). An implementation of soundex is provided as well. Distances can be computed between character vectors while taking proper care of encoding or between integer vectors representing generic sequences. This package is built for speed and runs in parallel by using 'openMP'. An API for C or C++ is exposed as well. Reference: MPJ van der Loo (2014) <doi:10.32614/RJ-2014-011>.",
+      "Depends": [
+        "R (>= 2.15.3)"
+      ],
+      "URL": "https://github.com/markvanderloo/stringdist",
+      "BugReports": "https://github.com/markvanderloo/stringdist/issues",
+      "Suggests": [
+        "tinytest"
+      ],
+      "Imports": [
+        "parallel"
+      ],
+      "Encoding": "UTF-8",
+      "RoxygenNote": "7.3.2",
+      "NeedsCompilation": "yes",
+      "Author": "Mark van der Loo [aut, cre] (<https://orcid.org/0000-0002-9807-4686>), Jan van der Laan [ctb], R Core Team [ctb], Nick Logan [ctb], Chris Muir [ctb], Johannes Gruber [ctb], Brian Ripley [ctb]",
       "Repository": "CRAN"
     },
     "stringi": {
@@ -5237,6 +5124,47 @@
       "URL": "https://www.rforge.net/uuid",
       "BugReports": "https://github.com/s-u/uuid/issues",
       "NeedsCompilation": "yes",
+      "Repository": "CRAN"
+    },
+    "validate": {
+      "Package": "validate",
+      "Version": "1.1.7",
+      "Source": "Repository",
+      "Maintainer": "Mark van der Loo <mark.vanderloo@gmail.com>",
+      "License": "GPL-3",
+      "Title": "Data Validation Infrastructure",
+      "LazyData": "no",
+      "Type": "Package",
+      "LazyLoad": "yes",
+      "Authors@R": "c(person(\"Mark\", \"van der Loo\" , role   = c(\"cre\",\"aut\") , email  = \"mark.vanderloo@gmail.com\" , comment= c(ORCID=\"0000-0002-9807-4686\")) , person(\"Edwin\", \"de Jonge\" , role = \"aut\" , comment=c(ORCID=\"0000-0002-6580-4718\")) , person(\"Paul\",\"Hsieh\" , role = \"ctb\" ))",
+      "Description": "Declare data validation rules and data quality indicators; confront data with them and analyze or visualize the results. The package supports rules that are per-field, in-record, cross-record or cross-dataset. Rules can be automatically analyzed for rule type and connectivity. Supports checks implied by an SDMX DSD file as well. See also Van der Loo and De Jonge (2018) <doi:10.1002/9781118897126>, Chapter 6 and the JSS paper (2021) <doi:10.18637/jss.v097.i10>.",
+      "Depends": [
+        "R (>= 3.5.0)",
+        "methods"
+      ],
+      "URL": "https://github.com/data-cleaning/validate",
+      "BugReports": "https://github.com/data-cleaning/validate/issues",
+      "Imports": [
+        "stats",
+        "graphics",
+        "grid",
+        "settings",
+        "yaml"
+      ],
+      "Suggests": [
+        "rsdmx",
+        "tinytest (>= 0.9.6)",
+        "knitr",
+        "bookdown",
+        "lumberjack",
+        "rmarkdown"
+      ],
+      "VignetteBuilder": "knitr",
+      "Collate": "'rule.R' 'sugar.R' 'validate_pkg.R' 'parse.R' 'expressionset.R' 'indicator.R' 'validator.R' 'confrontation.R' 'compare.R' 'factory.R' 'genericrules.R' 'lumberjack.R' 'plot.R' 'retailers.R' 'run_validation.R' 'sdmx.R' 'syntax.R' 'utils.R' 'yaml.R'",
+      "RoxygenNote": "7.3.2",
+      "Encoding": "UTF-8",
+      "NeedsCompilation": "yes",
+      "Author": "Mark van der Loo [cre, aut] (ORCID: <https://orcid.org/0000-0002-9807-4686>), Edwin de Jonge [aut] (ORCID: <https://orcid.org/0000-0002-6580-4718>), Paul Hsieh [ctb]",
       "Repository": "CRAN"
     },
     "vctrs": {
