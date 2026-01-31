@@ -57,31 +57,37 @@ pretty_validate_report <- function(confrontation) {
   # if valdiate doens't return anything then  return nulll
   if (nrow(df) == 0) return(NULL)
 
-  # ----- grab only bad columns -----
-  bad <- df[df$value == FALSE, , drop = FALSE]
-  # ----- if tehre are non-return NULL -----
-  if (nrow(bad) == 0) return(NULL)
-
-
-
-  # long format
-  long <- df |>
-    pivot_longer(
-      cols = starts_with("."),
-      names_to = "rule",
-      values_to = "passed"
+  # transfer forw number
+  df <- df |>
+    group_by(name) |>
+    mutate(
+      data_row = row_number()  # This cycles 1, 2, 3, 4... within each rule
     ) |>
-    filter(!passed)
+    ungroup() |>
+    mutate(
+      col_name = case_when(
+        # Handle %vin% expressions: get the word before %vin%
+        grepl("%vin%", expression) ~ sub("^\\s*(\\w+)\\s+%vin%.*", "\\1", expression),
 
-  if (nrow(long) == 0) {
-    return(NULL)
-  }
+        # Handle comparison expressions (month - 1 >= ..., etc.)
+        grepl("[-+].*[><=]", expression) ~ sub("^\\s*(\\w+)\\s+[-+].*", "\\1", expression),
 
-  rule_info <- sm |>
-    select(rule, expression)
+        # Handle function calls with commas - get first word before comma in innermost parens
+        grepl("\\([^()]*,", expression) ~ {
+          temp <- sub(".*\\(([^()]+)\\).*", "\\1", expression)
+          sub("^\\s*([^,]+).*", "\\1", temp)
+        },
 
-  out <- long |>
-    left_join(rule_info, by = "rule") |>
+        # Handle function calls without commas - get content of innermost parens
+        grepl("\\(", expression) ~ sub(".*\\(([^()]+)\\).*", "\\1", expression),
+
+        # Default: return the expression as-is
+        TRUE ~ expression
+      ),
+      # Clean up any remaining quotes or whitespace
+      col_name = trimws(gsub('"', '', col_name))
+      # col_name = sub(".*\\(([^,\\)]+).*", "\\1", expression)
+    )
     mutate(
       Row = row_number(),
       Column = stringr::str_extract(expression, "(?<=\\().+?(?=[,\\)])"),
