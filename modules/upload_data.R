@@ -79,6 +79,11 @@ upload_data_server <- function(id, con) {
 
         validated_samples(tbl_samples)
 
+        tbl_samples <- tbl_samples |>
+          mutate(
+            across(common_name:class_sci, ~  stringr::str_to_sentence(.x))
+          )
+
         shinyjs::enable("submit_btn")
 
         output$upload_status <- renderUI({
