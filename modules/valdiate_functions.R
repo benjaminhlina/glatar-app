@@ -1,3 +1,44 @@
+# ----- Helper function for taxonomy validation -----
+check_taxonomy_match <- function(input_values, db_values, field_name = "name") {
+  # Normalize both to sentence case for comparison
+  input_norm <- stringr::str_to_sentence(input_values)
+  # db_norm <- stringr::str_to_sentence(db_values)
+
+  # Check exact matches
+  matches <- input_norm %in% db_values
+
+  # For non-matches, find closest suggestions
+  suggestions <- sapply(which(!matches), function(i) {
+    if (is.na(input_values[i])) return(NA_character_)
+
+    # Calculate string distances
+    distances <- stringdist::stringdist(
+      input_norm[i],
+      db_values,
+      method = "jw"  # Jaro-Winkler distance
+    )
+
+    # Get the closest match
+    closest_idx <- which.min(distances)
+    closest_dist <- distances[closest_idx]
+
+    # Only suggest if reasonably close (distance < 0.3)
+    if (closest_dist < 0.3) {
+      return(db_values[closest_idx])
+    } else {
+      return(paste0("No close match found for '", input_values[i], "'"))
+    }
+  })
+
+  # Create result with suggestions
+  result <- list(
+    valid = matches,
+    suggestions = rep(NA, length(input_values))
+  )
+  result$suggestions[!matches] <- suggestions
+
+  return(result)
+}
 
 # ----- validate tbl_samples ------
 validate_tbl_samples <- function(df) {
