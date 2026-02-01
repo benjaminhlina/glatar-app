@@ -217,15 +217,36 @@ pretty_validate_report <- function(confrontation) {
         grepl("sex", expression) ~ "Invalid sex - must be female, male,
         unknown, or mixed",
         grepl("is.numeric", expression) ~ "Must be numeric value",
+        grepl("common_name.*%vin%", expression) ~
+          "Common name not found in database",
+        grepl("scientific_name.*%vin%", expression) ~
+          "Scientific name not found in database",
         TRUE ~ expression
       )
     ) |>
     select(Row = data_row, Column = col_name, Issue)
 
+  if (!is.null(common_name_suggestions) ||
+      !is.null(scientific_name_suggestions)) {
+    out <- out |>
+      mutate(
+        Suggestion = case_when(
+          Column == "common_name" & !is.na(common_name_suggestions[Row]) ~
+            paste0("Did you mean: ", common_name_suggestions[Row], "?"),
+          Column == "scientific_name" & !is.na(scientific_name_suggestions[Row]) ~
+            paste0("Did you mean: ", scientific_name_suggestions[Row], "?"),
+          TRUE ~ NA
+        )
+      )
+  }
   out <- out |>
     group_by(Column, Issue) |>
-    summarise(`Row Index` = paste(sort(unique(Row)), collapse = ", ")) |>
-    ungroup()
+    summarise(
+      `Row Index` = paste(sort(unique(Row)), collapse = ", "),
+      Suggestion = paste(unique(na.omit(Suggestion)), collapse = "; ")
+    ) |>
+    ungroup() |>
+    mutate(Suggestion = if_else(Suggestion == "", NA, Suggestion))
 
 
   return(out)
