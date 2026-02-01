@@ -157,6 +157,11 @@ validate_tbl_samples <- function(df, species_list = NULL) {
 pretty_validate_report <- function(confrontation) {
 
   df <- as.data.frame(confrontation, add_columns = TRUE)
+
+  original_data <- confrontation$._keys$keyset
+  common_name_suggestions <- attr(original_data,
+                                  "common_name_suggestions")
+  scientific_name_suggestions <- attr(original_data, "scientific_name_suggestions")
   # if valdiate doens't return anything then  return nulll
   if (nrow(df) == 0) return(NULL)
 
