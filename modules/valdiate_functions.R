@@ -57,32 +57,94 @@ validate_tbl_samples <- function(df, species_list = NULL) {
     "percent_nitrogen", "d13c", "d15n", "d34s", "c_n"
   )
 
-  rules <- validator(
+  if (!is.null(species_list)) {
+    valid_common <- species_list |>
+      pull(common_name) |>
+      unique() |>
+      na.omit()
 
-    # ---- structure ----
-    all(required_cols %in% names(.)),
+    valid_scientific <- species_list |>
+      pull(scientific_name) |>
+      unique() |>
+      na.omit()
 
-    # ---- not null ----
-    !is.na(pi_name),
-    !is.na(scientific_name),
-    !is.na(wild_lab),
-    !is.na(tissue_type),
-    !is.na(sample_procedure),
+    # Store validation results in df attributes for later use
+    common_check <- check_taxonomy_match(df$common_name,
+                                         valid_common,
+                                         "common_name")
+    sci_check <- check_taxonomy_match(df$scientific_name,
+                                      valid_scientific, "
+                                      scientific_name")
 
-    # ---- date ----
-    !is.na(as.Date(date, origin = "1899-12-30")),
+    attr(df, "common_name_suggestions") <- common_check$suggestions
+    attr(df, "scientific_name_suggestions") <- sci_check$suggestions
+  }
 
-    # ---- ranges ----
-    month >= 1 & month <= 12,
+  rules <- if (!is.null(species_list)) {
+    validator(
 
-    # ---- sets ----
-    season %in% c("spring", "summer", "fall", "winter"),
-    sex %in% c("male", "female", "unknown"),
+      # ---- structure ----
+      all(required_cols %in% names(.)),
 
-    # ---- numeric ----
-    is.numeric(length_mm),
-    is.numeric(weight)
-  )
+      # ---- not null ----
+      !is.na(pi_name),
+      !is.na(scientific_name),
+      !is.na(wild_lab),
+      !is.na(tissue_type),
+      !is.na(sample_procedure),
+
+      # ---- date ----
+      !is.na(as.Date(date, origin = "1899-12-30")),
+
+      # ---- ranges ----
+      month >= 1 & month <= 12,
+
+      # ---- sets ----
+      season %in% c("spring", "summer", "fall", "winter"),
+      sex %in% c("male", "female", "unknown"),
+
+      # ---- numeric ----
+      is.numeric(length_mm),
+      is.numeric(weight),
+
+      stringr::str_to_sentence(common_name) %in%
+        stringr::str_to_sentence(!!valid_common),
+
+      # Scientific name validation (case-insensitive)
+      stringr::str_to_sentence(scientific_name) %in%
+        stringr::str_to_sentence(!!valid_scientific)
+    )
+  } else {
+    validator(
+
+      # ---- structure ----
+      all(required_cols %in% names(.)),
+
+      # ---- not null ----
+      !is.na(pi_name),
+      !is.na(scientific_name),
+      !is.na(wild_lab),
+      !is.na(tissue_type),
+      !is.na(sample_procedure),
+
+      # ---- date ----
+      !is.na(as.Date(date, origin = "1899-12-30")),
+
+      # ---- ranges ----
+      month >= 1 & month <= 12,
+
+      # ---- sets ----
+      season %in% c("spring", "summer", "fall", "winter"),
+      sex %in% c("male", "female", "unknown"),
+
+      # ---- numeric ----
+      is.numeric(length_mm),
+      is.numeric(weight)
+
+    )
+  }
+
+  # rules <- c(rules, taxonomy_rules)
 
   out <- confront(df, rules)
 
