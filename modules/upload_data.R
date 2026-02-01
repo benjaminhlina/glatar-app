@@ -71,6 +71,9 @@ upload_data_server <- function(id, con) {
         janitor::clean_names() |>
         rename_to_db_col(con, "tbl_samples")
 
+      species_list <- tbl(con, "tbl_taxonomy")
+
+
 
       # ---- run pointblank validation ----
       agent <- validate_tbl_samples(tbl_samples)
