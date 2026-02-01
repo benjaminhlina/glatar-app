@@ -41,7 +41,7 @@ check_taxonomy_match <- function(input_values, db_values, field_name = "name") {
 }
 
 # ----- validate tbl_samples ------
-validate_tbl_samples <- function(df) {
+validate_tbl_samples <- function(df, species_list = NULL) {
 
   required_cols <- c(
     "pi_name", "source_id", "user_sample_id", "date", "month",
