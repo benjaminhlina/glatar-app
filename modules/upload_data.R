@@ -76,6 +76,7 @@ upload_data_server <- function(id, con) {
       species_list <- tbl(con, "tbl_taxonomy")
 
       # ---- add valid taxoonmy -----
+      tbl_samples <- add_valid_taxonomy(tbl_samples, species_list)
 
 
       # ---- run pointblank validation ----
