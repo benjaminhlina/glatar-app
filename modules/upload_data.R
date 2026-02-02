@@ -99,13 +99,16 @@ upload_data_server <- function(id, con) {
             energy_units = .energy_units
           )
 
+
+
         shinyjs::enable("submit_btn")
 
         output$upload_status <- renderUI({
           tagList(
             p("✔ All validations passed",
               style = "color:green; font-weight:600;"),
-            p(paste0("Ready to submit ", nrow(tbl_samples), " rows to database."),
+            p(paste0("Ready to submit ", nrow(tbl_samples_submitted),
+                     " rows to database."),
               style = "color:green;")
           )
         })
