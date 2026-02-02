@@ -4,19 +4,9 @@ match_to_db_col <- function(col_name, db_cols) {
   # Strip example markers: split on "_e_g_" or "_i_e_" and take the first part
   # ., "common_name_e_g_lake_trout" -> "common_name"
   candidate_col <- col_name
+
   if (grepl("_e_g_|_i_e_", col_name)) {
     candidate_col <- strsplit(col_name, "_e_g_|_i_e_")[[1]][1]
-  }
-
-  key <- candidate_col
-
-  # ---- special mappings ----
-  if (key %in% c("longitude")) {
-    candidate_col <- "lon"
-  }
-
-  if (key %in% c("latitude")) {
-    candidate_col <- "lat"
   }
 
   # ---- final match ----
@@ -65,12 +55,5 @@ rename_to_db_col <- function(df, con, table_name) {
 
   # drop example cols
   return(df)
-  # df <- df |>
-  #   dplyr::select(-dplyr::matches("_e_g_"))
-  #
-  # matched_cols <- intersect(names(df), db_cols)
-  # cli::cli_alert_info("Selecting {length(matched_cols)} matching columns")
-  #
-  # df |>
-  #   dplyr::select(dplyr::any_of(db_cols))
+
 }
