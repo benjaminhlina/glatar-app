@@ -73,20 +73,22 @@ upload_data_server <- function(id, con) {
         rename_to_db_col(con, "tbl_samples") |>
         rename_to_db_col(con, "tbl_location") |>
 
+
       # ----- get species list -----
       species_list <- tbl(con, "tbl_taxonomy")
 
       # ---- add valid taxoonmy -----
-      tbl_samples <- add_valid_taxonomy(tbl_samples, species_list)
+      tbl_samples_submitted <- add_valid_taxonomy(tbl_samples_submitted,
+                                                  species_list)
 
       # ---- run validtor validation ----
-      agent <- validate_tbl_samples(tbl_samples)
+      agent <- validate_tbl_samples(tbl_samples_submitted)
 
       if (all(agent)) {
 
-        validated_samples(tbl_samples)
+        validated_samples(tbl_samples_submitted)
 
-        tbl_samples <- tbl_samples |>
+        tbl_samples_submitted <- tbl_samples_submitted |>
           mutate(
             across(common_name:class_sci, ~  stringr::str_to_sentence(.x))
           )
