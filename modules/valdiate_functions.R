@@ -200,6 +200,9 @@ pretty_validate_report <- function(confrontation) {
         # Handle function calls without commas - get content of innermost parens
         grepl("\\(", expression) ~ sub(".*\\(([^()]+)\\).*", "\\1", expression),
 
+        grepl("^\\.valid_", expression) ~ sub("^\\.valid_([^ =]+).*", "\\1",
+                                              expression),
+
         # Default: return the expression as-is
         TRUE ~ expression
       ),
