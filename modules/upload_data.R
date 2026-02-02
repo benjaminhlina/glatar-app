@@ -78,8 +78,7 @@ upload_data_server <- function(id, con) {
       # ---- add valid taxoonmy -----
       tbl_samples <- add_valid_taxonomy(tbl_samples, species_list)
 
-
-      # ---- run pointblank validation ----
+      # ---- run validtor validation ----
       agent <- validate_tbl_samples(tbl_samples)
 
       if (all(agent)) {
