@@ -1,6 +1,5 @@
 # ----- Helper function for taxonomy validation -----
-check_taxonomy_match <- function(input_values, db_values, field_name = "name") {
-  # Normalize both to sentence case for comparison
+check_taxonomy_match <- function(input_values, db_values) {
   input_norm <- stringr::str_to_sentence(input_values)
   # db_norm <- stringr::str_to_sentence(db_values)
 
