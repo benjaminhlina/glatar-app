@@ -63,14 +63,15 @@ upload_data_server <- function(id, con) {
       )
 
       # ---- get tbl sample -----
-      tbl_samples <- readxl::read_excel(
+      tbl_samples_submitted <- readxl::read_excel(
         file_path,
         sheet = "tbl_samples",
         col_types = col_types,
         skip = 4
       ) |>
         janitor::clean_names() |>
-        rename_to_db_col(con, "tbl_samples")
+        rename_to_db_col(con, "tbl_samples") |>
+        rename_to_db_col(con, "tbl_location") |>
 
       # ----- get species list -----
       species_list <- tbl(con, "tbl_taxonomy")
