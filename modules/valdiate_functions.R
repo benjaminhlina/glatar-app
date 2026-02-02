@@ -237,22 +237,23 @@ pretty_validate_report <- function(confrontation) {
         .default = expression
       )
     ) |>
-    select(Row = data_row, Column = col_name, Issue)
-
-  if (!is.null(common_name_suggestions) ||
-      !is.null(scientific_name_suggestions)) {
-    out <- out |>
-      mutate(
-        Suggestion = case_when(
-          Column == "common_name" & !is.na(common_name_suggestions[Row]) ~
-            paste0("Did you mean: ", common_name_suggestions[Row], "?"),
-          Column == "scientific_name" & !is.na(scientific_name_suggestions[Row]) ~
-            paste0("Did you mean: ", scientific_name_suggestions[Row], "?"),
-          TRUE ~ NA
-        )
     select(Row = data_row,
            Column = col_name,
            Issue)
+
+
+  out <- out |>
+    mutate(
+      Suggestion = case_when(
+        Column %in% "common_name" & !is.null(common_name_suggestions) &
+          Row <= length(common_name_suggestions) &
+          !is.na(common_name_suggestions[Row]) ~
+          paste0("Did you mean: ", common_name_suggestions[Row], "?"),
+        Column == "scientific_name" & !is.null(scientific_name_suggestions) &
+          Row <= length(scientific_name_suggestions) &
+          !is.na(scientific_name_suggestions[Row]) ~
+          paste0("Did you mean: ", scientific_name_suggestions[Row], "?"),
+        .default = NA
       )
   }
   out <- out |>
