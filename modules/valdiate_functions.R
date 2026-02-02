@@ -204,7 +204,7 @@ pretty_validate_report <- function(confrontation) {
                                               expression),
 
         # Default: return the expression as-is
-        TRUE ~ expression
+        .default = expression
       ),
       # Clean up any remaining quotes or whitespace
       col_name = trimws(gsub('"', '', col_name))
