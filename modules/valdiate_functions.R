@@ -114,55 +114,31 @@ validate_tbl_samples <- function(df) {
   )
 
 
-  rules <- if (!is.null(species_list)) {
-    validator(
+  rules <- validator(
 
-      # ---- structure ----
-      all(required_cols %in% names(.)),
+    # ---- structure ----
+    all(required_cols %in% names(.)),
 
-      # ---- not null ----
-      !is.na(pi_name),
-      !is.na(scientific_name),
-      !is.na(wild_lab),
-      !is.na(tissue_type),
-      !is.na(sample_procedure),
+    # ---- not null ----
+    !is.na(pi_name),
+    !is.na(scientific_name),
+    !is.na(wild_lab),
+    !is.na(tissue_type),
+    !is.na(sample_procedure),
 
-      # ---- date ----
-      !is.na(as.Date(date, origin = "1899-12-30")),
+    # ---- date ----
+    !is.na(as.Date(date, origin = "1899-12-30")),
 
-      # ---- ranges ----
-      month >= 1 & month <= 12,
+    # ---- ranges ----
+    month >= 1 & month <= 12,
 
-      # ---- sets ----
-      season %in% c("spring", "summer", "fall", "winter"),
-      sex %in% c("male", "female", "unknown"),
+    # ---- sets ----
+    season %in% c("spring", "summer", "fall", "winter"),
+    sex %in% c("male", "female", "unknown"),
 
-      # ---- numeric ----
-      is.numeric(length_mm),
-      is.numeric(weight),
-
-      stringr::str_to_sentence(common_name) %in%
-        stringr::str_to_sentence(!!valid_common),
-
-      # Scientific name validation (case-insensitive)
-      stringr::str_to_sentence(scientific_name) %in%
-        stringr::str_to_sentence(!!valid_scientific)
-    )
-  } else {
-    validator(
-
-      # ---- structure ----
-      all(required_cols %in% names(.)),
-
-      # ---- not null ----
-      !is.na(pi_name),
-      !is.na(scientific_name),
-      !is.na(wild_lab),
-      !is.na(tissue_type),
-      !is.na(sample_procedure),
-
-      # ---- date ----
-      !is.na(as.Date(date, origin = "1899-12-30")),
+    # ---- numeric ----
+    is.numeric(length_mm),
+    is.numeric(weight),
 
       # ---- ranges ----
       month >= 1 & month <= 12,
