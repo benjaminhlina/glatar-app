@@ -39,6 +39,25 @@ check_taxonomy_match <- function(input_values, db_values) {
   return(result)
 }
 
+# ---- get valid taxonomy ------
+valid_taxonomy <- function(x) {
+
+  valid_common <- x |>
+    pull(common_name) |>
+    unique() |>
+    na.omit()
+
+  valid_scientific <- x |>
+    pull(scientific_name) |>
+    unique() |>
+    na.omit()
+
+  valid_taxonomy <- list(
+    valid_common = valid_common,
+    valid_scientific = valid_scientific
+  )
+  return(valid_taxonomy)
+}
 # ----- validate tbl_samples ------
 validate_tbl_samples <- function(df, species_list = NULL) {
 
