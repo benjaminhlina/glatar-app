@@ -58,6 +58,44 @@ valid_taxonomy <- function(x) {
   )
   return(valid_taxonomy)
 }
+# ----- add valid txaomnmy ------
+
+add_valid_taxonomy <- function(df, species_list) {
+
+  # ---- get tax from db ----
+  valid_taxonomy <- valid_taxonomy(species_list)
+
+
+  valid_common_sentence <- str_to_sentence(valid_taxonomy$valid_common)
+  valid_sci_sentence <- str_to_sentence(valid_taxonomy$valid_scientific)
+
+  df <- df |>
+    mutate(
+      common_name = stringr::str_to_sentence(common_name),
+      scientific_name = str_to_sentence(scientific_name)
+    )
+
+  # Store validation results in df attributes for later use
+  common_check <- check_taxonomy_match(df$common_name,
+                                       valid_common_sentence)
+  sci_check <- check_taxonomy_match(df$scientific_name,
+                                    valid_sci_sentence)
+
+  cli::cli_alert_info("comon_check {.val {common_check}}")
+  cli::cli_alert_info("sci_check {.val {sci_check}}")
+
+  attr(df, "common_name_suggestions") <- common_check$suggestions
+  attr(df, "scientific_name_suggestions") <- sci_check$suggestions
+
+  df <- df |>
+    mutate(
+      .valid_common_name = common_check$valid,
+      .valid_scientific_name = sci_check$valid
+    )
+
+  return(df)
+}
+
 # ----- validate tbl_samples ------
 validate_tbl_samples <- function(df, species_list = NULL) {
 
