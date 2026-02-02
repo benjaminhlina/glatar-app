@@ -220,19 +220,19 @@ pretty_validate_report <- function(confrontation) {
   out <- bad |>
     mutate(
       Issue = case_when(
-        grepl("required_cols", expression) ~ "Missing required columns - you have
+        expression %in% "required_cols" ~ "Missing required columns - you have
         altered the data entry template - please reupload an unaltered file",
         grepl("is.na\\(as.Date", expression) ~"Date format does not follow the
         required format of yyyy-mm-dd or is an invalid date",
         grepl("is.na", expression) ~ "Required field - cannot be empty",
-        grepl("month", expression) ~ "Month must be between 1 and 12",
-        grepl("season", expression) ~ "Invalid season - must be spring,
+        expression %in% "month" ~ "Month must be between 1 and 12",
+        expression %in% "season" ~ "Invalid season - must be spring,
         summer, fall, winter",
-        grepl("sex", expression) ~ "Invalid sex - must be female, male,
+        expression %in% "sex" ~ "Invalid sex - must be female, male,
         unknown, or mixed",
         grepl("is.numeric", expression) ~ "Must be numeric value",
-        grepl("common_name", expression) ~ "Common name not found in database",
-        grepl("scientific_name", expression) ~ "Scientific name not found in
+        expression %in% "common_name" ~ "Common name not found in database",
+        expression %in% "scientific_name" ~ "Scientific name not found in
         database",
         .default = expression
       )
