@@ -97,7 +97,7 @@ add_valid_taxonomy <- function(df, species_list) {
 }
 
 # ----- validate tbl_samples ------
-validate_tbl_samples <- function(df, species_list = NULL) {
+validate_tbl_samples <- function(df) {
 
   required_cols <- c(
     "pi_name", "source_id", "user_sample_id", "date", "month",
