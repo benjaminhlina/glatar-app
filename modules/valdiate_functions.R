@@ -139,22 +139,11 @@ validate_tbl_samples <- function(df) {
     # ---- numeric ----
     is.numeric(length_mm),
     is.numeric(weight),
+    # ---- see if these are true -----
+    .valid_common_name == TRUE,
+    .valid_scientific_name == TRUE
 
-      # ---- ranges ----
-      month >= 1 & month <= 12,
-
-      # ---- sets ----
-      season %in% c("spring", "summer", "fall", "winter"),
-      sex %in% c("male", "female", "unknown"),
-
-      # ---- numeric ----
-      is.numeric(length_mm),
-      is.numeric(weight)
-
-    )
-  }
-
-  # rules <- c(rules, taxonomy_rules)
+  )
 
   out <- confront(df, rules)
 
