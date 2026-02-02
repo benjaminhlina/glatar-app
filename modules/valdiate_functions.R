@@ -210,13 +210,16 @@ pretty_validate_report <- function(confrontation) {
       col_name = trimws(gsub('"', '', col_name))
       # col_name = sub(".*\\(([^,\\)]+).*", "\\1", expression)
     )
+
   # ----- grab only bad columns -----
   bad <- df |>
     filter(value %in% FALSE)
+
   # ----- if tehre are non-return NULL -----
   if (nrow(bad) == 0) return(NULL)
 
 
+  # ----- create pretty names -----
   out <- bad |>
     mutate(
       Issue = case_when(
@@ -255,7 +258,8 @@ pretty_validate_report <- function(confrontation) {
           paste0("Did you mean: ", scientific_name_suggestions[Row], "?"),
         .default = NA
       )
-  }
+    )
+
   cli::cli_alert_info("Rows with suggestions: {sum(!is.na(out$Suggestion))}")
   cli::cli_alert_success("Suggestions are the following: {.val {paste(unique(na.omit(out$Suggestion)), collapse = ';')}}")
   # ---- clean this up -----
