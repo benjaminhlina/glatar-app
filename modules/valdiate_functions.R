@@ -97,6 +97,7 @@ add_valid_taxonomy <- function(df, species_list) {
   return(df)
 }
 
+
 # ----- validate tbl_samples ------
 validate_tbl_samples <- function(df) {
 
@@ -113,6 +114,7 @@ validate_tbl_samples <- function(df) {
     "percent_ash", "percent_lipid", "percent_protein", "percent_carbon",
     "percent_nitrogen", "d13c", "d15n", "d34s", "c_n"
   )
+
 
 
   rules <- validator(
