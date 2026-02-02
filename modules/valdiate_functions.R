@@ -1,7 +1,7 @@
 # ----- Helper function for taxonomy validation -----
 check_taxonomy_match <- function(input_values, db_values) {
+  # Normalize input value
   input_norm <- stringr::str_to_sentence(input_values)
-  # db_norm <- stringr::str_to_sentence(db_values)
 
   # Check exact matches
   matches <- input_norm %in% db_values
