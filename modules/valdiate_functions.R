@@ -266,7 +266,9 @@ pretty_validate_report <- function(confrontation) {
       Suggestion = paste(unique(na.omit(Suggestion)), collapse = "; ")
     ) |>
     ungroup() |>
-    mutate(Suggestion = if_else(Suggestion == "", NA, Suggestion))
+    mutate(
+      Suggestion = if_else(nzchar(Suggestion), Suggestion, "-")
+    )
 
 
   return(out)
