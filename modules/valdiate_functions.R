@@ -135,7 +135,18 @@ validate_tbl_samples <- function(df) {
 
     # ---- sets ----
     season %in% c("spring", "summer", "fall", "winter"),
+    lifestage %in% c("fry", "larvae", "juvenile", "adult"),
     sex %in% c("male", "female", "unknown"),
+    length_type %in% c("Total", "Fork", "Standard", "Carapace"),
+    composite %in% c("individual", "composite", "mean", "equation"),
+    tissue_type %in% c("muscle", "liver", "stomach", "scales",
+                       "otolith", "spines", "cleithra", "whole body"),
+    sample_procedure %in% c("wet", "dried"),
+    calorimetry_method %in% c("Parr oxygen bomb", "Parr semi-micro oxygen bomb",
+                              "Phillipson microbomb", "Gentry-Weigert bomb",
+                              "Unknown bomb", "Proximate composition",
+                              "Organic analysis", "Wet digestion", "Unknown"),
+    sample_weight_type %in% c("wet", "dry"),
 
     # ---- numeric ----
     is.numeric(length_mm),
