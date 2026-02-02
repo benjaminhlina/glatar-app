@@ -234,8 +234,8 @@ pretty_validate_report <- function(confrontation) {
         expression %in% "sex" ~ "Invalid sex - must be female, male,
         unknown, or mixed",
         grepl("is.numeric", expression) ~ "Must be numeric value",
-        expression %in% "common_name" ~ "Common name not found in database",
-        expression %in% "scientific_name" ~ "Scientific name not found in
+        grepl("common_name", expression)  ~ "Common name not found in database",
+        grepl("scientific_name", expression) ~ "Scientific name not found in
         database",
         .default = expression
       )
