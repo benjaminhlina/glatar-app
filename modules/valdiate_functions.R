@@ -151,6 +151,23 @@ validate_tbl_samples <- function(df) {
     # ---- numeric ----
     is.numeric(length_mm),
     is.numeric(weight),
+    is.numeric(age),
+    is.numeric(composite_n),
+    is.numeric(latitude),
+    is.numeric(longitude),
+    is.numeric(calorimeter_conversion_factor),
+    is.numeric(sample_weight),
+    is.numeric(energy_measurement),
+    is.numeric(percent_water),
+    is.numeric(percent_ash),
+    is.numeric(percent_lipid),
+    is.numeric(percent_protein),
+    is.numeric(percent_carbon),
+    is.numeric(percent_nitrogen),
+    is.numeric(d13c),
+    is.numeric(d15n),
+    is.numeric(d34s),
+    is.numeric(c_n),
     # ---- see if these are true -----
     .valid_common_name == TRUE,
     .valid_scientific_name == TRUE
