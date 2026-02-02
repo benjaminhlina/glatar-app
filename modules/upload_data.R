@@ -90,7 +90,7 @@ upload_data_server <- function(id, con) {
 
         tbl_samples_submitted <- tbl_samples_submitted |>
           mutate(
-            across(common_name:class_sci, ~  stringr::str_to_sentence(.x))
+            across(common_name:class_sci, ~  stringr::str_to_sentence(.x)),
             .energy_units = paste(energy_units,
                                   sample_weight_type, "weight", sep = " ")
           ) |>
