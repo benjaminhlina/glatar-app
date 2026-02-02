@@ -8,13 +8,13 @@ check_taxonomy_match <- function(input_values, db_values) {
 
   # For non-matches, find closest suggestions
   suggestions <- sapply(which(!matches), function(i) {
-    if (is.na(input_values[i])) return(NA_character_)
+    if (is.na(input_values[i])) return(NA)
 
-    # Calculate string distances
+    # Calculate string distances using Jaro-Winkler distance
     distances <- stringdist::stringdist(
       input_norm[i],
       db_values,
-      method = "jw"  # Jaro-Winkler distance
+      method = "jw"
     )
 
     # Get the closest match
