@@ -113,28 +113,6 @@ validate_tbl_samples <- function(df) {
     "percent_nitrogen", "d13c", "d15n", "d34s", "c_n"
   )
 
-  if (!is.null(species_list)) {
-    valid_common <- species_list |>
-      pull(common_name) |>
-      unique() |>
-      na.omit()
-
-    valid_scientific <- species_list |>
-      pull(scientific_name) |>
-      unique() |>
-      na.omit()
-
-    # Store validation results in df attributes for later use
-    common_check <- check_taxonomy_match(df$common_name,
-                                         valid_common,
-                                         "common_name")
-    sci_check <- check_taxonomy_match(df$scientific_name,
-                                      valid_scientific, "
-                                      scientific_name")
-
-    attr(df, "common_name_suggestions") <- common_check$suggestions
-    attr(df, "scientific_name_suggestions") <- sci_check$suggestions
-  }
 
   rules <- if (!is.null(species_list)) {
     validator(
