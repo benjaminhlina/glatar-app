@@ -250,6 +250,9 @@ pretty_validate_report <- function(confrontation) {
             paste0("Did you mean: ", scientific_name_suggestions[Row], "?"),
           TRUE ~ NA
         )
+    select(Row = data_row,
+           Column = col_name,
+           Issue)
       )
   }
   out <- out |>
