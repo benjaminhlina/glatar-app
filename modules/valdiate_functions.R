@@ -58,6 +58,7 @@ valid_taxonomy <- function(x) {
   )
   return(valid_taxonomy)
 }
+
 # ----- add valid txaomnmy ------
 
 add_valid_taxonomy <- function(df, species_list) {
@@ -158,6 +159,7 @@ pretty_validate_report <- function(confrontation) {
   df <- as.data.frame(confrontation, add_columns = TRUE)
 
   original_data <- confrontation$._keys$keyset
+
   common_name_suggestions <- attr(original_data,
                                   "common_name_suggestions")
   scientific_name_suggestions <- attr(original_data,
@@ -181,12 +183,15 @@ pretty_validate_report <- function(confrontation) {
     mutate(
       col_name = case_when(
         # Handle %vin% expressions: get the word before %vin%
-        grepl("%vin%", expression) ~ sub("^\\s*(\\w+)\\s+%vin%.*", "\\1", expression),
+        grepl("%vin%", expression) ~ sub("^\\s*(\\w+)\\s+%vin%.*", "\\1",
+                                         expression),
 
         # Handle comparison expressions (month - 1 >= ..., etc.)
-        grepl("[-+].*[><=]", expression) ~ sub("^\\s*(\\w+)\\s+[-+].*", "\\1", expression),
+        grepl("[-+].*[><=]", expression) ~ sub("^\\s*(\\w+)\\s+[-+].*", "\\1",
+                                               expression),
 
-        # Handle function calls with commas - get first word before comma in innermost parens
+        # Handle function calls with commas - get first word before
+        # comma in innermost parens
         grepl("\\([^()]*,", expression) ~ {
           temp <- sub(".*\\(([^()]+)\\).*", "\\1", expression)
           sub("^\\s*([^,]+).*", "\\1", temp)
