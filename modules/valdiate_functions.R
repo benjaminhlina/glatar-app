@@ -160,7 +160,13 @@ pretty_validate_report <- function(confrontation) {
   original_data <- confrontation$._keys$keyset
   common_name_suggestions <- attr(original_data,
                                   "common_name_suggestions")
-  scientific_name_suggestions <- attr(original_data, "scientific_name_suggestions")
+  scientific_name_suggestions <- attr(original_data,
+                                      "scientific_name_suggestions")
+
+  cli::cli_alert_info("Common suggestions found:
+                      {!is.null(common_name_suggestions)}")
+  cli::cli_alert_info("Scientific suggestions found:
+                      {!is.null(scientific_name_suggestions)}")
 
   # if valdiate doens't return anything then  return nulll
   if (nrow(df) == 0) return(NULL)
