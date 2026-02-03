@@ -50,8 +50,11 @@ home_tab_ui <- function(id) {
               href = "data-entry-template/GLATAR_data_entry_template_v15.xlsx",
               download = "GLATAR_data_entry_template_v15.xlsx"
             ),
-            tags$span(" and in the documentation pane.")
+            tags$span(" and in the "),
+            actionLink("go_docs", "documentation pane"),
+            tags$span(".")
           ),
+
           tags$li("If you would like to contribute to this database,
           please create a username using your email address on the data upload
                   pane and wait for registration code to be sent to you."),
