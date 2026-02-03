@@ -6,7 +6,7 @@ home_tab_ui <- function(id) {
     h2("Welcome to the Great Lakes Aquatic Tissue Analysis Repository (GLATAR)"),
     p("This toolbox allows you to explore, visualize, and manage
     energy density, proximate composition, and stable isotope data
-    related to fish and aquatic invertebrates throughout the Great Lakes and
+    for fish and aquatic invertebrates throughout the Great Lakes and
       North America."),
     shiny::br(),
     shiny::fluidRow(
