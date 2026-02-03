@@ -47,7 +47,8 @@ ui <- dashboardPage(
                icon = icon("chart-line")
       ),
       menuItem("View Data",tabName = "view_data", icon = icon("table")),
-      menuItem("Upload Data", tabName = "insert_data", icon = icon("plus"))
+      menuItem("Upload Data", tabName = "insert_data", icon = icon("plus")),
+      menuItem("Documentation", tabName = "docs", icon = icon("book"))
     ),
     useShinyjs(),
     # Modularized panels
@@ -89,7 +90,9 @@ ui <- dashboardPage(
       tabItem(tabName = "summary_info", view_summary_info_ui("summary_info")),
       tabItem(tabName = "scatter_plot", view_scatter_plot_ui("scatter_plot")),
       tabItem(tabName = "view_data", view_data_ui("view_data")),
-      tabItem(tabName = "insert_data", upload_data_ui("insert_data"))
+      tabItem(tabName = "insert_data", upload_data_ui("insert_data")),
+      tabItem(tabName = "docs", docs_ui("docs"))
+
     )
   )
 )
@@ -175,6 +178,8 @@ server <- function(input, output, session) {
 
   # ---- upload data -----
   upload_data_server("insert_data", con)
+  docs_server("docs")
+
 
   ram_tracker()
 }
