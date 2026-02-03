@@ -145,6 +145,9 @@ server <- function(input, output, session) {
   observeEvent(input$logout, {
     session$reload()
   })
+  observeEvent(input$go_docs, {
+    updateTabItems(session, "tabs", "docs")
+  })
 
   # ---- get map -----
   view_map_server("view_map", con)
