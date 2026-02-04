@@ -31,19 +31,24 @@ upload_data_server <- function(id, con) {
 
     ns <- session$ns
 
+    # ---- reactive validate ------
     validated_samples <- reactiveVal(NULL)
     validated_source <- reactiveVal(NULL)
     validated_submission <- reactiveVal(NULL)
 
     observeEvent(input$upload_btn, {
 
+      # ---- get file upload -----
       req(input$file_upload)
 
       shinyjs::disable("submit_btn")
 
+      # get path
       file_path <- input$file_upload$datapath
+      # get sheets
       sheets <- readxl::excel_sheets(file_path)
 
+      # check if all sheets are there
       required_sheets <- c("tbl_submission", "tbl_sources", "tbl_samples")
       missing_sheets  <- setdiff(required_sheets, sheets)
 
