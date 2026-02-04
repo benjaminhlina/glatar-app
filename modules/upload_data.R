@@ -193,6 +193,7 @@ upload_data_server <- function(id, con) {
             sample_id = seq(from = max_ids[["sample_id"]] + 1,
                             length.out = n()),
             across(common_name:family, ~  stringr::str_to_sentence(.x)),
+            length_type = tolower(length_type),
             .energy_units = paste(energy_units,
                                   sample_weight_type, "weight", sep = " ")
           ) |>
