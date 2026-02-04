@@ -42,7 +42,10 @@ upload_data_server <- function(id, con) {
       file_path <- input$file_upload$datapath
       sheets <- readxl::excel_sheets(file_path)
 
-      if (!all(c("tbl_samples", "tbl_sources") %in% sheets)) {
+      required_sheets <- c("tbl_submission", "tbl_sources", "tbl_samples")
+      missing_sheets  <- setdiff(required_sheets, sheets)
+
+      if (length(missing_sheets) > 0) {
         output$upload_status <- renderUI({
           p("Error: Missing required sheets.",
             style = "color:red;")
