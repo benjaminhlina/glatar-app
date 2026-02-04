@@ -198,6 +198,16 @@ upload_data_server <- function(id, con) {
           )
 
 
+        # ---- add source id based on user supplied id ------
+        tbl_samples_submitted <- tbl_samples_submitted |>
+          left_join(
+            tbl_source_submitted |>
+              select(source_id, .source_id)
+          ) |>
+          select(-source_id) |>
+          rename(source_id = .source_id)
+
+
 
         shinyjs::enable("submit_btn")
 
