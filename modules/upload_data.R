@@ -35,6 +35,7 @@ upload_data_server <- function(id, con) {
     validated_samples <- reactiveVal(NULL)
     validated_source <- reactiveVal(NULL)
     validated_submission <- reactiveVal(NULL)
+    tables_to_submit<- reactiveVal(NULL)
 
     observeEvent(input$upload_btn, {
 
