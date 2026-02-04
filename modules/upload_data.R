@@ -64,15 +64,6 @@ upload_data_server <- function(id, con) {
       # ----- validate tbl_submission ------
       source_col_type <- rep("text", 3)
 
-      col_types <-  c(rep("text", 3),
-                      "date", "numeric", "text",
-                      "numeric", rep('text', 10),
-                      rep("numeric", 2), "text", "numeric",
-                      rep("text", 2), "numeric",
-                      rep("text", 6), rep("numeric", 3), "text",
-                      rep("numeric", 2), 'text', 'numeric',
-                      "text", rep('numeric', 2),
-                      rep("text", 2), rep('numeric', 10)
       tbl_source_submitted <- readxl::read_excel(
         file_path,
         sheet = "tbl_submission",
@@ -94,6 +85,13 @@ upload_data_server <- function(id, con) {
 
 
       agent_source <- validate_tbl_source(tbl_source_submitted)
+
+      # ----- validate tbl sample ----
+
+      col_types <- c(
+        rep("guess", 3),
+        "date",
+        rep("guess", 49)
       )
 
       # ---- get tbl sample -----
