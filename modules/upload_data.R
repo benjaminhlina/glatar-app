@@ -260,12 +260,44 @@ upload_data_server <- function(id, con) {
       req(validated_submission())
       req(validated_source())
       req(validated_samples())
+      req(tables_to_submit())
 
-      DBI::dbAppendTable(
-        con,
-        "tbl_samples",
-        validated_samples()
-      )
+      # --- assume tables_split_full is a named list ---
+      tables_to_submit <- tables_to_submit()
+
+      # Create a list to store submission results
+      submission_results <- list()
+
+      for(tbl_name in names(tables_to_submit)) {
+        df <- tables_to_submit[[tbl_name]]
+
+        if(nrow(df) > 0) {
+          # Append table to database
+          cli::cli_alert_info("Submitting table: {tbl_name} with {nrow(df)} rows...")
+
+          DBI::dbAppendTable(con, tbl_name, df)
+          cli::cli_alert_success("{tbl_name} submitted successfully")
+
+          # Store result info
+          submission_results[[tbl_name]] <- list(
+            rows_submitted = nrow(df),
+            submission_id = if("submission_id" %in% colnames(df)) unique(df$submission_id) else NA
+          )
+        } else {
+          submission_results[[tbl_name]] <- list(
+            rows_submitted = 0,
+            submission_id = NA
+          )
+          cli::cli_alert_info("{tbl_name} has no rows to submit, skipping.")
+        }
+      }
+
+      # Create a message to display
+      msg <- lapply(names(submission_results), function(tbl_name) {
+        res <- submission_results[[tbl_name]]
+        paste0("✔ ", tbl_name, ": ", res$rows_submitted,
+               " rows submitted",
+               if(!is.na(res$submission_id)) paste0(", submission_id = ", res$submission_id) else "")
 
       output$upload_status <- renderUI({
         p("✔ Data successfully appended to database",
