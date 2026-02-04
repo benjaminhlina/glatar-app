@@ -112,6 +112,15 @@ upload_data_server <- function(id, con) {
       tbl_samples_submitted <- add_valid_taxonomy(tbl_samples_submitted,
                                                   species_list)
 
+      num_cols <- c(
+        "length_mm","weight","age","composite_n","latitude","longitude",
+        "calorimeter_conversion_factor","sample_weight","energy_measurement",
+        "percent_water","percent_ash","percent_lipid","percent_protein",
+        "percent_carbon","percent_nitrogen","d13c","d15n","d34s","c_n"
+      )
+
+      tbl_samples_submitted <- tbl_samples_submitted |>
+        mutate(across(all_of(num_cols), ~ suppressWarnings(as.numeric(.))))
       # ---- run validtor validation ----
       agent <- validate_tbl_samples(tbl_samples_submitted)
 
