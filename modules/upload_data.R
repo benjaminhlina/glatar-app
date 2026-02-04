@@ -46,10 +46,17 @@ upload_data_server <- function(id, con) {
       missing_sheets  <- setdiff(required_sheets, sheets)
 
       if (length(missing_sheets) > 0) {
+
         output$upload_status <- renderUI({
-          p("Error: Missing required sheets.",
-            style = "color:red;")
+          p(
+            paste0(
+              "✖ Error: Missing required sheet(s): ",
+              paste(missing_sheets, collapse = ", ")
+            ),
+            style = "color:red; font-weight:600;"
+          )
         })
+
         return()
       }
 
