@@ -149,6 +149,8 @@ pretty_validate_report <- function(confrontation) {
   out <- bad |>
     mutate(
       Issue = case_when(
+        grepl("nrow(.) == 1", expression) ~ "Sheet is empty - please enter in
+        data and reupload",
         expression %in% "publication_type" ~ "Invalid publication type - must
         be Journal Article, Book, Book Section, Report, or Unpublished",
         expression %in% "required_cols" ~ "Missing required columns - you have
