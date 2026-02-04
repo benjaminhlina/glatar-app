@@ -135,8 +135,21 @@ upload_data_server <- function(id, con) {
         validated_source(tbl_source_submitted)
         validated_samples(tbl_samples_submitted)
 
+        # ----- get the next submission id ------
+        next_submission_id <- DBI::dbGetQuery(
+          con,
+          glue::glue("SELECT gen_random_uuid() AS next_id")
+        )
+
+        # ---- splap submisison id on to source and submission -----
+        tbl_submission_submitted <- tbl_submission_submitted |>
+          mutate(submission_id = next_submission_id$next_id)
+
+        tbl_source_submitted <- tbl_source_submitted |>
+          mutate(submission_id = next_submission_id$next_id)
         tbl_samples_submitted <- tbl_samples_submitted |>
           mutate(
+            submission_id = next_submission_id$next_id,
             across(common_name:class_sci, ~  stringr::str_to_sentence(.x)),
             .energy_units = paste(energy_units,
                                   sample_weight_type, "weight", sep = " ")
