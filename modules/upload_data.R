@@ -81,6 +81,15 @@ upload_data_server <- function(id, con) {
       ) |>
         janitor::clean_names()
       agent_submission <- validate_tbl_submission(tbl_source_submitted)
+
+      # ----- validate tbl_soruce -----
+      tbl_source_submitted <- readxl::read_excel(
+        file_path,
+        sheet = "tbl_sources",
+        skip = 3
+      ) |>
+        janitor::clean_names() |>
+        rename_to_db_col(con, "tbl_source")
       )
 
       # ---- get tbl sample -----
