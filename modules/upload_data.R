@@ -309,6 +309,7 @@ upload_data_server <- function(id, con) {
         validated_submission(NULL)
         validated_source(NULL)
         validated_samples(NULL)
+        tables_to_submit(NULL)
 
         error_report <- clean_all_validations(
           tbl_submssion = agent_submission,
@@ -374,10 +375,10 @@ upload_data_server <- function(id, con) {
         paste0("✔ ", tbl_name, ": ", res$rows_submitted,
                " rows submitted",
                if(!is.na(res$submission_id)) paste0(", submission_id = ", res$submission_id) else "")
+      })
 
       output$upload_status <- renderUI({
-        p("✔ Data successfully appended to database",
-          style = "color:green; font-weight:600;")
+        HTML(paste(msg, collapse = "<br>"))
       })
 
       shinyjs::disable("submit_btn")
