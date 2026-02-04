@@ -289,7 +289,8 @@ validate_tbl_samples <- function(df) {
       validate::validator,
       c(rule_column_names(required_fields))
 
-  )
+    )
+
   } else if(nrow(df) == 0) {
 
     rules <- validator(
@@ -368,7 +369,7 @@ validate_tbl_samples <- function(df) {
 # ----- validate source ------
 validate_tbl_source <- function(df) {
 
-  required_cols <- c(
+  required_fields <- c(
     "source_id",
     "publication_type",
     "author_names",
@@ -386,26 +387,37 @@ validate_tbl_source <- function(df) {
     "doi"
   )
 
+  if (!all(required_fields %in% colnames(df))) {
 
-  rules <- validator(
+    rules <- do.call(
+      validate::validator,
+      c(rule_column_names(required_fields))
 
-    # ---- structure ----
-    contains(required_cols),
-
-    # ---- required fields
-    !is.na(source_id),
-    !is.na(publication_type),
-
-    !is.na(author_names),
-    !is.na(publication_year),
-    !is.na(email),
-    !is.na(title),
-
-    publication_type %in% c("Journal Article",
-                            "Book", "Book Section",
-                            "Report", "Unpublished"
     )
-  )
+  }  else if(nrow(df) == 0) {
+
+    rules <- validator(
+      nrow(.) == 1
+    )
+  } else{
+
+    rules <- validator(
+
+      # ---- required fields
+      !is.na(source_id),
+      !is.na(publication_type),
+
+      !is.na(author_names),
+      !is.na(publication_year),
+      !is.na(email),
+      !is.na(title),
+
+      publication_type %in% c("Journal Article",
+                              "Book", "Book Section",
+                              "Report", "Unpublished"
+      )
+    )
+  }
 
   out <- confront(df, rules)
 
@@ -416,27 +428,38 @@ validate_tbl_source <- function(df) {
 # ----- validate source ------
 validate_tbl_submission <- function(df) {
 
-  required_cols <- c(
-    "submitted_by",
-    "submission_email",
-    "submission_affiliation"
-  )
+  required_fields <- c("submitted_by",
+                       "submission_email",
+                       "submission_affiliation")
 
+  if (!all(required_fields %in% colnames(df))) {
 
-  rules <- validator(
+    rules <- do.call(
+      validate::validator,
+      c(rule_column_names(required_fields))
 
-    # ---- structure ----
-    contains(required_cols),
+    )
+  } else if(nrow(df) == 0) {
 
-    # ---- required fields
-    !is.na(submitted_by),
-    !is.na(submission_email),
-    !is.na(submission_affiliation)
-  )
+    rules <- validator(
+      nrow(.) == 1
+    )
+  } else {
 
+    rules <- do.call(
+      validate::validator,
+      c(
+        rule_len(required_fields),
+        rule_na(required_fields),
+        rule_blank(required_fields),
+        rule_email
+      )
+    )
+
+  }
   out <- confront(df, rules)
-
 
   return(out)
 
 }
+
