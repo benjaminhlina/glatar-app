@@ -177,6 +177,10 @@ upload_data_server <- function(id, con) {
           collect() |>
           (\(.) split(., .$table_name))()
 
+        # ----- do the same for source id -----
+        tbl_source_submitted <- tbl_source_submitted |>
+          mutate(.source_id = seq(from = max_ids[["source_id"]] + 1,
+                                  length.out = n()))
 
         # ----- we need to do a couple things to tbl_submission before submitting
         tbl_samples_submitted <- tbl_samples_submitted |>
