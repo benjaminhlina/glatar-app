@@ -44,13 +44,13 @@ home_tab_ui <- function(id) {
                  dynamics."),
         tags$ul(
           tags$li(
-            tags$span("Data entry templates can be found by "),
-            tags$a(
-              "clicking here",
-              href = "data-entry-template/GLATAR_data_entry_template_v15.xlsx",
-              download = "GLATAR_data_entry_template_v15.xlsx"
-            ),
-            tags$span(" and in the "),
+            tags$span("Data entry templates can be found "),
+            # tags$a(
+            #   "clicking here",
+            #   href = "data-entry-template/GLATAR_data_entry_template_v15.xlsx",
+            #   download = "GLATAR_data_entry_template_v15.xlsx"
+            # ),
+            tags$span(" in the "),
             actionLink("go_docs", "documentation pane"),
             tags$span(".")
           ),
