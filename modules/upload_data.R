@@ -160,8 +160,10 @@ upload_data_server <- function(id, con) {
         WHERE table_schema = 'public'
         AND column_name LIKE '%_id'
         AND table_name <> 'tbl_submission'") |>
-          filter(!column_name %in%  c("submission_id",
-                                      "percent_lipid"))
+          filter(!column_name %in% c("submission_id",
+                                     "percent_lipid",
+                                     "user_sample_id")
+          )
 
 
 
