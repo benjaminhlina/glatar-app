@@ -212,11 +212,11 @@ upload_data_server <- function(id, con) {
           select(-source_id) |>
           rename(source_id = .source_id)
 
+        # doo the same to source -----
         tbl_source_submitted <- tbl_source_submitted |>
           select(-source_id) |>
           rename(source_id = .source_id)
 
-        # etc for other tables
         # ----- split by table name ----
 
         tables_split <- lapply(names(tables_to_split), function(tbl_name) {
