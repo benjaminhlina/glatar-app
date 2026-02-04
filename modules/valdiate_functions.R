@@ -153,8 +153,9 @@ pretty_validate_report <- function(confrontation) {
         data and reupload",
         expression %in% "publication_type" ~ "Invalid publication type - must
         be Journal Article, Book, Book Section, Report, or Unpublished",
-        expression %in% "required_cols" ~ "Missing required columns - you have
-        altered the data entry template - please reupload an unaltered file",
+        grepl('%vin% colnames', expression) ~ paste0("Missing required column(s):",
+                                                     gsub('.*"([^"]+)".*', '\\1', expression), " - you have
+        altered the data entry template - please reupload an unaltered file"),
         grepl("is.na\\(as.Date", expression) ~"Date format does not follow the
         required format of yyyy-mm-dd or is an invalid date",
         grepl("is.na", expression) ~ "Required field - cannot be empty",
