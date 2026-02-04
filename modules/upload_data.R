@@ -62,17 +62,15 @@ upload_data_server <- function(id, con) {
       # ----- start validation processes ------
 
       # ----- validate tbl_submission ------
-      source_col_type <- rep("text", 3)
 
-      tbl_source_submitted <- readxl::read_excel(
+      tbl_submission_submitted <- readxl::read_excel(
         file_path,
         sheet = "tbl_submission",
         skip = 3,
-        col_types = source_col_type
       ) |>
         janitor::clean_names()
 
-      agent_submission <- validate_tbl_submission(tbl_source_submitted)
+      agent_submission <- validate_tbl_submission(tbl_submission_submitted)
 
       # ----- validate tbl_soruce -----
       tbl_source_submitted <- readxl::read_excel(
