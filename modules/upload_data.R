@@ -146,6 +146,7 @@ upload_data_server <- function(id, con) {
           glue::glue("SELECT gen_random_uuid() AS next_id")
         )
 
+
         # ---- splap submisison id on to source and submission -----
         tbl_submission_submitted <- tbl_submission_submitted |>
           mutate(submission_id = next_submission_id$next_id)
@@ -207,6 +208,8 @@ upload_data_server <- function(id, con) {
           select(-source_id) |>
           rename(source_id = .source_id)
 
+
+        # etc for other tables
 
 
         shinyjs::enable("submit_btn")
