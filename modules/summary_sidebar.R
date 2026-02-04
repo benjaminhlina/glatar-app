@@ -53,7 +53,9 @@ summary_sidebar_ui <- function(id) {
           ),
           shiny::downloadButton(ns("download_summary"),
                                 "Download Summary as Excel",
-                                class = "btn-primary")
+                                class = "btn-primary",
+                                style = "margin-left: 15px; margin-top: 10px;
+                                width: 245px")
         )
     )
   )
