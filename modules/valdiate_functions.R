@@ -203,6 +203,30 @@ pretty_validate_report <- function(confrontation) {
 }
 
 
+# ----- run all validators -----
+
+clean_all_validations <- function(...) {
+
+    dots <- rlang::enquos(...)
+
+    reports <- purrr::imap(dots, function(x, nm) {
+      res <- pretty_validate_report(rlang::eval_tidy(x))
+      if (!is.null(res)) {
+        res$Table <- nm
+      }
+      res
+    }) |>
+      purrr::compact()
+
+    if (length(reports) == 0) return(NULL)
+
+  reports_combo <- dplyr::bind_rows(reports) |>
+    select(Table, Column, Issue, `Row Index`, Suggestion) |>
+    dplyr::arrange(Table, Column, Issue)
+
+  return(reports_combo)
+}
+
 valid_taxonomy <- function(x) {
 
   valid_common <- x |>
