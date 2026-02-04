@@ -265,6 +265,7 @@ upload_data_server <- function(id, con) {
           tables_split,
           tables_ids,
           max_ids
+        )
 
         tables_split_full$tbl_source <- tbl_source_submitted
         tables_split_full$tbl_submission <- tbl_submission_submitted
