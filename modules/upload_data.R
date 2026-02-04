@@ -32,6 +32,8 @@ upload_data_server <- function(id, con) {
     ns <- session$ns
 
     validated_samples <- reactiveVal(NULL)
+    validated_source <- reactiveVal(NULL)
+    validated_submission <- reactiveVal(NULL)
 
     observeEvent(input$upload_btn, {
 
@@ -128,6 +130,9 @@ upload_data_server <- function(id, con) {
 
       if (all(agent_submission) && all(agent_source) && all(agent_sample)) {
 
+        # ---- make all of them reactive vals -----
+        validated_submission(tbl_samples_submitted)
+        validated_source(tbl_source_submitted)
         validated_samples(tbl_samples_submitted)
 
         tbl_samples_submitted <- tbl_samples_submitted |>
@@ -157,6 +162,8 @@ upload_data_server <- function(id, con) {
 
       } else {
 
+        validated_submission(NULL)
+        validated_source(NULL)
         validated_samples(NULL)
 
         error_report <- clean_all_validations(
@@ -182,6 +189,8 @@ upload_data_server <- function(id, con) {
     # ---- submit to database ----
     observeEvent(input$submit_btn, {
 
+      req(validated_submission())
+      req(validated_source())
       req(validated_samples())
 
       DBI::dbAppendTable(
