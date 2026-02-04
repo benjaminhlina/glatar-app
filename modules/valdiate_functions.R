@@ -169,12 +169,19 @@ pretty_validate_report <- function(confrontation) {
         grepl("scientific_name", expression) ~ "Scientific name not found in
         database",
         .default = expression
-      )
+      ),
     ) |>
     select(Row = data_row,
            Column = col_name,
            Issue)
 
+  if (!is.character(common_name_suggestions)) {
+    common_name_suggestions <- character(0)
+  }
+
+  if (!is.character(scientific_name_suggestions)) {
+    scientific_name_suggestions <- character(0)
+  }
 
   out <- out |>
     mutate(
