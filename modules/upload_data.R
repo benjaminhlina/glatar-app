@@ -59,7 +59,10 @@ upload_data_server <- function(id, con) {
 
         return()
       }
+      # ----- start validation processes ------
 
+      # ----- validate tbl_submission ------
+      source_col_type <- rep("text", 3)
 
       col_types <-  c(rep("text", 3),
                       "date", "numeric", "text",
@@ -70,6 +73,13 @@ upload_data_server <- function(id, con) {
                       rep("numeric", 2), 'text', 'numeric',
                       "text", rep('numeric', 2),
                       rep("text", 2), rep('numeric', 10)
+      tbl_source_submitted <- readxl::read_excel(
+        file_path,
+        sheet = "tbl_submission",
+        skip = 3,
+        col_types = source_col_type
+      ) |>
+        janitor::clean_names()
       )
 
       # ---- get tbl sample -----
