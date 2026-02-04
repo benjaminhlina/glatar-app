@@ -59,10 +59,7 @@ COPY renv/ renv/
 ENV RENV_PATHS_CACHE=/renv/cache
 ENV RENV_CONFIG_PAK_ENABLED=TRUE
 ENV RENV_CONFIG_REPOS_OVERRIDE=https://cloud.r-project.org
-# RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
-RUN R -e "options(renv.verbose=TRUE); \
-          if (requireNamespace('pak', quietly=TRUE)) pak::pak('pak'); \
-          renv::restore(prompt=FALSE, type='binary')"
+RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
 
 # Copy app files
 COPY app.R app.R
