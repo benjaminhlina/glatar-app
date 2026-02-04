@@ -380,6 +380,29 @@ validate_tbl_source <- function(df) {
   out <- confront(df, rules)
 
 
+validate_tbl_submission <- function(df) {
+
+  required_cols <- c(
+    "submitted_by",
+    "submission_email",
+    "submission_affiliation"
+  )
+
+
+  rules <- validator(
+
+    # ---- structure ----
+    contains(required_cols),
+
+    # ---- required fields
+    !is.na(submitted_by),
+    !is.na(submission_email),
+    !is.na(submission_affiliation)
+  )
+
+  out <- confront(df, rules)
+
+
   return(out)
 
 }
