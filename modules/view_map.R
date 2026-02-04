@@ -28,7 +28,7 @@ view_map_server <- function(id, con) {
       locs <- dbGetQuery(con, 'SELECT * FROM tbl_location')
 
       # Ensure required columns exist
-      missing_cols <- setdiff(c("lat", "lon",
+      missing_cols <- setdiff(c("latitude", "longitude",
                                 "waterbody",
                                 "area",
                                 "site",
@@ -55,7 +55,7 @@ view_map_server <- function(id, con) {
 
       # remove locations that don't have lon
       locs <- locs |>
-        dplyr::filter(!(is.na(lon)))
+        dplyr::filter(!(is.na(longitude)))
 
       # Create popup content dynamically
       locs$popup_info <- paste(
@@ -69,8 +69,8 @@ view_map_server <- function(id, con) {
       leaflet::leaflet(locs) |>
         leaflet::addTiles() |>
         leaflet::addCircleMarkers(
-          lng = ~lon,
-          lat = ~lat,
+          lng = ~longitude,
+          lat = ~latitude,
           popup = ~popup_info,
           radius = 5,
           color = "blue",
