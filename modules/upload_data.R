@@ -147,6 +147,7 @@ upload_data_server <- function(id, con) {
 
         tbl_source_submitted <- tbl_source_submitted |>
           mutate(submission_id = next_submission_id$next_id)
+
         # ------ get tables to split -----
         tables_to_split <- get_column_map(con) |>
           filter(!table_name %in% c("tbl_source", "tbl_submission")) |>
@@ -154,6 +155,7 @@ upload_data_server <- function(id, con) {
           (\(.) split(., .$table_name))()
 
 
+        # ----- we need to do a couple things to tbl_submission before submitting
         tbl_samples_submitted <- tbl_samples_submitted |>
           mutate(
             submission_id = next_submission_id$next_id,
