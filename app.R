@@ -5,6 +5,7 @@
   library(DT)
   library(ggplot2)
   library(ggtext)
+  library(glue)
   library(grid)
   library(janitor)
   library(leaflet)
