@@ -152,7 +152,25 @@ upload_data_server <- function(id, con) {
 
         tbl_source_submitted <- tbl_source_submitted |>
           mutate(submission_id = next_submission_id$next_id)
+        tables_ids <- dbGetQuery(con, "
+        SELECT table_name, column_name
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+        AND column_name LIKE '%_id'
+        AND table_name <> 'tbl_submission'") |>
+          filter(!column_name %in%  c("submission_id",
+                                      "percent_lipid"))
 
+
+
+        # filter(table_name %in% c("tbl_samples", "tbl_source", "tbl_length", "tbl_location"))
+        max_ids <- purrr::pmap(
+          tables_ids,
+          ~ id_max(..1, ..2)
+        ) |>
+          set_names(tables_ids$column_name)
+
+        max_ids
         # ------ get tables to split -----
         tables_to_split <- get_column_map(con) |>
           filter(!table_name %in% c("tbl_source", "tbl_submission")) |>
