@@ -185,7 +185,9 @@ pretty_validate_report <- function(confrontation) {
     )
 
   cli::cli_alert_info("Rows with suggestions: {sum(!is.na(out$Suggestion))}")
-  cli::cli_alert_success("Suggestions are the following: {.val {paste(unique(na.omit(out$Suggestion)), collapse = ';')}}")
+  cli::cli_alert_success("Suggestions are the following:
+                         {.val {paste(unique(na.omit(out$Suggestion)),
+                         collapse = ';')}}")
   # ---- clean this up -----
   out <- out |>
     group_by(Column, Issue) |>
