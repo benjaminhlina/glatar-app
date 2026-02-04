@@ -378,7 +378,13 @@ upload_data_server <- function(id, con) {
       })
 
       output$upload_status <- renderUI({
-        HTML(paste(msg, collapse = "<br>"))
+        HTML(
+          paste0(
+            "<span style='color: green;'>",
+            paste(msg, collapse = "<br>"),
+            "</span>"
+          )
+        )
       })
 
       shinyjs::disable("submit_btn")
