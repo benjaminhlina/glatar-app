@@ -89,7 +89,7 @@ upload_data_server <- function(id, con) {
       col_types <- c(
         rep("guess", 3),
         "date",
-        rep("guess", 49)
+        rep("guess", 48)
       )
 
       # ---- get tbl sample -----
