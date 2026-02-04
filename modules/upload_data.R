@@ -121,10 +121,14 @@ upload_data_server <- function(id, con) {
 
       tbl_samples_submitted <- tbl_samples_submitted |>
         mutate(across(all_of(num_cols), ~ suppressWarnings(as.numeric(.))))
-      # ---- run validtor validation ----
-      agent <- validate_tbl_samples(tbl_samples_submitted)
 
-      if (all(agent)) {
+      # ---- run validtor validation ----
+      agent_sample <- validate_tbl_samples(tbl_samples_submitted)
+
+
+
+
+      if (all(agent_sample)) {
 
         validated_samples(tbl_samples_submitted)
 
@@ -157,7 +161,11 @@ upload_data_server <- function(id, con) {
 
         validated_samples(NULL)
 
-        error_report <- pretty_validate_report(agent)
+        error_report <- clean_all_validations(
+          tbl_submssion = agent_submission,
+          tbl_source = agent_source,
+          tbl_samples = agent_sample
+        )
 
         output$upload_status <- renderUI({
           tagList(

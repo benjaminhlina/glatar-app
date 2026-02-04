@@ -97,6 +97,10 @@ add_valid_taxonomy <- function(df, species_list) {
   return(df)
 }
 
+# ----- check tax  -----
+check_taxonomy_match <- function(input_values, db_values) {
+  # Normalize input value
+  input_norm <- stringr::str_to_sentence(input_values)
 
 # ----- validate tbl_samples ------
 validate_tbl_samples <- function(df) {
@@ -130,12 +134,23 @@ validate_tbl_samples <- function(df) {
     !is.na(tissue_type),
     !is.na(sample_procedure),
     !is.na(waterbody),
+  # Check exact matches
+  matches <- input_norm %in% db_values
 
     # ---- date ----
     !is.na(as.Date(date, origin = "1899-12-30")),
+  # For non-matches, find closest suggestions
+  suggestions <- sapply(which(!matches), function(i) {
+    if (is.na(input_values[i])) return(NA)
 
     # ---- ranges ----
     month >= 1 & month <= 12,
+    # Calculate string distances using Jaro-Winkler distance
+    distances <- stringdist::stringdist(
+      input_norm[i],
+      db_values,
+      method = "jw"
+    )
 
     # ---- sets ----
     season %in% c("spring", "summer", "fall", "winter"),
@@ -151,6 +166,9 @@ validate_tbl_samples <- function(df) {
                               "Unknown bomb", "Proximate composition",
                               "Organic analysis", "Wet digestion", "Unknown"),
     sample_weight_type %in% c("wet", "dry"),
+    # Get the closest match
+    closest_idx <- which.min(distances)
+    closest_dist <- distances[closest_idx]
 
     # ---- numeric ----
     is.numeric(length_mm),
@@ -175,15 +193,23 @@ validate_tbl_samples <- function(df) {
     # ---- see if these are true -----
     .valid_common_name == TRUE,
     .valid_scientific_name == TRUE
+    # Only suggest if reasonably close (distance < 0.3)
+    if (closest_dist < 0.3) {
+      return(db_values[closest_idx])
+    } else {
+      return(paste0("No close match found for '", input_values[i], "'"))
+    }
+  })
 
+  # Create result with suggestions
+  result <- list(
+    valid = matches,
+    suggestions = rep(NA, length(input_values))
   )
+  result$suggestions[!matches] <- suggestions
 
-  out <- confront(df, rules)
-
-
-  return(out)
+  return(result)
 }
-
 
 # ----- pretty pointblank -----
 pretty_validate_report <- function(confrontation) {
