@@ -111,7 +111,7 @@ upload_data_server <- function(id, con) {
                                                   species_list)
 
       num_cols <- c(
-        "length_mm","weight","age","composite_n","latitude","longitude",
+        "length_mm","weight_g","age","composite_n","latitude","longitude",
         "calorimeter_conversion_factor","sample_weight","energy_measurement",
         "percent_water","percent_ash","percent_lipid","percent_protein",
         "percent_carbon","percent_nitrogen","d13c","d15n","d34s","c_n"
