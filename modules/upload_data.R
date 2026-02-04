@@ -215,6 +215,30 @@ upload_data_server <- function(id, con) {
 
         # etc for other tables
 
+        tables_split_full$tbl_source <- tbl_source_submitted
+        tables_split_full$tbl_submission <- tbl_submission_submitted
+
+
+        # Define the "priority" tables to go first
+        priority_tables <- c("tbl_submission", "tbl_source", "tbl_samples")
+
+        # Find which priority tables exist in your list
+        existing_priority <- intersect(priority_tables, names(tables_split_full))
+
+        # Get remaining tables
+        other_tables <- setdiff(names(tables_split_full), existing_priority)
+
+        # Combine: priority first, then the rest
+        tables_ordered <- c(existing_priority, other_tables)
+
+        # Reorder your list
+        tables_split_full <- tables_split_full[tables_ordered]
+
+        # Optional: check order
+        cli::cli_alert_info("Tables will be submitted in this order:
+                            {paste(names(tables_split_full), collapse = ' -> ')}")
+        # etc for other tables
+        tables_to_submit(tables_split_full)
 
         shinyjs::enable("submit_btn")
 
