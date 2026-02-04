@@ -43,10 +43,10 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 
-# # ---- remove shiny-server template apps --- 
+# # ---- remove shiny-server template apps ---
 RUN rm -rf /srv/shiny-server/*
 
-# ---- ops for got to install renv ---- 
+# ---- ops for got to install renv ----
 RUN R -e "install.packages(c('renv', 'pak'), repos = 'https://cran.rstudio.com')"
 
 # # ---- Set working directory ----
@@ -59,14 +59,17 @@ COPY renv/ renv/
 ENV RENV_PATHS_CACHE=/renv/cache
 ENV RENV_CONFIG_PAK_ENABLED=TRUE
 ENV RENV_CONFIG_REPOS_OVERRIDE=https://cloud.r-project.org
-RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
+# RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
+RUN R -e "options(renv.verbose=TRUE); \
+          if (requireNamespace('pak', quietly=TRUE)) pak::pak('pak'); \
+          renv::restore(prompt=FALSE, type='binary')"
 
 # Copy app files
 COPY app.R app.R
 COPY www/ www/
 COPY data/ data/
 COPY modules/ modules/
-# copy shiny-server config file 
+# copy shiny-server config file
 COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 
 # ---- change file ownership and rew -----
@@ -74,7 +77,7 @@ RUN chown -R shiny:shiny /srv/shiny-server && \
     chmod -R 755 /srv/shiny-server
 
 
-# --- copy shiny_entry and change rew ---- 
+# --- copy shiny_entry and change rew ----
 COPY shiny_entry.sh /usr/local/bin/shiny_entry.sh
 RUN chmod 755 /usr/local/bin/shiny_entry.sh
 # Expose port
