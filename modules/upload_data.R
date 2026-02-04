@@ -80,6 +80,7 @@ upload_data_server <- function(id, con) {
         col_types = source_col_type
       ) |>
         janitor::clean_names()
+      agent_submission <- validate_tbl_submission(tbl_source_submitted)
       )
 
       # ---- get tbl sample -----
