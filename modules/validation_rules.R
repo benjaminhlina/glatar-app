@@ -23,7 +23,7 @@ rule_column_names <- function(required_fields) {
 # --- special email rule
 rule_email <- list(
   valid_email = substitute(
-    grepl("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", submission_email)
+    grepl("@", submission_email) & grepl("\\.", submission_email)
   )
 )
 
