@@ -268,7 +268,7 @@ valid_taxonomy <- function(x) {
 # ----- validate tbl_samples ------
 validate_tbl_samples <- function(df) {
 
-  required_cols <- c(
+  required_fields <- c(
     "pi_name", "source_id", "user_sample_id", "date", "month",
     "season", "sample_year", "common_name", "scientific_name", "genus",
     "family", "sex", "lifestage", "wild_lab",
@@ -282,67 +282,12 @@ validate_tbl_samples <- function(df) {
     "percent_nitrogen", "d13c", "d15n", "d34s", "c_n"
   )
 
+  if (!all(required_fields %in% colnames(df))) {
 
 
-  rules <- validator(
-
-    # ---- structure ----
-    contains(required_cols),
-
-
-    # ---- not null ----
-    !is.na(pi_name),
-    !is.na(source_id),
-    !is.na(scientific_name),
-    !is.na(wild_lab),
-    !is.na(tissue_type),
-    !is.na(sample_procedure),
-    !is.na(waterbody),
-
-    # ---- date ----
-    !is.na(as.Date(date, origin = "1899-12-30")),
-
-    # ---- ranges ----
-    month >= 1 & month <= 12,
-
-    # ---- sets ----
-    season %in% c("spring", "summer", "fall", "winter"),
-    lifestage %in% c("fry", "larvae", "juvenile", "adult"),
-    sex %in% c("male", "female", "unknown"),
-    length_type %in% c("Total", "Fork", "Standard", "Carapace"),
-    composite %in% c("individual", "composite", "mean", "equation"),
-    tissue_type %in% c("muscle", "liver", "stomach", "scales",
-                       "otolith", "spines", "cleithra", "whole body"),
-    sample_procedure %in% c("wet", "dried"),
-    calorimetry_method %in% c("Parr oxygen bomb", "Parr semi-micro oxygen bomb",
-                              "Phillipson microbomb", "Gentry-Weigert bomb",
-                              "Unknown bomb", "Proximate composition",
-                              "Organic analysis", "Wet digestion", "Unknown"),
-    sample_weight_type %in% c("wet", "dry"),
-
-    # ---- numeric ----
-    is.numeric(length_mm),
-    is.numeric(weight),
-    is.numeric(age),
-    is.numeric(composite_n),
-    is.numeric(latitude),
-    is.numeric(longitude),
-    is.numeric(calorimeter_conversion_factor),
-    is.numeric(sample_weight),
-    is.numeric(energy_measurement),
-    is.numeric(percent_water),
-    is.numeric(percent_ash),
-    is.numeric(percent_lipid),
-    is.numeric(percent_protein),
-    is.numeric(percent_carbon),
-    is.numeric(percent_nitrogen),
-    is.numeric(d13c),
-    is.numeric(d15n),
-    is.numeric(d34s),
-    is.numeric(c_n),
-    # ---- see if these are true -----
-    .valid_common_name == TRUE,
-    .valid_scientific_name == TRUE
+    rules <- do.call(
+      validate::validator,
+      c(rule_column_names(required_fields))
 
   )
 
