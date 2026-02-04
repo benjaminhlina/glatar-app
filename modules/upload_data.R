@@ -103,8 +103,7 @@ upload_data_server <- function(id, con) {
       ) |>
         janitor::clean_names() |>
         rename_to_db_col(con, "tbl_samples") |>
-        rename_to_db_col(con, "tbl_location") |>
-
+        rename_to_db_col(con, "tbl_location")
 
       # ----- get species list -----
       species_list <- tbl(con, "tbl_taxonomy")
