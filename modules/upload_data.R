@@ -126,7 +126,7 @@ upload_data_server <- function(id, con) {
 
 
 
-      if (all(agent_sample)) {
+      if (all(agent_submission) && all(agent_source) && all(agent_sample)) {
 
         validated_samples(tbl_samples_submitted)
 
