@@ -335,3 +335,51 @@ validate_tbl_samples <- function(df) {
 
   return(out)
 }
+# ----- validate source ------
+validate_tbl_source <- function(df) {
+
+  required_cols <- c(
+    "source_id",
+    "publication_type",
+    "author_names",
+    "affiliation",
+    "email",
+    "title",
+    "publication_year",
+    "journal_name",
+    "volume",
+    "issue",
+    "pages",
+    "publisher",
+    "editor",
+    "ibsn",
+    "doi"
+  )
+
+
+  rules <- validator(
+
+    # ---- structure ----
+    contains(required_cols),
+
+    # ---- required fields
+    !is.na(source_id),
+    !is.na(publication_type),
+
+    !is.na(author_names),
+    !is.na(publication_year),
+    !is.na(email),
+    !is.na(title),
+
+    publication_type %in% c("Journal Article",
+                            "Book", "Book Section",
+                            "Report", "Unpublished"
+    )
+  )
+
+  out <- confront(df, rules)
+
+
+  return(out)
+
+}
