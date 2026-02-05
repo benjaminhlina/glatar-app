@@ -147,9 +147,6 @@ upload_data_server <- function(id, con) {
       # ---- run validtor validation ----
       agent_sample <- validate_tbl_samples(tbl_samples_submitted)
 
-
-
-
       if (all(agent_submission) && all(agent_source) && all(agent_sample)) {
 
         # ---- make all of them reactive vals -----
@@ -227,6 +224,12 @@ upload_data_server <- function(id, con) {
           ) |>
           select(-source_id) |>
           rename(source_id = .source_id)
+
+
+
+        tbl_samples_submitted <- tbl_samples_submitted |>
+          left_join(species_list |>
+                      collect())
 
         # doo the same to source -----
         tbl_source_submitted <- tbl_source_submitted |>
