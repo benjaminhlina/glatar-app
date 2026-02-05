@@ -20,8 +20,8 @@ tsn,TSN Code
 sex,Sex
 lifestage,Life Stage
 wild_lab,Wild/Lab
-age,Age (yrs)
-weight,Weight
+age_year,Age (yrs)
+weight_g,Weight (g)
 composite,Composite
 composite_n,Composite (n)
 tissue_type,Tissue Type
