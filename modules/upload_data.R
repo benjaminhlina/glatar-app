@@ -94,6 +94,13 @@ upload_data_server <- function(id, con) {
 
       # ----- validate tbl sample ----
 
+      col_count <- ncol(readxl::read_excel(
+        file_path,
+        sheet = "tbl_samples",
+        skip = 4,
+        n_max = 1
+      ))
+
       col_types <- c(
         rep("guess", 3),
         "date",
