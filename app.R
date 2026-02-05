@@ -54,7 +54,8 @@ ui <- dashboardPage(
       ),
       menuItem("View Data",tabName = "view_data", icon = icon("table")),
       menuItem("Upload Data", tabName = "insert_data", icon = icon("plus")),
-      menuItem("Documentation", tabName = "docs", icon = icon("book"))
+      menuItem("Documentation", tabName = "docs", icon = icon("book")),
+      menuItem("About", tabName = "about", icon = icon("circle-info"))
     ),
     useShinyjs(),
     # Modularized panels
@@ -97,7 +98,8 @@ ui <- dashboardPage(
       tabItem(tabName = "scatter_plot", view_scatter_plot_ui("scatter_plot")),
       tabItem(tabName = "view_data", view_data_ui("view_data")),
       tabItem(tabName = "insert_data", upload_data_ui("insert_data")),
-      tabItem(tabName = "docs", docs_ui("docs"))
+      tabItem(tabName = "docs", docs_ui("docs")),
+      tabItem(tabName = "about", about_ui("about"))
 
     )
   )
