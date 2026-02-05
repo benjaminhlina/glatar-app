@@ -60,14 +60,20 @@ ENV RENV_PATHS_CACHE=/renv/cache
 ENV RENV_CONFIG_PAK_ENABLED=TRUE
 ENV RENV_CONFIG_REPOS_OVERRIDE=https://cloud.r-project.org
 # RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
+#RUN R -e "options(renv.verbose = TRUE); \
+ # Sys.setenv(RENV_CONFIG_PAK_ENABLED = 'TRUE'); \
+  #tryCatch(renv::restore(prompt = FALSE), \
+   # error = function(e) { \
+    #  message('Error details: ', conditionMessage(e)); \
+     # traceback(); \
+      #quit(status = 1); \
+    #})"
+# ---- Restore with pak debugging ----
 RUN R -e "options(renv.verbose = TRUE); \
   Sys.setenv(RENV_CONFIG_PAK_ENABLED = 'TRUE'); \
-  tryCatch(renv::restore(prompt = FALSE), \
-    error = function(e) { \
-      message('Error details: ', conditionMessage(e)); \
-      traceback(); \
-      quit(status = 1); \
-    })"
+  Sys.setenv(PKG_SYSREQS = 'false'); \
+  options(pak.no_extra_messages = FALSE); \
+  renv::restore(prompt = FALSE)"
 
 # Copy app files
 COPY app.R app.R
