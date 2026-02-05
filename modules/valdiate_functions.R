@@ -272,7 +272,7 @@ validate_tbl_samples <- function(df) {
     "pi_name", "source_id", "user_sample_id", "date", "month",
     "season", "sample_year", "common_name", "scientific_name", "genus",
     "family", "sex", "lifestage", "wild_lab",
-    "trt_description", "age", "length_mm", "length_type", "weight_g",
+    "trt_description", "age_year", "length_mm", "length_type", "weight_g",
     "composite", "composite_n", "tissue_type", "sample_procedure",
     "location", "waterbody", "area", "site", "site_depth", "latitude",
     "longitude", "calorimetry_method", "calorimeter_conversion_factor",
@@ -336,7 +336,7 @@ validate_tbl_samples <- function(df) {
       # ---- numeric ----
       is.numeric(length_mm),
       is.numeric(weight_g),
-      is.numeric(age),
+      is.numeric(age_year),
       is.numeric(composite_n),
       is.numeric(latitude),
       is.numeric(longitude),
