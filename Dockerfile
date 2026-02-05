@@ -50,7 +50,7 @@ RUN rm -rf /srv/shiny-server/*
 RUN R -e "install.packages(c('renv', 'pak'), repos = 'https://cran.rstudio.com')"
 
 # # ---- Set working directory ----
-WORKDIR /srv/shiny-server/NAAED-App/
+WORKDIR /srv/shiny-server/GLATAR-App/
 # ---- Copy renv files ----
 COPY renv.lock renv.lock
 COPY renv/ renv/
