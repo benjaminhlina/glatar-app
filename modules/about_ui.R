@@ -22,7 +22,7 @@ about_ui <- function(id) {
              target = "_blank",
              icon("github"),
              "View Repository")),
-    p("If you would like to contribute to the code the generates the toolbox,
+    p("If you would like to contribute to the code that generates the toolbox,
       please fork the repository, create a branch within your fork,
       implement your suggestions, and create a pull request on the main repository for
       the maintainer to review."),
