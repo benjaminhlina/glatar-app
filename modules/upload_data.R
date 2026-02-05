@@ -140,6 +140,7 @@ upload_data_server <- function(id, con) {
       #   select(field_name) |>
       #   arrange(field_name) |>
       #   pull()
+
       tbl_samples_submitted <- tbl_samples_submitted |>
         mutate(across(all_of(num_cols), ~ suppressWarnings(as.numeric(.))))
 
