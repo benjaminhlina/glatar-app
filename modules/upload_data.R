@@ -94,12 +94,14 @@ upload_data_server <- function(id, con) {
 
       # ----- validate tbl sample ----
 
+      # ----- first get the number of columns -----
       col_count <- ncol(readxl::read_excel(
         file_path,
         sheet = "tbl_samples",
         skip = 4,
         n_max = 1
       ))
+
 
       # ---- then dynamically create col_types
       col_types <- c(
