@@ -101,10 +101,11 @@ upload_data_server <- function(id, con) {
         n_max = 1
       ))
 
+      # ---- then dynamically create col_types
       col_types <- c(
         rep("guess", 3),
         "date",
-        rep("guess", 48)
+        rep("guess", col_count - 4)
       )
 
       # ---- get tbl sample -----
