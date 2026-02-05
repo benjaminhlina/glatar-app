@@ -135,6 +135,11 @@ upload_data_server <- function(id, con) {
         "percent_carbon","percent_nitrogen","d13c","d15n","d34s","c_n"
       )
 
+      # num_col <- get_column_map(con) |>
+      #   filter(field_class %in% c("integer", "numeric")) |>
+      #   select(field_name) |>
+      #   arrange(field_name) |>
+      #   pull()
       tbl_samples_submitted <- tbl_samples_submitted |>
         mutate(across(all_of(num_cols), ~ suppressWarnings(as.numeric(.))))
 
