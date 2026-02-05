@@ -39,7 +39,17 @@ credentials <- data.frame(
 ui <- dashboardPage(
   # ----- title -----
   dashboardHeader(title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
-                  titleWidth = 500),
+                  titleWidth = 500,
+                  tags$li(
+                    class = "dropdown",
+                    tags$a(
+                      href = "https://github.com/benjaminhlina/glatar-app",
+                      target = "_blank",
+                      icon("github", class = "fa-2x"),
+                      style = "padding-top: 10px; padding-bottom: 10px;"
+                    )
+                  )
+                  ),
 
   # ---- sidebar -----
   dashboardSidebar(
