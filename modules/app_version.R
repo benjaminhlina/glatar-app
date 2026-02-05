@@ -29,6 +29,7 @@ app_version_head <- function() {
         color: #666;
         }
       "))
+
   )
 }
 
