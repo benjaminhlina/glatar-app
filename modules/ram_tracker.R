@@ -1,6 +1,6 @@
 ram_tracker <- function() {
   observe({
-    mem <- pryr::mem_used()
+    mem <- lobstr::mem_used()
     mem_mb <- round(as.numeric(mem) / 1024 ^ 2, 2)
     timestamp <- format(Sys.time(), "%H:%M:%S")
 
