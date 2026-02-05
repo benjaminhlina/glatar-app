@@ -5,7 +5,9 @@
   library(DT)
   library(ggplot2)
   library(ggtext)
+  library(glue)
   library(grid)
+  library(janitor)
   library(leaflet)
   library(mapview)
   library(plotly)
@@ -16,6 +18,10 @@
   library(shinydashboard)
   library(shinyjs)
   library(shinymanager)
+  library(stringr)
+  library(stringdist)
+  library(tidyr)
+  library(validate)
 }
 
 

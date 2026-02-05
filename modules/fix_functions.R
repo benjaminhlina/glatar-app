@@ -10,7 +10,7 @@ fix_var_generic <- function(df, var_raw) {
     var_type <- parts[2]
 
     # Filter df to matching length type
-    df <- df %>%
+    df <- df |>
       dplyr::filter(length_type == var_type)
 
     # Dynamic label
@@ -24,7 +24,7 @@ fix_var_generic <- function(df, var_raw) {
     var_type <- parts[2]
     cli::cli_alert_danger("var_type is: {.field {var_type}}")
 
-    df <- df %>%
+    df <- df |>
       dplyr::filter(energy_units == var_type)
 
     eu <- df |>
