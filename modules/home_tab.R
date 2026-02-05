@@ -22,11 +22,9 @@ home_tab_ui <- function(id) {
           tags$li("View visualizations of energy density,
                    proximate composition, and stable isotope data"),
              tags$li("Upload new data into the database (i.e.,
-                  if you're a contributing member; see below on how
-                  to contribute"),
+                  if you're a contributing member)"),
              tags$li("View and filter your uploaded raw data (i.e.,
-                  if you're a contributing member; see below on how
-                  to contribute")
+                  if you're a contributing member)")
 
         )
       ),
