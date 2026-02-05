@@ -6,7 +6,7 @@ about_ui <- function(id) {
     h2("About"),
 
     h3("Funding"),
-    p("This database and toolbox was funded by the Great Lakes Fishery Commission
+    p("This database and toolbox is funded by the Great Lakes Fishery Commission
       through grant number [INSERT GRANT NUMBER]."),
 
     h3("Contributors"),
