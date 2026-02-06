@@ -196,6 +196,10 @@ pretty_validate_report <- function(confrontation,
           !is.na(scientific_name_suggestions[Row]) ~
           paste0("Did you mean: ", scientific_name_suggestions[Row], "?"),
         .default = NA
+      ),
+      Row = dplyr::case_when(
+        table_name %in% c("tbl_source", "tbl_submission") ~ Row + 4,
+        table_name %in% c("tbl_samples") ~ Row + 5
       )
     )
 
