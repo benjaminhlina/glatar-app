@@ -78,7 +78,8 @@ check_taxonomy_match <- function(input_values, db_values) {
 }
 
 # ----- pretty pointblank -----
-pretty_validate_report <- function(confrontation) {
+pretty_validate_report <- function(confrontation,
+                                   table_name = NULL) {
 
   df <- as.data.frame(confrontation, add_columns = TRUE)
 
