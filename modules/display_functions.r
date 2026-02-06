@@ -224,6 +224,20 @@ display_scatter_plot <- function(data,
 
     # use convert_nice_name to make title nice
     legend_title <- convert_nice_name(scatter_grouping_vars[1])
+    # Show what the labels look like in console with cli formatting
+    cli::cli_h2("Plot Labels")
+    cli::cli_text("X: {.val {x_label}}")
+    cli::cli_text("Y: {.val {y_label}}")
+
+    # Debug with cli
+    cli::cli_alert_info("x_label raw: {x_label}")
+    cli::cli_alert_info("x_label no quotes: {gsub('\"', '', x_label)}")
+    cli::cli_alert_info("y_label raw: {y_label}")
+    cli::cli_alert_info("y_label no quotes: {gsub('\"', '', y_label)}")
+
+    # Then strip quotes before using in labs
+    x_label <- gsub('"', '', x_label)
+    y_label <- gsub('"', '', y_label)
 
     # ----- plot -----
     p <- ggplot(data  = df, aes(
