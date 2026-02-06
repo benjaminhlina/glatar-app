@@ -253,7 +253,8 @@ display_scatter_plot <- function(data,
       theme(
         panel.grid = element_blank(),
         plot.title = element_markdown(hjust = 0.5),
-        axis.title = element_markdown(),
+        axis.title.x = element_markdown(),
+        axis.title.y = element_markdown(),
         legend.title = element_markdown(),
         legend.text = element_markdown(),
         strip.background = element_blank()
