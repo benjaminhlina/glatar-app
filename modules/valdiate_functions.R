@@ -313,7 +313,8 @@ validate_tbl_samples <- function(df) {
       !is.na(waterbody),
 
       # ---- date ----
-      as.Date(date, origin = "1899-12-30"),
+      # need to make this as a true false that then gets checked
+      # as.Date(date, origin = "1899-12-30"),
 
       # ---- ranges ----
       month >= 1 & month <= 12,
