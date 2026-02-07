@@ -184,6 +184,14 @@ pretty_validate_report <- function(confrontation,
     scientific_name_suggestions <- character(0)
   }
 
+  row_offset <- if (table_name %in% c("tbl_source", "tbl_submission")) {
+    4
+  } else if (table_name %in% c("tbl_samples")) {
+    5
+  } else {
+    0
+  }
+
   out <- out |>
     mutate(
       Suggestion = case_when(
@@ -197,10 +205,7 @@ pretty_validate_report <- function(confrontation,
           paste0("Did you mean: ", scientific_name_suggestions[Row], "?"),
         .default = NA
       ),
-      Row = dplyr::case_when(
-        table_name %in% c("tbl_source", "tbl_submission") ~ Row + 4,
-        table_name %in% c("tbl_samples") ~ Row + 5
-      )
+      Row = Row + row_offset
     )
 
   cli::cli_alert_info("Rows with suggestions: {sum(!is.na(out$Suggestion))}")
