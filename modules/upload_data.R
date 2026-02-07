@@ -148,6 +148,22 @@ upload_data_server <- function(id, con) {
       agent_sample <- validate_tbl_samples(tbl_samples_submitted)
 
       if (all(agent_submission) && all(agent_source) && all(agent_sample)) {
+      cli::cli_h2("Agent validation checks")
+
+      log_agent(agent_submission, "agent_submission")
+      log_agent(agent_source, "agent_source")
+      log_agent(agent_sample, "agent_sample")
+
+      ok_submission <- all(unlist(values(agent_submission)), na.rm = TRUE)
+      ok_source <- all(unlist(values(agent_source)), na.rm = TRUE)
+      ok_sample <- all(unlist(values(agent_sample)),  na.rm = TRUE)
+
+      cli::cli_alert_info(
+        "Gate status to submission: {ok_submission},
+        source: {ok_source}, sample: {ok_sample}"
+      )
+
+
 
         # ---- make all of them reactive vals -----
         validated_submission(tbl_samples_submitted)
