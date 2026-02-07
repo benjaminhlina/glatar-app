@@ -147,7 +147,7 @@ upload_data_server <- function(id, con) {
       # ---- run validtor validation ----
       agent_sample <- validate_tbl_samples(tbl_samples_submitted)
 
-      if (all(agent_submission) && all(agent_source) && all(agent_sample)) {
+
       cli::cli_h2("Agent validation checks")
 
       log_agent(agent_submission, "agent_submission")
@@ -163,6 +163,10 @@ upload_data_server <- function(id, con) {
         source: {ok_source}, sample: {ok_sample}"
       )
 
+
+
+      # if all agents are good process and get ready to submitt
+      if (isTRUE(ok_submission) && isTRUE(ok_source) && isTRUE(ok_sample)) {
 
 
         # ---- make all of them reactive vals -----
