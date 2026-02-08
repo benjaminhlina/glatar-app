@@ -181,6 +181,9 @@ upload_data_server <- function(id, con) {
           glue::glue("SELECT gen_random_uuid() AS next_id")
         )
 
+        cli::cli_alert_info("Submission id is: \
+                            {.val {next_submission_id$next_id}}")
+
 
         # ---- splap submisison id on to source and submission -----
         tbl_submission_submitted <- tbl_submission_submitted |>
@@ -188,6 +191,8 @@ upload_data_server <- function(id, con) {
 
         tbl_source_submitted <- tbl_source_submitted |>
           mutate(submission_id = next_submission_id$next_id)
+
+        # ---- pull column names that are all have id
         tables_ids <- dbGetQuery(con, "
         SELECT table_name, column_name
         FROM information_schema.columns
