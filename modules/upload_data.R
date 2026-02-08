@@ -21,7 +21,9 @@ upload_data_ui <- function(id) {
                             disabled = TRUE
                           ),
 
-                          shiny::uiOutput(ns("upload_status"))
+                          shiny::uiOutput(ns("upload_status")),
+                          shiny::uiOutput(ns("location_map"))
+
   )
 }
 
@@ -36,6 +38,7 @@ upload_data_server <- function(id, con) {
     validated_source <- reactiveVal(NULL)
     validated_submission <- reactiveVal(NULL)
     tables_to_submit<- reactiveVal(NULL)
+    tables_split_full <- reactiveVal(NULL)
 
     observeEvent(input$upload_btn, {
 
@@ -163,8 +166,6 @@ upload_data_server <- function(id, con) {
         source: {ok_source}, sample: {ok_sample}"
       )
 
-
-
       # if all agents are good process and get ready to submitt
       if (isTRUE(ok_submission) && isTRUE(ok_source) && isTRUE(ok_sample)) {
 
@@ -180,6 +181,9 @@ upload_data_server <- function(id, con) {
           glue::glue("SELECT gen_random_uuid() AS next_id")
         )
 
+        cli::cli_alert_info("Submission id is: \
+                            {.val {next_submission_id$next_id}}")
+
 
         # ---- splap submisison id on to source and submission -----
         tbl_submission_submitted <- tbl_submission_submitted |>
@@ -187,6 +191,8 @@ upload_data_server <- function(id, con) {
 
         tbl_source_submitted <- tbl_source_submitted |>
           mutate(submission_id = next_submission_id$next_id)
+
+        # ---- pull column names that are all have id
         tables_ids <- dbGetQuery(con, "
         SELECT table_name, column_name
         FROM information_schema.columns
@@ -199,20 +205,24 @@ upload_data_server <- function(id, con) {
           )
 
 
+        cli::cli_alert_info("Columns that have id are: {.val {tables_ids}}")
 
-        # filter(table_name %in% c("tbl_samples", "tbl_source", "tbl_length", "tbl_location"))
+        # ---- get max id for each -----
         max_ids <- purrr::pmap(
           tables_ids,
           ~ id_max(..1, ..2)
         ) |>
           set_names(tables_ids$column_name)
 
-        max_ids
+        max_ids_str <- paste(names(max_ids), unlist(max_ids), sep = " = ",
+                             collapse = ", ")
+        cli::cli_alert_info("Next id for each starts here: {max_ids_str}")
         # ------ get tables to split -----
         tables_to_split <- get_column_map(con) |>
           filter(!table_name %in% c("tbl_source", "tbl_submission")) |>
           collect() |>
           (\(.) split(., .$table_name))()
+
 
         # ----- do the same for source id -----
         tbl_source_submitted <- tbl_source_submitted |>
@@ -333,6 +343,58 @@ upload_data_server <- function(id, con) {
 
         shinyjs::enable("submit_btn")
 
+
+        output$map <- renderLeaflet({
+          req(tables_split_full$tbl_location)
+
+          location_summary <- tables_split_full$tbl_location |>
+            left_join(
+              tables_split_full$tbl_samples |>
+                select(sample_id, user_sample_id)
+            ) |>
+            group_by(latitude, longitude) |>
+            summarise(
+              sample_ids = paste(user_sample_id, collapse = ", "),
+              n_samples = n(),
+            ) |>
+            ungroup()
+
+
+          # Show the actual coordinates for debugging
+          cli::cli_alert_info("Locations validated: {nrow(location_summary)} location{?s} ({min(location_summary$n_samples)}-{max(location_summary$n_samples)} samples per location)")
+          cli::cli_alert_info("Coordinates: lat range [{min(location_summary$latitude, na.rm=TRUE)}, {max(location_summary$latitude, na.rm=TRUE)}], lon range [{min(location_summary$longitude, na.rm=TRUE)}, {max(location_summary$longitude, na.rm=TRUE)}]")
+
+          # Check for issues
+          if (any(is.na(location_summary$latitude)) || any(is.na(location_summary$longitude))) {
+            cli::cli_alert_warning("Some coordinates are NA!")
+          }
+          if (any(abs(location_summary$latitude) > 90, na.rm = TRUE)) {
+            cli::cli_alert_warning("Some latitudes are out of range (-90 to 90)!")
+          }
+          if (any(abs(location_summary$longitude) > 180, na.rm = TRUE)) {
+            cli::cli_alert_warning("Some longitudes are out of range (-180 to 180)!")
+          }
+
+
+
+          leaflet(location_summary) |>
+            addTiles() |>
+            addCircleMarkers(
+              lng = ~longitude,
+              lat = ~latitude,
+              radius = 8,
+              color = "#0066cc",
+              fillColor = "#3399ff",
+              fillOpacity = 0.7,
+              popup = ~paste0(
+                "<b>Number of samples:</b> ", n_samples, "<br>",
+                "<b>Sample ID(s):</b> ", sample_ids
+              ),
+              label = ~paste0(n_samples, " sample(s)")
+            )
+        })
+
+
         output$upload_status <- renderUI({
           tagList(
             p("✔ All validations passed",
@@ -341,34 +403,63 @@ upload_data_server <- function(id, con) {
                      " rows to database."),
               style = "color:green;")
           )
+
         })
 
-      } else {
+        output$location_map <- renderUI({
+          req(tables_split_full)
 
-        validated_submission(NULL)
-        validated_source(NULL)
-        validated_samples(NULL)
-        tables_to_submit(NULL)
+          req(validated_submission(), validated_source(), validated_samples())
+          tbl_loc <- tables_split_full$tbl_location
+          if (all(is.na(tbl_loc$latitude)) & all(is.na(tbl_loc$longitude))) {
 
-        error_report <- clean_all_validations(
-          tbl_submssion = agent_submission,
-          tbl_source = agent_source,
-          tbl_samples = agent_sample
-        )
+            tagList(
+              h4("No locations were detected in the longtiude and latitude
+                  columns of your submitted data.
+                  If this is correct, please proceed to submitting
+                  the data to the database",
+                 style = "margin-top: 20px; margin-bottom: 10px;")
+            )
 
-        output$upload_status <- renderUI({
-          tagList(
-            p("✖ Validation failed - please fix the following issues:",
-              style = "color:red; font-weight:600;"),
-            shiny::tableOutput(ns("error_table"))
+          } else {
+            tagList(
+              h4("Please check that your sample locations, the number of samples,
+                  and their corresponding ids are correct prior to submitting to
+                  the database. To check, click on each point
+                  to view the number of samples and the user submitted sample ids.",
+                 style = "margin-top: 20px; margin-bottom: 10px;"),
+              leafletOutput(ns("map"), height = "500px")
+            )
+          }
+        })
+
+        } else {
+
+          validated_submission(NULL)
+          validated_source(NULL)
+          validated_samples(NULL)
+          tables_to_submit(NULL)
+          tables_split_full(NULL)
+
+          error_report <- clean_all_validations(
+            tbl_submssion = agent_submission,
+            tbl_source = agent_source,
+            tbl_samples = agent_sample
           )
-        })
 
-        output$error_table <- shiny::renderTable({
-          error_report
-        })
-      }
-    })
+          output$upload_status <- renderUI({
+            tagList(
+              p("✖ Validation failed - please fix the following issues:",
+                style = "color:red; font-weight:600;"),
+              shiny::tableOutput(ns("error_table"))
+            )
+          })
+
+          output$error_table <- shiny::renderTable({
+            error_report
+          })
+        }
+      })
 
     # ---- submit to database ----
     observeEvent(input$submit_btn, {
