@@ -394,6 +394,7 @@ upload_data_server <- function(id, con) {
             )
         })
 
+
         output$upload_status <- renderUI({
           tagList(
             p("✔ All validations passed",
@@ -402,6 +403,7 @@ upload_data_server <- function(id, con) {
                      " rows to database."),
               style = "color:green;")
           )
+
         })
 
         output$location_map <- renderUI({
