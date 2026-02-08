@@ -38,6 +38,7 @@ upload_data_server <- function(id, con) {
     validated_source <- reactiveVal(NULL)
     validated_submission <- reactiveVal(NULL)
     tables_to_submit<- reactiveVal(NULL)
+    tables_split_full <- reactiveVal(NULL)
 
     observeEvent(input$upload_btn, {
 
@@ -164,8 +165,6 @@ upload_data_server <- function(id, con) {
         "Gate status to submission: {ok_submission},
         source: {ok_source}, sample: {ok_sample}"
       )
-
-
 
       # if all agents are good process and get ready to submitt
       if (isTRUE(ok_submission) && isTRUE(ok_source) && isTRUE(ok_sample)) {
@@ -371,6 +370,7 @@ upload_data_server <- function(id, con) {
         })
       }
     })
+          tables_split_full(NULL)
 
     # ---- submit to database ----
     observeEvent(input$submit_btn, {
