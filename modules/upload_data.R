@@ -433,12 +433,33 @@ upload_data_server <- function(id, con) {
           }
         })
 
-        output$error_table <- shiny::renderTable({
-          error_report
-        })
-      }
-    })
+        } else {
+
+          validated_submission(NULL)
+          validated_source(NULL)
+          validated_samples(NULL)
+          tables_to_submit(NULL)
           tables_split_full(NULL)
+
+          error_report <- clean_all_validations(
+            tbl_submssion = agent_submission,
+            tbl_source = agent_source,
+            tbl_samples = agent_sample
+          )
+
+          output$upload_status <- renderUI({
+            tagList(
+              p("✖ Validation failed - please fix the following issues:",
+                style = "color:red; font-weight:600;"),
+              shiny::tableOutput(ns("error_table"))
+            )
+          })
+
+          output$error_table <- shiny::renderTable({
+            error_report
+          })
+        }
+      })
 
     # ---- submit to database ----
     observeEvent(input$submit_btn, {
