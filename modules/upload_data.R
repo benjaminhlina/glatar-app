@@ -205,20 +205,24 @@ upload_data_server <- function(id, con) {
           )
 
 
+        cli::cli_alert_info("Columns that have id are: {.val {tables_ids}}")
 
-        # filter(table_name %in% c("tbl_samples", "tbl_source", "tbl_length", "tbl_location"))
+        # ---- get max id for each -----
         max_ids <- purrr::pmap(
           tables_ids,
           ~ id_max(..1, ..2)
         ) |>
           set_names(tables_ids$column_name)
 
-        max_ids
+        max_ids_str <- paste(names(max_ids), unlist(max_ids), sep = " = ",
+                             collapse = ", ")
+        cli::cli_alert_info("Next id for each starts here: {max_ids_str}")
         # ------ get tables to split -----
         tables_to_split <- get_column_map(con) |>
           filter(!table_name %in% c("tbl_source", "tbl_submission")) |>
           collect() |>
           (\(.) split(., .$table_name))()
+
 
         # ----- do the same for source id -----
         tbl_source_submitted <- tbl_source_submitted |>
