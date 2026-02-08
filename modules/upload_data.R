@@ -343,6 +343,57 @@ upload_data_server <- function(id, con) {
 
         shinyjs::enable("submit_btn")
 
+
+        output$map <- renderLeaflet({
+          req(tables_split_full$tbl_location)
+
+          location_summary <- tables_split_full$tbl_location |>
+            left_join(
+              tables_split_full$tbl_samples |>
+                select(sample_id, user_sample_id)
+            ) |>
+            group_by(latitude, longitude) |>
+            summarise(
+              sample_ids = paste(user_sample_id, collapse = ", "),
+              n_samples = n(),
+            ) |>
+            ungroup()
+
+
+          # Show the actual coordinates for debugging
+          cli::cli_alert_info("Locations validated: {nrow(location_summary)} location{?s} ({min(location_summary$n_samples)}-{max(location_summary$n_samples)} samples per location)")
+          cli::cli_alert_info("Coordinates: lat range [{min(location_summary$latitude, na.rm=TRUE)}, {max(location_summary$latitude, na.rm=TRUE)}], lon range [{min(location_summary$longitude, na.rm=TRUE)}, {max(location_summary$longitude, na.rm=TRUE)}]")
+
+          # Check for issues
+          if (any(is.na(location_summary$latitude)) || any(is.na(location_summary$longitude))) {
+            cli::cli_alert_warning("Some coordinates are NA!")
+          }
+          if (any(abs(location_summary$latitude) > 90, na.rm = TRUE)) {
+            cli::cli_alert_warning("Some latitudes are out of range (-90 to 90)!")
+          }
+          if (any(abs(location_summary$longitude) > 180, na.rm = TRUE)) {
+            cli::cli_alert_warning("Some longitudes are out of range (-180 to 180)!")
+          }
+
+
+
+          leaflet(location_summary) |>
+            addTiles() |>
+            addCircleMarkers(
+              lng = ~longitude,
+              lat = ~latitude,
+              radius = 8,
+              color = "#0066cc",
+              fillColor = "#3399ff",
+              fillOpacity = 0.7,
+              popup = ~paste0(
+                "<b>Number of samples:</b> ", n_samples, "<br>",
+                "<b>Sample ID(s):</b> ", sample_ids
+              ),
+              label = ~paste0(n_samples, " sample(s)")
+            )
+        })
+
         output$upload_status <- renderUI({
           tagList(
             p("✔ All validations passed",
