@@ -21,7 +21,9 @@ upload_data_ui <- function(id) {
                             disabled = TRUE
                           ),
 
-                          shiny::uiOutput(ns("upload_status"))
+                          shiny::uiOutput(ns("upload_status")),
+                          shiny::uiOutput(ns("location_map"))
+
   )
 }
 
