@@ -404,25 +404,31 @@ upload_data_server <- function(id, con) {
           )
         })
 
-      } else {
+        output$location_map <- renderUI({
+          req(tables_split_full)
 
-        validated_submission(NULL)
-        validated_source(NULL)
-        validated_samples(NULL)
-        tables_to_submit(NULL)
+          req(validated_submission(), validated_source(), validated_samples())
+          tbl_loc <- tables_split_full$tbl_location
+          if (all(is.na(tbl_loc$latitude)) & all(is.na(tbl_loc$longitude))) {
 
-        error_report <- clean_all_validations(
-          tbl_submssion = agent_submission,
-          tbl_source = agent_source,
-          tbl_samples = agent_sample
-        )
+            tagList(
+              h4("No locations were detected in the longtiude and latitude
+                  columns of your submitted data.
+                  If this is correct, please proceed to submitting
+                  the data to the database",
+                 style = "margin-top: 20px; margin-bottom: 10px;")
+            )
 
-        output$upload_status <- renderUI({
-          tagList(
-            p("✖ Validation failed - please fix the following issues:",
-              style = "color:red; font-weight:600;"),
-            shiny::tableOutput(ns("error_table"))
-          )
+          } else {
+            tagList(
+              h4("Please check that your sample locations, the number of samples,
+                  and their corresponding ids are correct prior to submitting to
+                  the database. To check, click on each point
+                  to view the number of samples and the user submitted sample ids.",
+                 style = "margin-top: 20px; margin-bottom: 10px;"),
+              leafletOutput(ns("map"), height = "500px")
+            )
+          }
         })
 
         output$error_table <- shiny::renderTable({
