@@ -1,3 +1,12 @@
+add_valid_date <- function(df) {
+  df <- df |>
+    dplyr::mutate(
+      .date = is.na(date) | grepl("^\\d{4}-\\d{2}-\\d{2}$", date)
+    )
+
+  return(df)
+}
+
 # ----- add valid txaomnmy ------
 
 add_valid_taxonomy <- function(df, species_list) {
@@ -327,7 +336,7 @@ validate_tbl_samples <- function(df) {
 
       # ---- date ----
       # need to make this as a true false that then gets checked
-      # as.Date(date, origin = "1899-12-30"),
+      .date == TRUE,
 
       # ---- ranges ----
       month >= 1 & month <= 12,
