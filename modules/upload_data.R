@@ -131,6 +131,10 @@ upload_data_server <- function(id, con) {
       tbl_samples_submitted <- add_valid_taxonomy(tbl_samples_submitted,
                                                   species_list)
 
+
+      tbl_samples_submitted <- add_valid_date(tbl_samples_submitted)
+
+
       num_cols <- c(
         "length_mm","weight_g","age_year","composite_n","latitude","longitude",
         "calorimeter_conversion_factor","sample_weight","energy_measurement",
