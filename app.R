@@ -153,8 +153,13 @@ server <- function(input, output, session) {
     check_credentials = check_credentials(credentials),
 
   )
-  observeEvent(input$logout, {
-    session$reload()
+
+  # ---- add in logout tab -----
+  observeEvent(input$tabs, {
+    if (input$tabs == "logout") {
+      updateTabItems(session, "tabs", "home")
+      session$reload()
+    }
   })
   observeEvent(input$go_docs, {
     updateTabItems(session, "tabs", "docs")
