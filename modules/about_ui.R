@@ -11,9 +11,10 @@ about_ui <- function(id) {
 
     h3("Contributors"),
     p("The following individuals provided thoughts and design for this project:"),
-    p("Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers, Mark W. Kersner,
-      Charles P. Madenjian, Steven A. Pothoven, Carolyn J. Foley, Mark Wuenschel,
-      and Benjamin L. Hlina."),
+    p("Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers,
+    Carolyn J. Foley, Mark W. Kersner, Charles P. Madenjian, Brent W. Metcalfe,
+    Michael H.P. O’Brien, Steven A. Pothoven, Jonathan D. Pye, Kate Storey,
+    Mark J. Wuenschel, and Benjamin L. Hlina."),
 
     h3("Code & Maintenance"),
     p("The database and toolbox are authored and maintained by Benjamin L. Hlina."),
