@@ -83,6 +83,6 @@ docs_ui <- function(id) {
 
 docs_server <- function(id) {
   moduleServer(id, function(input, output, session) {
-    # future logic here
+    # ---- future logic -----
   })
 }
