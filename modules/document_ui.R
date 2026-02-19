@@ -32,9 +32,50 @@ docs_ui <- function(id) {
             )
           ),
 
+          # ---- Documentation column ----
+          column(
+            width = 6,
+            tags$h4("Documentation"),
+
+            # tags$ul(
+            #   tags$li(
+            #     tags$a(
+            #       "GLATAR User Guide",
+            #       href = "www/documentation/GLATAR_user_guide.pdf",
+            #       target = "_blank"
+            #     )
+            #   ),
+            # tags$li(
+            #   tags$a(
+            #     "Data Submission Instructions",
+            #     href = "www/documentation/data_submission_instructions.pdf",
+            #     target = "_blank"
+            #   )
+            # )
+            tags$li(
+              tags$a(
+                "Fatty Acid Documentation",
+                href = "documentation/fatty_acids_documentation.pdf",
+                target = "_blank"
+              )
+            ),
+            tags$li(
+              tags$a(
+                "Polychlorinated Biphenyls (PCBs) Documentation",
+                href = "documentation/polychlorinated_biphenyls_documentation.pdf",
+                target = "_blank"
+              )
+            ),
+            tags$li(
+              tags$a(
+                "Thiamine and Thiaminase Documentation",
+                href = "documentation/thiamine_and_thiaminase_documentation.pdf",
+                target = "_blank"
+              )
             )
           )
         )
+
       )
     )
   )
