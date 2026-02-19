@@ -161,6 +161,9 @@ server <- function(input, output, session) {
       session$reload()
     }
   })
+
+
+  # ----- link to docs -----
   observeEvent(input$go_docs, {
     updateTabItems(session, "tabs", "docs")
   })
