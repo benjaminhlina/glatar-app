@@ -65,7 +65,8 @@ ui <- dashboardPage(
       menuItem("View Data",tabName = "view_data", icon = icon("table")),
       menuItem("Upload Data", tabName = "insert_data", icon = icon("plus")),
       menuItem("Documentation", tabName = "docs", icon = icon("book")),
-      menuItem("About", tabName = "about", icon = icon("circle-info"))
+      menuItem("About", tabName = "about", icon = icon("circle-info")),
+      menuItem("Logout", tabName = "logout", icon = icon("sign-out-alt"))
     ),
     useShinyjs(),
     # Modularized panels
