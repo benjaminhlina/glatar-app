@@ -13,7 +13,7 @@ about_ui <- function(id) {
     p("The following individuals provided thoughts and design for this project:"),
     p("Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers,
     Carolyn J. Foley, Mark W. Kersner, Charles P. Madenjian, Brent W. Metcalfe,
-    Michael H.P. O’Brien, Steven A. Pothoven, Jonathan D. Pye, Kate Storey,
+    Michael H.P. O’Brien, Steven A. Pothoven, Jonathan D. Pye, Kate M.J. Storey,
     Mark J. Wuenschel, and Benjamin L. Hlina."),
 
     h3("Code & Maintenance"),
