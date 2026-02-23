@@ -5,7 +5,8 @@ home_tab_ui <- function(id) {
     tabName = "home",
     h2("Welcome to the Great Lakes Aquatic Tissue Analysis Repository (GLATAR)"),
     p("This toolbox allows you to explore, visualize, and manage
-    energy density, proximate composition, and stable isotope data
+    energy density, proximate composition, stable isotope, thiamine, fatty acid,
+    mercury and PCB  data
     for fish and aquatic invertebrates throughout the Great Lakes and
       North America."),
     shiny::br(),
@@ -20,7 +21,8 @@ home_tab_ui <- function(id) {
           tags$li("Visualize sampling locations on a map"),
           tags$li("View and download summary statistic tables"),
           tags$li("View visualizations of energy density,
-                   proximate composition, and stable isotope data"),
+                   proximate composition, stable isotope, thiamine,
+                  fatty acid, mercury and PCB data"),
              tags$li("Upload new data into the database (i.e.,
                   if you're a contributing member)"),
              tags$li("View and filter your uploaded raw data (i.e.,
@@ -34,8 +36,8 @@ home_tab_ui <- function(id) {
         status = "info",
         solidHeader = TRUE,
         shiny::p("The Great Lakes Aquatic Tissue Analysis Repository (GLATAR)
-          contains data on energy density, proximate composition,
-          and stable isotopes for fish and aquatic invertebrates
+          contains data on energy density, proximate composition, stable isotopes
+           thiamine, fatty acid, mercury and PCBs for fish and aquatic invertebrates
           collected across the Great Lakes and North America.
           The data helps researchers and managers understand
           ecosystem health, bioenergetics, energy transfer, and food web
