@@ -50,7 +50,8 @@ home_tab_ui <- function(id) {
                       thiamine, fatty acid, mercury, and PCB data."
                     ), 
           tags$li(
-            tags$span("Data entry templates can be found "),
+            tags$span("Both
+                      data entry templates can be found "),
             # tags$a(
             #   "clicking here",
             #   href = "data-entry-template/GLATAR_data_entry_template_v15.xlsx",
