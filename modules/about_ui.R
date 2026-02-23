@@ -7,7 +7,7 @@ about_ui <- function(id) {
 
     h3("Funding"),
     p("This database and toolbox is funded by the Great Lakes Fishery Commission
-      through grant number [INSERT GRANT NUMBER]."),
+      through grant number 2025_JOH_460024."),
 
     h3("Contributors"),
     p("The following individuals provided thoughts and design for this project:"),
