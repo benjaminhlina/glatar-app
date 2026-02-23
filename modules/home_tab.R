@@ -43,6 +43,12 @@ home_tab_ui <- function(id) {
           ecosystem health, bioenergetics, energy transfer, and food web
                  dynamics."),
         tags$ul(
+          tags$li("The basic data entry template has fields to collect
+                      energy density, proximate composition, and stable isotope data."
+                    ),
+          tags$li("The advanced data entry template has additional fields to collect
+                      thiamine, fatty acid, mercury, and PCB data."
+                    ), 
           tags$li(
             tags$span("Data entry templates can be found "),
             # tags$a(
