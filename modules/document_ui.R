@@ -21,9 +21,9 @@ docs_ui <- function(id) {
             tags$ul(
               tags$li(
                 tags$a(
-                  "GLATAR Data Entry Template (v15)",
-                  href = "data-entry-template/GLATAR_data_entry_template_v15.xlsx",
-                  download = "GLATAR_data_entry_template_v15.xlsx",
+                  "GLATAR Data Entry Template (v16)",
+                  href = "data-entry-template/GLATAR_data_entry_template_v16.xlsx",
+                  download = "GLATAR_data_entry_template_v16.xlsx",
                   target = "_blank"
                 )
               )
