@@ -49,7 +49,7 @@ home_tab_ui <- function(id) {
           tags$li("The advanced data entry template has additional fields to collect
                       thiamine, fatty acid, mercury, and PCB data."
                     ), 
-          tags$li(
+           tags$li(         
             tags$span("Both
                       data entry templates can be found "),
             # tags$a(
