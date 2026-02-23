@@ -63,6 +63,13 @@ docs_ui <- function(id) {
             # )
             tags$li(
               tags$a(
+                "Rational and Purpose of GLATAR",
+                href = "documentation/rational_for_GLATAR.pdf",
+                target = "_blank"
+              )
+            ),
+            tags$li(
+              tags$a(
                 "Fatty Acid Documentation",
                 href = "documentation/fatty_acids_documentation.pdf",
                 target = "_blank"
@@ -72,6 +79,13 @@ docs_ui <- function(id) {
               tags$a(
                 "Polychlorinated Biphenyls (PCBs) Documentation",
                 href = "documentation/polychlorinated_biphenyls_documentation.pdf",
+                target = "_blank"
+              )
+            ),
+            tags$li(
+              tags$a(
+                "Stable Isotope Documentation",
+                href = "documentation/stable_isotope_documentation.pdf",
                 target = "_blank"
               )
             ),
