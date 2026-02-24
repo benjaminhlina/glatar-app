@@ -169,6 +169,38 @@ glatar_diagram_ui <- function() {
         letter-spacing: 0.5px;
         font-style: italic;
       }
+      .glatar-card-doc {
+        display: none;
+        margin-top: 10px;
+      }
+      .glatar-card-doc.has-doc {
+        display: block;
+      }
+      .glatar-doc-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 13px;
+        border-radius: 20px;
+        border: 1px solid rgba(100,200,240,0.35);
+        background: rgba(100,200,240,0.07);
+        color: #7ec8e8;
+        font-family: 'Georgia', serif;
+        font-size: 11px;
+        text-decoration: none;
+        letter-spacing: 0.4px;
+        transition: background 0.2s, border-color 0.2s, color 0.2s;
+      }
+      .glatar-doc-link:hover {
+        background: rgba(100,200,240,0.18);
+        border-color: rgba(100,200,240,0.65);
+        color: #b8e8ff;
+        text-decoration: none;
+      }
+      .glatar-doc-link svg {
+        flex-shrink: 0;
+        opacity: 0.75;
+      }
     ")),
 
     htmltools::tags$div(
