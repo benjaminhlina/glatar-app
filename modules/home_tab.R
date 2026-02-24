@@ -68,6 +68,16 @@ home_tab_ui <- function(id) {
                                        "benjamin.hlina@gmail.com"))
         )
       )
-    )
+    ),
+    # ---- Interactive database component diagram ----- 
+    shiny::fluidRow(
+      shinydashboard::box(
+        title = "Explore Database Components",
+        width = 12,
+        status = "primary",
+        solidHeader = TRUE,
+        glatar_diagram_ui()
+      )
   )
+)
 }
