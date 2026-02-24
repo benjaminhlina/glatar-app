@@ -273,7 +273,8 @@ glatar_diagram_ui <- function() {
       glow: "#64c8f5",
       grad: ["#091e2e","#040f18"],
       desc: "Ratios of δ¹³C and δ¹⁵N (and others) in tissue are used to infer trophic position, dietary sources, and migration patterns across food webs.",
-      tags: ["δ¹³C","δ¹⁵N","δ³⁴S","Trophic position","Food web tracing"]
+      tags: ["δ¹³C","δ¹⁵N","δ³⁴S","Trophic position","Food web tracing"],
+      doc: "documentation/stable_isotope_documentation.pdf"
     },
     {
       id: "th",
@@ -283,7 +284,8 @@ glatar_diagram_ui <- function() {
       glow: "#e06dff",
       grad: ["#220030","#110018"],
       desc: "Thiamine (Vitamin B₁) concentrations in eggs and tissue are critical indicators of early mortality syndrome (EMS/TAMS) in salmonids and other Great Lakes fishes.",
-      tags: ["nmol/g","Egg thiamine","EMS / TAMS","Salmonid health"]
+      tags: ["nmol/g","Egg thiamine","EMS / TAMS","Salmonid health"],
+      doc: "documentation/thiamine_and_thiaminase_documentation.pdf"
     },
     {
       id: "fa",
@@ -293,7 +295,8 @@ glatar_diagram_ui <- function() {
       glow: "#ff9055",
       grad: ["#2e1000","#180800"],
       desc: "Fatty acid profiles (e.g., EPA, DHA, DPA) serve as dietary tracers and indicators of nutritional quality, linking primary producers to top predators.",
-      tags: ["EPA","DHA","DPA","% total FA","Dietary tracers"]
+      tags: ["EPA","DHA","DPA","% total FA","Dietary tracers"],
+      doc: "documentation/fatty_acids_documentation.pdf"
     },
     {
       id: "hg",
@@ -313,7 +316,8 @@ glatar_diagram_ui <- function() {
       glow: "#ff5f72",
       grad: ["#2e0008","#160004"],
       desc: "Polychlorinated biphenyl concentrations (individual congeners and totals) in fish and invertebrate tissue reflect legacy contaminant loads and are used in ecological risk assessments.",
-      tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment"]
+      tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment"],
+      doc: "documentation/polychlorinated_biphenyls_documentation.pdf"
     }
   ];
 
