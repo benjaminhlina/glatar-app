@@ -18,15 +18,15 @@ home_tab_ui <- function(id) {
         solidHeader = TRUE,
         shiny::p("Use the sidebar to:"),
         tags$ul(
-          tags$li("Visualize sampling locations on a map"),
-          tags$li("View and download summary statistic tables"),
+          tags$li("Visualize sampling locations on a map."),
+          tags$li("View and download summary statistic tables."),
           tags$li("View visualizations of energy density,
                    proximate composition, stable isotope, thiamine,
-                  fatty acid, mercury and PCB data"),
+                  fatty acid, mercury and PCB data."),
              tags$li("Upload new data into the database (i.e.,
-                  if you're a contributing member)"),
+                  if you're a contributing member)."),
              tags$li("View and filter your uploaded raw data (i.e.,
-                  if you're a contributing member)")
+                  if you're a contributing member).")
 
         )
       ),
@@ -36,10 +36,10 @@ home_tab_ui <- function(id) {
         status = "info",
         solidHeader = TRUE,
         shiny::p("The Great Lakes Aquatic Tissue Analysis Repository (GLATAR)
-          contains data on energy density, proximate composition, stable isotopes
-           thiamine, fatty acid, mercury and PCBs for fish and aquatic invertebrates
+          contains data on energy density, proximate composition, stable isotopes,
+           thiamine, fatty acid, mercury, and PCBs for fish and aquatic invertebrates
           collected across the Great Lakes and North America.
-          The data helps researchers and managers understand
+          The data and this repository helps researchers and managers understand
           ecosystem health, bioenergetics, energy transfer, and food web
                  dynamics."),
         tags$ul(
@@ -50,14 +50,12 @@ home_tab_ui <- function(id) {
                       thiamine, fatty acid, mercury, and PCB data."
                     ), 
            tags$li(         
-            tags$span("Both
-                      data entry templates can be found "),
+            tags$span("Both data entry templates can be found in the "),
             # tags$a(
             #   "clicking here",
             #   href = "data-entry-template/GLATAR_data_entry_template_v15.xlsx",
             #   download = "GLATAR_data_entry_template_v15.xlsx"
             # ),
-            tags$span(" in the "),
             actionLink("go_docs", "documentation pane"),
             tags$span(".")
           ),
