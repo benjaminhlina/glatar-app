@@ -1,0 +1,427 @@
+glatar_diagram_ui <- function() {
+  htmltools::tags$div(
+    style = "width:100%; padding: 10px 0;",
+    htmltools::tags$style(HTML("
+      /* ── GLATAR Bubble Diagram ── */
+      .glatar-diagram-wrap {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        background: linear-gradient(160deg, #0a1628 0%, #0d2340 50%, #0a1e35 100%);
+        border-radius: 12px;
+        padding: 32px 24px 36px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      }
+      .glatar-diagram-wrap::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0,120,180,0.08) 0%, transparent 60%),
+          radial-gradient(ellipse 40% 50% at 80% 20%, rgba(0,180,160,0.07) 0%, transparent 60%);
+        pointer-events: none;
+      }
+      .glatar-diagram-title {
+        text-align: center;
+        color: #a8d4f0;
+        font-size: 13px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 28px;
+        opacity: 0.75;
+      }
+
+      /* ── SVG canvas ── */
+      #glatar-svg {
+        display: block;
+        margin: 0 auto;
+        max-width: 700px;
+        width: 100%;
+        overflow: visible;
+      }
+
+      /* ── Connector lines ── */
+      .glatar-spoke {
+        stroke: rgba(100,180,220,0.18);
+        stroke-width: 1.5;
+        stroke-dasharray: 4 4;
+        transition: stroke 0.3s, stroke-opacity 0.3s;
+      }
+
+      /* ── Bubbles ── */
+      .glatar-bubble-group {
+        cursor: pointer;
+      }
+      .glatar-bubble-bg {
+        transition: r 0.25s ease, filter 0.25s ease;
+        filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+      }
+      .glatar-bubble-group:hover .glatar-bubble-bg,
+      .glatar-bubble-group.active .glatar-bubble-bg {
+        filter: drop-shadow(0 0 18px var(--glow)) drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+      }
+      .glatar-bubble-ring {
+        fill: none;
+        stroke-width: 1.5;
+        opacity: 0.5;
+        transition: opacity 0.25s, stroke-width 0.25s;
+      }
+      .glatar-bubble-group:hover .glatar-bubble-ring,
+      .glatar-bubble-group.active .glatar-bubble-ring {
+        opacity: 1;
+        stroke-width: 2.5;
+      }
+      .glatar-bubble-icon {
+        font-size: 20px;
+        dominant-baseline: central;
+        text-anchor: middle;
+        pointer-events: none;
+        transition: font-size 0.25s;
+      }
+      .glatar-bubble-label {
+        fill: #cee8f8;
+        font-family: 'Georgia', serif;
+        font-size: 9.5px;
+        text-anchor: middle;
+        dominant-baseline: central;
+        pointer-events: none;
+        letter-spacing: 0.3px;
+      }
+
+      /* ── Centre hub ── */
+      .glatar-hub-outer { opacity: 0.25; }
+      .glatar-hub-inner { opacity: 0.55; }
+      .glatar-hub-label {
+        fill: #e0f2ff;
+        font-family: 'Georgia', serif;
+        font-size: 11px;
+        font-weight: bold;
+        text-anchor: middle;
+        dominant-baseline: central;
+        letter-spacing: 1.5px;
+      }
+
+      /* ── Info card ── */
+      .glatar-info-card {
+        max-width: 660px;
+        margin: 24px auto 0;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(100,180,220,0.2);
+        border-radius: 10px;
+        padding: 18px 22px;
+        min-height: 80px;
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        transition: opacity 0.3s, transform 0.3s;
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+      }
+      .glatar-info-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      .glatar-card-icon {
+        font-size: 26px;
+        flex-shrink: 0;
+        line-height: 1;
+        padding-top: 2px;
+      }
+      .glatar-card-body {}
+      .glatar-card-name {
+        color: #6dcfff;
+        font-family: 'Georgia', serif;
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        letter-spacing: 0.5px;
+      }
+      .glatar-card-desc {
+        color: #9cc8e0;
+        font-family: 'Georgia', serif;
+        font-size: 12px;
+        line-height: 1.6;
+        margin-bottom: 6px;
+      }
+      .glatar-card-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 6px;
+      }
+      .glatar-card-tag {
+        background: rgba(100,200,240,0.1);
+        border: 1px solid rgba(100,200,240,0.25);
+        border-radius: 20px;
+        padding: 2px 9px;
+        font-size: 10px;
+        color: #7ec8e8;
+        font-family: 'Georgia', serif;
+      }
+      .glatar-hint {
+        text-align: center;
+        color: rgba(150,190,220,0.4);
+        font-size: 11px;
+        font-family: 'Georgia', serif;
+        margin-top: 10px;
+        letter-spacing: 0.5px;
+        font-style: italic;
+      }
+    ")),
+
+    htmltools::tags$div(
+      class = "glatar-diagram-wrap",
+
+      htmltools::tags$div(class = "glatar-diagram-title", "Database Components"),
+
+      # SVG bubble diagram
+      htmltools::tags$svg(
+        id = "glatar-svg",
+        viewBox = "0 0 500 260",
+        xmlns = "http://www.w3.org/2000/svg",
+        htmltools::tags$defs(
+          htmltools::tags$radialGradient(
+            id = "hub-grad", cx = "50%", cy = "35%", r = "65%",
+            htmltools::tags$stop(offset = "0%",   `stop-color` = "#1a4a6e"),
+            htmltools::tags$stop(offset = "100%", `stop-color` = "#0a2440")
+          ),
+          # individual bubble gradients generated in JS
+        )
+      ),
+
+      # Info card
+      htmltools::tags$div(
+        class = "glatar-info-card",
+        id = "glatar-card",
+        htmltools::tags$div(class = "glatar-card-icon", id = "card-icon", ""),
+        htmltools::tags$div(
+          class = "glatar-card-body",
+          htmltools::tags$div(class = "glatar-card-name", id = "card-name", ""),
+          htmltools::tags$div(class = "glatar-card-desc", id = "card-desc", ""),
+          htmltools::tags$div(class = "glatar-card-tags", id = "card-tags")
+        )
+      ),
+
+      htmltools::tags$div(class = "glatar-hint", "Click a bubble to explore each data type")
+    ),
+
+    # Build the SVG with JS
+    htmltools::tags$script(HTML('
+(function() {
+
+  var components = [
+    {
+      id: "ed",
+      label: ["Energy","Density"],
+      icon: "⚡",
+      color: "#f0a500",
+      glow: "#f0a500",
+      grad: ["#3d2800","#1a1200"],
+      desc: "Measures the caloric content of tissue samples (kJ/g wet or dry weight), providing a key index of organismal condition and energy reserves. Widely used in bioenergetics models.",
+      tags: ["kJ/g wet wt","kJ/g dry wt","Bomb calorimetry","Proximate estimation"]
+    },
+    {
+      id: "pc",
+      label: ["Proximate","Composition"],
+      icon: "🧬",
+      color: "#5ec45e",
+      glow: "#5ec45e",
+      grad: ["#0d2e0d","#061806"],
+      desc: "Quantifies the proportion of water, lipid, protein, and ash in tissue, revealing nutritional quality and body condition of fish and invertebrates.",
+      tags: ["% water","% lipid","% protein","% ash","Soxhlet extraction"]
+    },
+    {
+      id: "si",
+      label: ["Stable","Isotopes"],
+      icon: "⚛",
+      color: "#64c8f5",
+      glow: "#64c8f5",
+      grad: ["#091e2e","#040f18"],
+      desc: "Ratios of δ¹³C and δ¹⁵N (and others) in tissue are used to infer trophic position, dietary sources, and migration patterns across food webs.",
+      tags: ["δ¹³C","δ¹⁵N","δ³⁴S","Trophic position","Food web tracing"]
+    },
+    {
+      id: "th",
+      label: ["Thiamine"],
+      icon: "💊",
+      color: "#e06dff",
+      glow: "#e06dff",
+      grad: ["#220030","#110018"],
+      desc: "Thiamine (Vitamin B₁) concentrations in eggs and tissue are critical indicators of early mortality syndrome (EMS/TAMS) in salmonids and other Great Lakes fishes.",
+      tags: ["nmol/g","Egg thiamine","EMS / TAMS","Salmonid health"]
+    },
+    {
+      id: "fa",
+      label: ["Fatty","Acids"],
+      icon: "🫧",
+      color: "#ff9055",
+      glow: "#ff9055",
+      grad: ["#2e1000","#180800"],
+      desc: "Fatty acid profiles (e.g., EPA, DHA, DPA) serve as dietary tracers and indicators of nutritional quality, linking primary producers to top predators.",
+      tags: ["EPA","DHA","DPA","% total FA","Dietary tracers"]
+    },
+    {
+      id: "hg",
+      label: ["Mercury"],
+      icon: "⚗️",
+      color: "#c8e840",
+      glow: "#c8e840",
+      grad: ["#1c2200","#0e1100"],
+      desc: "Total mercury and methylmercury concentrations in fish tissue are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies.",
+      tags: ["Total Hg","Methylmercury","μg/g wet wt","Bioaccumulation"]
+    },
+    {
+      id: "pcb",
+      label: ["PCBs"],
+      icon: "☣",
+      color: "#ff5f72",
+      glow: "#ff5f72",
+      grad: ["#2e0008","#160004"],
+      desc: "Polychlorinated biphenyl concentrations (individual congeners and totals) in fish and invertebrate tissue reflect legacy contaminant loads and are used in ecological risk assessments.",
+      tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment"]
+    }
+  ];
+
+  // Layout: arc arrangement
+  var cx = 250, cy = 128;
+  var r  = 105; // orbit radius
+  var n  = components.length;
+
+  // positions evenly spaced on an ellipse
+  var positions = components.map(function(c, i) {
+    var angle = (2 * Math.PI * i / n) - Math.PI / 2;
+    return {
+      x: cx + r * 1.18 * Math.cos(angle),
+      y: cy + r * 0.78 * Math.sin(angle)
+    };
+  });
+
+  var svg = document.getElementById("glatar-svg");
+  var NS  = "http://www.w3.org/2000/svg";
+
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    Object.keys(attrs || {}).forEach(function(k) { e.setAttribute(k, attrs[k]); });
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // defs
+  var defs = el("defs", {}, svg);
+  el("radialGradient", {id:"hub-grad", cx:"50%", cy:"35%", r:"65%"}, defs);
+  var hg = svg.querySelector("#hub-grad");
+  var s1 = el("stop", {offset:"0%","stop-color":"#1e5070"}, hg);
+  var s2 = el("stop", {offset:"100%","stop-color":"#071828"}, hg);
+
+  components.forEach(function(c) {
+    var g = el("radialGradient", {id:"grad-"+c.id, cx:"40%", cy:"30%", r:"65%"}, defs);
+    el("stop", {offset:"0%","stop-color":c.grad[0]}, g);
+    el("stop", {offset:"100%","stop-color":c.grad[1]}, g);
+  });
+
+  // spokes
+  positions.forEach(function(p) {
+    el("line", {
+      class:"glatar-spoke",
+      x1: cx, y1: cy,
+      x2: p.x, y2: p.y
+    }, svg);
+  });
+
+  // hub
+  var hubGroup = el("g", {class:"glatar-hub"}, svg);
+  el("circle", {cx:cx, cy:cy, r:38, fill:"url(#hub-grad)", class:"glatar-hub-outer",
+    stroke:"rgba(100,180,220,0.15)","stroke-width":"1"}, hubGroup);
+  el("circle", {cx:cx, cy:cy, r:28, fill:"url(#hub-grad)", class:"glatar-hub-inner",
+    stroke:"rgba(100,200,240,0.3)","stroke-width":"1.5"}, hubGroup);
+  var hubText = el("text", {class:"glatar-hub-label", x:cx, y:cy-5}, hubGroup);
+  hubText.textContent = "GLATAR";
+  var hubSub = el("text", {
+    fill:"rgba(160,210,240,0.5)", "font-size":"7",
+    "text-anchor":"middle", "dominant-baseline":"central",
+    "font-family":"Georgia,serif", "letter-spacing":"1.5px",
+    x:cx, y:cy+9
+  }, hubGroup);
+  hubSub.textContent = "DATABASE";
+
+  // bubbles
+  var activeIdx = null;
+
+  components.forEach(function(c, i) {
+    var p = positions[i];
+    var bRad = 30;
+
+    var g = el("g", {class:"glatar-bubble-group", id:"bubble-"+c.id,
+      style:"--glow: "+c.glow}, svg);
+    g.setAttribute("tabindex","0");
+
+    el("circle", {
+      class:"glatar-bubble-bg",
+      cx:p.x, cy:p.y, r:bRad,
+      fill:"url(#grad-"+c.id+")",
+      stroke:c.color, "stroke-width":"1.5",
+      "stroke-opacity":"0.5"
+    }, g);
+    el("circle", {
+      class:"glatar-bubble-ring",
+      cx:p.x, cy:p.y, r:bRad+4,
+      stroke:c.color
+    }, g);
+
+    // icon
+    var icon = el("text", {
+      class:"glatar-bubble-icon",
+      x:p.x, y:p.y - 8
+    }, g);
+    icon.textContent = c.icon;
+
+    // label (two lines)
+    c.label.forEach(function(line, li) {
+      var t = el("text", {
+        class:"glatar-bubble-label",
+        x:p.x, y:p.y + 10 + li*11
+      }, g);
+      t.textContent = line;
+    });
+
+    function activate() {
+      // deactivate previous
+      components.forEach(function(cc) {
+        var prev = document.getElementById("bubble-"+cc.id);
+        if (prev) prev.classList.remove("active");
+      });
+
+      if (activeIdx === i) {
+        activeIdx = null;
+        document.getElementById("glatar-card").classList.remove("visible");
+        return;
+      }
+      activeIdx = i;
+      g.classList.add("active");
+
+      // fill card
+      document.getElementById("card-icon").textContent = c.icon;
+      document.getElementById("card-name").textContent = c.label.join(" ");
+      document.getElementById("card-desc").textContent = c.desc;
+      var tagsEl = document.getElementById("card-tags");
+      tagsEl.innerHTML = "";
+      c.tags.forEach(function(t) {
+        var span = document.createElement("span");
+        span.className = "glatar-card-tag";
+        span.textContent = t;
+        tagsEl.appendChild(span);
+      });
+      document.getElementById("card-name").style.color = c.color;
+      document.getElementById("glatar-card").classList.add("visible");
+    }
+
+    g.addEventListener("click", activate);
+    g.addEventListener("keydown", function(e) { if (e.key==="Enter"||e.key===" ") activate(); });
+  });
+
+})();
+    '))
+  )
+}
