@@ -232,7 +232,8 @@ glatar_diagram_ui <- function() {
           class = "glatar-card-body",
           htmltools::tags$div(class = "glatar-card-name", id = "card-name", ""),
           htmltools::tags$div(class = "glatar-card-desc", id = "card-desc", ""),
-          htmltools::tags$div(class = "glatar-card-tags", id = "card-tags")
+          htmltools::tags$div(class = "glatar-card-tags", id = "card-tags"),
+          htmltools::tags$div(class = "glatar-card-doc", id = "card-doc")
         )
       ),
 
