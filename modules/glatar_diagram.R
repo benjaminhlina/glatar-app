@@ -252,8 +252,8 @@ glatar_diagram_ui <- function() {
       color: "#f0a500",
       glow: "#f0a500",
       grad: ["#3d2800","#1a1200"],
-      desc: "Measures the caloric content of tissue samples (kJ/g wet or dry weight), providing a key index of organismal condition and energy reserves. Widely used in bioenergetics models.",
-      tags: ["kJ/g wet wt","kJ/g dry wt","Bomb calorimetry","Proximate estimation"]
+      desc: "Measures the caloric content of tissue samples (Joules/g wet or dry weight), providing a key index of organismal condition and energy reserves. Widely used in bioenergetics models.",
+      tags: ["Joules/g wet weight","Joules/g dry weight","Bomb calorimetry","Proximate estimation"]
     },
     {
       id: "pc",
