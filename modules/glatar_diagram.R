@@ -452,6 +452,22 @@ glatar_diagram_ui <- function() {
       });
       document.getElementById("card-name").style.color = c.color;
       document.getElementById("glatar-card").classList.add("visible");
+
+      // doc link
+      var docEl = document.getElementById("card-doc");
+      docEl.innerHTML = "";
+      if (c.doc) {
+        docEl.classList.add("has-doc");
+        var a = document.createElement("a");
+        a.className = "glatar-doc-link";
+        a.href = c.doc;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.innerHTML = \'<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>\' + "View Documentation";
+        docEl.appendChild(a);
+      } else {
+        docEl.classList.remove("has-doc");
+      }
     }
 
     g.addEventListener("click", activate);
