@@ -26,8 +26,23 @@ view_data_server <- function(id, con) {
 
     # Render the selected table
     output$selected_table <- DT::renderDT({
-      req(input$table_select)
-      DBI::dbGetQuery(con, paste0('SELECT * FROM "', input$table_select, '"'))
+     
+      allowed_tables <- c(
+      "tbl_calorimetry", 
+      "tbl_data_dictionary", 
+      "tbl_isotope", 
+      "tbl_length", 
+      "tbl_location", 
+      "tbl_proxcomp", 
+      "tbl_samples", 
+      "tbl_source", 
+      "tbl_taxonomy")
+      
+      req(input$table_select %in% allowed_tables)
+
+      safe_name <- DBI::dbQuoteIdentifier(con, input$table_select)
+      
+      DBI::dbGetQuery(con, paste0("SELECT * FROM ", safe_name))
     },
     options = list(
       pageLength = 15,
