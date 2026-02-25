@@ -16,13 +16,13 @@ view_data_server <- function(id, con) {
   moduleServer(id, function(input, output, session) {
 
     # Get all table names and update selectInput dynamically
-    observe({
+     observe({
       table_names <- DBI::dbListTables(con)
       
       table_names <- table_names[-9]
        
       updateSelectInput(session, "table_select", choices = table_names)
-    })
+     })
 
     # Render the selected table
     output$selected_table <- DT::renderDT({
