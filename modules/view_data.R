@@ -17,9 +17,11 @@ view_data_server <- function(id, con) {
 
     # Get all table names and update selectInput dynamically
     observe({
-      test <- DBI::dbListTables(con)
-      test <- test[-9]
-      updateSelectInput(session, "table_select", choices = test)
+      table_names <- DBI::dbListTables(con)
+      
+      table_names <- table_names[-9]
+       
+      updateSelectInput(session, "table_select", choices = table_names)
     })
 
     # Render the selected table
