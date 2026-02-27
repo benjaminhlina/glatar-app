@@ -38,4 +38,4 @@ This repository will not be accepting LLM submitted PRs nor PRs that contain dir
 
 If you would like to contribute please feel free to fork the repository, create a branch, implement your changes and submit a PR for review.   
 
-Issues that are submitted by LLMs and/or copied and pasted from LLMs will be deleted and ignored as the issuer needs to have the ability to be able to write their own issues. If you cannot be bothered to do such then do not make issues on this repository. 
+Issues that are submitted by LLMs and/or copied and pasted from LLMs will be deleted and ignored as the issuer needs to have the ability to be able to write their own issues. If you've lost the ability to write and think for yourself snd cannot be bothered to do such then do not make issues on this repository. 
