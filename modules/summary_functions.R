@@ -122,6 +122,11 @@ create_mean_data <- function(input_source,
 
     # run query x
     grouped_summary_df <- grouped_summary_df |>
+      left_join(base_df, by = summary_grouping_vars) |>
+      relocate(
+        n,
+        .after = all_of(tail(summary_grouping_vars, 1))
+      ) |>
       collect() |>
       arrange(across(all_of(summary_grouping_vars))) |>
       mutate(across(where(is.numeric), ~ round(.x, 2)))
