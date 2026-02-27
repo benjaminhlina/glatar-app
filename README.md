@@ -34,7 +34,7 @@ This app has used LLMs as a tool to assist in development, however, any code tha
 
 # Contribution and Issue Policy 
 
-This repository will not be accepting, LLM submitted PRs nor PRs that contain directly copy and pasted code from LLMs that has not be vetted and edited. 
+This repository will not be accepting LLM submitted PRs nor PRs that contain directly copy and pasted code from LLMs that has not be vetted and edited. 
 
 If you would like to contribute please feel free to fork the repository, create a branch, implement your changes and submit a PR for review.   
 
