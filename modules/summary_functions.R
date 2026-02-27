@@ -128,6 +128,9 @@ create_mean_data <- function(input_source,
         n,
         .after = all_of(tail(summary_grouping_vars, 1))
       ) |>
+      filter(
+        if_any(contains("(mean)"), ~ !is.na(.x))
+      ) |> 
       collect() |>
       arrange(across(all_of(summary_grouping_vars))) |>
       mutate(across(where(is.numeric), ~ round(.x, 2)))
