@@ -1,7 +1,7 @@
 # Match Excel column to DB column using progressive matching
 match_to_db_col <- function(col_name, db_cols) {
 
-  # Strip example markers: split on "_e_g_" or "_i_e_" and take the first part
+  # Strip example: split on "_e_g_" or "_i_e_" and take the first part
   # ., "common_name_e_g_lake_trout" -> "common_name"
   candidate_col <- col_name
 
