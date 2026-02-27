@@ -116,8 +116,9 @@ create_mean_data <- function(input_source,
     #  # can use  init = base_df
     grouped_summary_df <- Reduce(function(x, y) {
       full_join(x, y, by = summary_grouping_vars)
-    }, summary_list,
-    init = base_df)
+    }, summary_list
+    # init = base_df
+    )
 
     # run query x
     grouped_summary_df <- grouped_summary_df |>
