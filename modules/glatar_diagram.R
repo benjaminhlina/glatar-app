@@ -434,6 +434,30 @@ glatar_diagram_ui <- function() {
   // bubbles
   var activeIdx = null;
 
+  // helper: draw a mini pie chart in SVG at (px, py) with given radius
+  function drawPie(parent, px, py, pr) {
+    var slices = [
+      { pct: 0.70, fill: "#4ab8e8" },   // water – blue
+      { pct: 0.15, fill: "#f0d060" },   // lipid – yellow
+      { pct: 0.12, fill: "#f5b638ff" },   // protein – green
+      { pct: 0.03, fill: "#979797ff" }    // ash – grey
+    ];
+    var startAngle = -Math.PI / 2; // start at top
+    slices.forEach(function(s) {
+      var endAngle = startAngle + s.pct * 2 * Math.PI;
+      var x1 = px + pr * Math.cos(startAngle);
+      var y1 = py + pr * Math.sin(startAngle);
+      var x2 = px + pr * Math.cos(endAngle);
+      var y2 = py + pr * Math.sin(endAngle);
+      var large = s.pct > 0.5 ? 1 : 0;
+      var d = "M "+px+" "+py+" L "+x1+" "+y1+" A "+pr+" "+pr+" 0 "+large+" 1 "+x2+" "+y2+" Z";
+      el("path", {d:d, fill:s.fill, stroke:"rgba(0,0,0,0.3)", "stroke-width":"0.5"}, parent);
+      startAngle = endAngle;
+    });
+    // subtle rim
+    el("circle", {cx:px, cy:py, r:pr, fill:"none", stroke:"rgba(255,255,255,0.15)", "stroke-width":"0.75"}, parent);
+  }
+
   components.forEach(function(c, i) {
     var p = positions[i];
     var bRad = 30;
