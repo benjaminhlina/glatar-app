@@ -64,7 +64,7 @@ docs_ui <- function(id) {
             tags$li(
               tags$a(
                 "Rational and Purpose of GLATAR",
-                href = "documentation/rational_for_GLATAR.pdf",
+                href = "documentation/rationale_for_GLATAR.pdf",
                 target = "_blank"
               )
             ),
