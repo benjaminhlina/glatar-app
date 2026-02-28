@@ -258,7 +258,9 @@ glatar_diagram_ui <- function() {
     {
       id: "pc",
       label: ["Proximate","Composition"],
-      icon: "🧬",
+      icon: null,
+      pieChart: true,
+      cardIcon: "🥧",
       color: "#5ec45e",
       glow: "#5ec45e",
       grad: ["#0d2e0d","#061806"],
