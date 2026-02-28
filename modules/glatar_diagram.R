@@ -252,7 +252,7 @@ glatar_diagram_ui <- function() {
       icon: "⚡",
       color: "#f0a500",
       glow: "#f0a500",
-      grad: ["#3d2800","#1a1200"],
+      grad: ["#bc7a00ff","#7f5900ff"],
       desc: "Measures the caloric content of tissue samples (Joules/g wet or dry weight), providing a key index of organismal condition and energy reserves. Widely used in bioenergetics models.",
       tags: ["Joules/g wet weight","Joules/g dry weight","Bomb calorimetry","Proximate estimation"]
     },
@@ -263,7 +263,7 @@ glatar_diagram_ui <- function() {
       pieChart: true,
       color: "#5ec45e",
       glow: "#5ec45e",
-      grad: ["#0d2e0d","#061806"],
+      grad: ["#247824ff","#114611ff"],
       desc: "Quantifies the proportion of water, lipid, protein, and ash in tissue, revealing nutritional quality and body condition of fish and invertebrates.",
       tags: ["% water","% lipid","% protein","% ash","Soxhlet extraction"]
     },
@@ -273,7 +273,7 @@ glatar_diagram_ui <- function() {
       icon: "⚛",
       color: "#64c8f5",
       glow: "#64c8f5",
-      grad: ["#091e2e","#040f18"],
+      grad: ["#2a84c8ff","#155c96ff"],
       desc: "Ratios of δ¹³C and δ¹⁵N (and others) in tissue are used to infer trophic position, dietary sources, and migration patterns across food webs.",
       tags: ["δ¹³C","δ¹⁵N","δ³⁴S","Trophic position","Food web tracing"],
       doc: "documentation/stable_isotope_documentation.pdf"
@@ -284,7 +284,7 @@ glatar_diagram_ui <- function() {
       icon: "💊",
       color: "#e06dff",
       glow: "#e06dff",
-      grad: ["#220030","#110018"],
+      grad: ["#8900c0ff","#50006fff"],
       desc: "Thiamine (Vitamin B₁) concentrations in eggs and tissue are critical indicators of early mortality syndrome (EMS/TAMS) in salmonids and other Great Lakes fishes.",
       tags: ["nmol/g","Egg thiamine","EMS / TAMS","Salmonid health"],
       doc: "documentation/thiamine_and_thiaminase_documentation.pdf"
@@ -295,7 +295,7 @@ glatar_diagram_ui <- function() {
       icon: "🫧",
       color: "#ff9055",
       glow: "#ff9055",
-      grad: ["#2e1000","#180800"],
+      grad: ["#973500ff","#602000ff"],
       desc: "Fatty acid profiles (e.g., EPA, DHA, DPA) serve as dietary tracers and indicators of nutritional quality, linking primary producers to top predators.",
       tags: ["EPA","DHA","DPA","% total FA","Dietary tracers"],
       doc: "documentation/fatty_acids_documentation.pdf"
@@ -306,7 +306,7 @@ glatar_diagram_ui <- function() {
       icon: "⚗️",
       color: "#c8e840",
       glow: "#c8e840",
-      grad: ["#1c2200","#0e1100"],
+      grad: ["#84a100ff","#566900ff"],
       desc: "Total mercury and methylmercury concentrations in fish tissue are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies.",
       tags: ["Total Hg","Methylmercury","μg/g wet wt","Bioaccumulation"]
     },
@@ -316,7 +316,7 @@ glatar_diagram_ui <- function() {
       icon: "☣",
       color: "#ff5f72",
       glow: "#ff5f72",
-      grad: ["#2e0008","#160004"],
+      grad: ["#be0020ff","#6a0013ff"],
       desc: "Polychlorinated biphenyl concentrations (individual congeners and totals) in fish and invertebrate tissue reflect legacy contaminant loads and are used in ecological risk assessments.",
       tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment"],
       doc: "documentation/polychlorinated_biphenyls_documentation.pdf"
