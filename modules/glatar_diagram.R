@@ -370,7 +370,7 @@ glatar_diagram_ui <- function() {
   });
 
   // hub
-  var hubGroup = el("g", {class:"glatar-hub"}, svg);
+  var hubGroup = el("g", {class:"glatar-hub", style:"cursor:pointer;"}, svg);
   el("circle", {cx:cx, cy:cy, r:38, fill:"url(#hub-grad)", class:"glatar-hub-outer",
     stroke:"rgba(100,180,220,0.15)","stroke-width":"1"}, hubGroup);
   el("circle", {cx:cx, cy:cy, r:28, fill:"url(#hub-grad)", class:"glatar-hub-inner",
