@@ -483,11 +483,11 @@ glatar_diagram_ui <- function() {
     if (c.pieChart) {
       drawPie(g, p.x, p.y - 8, 11);
     } else {
-    var icon = el("text", {
-      class:"glatar-bubble-icon",
-      x:p.x, y:p.y - 8
-    }, g);
-    icon.textContent = c.icon;
+      var icon = el("text", {
+        class:"glatar-bubble-icon",
+        x:p.x, y:p.y - 8
+      }, g);
+      icon.textContent = c.icon;
     }
 
     // label (two lines)
