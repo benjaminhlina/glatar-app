@@ -12,6 +12,13 @@ home_tab_ui <- function(id) {
     shiny::br(),
     shiny::fluidRow(
       shinydashboard::box(
+        title = "Explore Database Components",
+        width = 6,
+        status = "primary",
+        solidHeader = TRUE,
+        glatar_diagram_ui()
+      ),
+      shinydashboard::box(
         title = "Get Started",
         width = 6,
         status = "primary",
