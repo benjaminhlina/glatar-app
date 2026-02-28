@@ -479,12 +479,16 @@ glatar_diagram_ui <- function() {
       stroke:c.color
     }, g);
 
-    // icon
+    // icon — mini pie chart for proximate composition, emoji for all others
+    if (c.pieChart) {
+      drawPie(g, p.x, p.y - 8, 11);
+    } else {
     var icon = el("text", {
       class:"glatar-bubble-icon",
       x:p.x, y:p.y - 8
     }, g);
     icon.textContent = c.icon;
+    }
 
     // label (two lines)
     c.label.forEach(function(line, li) {
