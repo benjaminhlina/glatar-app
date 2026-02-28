@@ -207,6 +207,7 @@ glatar_diagram_ui <- function() {
       class = "glatar-diagram-wrap",
 
       htmltools::tags$div(class = "glatar-diagram-title", "Database Components"),
+      htmltools::tags$div(class = "glatar-hint", "Click a bubble to explore each data type"),
 
       # SVG bubble diagram
       htmltools::tags$svg(
@@ -237,7 +238,7 @@ glatar_diagram_ui <- function() {
         )
       ),
 
-      htmltools::tags$div(class = "glatar-hint", "Click a bubble to explore each data type")
+      #  htmltools::tags$div(class = "glatar-hint", "Click a bubble to explore each data type")
     ),
 
     # Build the SVG with JS
