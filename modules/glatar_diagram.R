@@ -385,6 +385,52 @@ glatar_diagram_ui <- function() {
   }, hubGroup);
   hubSub.textContent = "DATABASE";
 
+  var hubActive = false;
+  hubGroup.addEventListener("click", function() {
+    // deactivate any open bubble card
+    components.forEach(function(cc) {
+      var prev = document.getElementById("bubble-"+cc.id);
+      if (prev) prev.classList.remove("active");
+    });
+    activeIdx = null;
+
+    if (hubActive) {
+      hubActive = false;
+      hubGroup.classList.remove("active");
+      document.getElementById("glatar-card").classList.remove("visible");
+      return;
+    }
+    hubActive = true;
+    hubGroup.classList.add("active");
+
+    document.getElementById("card-icon").textContent = "🌊";
+    document.getElementById("card-name").textContent = "GLATAR — Great Lakes Aquatic Tissue Analysis Repository";
+    document.getElementById("card-name").style.color = "#64c8f5";
+    document.getElementById("card-desc").textContent = "GLATAR brings together energy density, proximate composition, stable isotopes, thiamine, fatty acids, mercury, and PCB data into a single, unified repository. By integrating these complementary data, researchers and managers can explore bioenergetics, contaminant dynamics, nutritional quality, and food web structure across species, locations, and time, all through a single interactive platform.";
+
+    var tagsEl = document.getElementById("card-tags");
+    tagsEl.innerHTML = "";
+    ["Multi-metric integration","Great Lakes & North America","Researchers & managers","Bioenergetics","Food web dynamics","Contaminant monitoring"].forEach(function(t) {
+      var span = document.createElement("span");
+      span.className = "glatar-card-tag";
+      span.textContent = t;
+      tagsEl.appendChild(span);
+    });
+
+    var docEl = document.getElementById("card-doc");
+    docEl.innerHTML = "";
+    docEl.classList.add("has-doc");
+    var a = document.createElement("a");
+    a.className = "glatar-doc-link";
+    a.href = "documentation/rationale_for_GLATAR.pdf";
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.innerHTML = \'<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>View GLATAR Purpose Document\';
+    docEl.appendChild(a);
+
+    document.getElementById("glatar-card").classList.add("visible");
+  });
+
   // bubbles
   var activeIdx = null;
 
