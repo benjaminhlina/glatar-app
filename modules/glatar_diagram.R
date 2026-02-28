@@ -517,7 +517,7 @@ glatar_diagram_ui <- function() {
       g.classList.add("active");
 
       // fill card
-      document.getElementById("card-icon").textContent = c.icon;
+      document.getElementById("card-icon").textContent = c.cardIcon || c.icon;
       document.getElementById("card-name").textContent = c.label.join(" ");
       document.getElementById("card-desc").textContent = c.desc;
       var tagsEl = document.getElementById("card-tags");
