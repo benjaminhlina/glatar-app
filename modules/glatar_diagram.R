@@ -505,6 +505,8 @@ glatar_diagram_ui <- function() {
         var prev = document.getElementById("bubble-"+cc.id);
         if (prev) prev.classList.remove("active");
       });
+      hubActive = false;
+      hubGroup.classList.remove("active");
 
       if (activeIdx === i) {
         activeIdx = null;
