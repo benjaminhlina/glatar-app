@@ -517,7 +517,18 @@ glatar_diagram_ui <- function() {
       g.classList.add("active");
 
       // fill card
-      document.getElementById("card-icon").textContent = c.cardIcon || c.icon;
+     var cardIconEl = document.getElementById("card-icon");
+     if (c.pieChart) {
+     cardIconEl.textContent = "";          // clear any previous text/emoji
+     var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+     svg.setAttribute("width", "32");
+     svg.setAttribute("height", "32");
+     svg.setAttribute("viewBox", "-12 -12 24 24");
+     drawPie(svg, 0, 0, 10);              // reuse your existing drawPie helper
+     cardIconEl.appendChild(svg);
+     } else {
+      cardIconEl.textContent = c.cardIcon || c.icon;
+      }
       document.getElementById("card-name").textContent = c.label.join(" ");
       document.getElementById("card-desc").textContent = c.desc;
       var tagsEl = document.getElementById("card-tags");
