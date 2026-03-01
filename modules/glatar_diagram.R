@@ -305,7 +305,7 @@ glatar_diagram_ui <- function() {
     {
       id: "hg",
       label: ["Mercury"],
-      icon: "⚗️",
+      icon: "⚪",
       color: "#c8e840",
       glow: "#c8e840",
       grad: ["#84a100ff","#566900ff"],
