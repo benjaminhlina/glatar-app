@@ -485,7 +485,7 @@ glatar_diagram_ui <- function() {
 
     // icon — mini pie chart for proximate composition, emoji for all others
     if (c.pieChart) {
-      drawPie(g, p.x, p.y - 8, 7);
+      drawPie(g, p.x, p.y - 8, 8);
     } else {
       var icon = el("text", {
         class:"glatar-bubble-icon",
