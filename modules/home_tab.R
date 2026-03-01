@@ -12,6 +12,13 @@ home_tab_ui <- function(id) {
     shiny::br(),
     shiny::fluidRow(
       shinydashboard::box(
+        title = "Explore Database Components",
+        width = 6,
+        status = "primary",
+        solidHeader = TRUE,
+        glatar_diagram_ui()
+      ),
+      shinydashboard::box(
         title = "Get Started",
         width = 6,
         status = "primary",
@@ -48,8 +55,8 @@ home_tab_ui <- function(id) {
                     ),
           tags$li("The advanced data entry template has additional fields to collect
                       thiamine, fatty acid, mercury, and PCB data."
-                    ), 
-           tags$li(         
+                    ),
+           tags$li(
             tags$span("Both data entry templates can be found in the "),
             # tags$a(
             #   "clicking here",
@@ -69,5 +76,15 @@ home_tab_ui <- function(id) {
         )
       )
     )
-  )
+    # # ---- Interactive database component diagram -----
+    # shiny::fluidRow(
+    #   shinydashboard::box(
+    #     title = "Explore Database Components",
+    #     width = 12,
+    #     status = "primary",
+    #     solidHeader = TRUE,
+    #     glatar_diagram_ui()
+    #   )
+  # )
+)
 }
