@@ -524,6 +524,8 @@ glatar_diagram_ui <- function() {
      var cardIconEl = document.getElementById("card-icon");
      if (c.pieChart) {
      cardIconEl.textContent = "";          // clear any previous text/emoji
+     cardIconEl.style.filter = c.iconFilter || "";
+     cardIconEl.style.fontSize = c.iconSize || "5rem";
      var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
      svg.setAttribute("width", "32");
      svg.setAttribute("height", "32");
@@ -532,6 +534,8 @@ glatar_diagram_ui <- function() {
      cardIconEl.appendChild(svg);
      } else {
       cardIconEl.textContent = c.cardIcon || c.icon;
+      cardIconEl.style.filter = c.iconFilter || "";
+      cardIconEl.style.fontSize = c.iconSize || "5rem";
       }
       document.getElementById("card-name").textContent = c.label.join(" ");
       document.getElementById("card-desc").textContent = c.desc;
