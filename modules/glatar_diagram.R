@@ -253,7 +253,7 @@ glatar_diagram_ui <- function() {
       color: "#f0a500",
       glow: "#f0a500",
       grad: ["#bc7a00ff","#7f5900ff"],
-      desc: "Measures the caloric content of tissue samples (Joules/g wet or dry weight), providing a key index of organismal condition and energy reserves. Widely used in bioenergetics models.",
+      desc: "Measures the caloric content of tissue samples (i.e., Joules/g wet or dry weight), providing a key index of organismal condition and energy reserves. Widely used in bioenergetics models.",
       tags: ["Joules/g wet weight","Joules/g dry weight","Bomb calorimetry","Proximate estimation"]
     },
     {
@@ -264,7 +264,7 @@ glatar_diagram_ui <- function() {
       color: "#5ec45e",
       glow: "#5ec45e",
       grad: ["#247824ff","#114611ff"],
-      desc: "Quantifies the proportion of water, lipid, protein, and ash in tissue, revealing nutritional quality and body condition of fish and invertebrates.",
+      desc: "Quantifies the proportion of water, lipid, protein, and ash in tissues, revealing nutritional quality and body condition of fish and invertebrates.",
       tags: ["% water","% lipid","% protein","% ash","Soxhlet extraction"]
     },
     {
@@ -276,8 +276,8 @@ glatar_diagram_ui <- function() {
       color: "#64c8f5",
       glow: "#64c8f5",
       grad: ["#2a84c8ff","#155c96ff"],
-      desc: "Ratios of δ¹³C and δ¹⁵N (and others) in tissue are used to infer trophic position, dietary sources, and migration patterns across food webs.",
-      tags: ["δ¹³C","δ¹⁵N","δ³⁴S","Trophic position","Food web tracing"],
+      desc: "Ratios of δ¹³C and δ¹⁵N (and others) in tissue are used to infer trophic position, dietary sources, niche partition, community dynamics, habitat use, and migration patterns across food webs.",
+      tags: ["δ¹³C","δ¹⁵N","δ³⁴S","δ¹⁸O", "δ²H", "Trophic position","Food web tracing"],
       doc: "documentation/stable_isotope_documentation.pdf"
     },
     {
@@ -287,7 +287,7 @@ glatar_diagram_ui <- function() {
       color: "#e06dff",
       glow: "#e06dff",
       grad: ["#8900c0ff","#50006fff"],
-      desc: "Thiamine (Vitamin B₁) concentrations in eggs and tissue are critical indicators of early mortality syndrome (EMS/TAMS) in salmonids and other Great Lakes fishes.",
+      desc: "Thiamine (i.e., Vitamin B₁) concentrations in eggs and tissues are critical indicators of early mortality syndrome (EMS/TAMS) in salmonids and other Great Lakes fishes.",
       tags: ["nmol/g","Egg thiamine","EMS / TAMS","Salmonid health"],
       doc: "documentation/thiamine_and_thiaminase_documentation.pdf"
     },
@@ -298,7 +298,7 @@ glatar_diagram_ui <- function() {
       color: "#ff9055",
       glow: "#ff9055",
       grad: ["#973500ff","#602000ff"],
-      desc: "Fatty acid profiles (e.g., EPA, DHA, DPA) serve as dietary tracers and indicators of nutritional quality, linking primary producers to top predators.",
+      desc: "Fatty acid profiles (e.g., EPA, DHA, DPA) serve as dietary tracers and indicators of nutritional quality, linking primary producers to secondary consumers (e.g., top predators).",
       tags: ["EPA","DHA","DPA","% total FA","Dietary tracers"],
       doc: "documentation/fatty_acids_documentation.pdf"
     },
@@ -309,7 +309,7 @@ glatar_diagram_ui <- function() {
       color: "#c8e840",
       glow: "#c8e840",
       grad: ["#84a100ff","#566900ff"],
-      desc: "Total mercury and methylmercury concentrations in fish tissue are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies.",
+      desc: "Total mercury and methylmercury concentrations in fish and invertabrate tissues are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies.",
       tags: ["Total Hg","Methylmercury","μg/g wet wt","Bioaccumulation"]
     },
     {
@@ -321,7 +321,7 @@ glatar_diagram_ui <- function() {
       color: "#ff5f72",
       glow: "#ff5f72",
       grad: ["#be0020ff","#6a0013ff"],
-      desc: "Polychlorinated biphenyl concentrations (individual congeners and totals) in fish and invertebrate tissue reflect legacy contaminant loads and are used in ecological risk assessments.",
+      desc: "Polychlorinated biphenyl concentrations (i.e., individual congeners and totals) in fish and invertebrate tissue reflect legacy contaminant loads and are used in ecological risk assessments.",
       tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment"],
       doc: "documentation/polychlorinated_biphenyls_documentation.pdf"
     }
@@ -410,7 +410,7 @@ glatar_diagram_ui <- function() {
     document.getElementById("card-icon").textContent = "🌊";
     document.getElementById("card-name").textContent = "GLATAR — Great Lakes Aquatic Tissue Analysis Repository";
     document.getElementById("card-name").style.color = "#64c8f5";
-    document.getElementById("card-desc").textContent = "GLATAR brings together energy density, proximate composition, stable isotopes, thiamine, fatty acids, mercury, and PCB data into a single, unified repository. By integrating these complementary data, researchers and managers can explore bioenergetics, contaminant dynamics, nutritional quality, and food web structure across species, locations, and time, all through a single interactive platform.";
+    document.getElementById("card-desc").textContent = "GLATAR brings together energy density, proximate composition, stable isotopes, thiamine, fatty acids, mercury, and PCB data into a single, unified repository. By integrating these complementary data, researchers and managers can explore bioenergetics, contaminant dynamics, nutritional quality, and food web structure across species and spatial and temporal scales.";
 
     var tagsEl = document.getElementById("card-tags");
     tagsEl.innerHTML = "";
