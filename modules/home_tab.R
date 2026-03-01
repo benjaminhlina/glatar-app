@@ -53,7 +53,7 @@ home_tab_ui <- function(id) {
           tags$li("The basic data entry template has fields to collect
                       energy density, proximate composition, and stable isotope data."
                     ),
-          tags$li("The advanced data entry template has additional fields to collect
+          tags$li("The extended data entry template has additional fields to collect
                       thiamine, fatty acid, mercury, and PCB data."
                     ),
            tags$li(
