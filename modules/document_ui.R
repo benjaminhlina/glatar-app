@@ -30,7 +30,7 @@ docs_ui <- function(id) {
               # add more templates here
               tags$li(
                 tags$a(
-                  "Advanced Data Entry Template (v16)",
+                  "Extended Data Entry Template (v16)",
                   href = "data-entry-template/GLATAR_data_entry_template_v16_long.xlsx",
                   download = "GLATAR_data_entry_template_v16_long.xlsx",
                   target = "_blank"
@@ -63,7 +63,7 @@ docs_ui <- function(id) {
             # )
             tags$li(
               tags$a(
-                "Rational and Purpose of GLATAR",
+                "Rationale and Purpose of GLATAR",
                 href = "documentation/rationale_for_GLATAR.pdf",
                 target = "_blank"
               )
