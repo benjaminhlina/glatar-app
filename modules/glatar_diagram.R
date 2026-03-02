@@ -407,7 +407,10 @@ glatar_diagram_ui <- function() {
     hubActive = true;
     hubGroup.classList.add("active");
 
-    document.getElementById("card-icon").textContent = "🌊";
+    fetch("icons/great_lakes.svg")
+    .then(r => r.text())
+    .then(svg => {
+    document.getElementById("card-icon").innerHTML = svg;
     document.getElementById("card-name").textContent = "GLATAR — Great Lakes Aquatic Tissue Analysis Repository";
     document.getElementById("card-name").style.color = "#64c8f5";
     document.getElementById("card-desc").textContent = "GLATAR brings together energy density, proximate composition, stable isotopes, thiamine, fatty acids, mercury, and PCB data into a single, unified repository. By integrating these complementary data, researchers and managers can explore bioenergetics, contaminant dynamics, nutritional quality, and food web structure across species and spatial and temporal scales.";
