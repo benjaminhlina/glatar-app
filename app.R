@@ -24,7 +24,7 @@
   library(validate)
 }
 
-
+options(shiny.trace = TRUE)
 lapply(list.files("modules", full.names = TRUE), source, local = FALSE)
 
 app_version <- "0.1.0"
