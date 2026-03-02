@@ -67,7 +67,7 @@ jobs:
           
           docker exec "$SHINY_CONTAINER" sh -c "wget -qO- http://localhost:3838/GLATAR-App/ > /dev/null || true"
 
-          echo "Waiting for Shiny log file..."
+          echo "Waiting for Shiny log file....."
           for i in {1..20}; do
             LOG_PATH=$(docker exec "$SHINY_CONTAINER" sh -c "ls -t /var/log/shiny-server/*GLATAR*.log 2>/dev/null | head -n 1")
             if [ -n "$LOG_PATH" ]; then
