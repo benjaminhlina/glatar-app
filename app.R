@@ -24,7 +24,7 @@
   library(validate)
 }
 
-options(shiny.trace = TRUE)
+
 lapply(list.files("modules", full.names = TRUE), source, local = FALSE)
 
 app_version <- "0.1.0"
@@ -146,7 +146,7 @@ ui <- secure_app(
 
 server <- function(input, output, session) {
   options(shiny.usecairo = FALSE)
-  options(shiny.trace = TRUE)
+  # options(shiny.trace = TRUE)
   ram_tracker()
   session$allowReconnect("force")
 
