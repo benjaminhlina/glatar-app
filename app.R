@@ -146,7 +146,8 @@ ui <- secure_app(
 
 server <- function(input, output, session) {
   options(shiny.usecairo = FALSE)
-
+  options(shiny.trace = TRUE)
+  ram_tracker()
   session$allowReconnect("force")
 
   res_auth <- secure_server(
@@ -203,7 +204,7 @@ server <- function(input, output, session) {
   docs_server("docs")
 
 
-  ram_tracker()
+  # ram_tracker()
 }
 
 # render ui and serve together to create dashboard
