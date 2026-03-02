@@ -19,4 +19,5 @@ con <- DBI::dbConnect(RPostgres::Postgres(),
                       sslmode = sslmode
                       )
 
-cli::cli_alert_success("db has successfull loaded {.val {con}}")
+cli::cli_alert_success("db successfully connected to {.val {Sys.getenv('POSTGRES_DB')}} on {.val {Sys.getenv('POSTGRES_HOST')}}")
+cli::cli_alert_success("db successfully connected (is_valid: {.val {DBI::dbIsValid(con)}})")
