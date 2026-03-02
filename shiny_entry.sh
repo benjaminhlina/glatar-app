@@ -12,7 +12,6 @@ SHINY_USER=${SHINY_USER}
 SHINY_PASSWORD=${SHINY_PASSWORD}
 EOF
 
-chown shiny:shiny /home/shiny/.Renviron
 chmod 600 /home/shiny/.Renviron
 
 # Start Shiny Server
