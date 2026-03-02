@@ -23,7 +23,7 @@ jobs:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
+          echo "${{ secrets.SSH_KEY_SERVER }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.AWS_SERVER_HOST }} >> ~/.ssh/known_hosts
       - name: Debug files
@@ -31,22 +31,22 @@ jobs:
 
       - name: create .env 
         env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DO_POSTGRES_DB }}
+          POSTGRES_HOST: ${{ secrets.DO_POSTGRES_HOST }}
+          POSTGRES_PORT: ${{ secrets.DO_POSTGRES_PORT }}
+          POSTGRES_USER: ${{ secrets.DO_POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DO_POSTGRES_PW }}
           POSTGRES_SSLMODE: ${{ secrets.POSTGRES_SSLMODE }}
           SHINY_USER: ${{ secrets.SHINY_USER }}
           SHINY_PASSWORD: ${{ secrets.SHINY_PASSWORD }}
         run: |
           # Write .env file with GH secrets
           cat <<EOT > .env
-          POSTGRES_DB=${POSTGRES_DB}
-          POSTGRES_HOST=${POSTGRES_HOST}
-          POSTGRES_PORT=${POSTGRES_PORT}
-          POSTGRES_USER=${POSTGRES_USER}
-          POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+          POSTGRES_DB=${DO_POSTGRES_DB}
+          POSTGRES_HOST=${DO_POSTGRES_HOST}
+          POSTGRES_PORT=${DO_POSTGRES_PORT}
+          POSTGRES_USER=${DO_POSTGRES_USER}
+          POSTGRES_PASSWORD=${DO_POSTGRES_PW}
           POSTGRES_SSLMODE=${POSTGRES_SSLMODE}
           SHINY_USER=${SHINY_USER}
           SHINY_PASSWORD=${SHINY_PASSWORD}
@@ -54,8 +54,8 @@ jobs:
 
       - name: Deploy with Docker Compose     
         env:
-         SERVER_HOST: ${{ secrets.AWS_SERVER_HOST }}
-         SERVER_USER: ${{ secrets.AWS_SERVER_USER }}
+         SERVER_HOST: ${{ secrets.DO_SERVER_HOST }}
+         SERVER_USER: ${{ secrets.DO_SERVER_USER }}
          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         run: |      
           # Copy nginx.conf to the server
