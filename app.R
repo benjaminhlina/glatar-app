@@ -35,7 +35,7 @@ credentials <- data.frame(
   stringsAsFactors = FALSE
 )
 # ---- create ui ----
-
+cli::cli_alert_info("Starting the App")
 ui <- dashboardPage(
   # ----- title -----
   dashboardHeader(title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
