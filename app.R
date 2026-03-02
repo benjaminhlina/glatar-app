@@ -24,8 +24,11 @@
   library(validate)
 }
 
+cli::cli_alert_info("Starting the loading of modules....")
+cli::cli_ul(list.files('modules', full.names = TRUE))
 
 lapply(list.files("modules", full.names = TRUE), source, local = FALSE)
+cli::cli_alert_success("All {length(list.files('modules'))} modules successfully loaded!")
 
 app_version <- "0.1.0"
 
