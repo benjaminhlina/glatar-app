@@ -42,7 +42,6 @@ cli::cli_alert_success(
   "All {length(module_files)} modules successfully loaded!"
 )
 
-nice_name_lookup <- get_nice_name_lookup(con)
 
 app_version <- "0.1.0"
 
