@@ -1,9 +1,4 @@
 # ---- create renaming table ----
-{
-  library(dplyr)
-  library(here)
-  library(readr)
-}
 
 
 naming_conventions <- read_csv(here::here("data",
