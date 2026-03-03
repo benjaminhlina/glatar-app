@@ -7,6 +7,10 @@ view_scatter_plot_ui <- function(id) {
     div(id = ns("scatter_ui"),
         style = "display:none;",
         h2("Scatter Plot"),
+         shiny::p("This panel displays scatter plots for your selected data.
+                  Use the dropdowns to filter your results, either click and select or type directly into any dropdown to search for
+                  specific options, or press Backspace to clear a current selection. All dropdowns can have multiple selections, except
+                  the x and y variables selected and when the filters are set to 'All'."),
         plot_ui(title = "Scatter Plot",
                 plot_id = "scatter_plot",
                 height = "600px",
