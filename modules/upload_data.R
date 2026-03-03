@@ -144,7 +144,7 @@ upload_data_server <- function(id, con) {
                                                   species_list)
 
 
-      tbl_samples_submitted <- add_valid_date(tbl_samples_submitted)
+      tbl_samples_submitted <- add_valid_cols(tbl_samples_submitted)
 
 
       num_cols <- c(
