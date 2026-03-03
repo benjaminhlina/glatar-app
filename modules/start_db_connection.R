@@ -7,7 +7,7 @@
 
 ssl_mode <- Sys.getenv("POSTGRES_SSLMODE", unset = "disable")
 
-cli::cli_alert_info("The SSL mode is {.val {sslmode}}")
+cli::cli_alert_info("The SSL mode is {.val {ssl_mode}}")
 cli::cli_alert("Starting db connection")
 
 con <- DBI::dbConnect(RPostgres::Postgres(),
@@ -19,5 +19,6 @@ con <- DBI::dbConnect(RPostgres::Postgres(),
                       sslmode = ssl_mode
                       )
 
-cli::cli_alert_success("db successfully connected to {.val {Sys.getenv('POSTGRES_DB')}} on {.val {Sys.getenv('POSTGRES_HOST')}}")
+cli::cli_alert_success(
+  "db successfully connected to {.val {Sys.getenv('POSTGRES_DB')}} on {.val {Sys.getenv('POSTGRES_HOST')}}")
 cli::cli_alert_success("db successfully connected (is_valid: {.val {DBI::dbIsValid(con)}})")
