@@ -531,6 +531,13 @@ upload_data_server <- function(id, con) {
       })
 
       # Create a message to display
+      output$upload_status <- renderUI({
+        if (!upload_succeeded) {
+          HTML("<span style='color: red;'>
+           ✘ Upload failed — no data was saved. Please check your data and try again.
+         </span>")
+        } else {
+
       msg <- lapply(names(submission_results), function(tbl_name) {
         res <- submission_results[[tbl_name]]
         paste0("✔ ", tbl_name, ": ", res$rows_submitted,
@@ -538,7 +545,6 @@ upload_data_server <- function(id, con) {
                if(!is.na(res$submission_id)) paste0(", submission_id = ", res$submission_id) else "")
       })
 
-      output$upload_status <- renderUI({
         HTML(
           paste0(
             "<span style='color: green;'>",
@@ -546,6 +552,7 @@ upload_data_server <- function(id, con) {
             "</span>"
           )
         )
+        }
       })
 
       shinyjs::disable("submit_btn")
