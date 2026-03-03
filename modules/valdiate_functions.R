@@ -364,10 +364,10 @@ validate_tbl_samples <- function(df) {
         "whole body (gonads removed)", "whole body (stomach removed)"
       ),
       sample_procedure %in% c("wet", "dried"),
-      calorimetry_method %in% c("Parr oxygen bomb", "Parr semi-micro oxygen bomb",
-                                "Phillipson microbomb", "Gentry-Weigert bomb",
-                                "Unknown bomb", "Proximate composition",
-                                "Organic analysis", "Wet digestion", "Unknown"),
+      calorimetry_method %in% c("parr oxygen bomb", "parr semi-micro oxygen bomb",
+                                "phillipson microbomb", "gentry-weigert bomb",
+                                "unknown bomb", "proximate composition",
+                                "Organic analysis", "wet digestion", "unknown"),
       sample_weight_type %in% c("wet", "dry"),
 
       # ---- numeric ----
