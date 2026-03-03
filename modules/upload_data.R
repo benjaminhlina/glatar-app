@@ -92,7 +92,6 @@ upload_data_server <- function(id, con) {
         skip = 3,
       ) |>
         janitor::clean_names()
-
       agent_submission <- validate_tbl_submission(tbl_submission_submitted)
 
       # ----- validate tbl_soruce -----
