@@ -179,7 +179,7 @@ pretty_validate_report <- function(confrontation,
         grepl("is.na\\(as.Date", expression) ~"Date format does not follow the
         required format of yyyy-mm-dd or is an invalid date",
         grepl("is.na", expression) ~ "Required field - cannot be empty",
-        expression %in% "month" ~ "Month must be between 1 and 12",
+        expression %in% ".month" ~ "Month must be between 1 and 12",
         expression %in% "season" ~ "Invalid season - must be spring,
         summer, fall, winter",
         expression %in% "sex" ~ "Invalid sex - must be female, male,
