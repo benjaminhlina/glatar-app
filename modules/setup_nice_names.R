@@ -1,6 +1,6 @@
 # ---- create renaming table ----
 
-get_nice_name_lookup <- get_nice_name_lookup <- function(con) {
+get_nice_name_lookup <- function(con) {
   naming_conventions <- tbl(con, "tbl_naming_conventions") |>
     collect() |>
     mutate(
