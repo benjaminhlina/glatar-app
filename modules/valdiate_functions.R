@@ -12,6 +12,35 @@ add_valid_cols <- function(df) {
         .default = NA
       ),
       .month = is.na(month) | (month >= 1 & month <= 12),
+      .season = is.na(season) | season %in% c("spring", "summer",
+                                              "fall", "winter"),
+      .lifestage = is.na(lifestage) | lifestage %in% c("fry", "larva",
+                                                       "juvenile", "adult"),
+      .sex = is.na(sex) | sex %in% c("male", "female", "unknown", "both"),
+      .length_type = is.na(length_type) | length_type %in% c("total",
+                                                             "fork",
+                                                             "standard",
+                                                             "carapace"),
+      .composite = is.na(composite) | composite %in% c(
+        "individual", "composite", "mean", "equation"
+        ),
+      .tissue_type = is.na(tissue_type) | tissue_type %in% c(
+        "belly flap", "blood", "carcass", "cleithra", "eye lens",
+        "egg", "fin", "gonad", "heart", "liver", "muscle", "otolith", "scale",
+        "spine", "stomach", "viscera", "whole body",
+        "whole body (gonads removed)", "whole body (stomach removed)"
+      ),
+      .sample_procedure = is.na(sample_procedure) | sample_procedure %in% c(
+        "wet", "dried"),
+      .calorimetry_method = is.na(calorimetry_method) | calorimetry_method %in% c(
+        "parr oxygen bomb", "parr semi-micro oxygen bomb",
+        "phillipson microbomb", "gentry-weigert bomb",
+        "unknown bomb", "proximate composition",
+        "organic analysis", "wet digestion", "unknown"
+      ),
+      .sample_weight_type =
+        is.na(sample_weight_type) | sample_weight_type %in% c("wet", "dry"),
+    )
     )
 
   return(df)
