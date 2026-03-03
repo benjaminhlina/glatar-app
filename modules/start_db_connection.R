@@ -4,7 +4,7 @@
 }
 
 # ----- create connection to database -----
-cli::cli_alert_info("The SSL mode is {.val {Sys.getenv('POSTGRES_SSLMODE'}}")
+cli::cli_alert_info("The SSL mode is {.val {Sys.getenv('POSTGRES_SSLMODE')}}")
 ssl_mode <- Sys.getenv("POSTGRES_SSLMODE", unset = "disable")
 
 cli::cli_alert_info("The SSL mode is {.val {ssl_mode}}")
