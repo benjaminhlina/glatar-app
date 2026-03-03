@@ -1,8 +1,7 @@
 # ---- create renaming table ----
 
-
-naming_conventions <- read_csv(here::here("data",
-                                          "app_naming_conventions.csv")) |>
+naming_conventions <- tbl(con, "tbl_naming_conventions") |>
+  collect() |> 
   mutate(
     nice_names = case_when(
       raw_names %in% "d13c" ~ "\U03B4<sup>13</sup>C",
