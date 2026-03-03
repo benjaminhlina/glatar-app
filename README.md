@@ -3,8 +3,8 @@
 [![Docker Build Status](https://github.com/benjaminhlina/glatar-app/actions/workflows/build_docker.yaml/badge.svg)](
 https://github.com/benjaminhlina/glatar-app/actions/workflows/build_docker.yaml
 )
-[![Deploy to AWS](https://github.com/benjaminhlina/glatar-app/actions/workflows/deploy_compose_aws.yaml/badge.svg)](
-    https://github.com/benjaminhlina/glatar-app/actions/workflows/deploy_compose_aws.yaml
+[![Deploy to DO](https://github.com/benjaminhlina/glatar-app/actions/workflows/deploy_compose_do.yaml/badge.svg)](
+    https://github.com/benjaminhlina/glatar-app/actions/workflows/deploy_compose_do.yaml
 )
 [![Deployed App Status](https://github.com/benjaminhlina/glatar-app/actions/workflows/check_shiny_status.yaml/badge.svg)](
     https://github.com/benjaminhlina/glatar-app/actions/workflows/check_shiny_status.yaml
