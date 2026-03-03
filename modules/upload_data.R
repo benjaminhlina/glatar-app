@@ -42,7 +42,7 @@ upload_data_ui <- function(id) {
 
 upload_data_server <- function(id, con) {
   moduleServer(id, function(input, output, session) {
-
+    options(shiny.maxRequestSize = 20 * 1024 ^ 2)
     ns <- session$ns
 
     # ---- reactive validate ------
