@@ -155,9 +155,9 @@ pretty_validate_report <- function(confrontation,
     ungroup() |>
     mutate(
       col_name = case_when(
-         grepl("%vin% colnames", expression) ~ gsub('.*"([^"]+)".*', '\\1',
+        grepl("%vin% colnames", expression) ~ gsub('.*"([^"]+)".*', '\\1',
                                                    expression),
-         # Handle %vin% expressions: get the word before %vin%
+        # Handle %vin% expressions: get the word before %vin%
         grepl("%vin%", expression) ~ sub("^\\s*(\\w+)\\s+%vin%.*", "\\1",
                                          expression),
 
