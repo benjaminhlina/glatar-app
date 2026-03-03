@@ -349,7 +349,7 @@ validate_tbl_samples <- function(df) {
       .date == TRUE,
 
       # ---- ranges ----
-      month >= 1 & month <= 12,
+      .month == TRUE,
 
       # ---- sets ----
       season %in% c("spring", "summer", "fall", "winter"),
