@@ -10,6 +10,7 @@ LABEL \
 
 # Install system dependencies for R packages
 RUN apt-get update && apt-get install -y \
+    bash \
     cmake \
     g++ \
     gdal-bin \
@@ -42,7 +43,13 @@ RUN apt-get update && apt-get install -y \
     proj-data \
     && rm -rf /var/lib/apt/lists/*
 
+# Enable color + nicer prompt for all users
+ENV TERM=xterm-256color
 
+RUN echo "alias ls='ls --color=auto'" >> /etc/bash.bashrc && \
+    echo "alias grep='grep --color=auto'" >> /etc/bash.bashrc && \
+    echo "PS1='\[\e[1;32m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]\$ '" >> /etc/bash.bashrc
+    
 # # ---- remove shiny-server template apps ---
 RUN rm -rf /srv/shiny-server/*
 
