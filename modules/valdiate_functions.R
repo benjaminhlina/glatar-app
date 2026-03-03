@@ -41,7 +41,6 @@ add_valid_cols <- function(df) {
       .sample_weight_type =
         is.na(sample_weight_type) | sample_weight_type %in% c("wet", "dry"),
     )
-    )
 
   return(df)
 }
