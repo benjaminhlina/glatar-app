@@ -1,12 +1,6 @@
-
 # ---- create fileted summary ----
-create_filtered_data <- function(input_source,
-                                 data,
-                                 pane) {
-
+create_filtered_data <- function(input_source, data, pane) {
   reactive({
-
-
     df <- data()
 
     # add pane to have this switch from req to null depending on pane
@@ -16,7 +10,7 @@ create_filtered_data <- function(input_source,
       }
     }
 
-    if (pane == "summary_info"){
+    if (pane == "summary_info") {
       req(df)
     }
 
@@ -40,22 +34,20 @@ create_filtered_data <- function(input_source,
 }
 
 
-
 # ----- mean summarized table -----
-create_mean_data <- function(input_source,
-                             data) {
+create_mean_data <- function(input_source, data) {
   reactive({
-
     df <- data()
-
 
     summary_grouping_vars <- input_source$grouping_vars()
     y_vals <- input_source$y_variable()
 
     # cli check
-    check_mean_data(df = df,
-                    summary_grouping_vars = summary_grouping_vars,
-                    y_vals = y_vals)
+    check_mean_data(
+      df = df,
+      summary_grouping_vars = summary_grouping_vars,
+      y_vals = y_vals
+    )
 
     # can create base_df
     base_df <- df |>
@@ -76,13 +68,10 @@ create_mean_data <- function(input_source,
         "rows: {nrow(grouped_summary_df)}"
       ))
       return(grouped_summary_df)
-
     }
-
 
     summary_list <- lapply(y_vals, function(v) {
       mapped_var <- fix_var_generic(df = df, var_raw = v)
-
 
       df_filtered <- mapped_var$df
       var_to_summarise <- mapped_var$var
@@ -93,20 +82,25 @@ create_mean_data <- function(input_source,
 
       # Check if variable exists after filtering
       if (!var_to_summarise %in% colnames(df_filtered)) {
-        cli::cli_warn("Skipping {.field {v}} — column not present after mapping")
+        cli::cli_warn(
+          "Skipping {.field {v}} — column not present after mapping"
+        )
         return(NULL)
       }
 
       grouped_summary_df <- df_filtered |>
         group_by(across(all_of(summary_grouping_vars))) |>
         summarise(
-          !!paste0(var_label, " (mean)") := mean(.data[[var_to_summarise]],
-                                                 na.rm = TRUE),
-          !!paste0(var_label, " (sd)") := sd(.data[[var_to_summarise]],
-                                             na.rm = TRUE),
+          !!paste0(var_label, " (mean)") := mean(
+            .data[[var_to_summarise]],
+            na.rm = TRUE
+          ),
+          !!paste0(var_label, " (sd)") := sd(
+            .data[[var_to_summarise]],
+            na.rm = TRUE
+          ),
         ) |>
         ungroup()
-
     })
     # Remove NULL results
     summary_list <- summary_list[!sapply(summary_list, is.null)]
@@ -114,44 +108,44 @@ create_mean_data <- function(input_source,
 
     # Combine all summaries by joining on grouping vars
     #  # can use  init = base_df
-    grouped_summary_df <- Reduce(function(x, y) {
-      full_join(x, y, by = summary_grouping_vars)
-    }, summary_list
-    # init = base_df
+    grouped_summary_df <- Reduce(
+      function(x, y) {
+        full_join(x, y, by = summary_grouping_vars)
+      },
+      summary_list
+      # init = base_df
     )
 
     # run query x
     grouped_summary_df <- grouped_summary_df |>
-      left_join(base_df, by = summary_grouping_vars, 
-        na_matches = "na") |>
+      left_join(base_df, by = summary_grouping_vars, na_matches = "na") |>
       relocate(
         n,
         .after = all_of(tail(summary_grouping_vars, 1))
       ) |>
       filter(
         if_any(contains("(mean)"), ~ !is.na(.x))
-      ) |> 
+      ) |>
       collect() |>
       arrange(across(all_of(summary_grouping_vars))) |>
       mutate(across(where(is.numeric), ~ round(.x, 2)))
 
     return(grouped_summary_df)
-
   })
 }
 
 # ---- sumary data -----
 # args here are con and main input with tab being used in view_summary and
 # view_plot
-create_summary_data <- function(con,
-                                main_input,
-                                input_source,
-                                var_field,
-                                tab = NULL,
-                                activated = NULL
+create_summary_data <- function(
+  con,
+  main_input,
+  input_source,
+  var_field,
+  tab = NULL,
+  activated = NULL
 ) {
   reactive({
-
     # use for other tabs ---
     if (!is.null(tab)) {
       check_tab_name(tab)
@@ -173,7 +167,9 @@ create_summary_data <- function(con,
     for (field in var_field) {
       vars <- input_source[[field]]
       vars_val <- if (inherits(vars, "reactive")) vars() else vars
-      cli::cli_alert_info("Field: {field}, Value: {vars_val}, Length: {length(vars_val)}")
+      cli::cli_alert_info(
+        "Field: {field}, Value: {vars_val}, Length: {length(vars_val)}"
+      )
       selected_vars <- c(selected_vars, vars_val)
     }
 
@@ -190,7 +186,7 @@ create_summary_data <- function(con,
 
     gv <- input_source$grouping_vars
 
-    group_vars <- if(inherits(gv, "reactive")) gv() else gv
+    group_vars <- if (inherits(gv, "reactive")) gv() else gv
 
     req(con_db)
 
@@ -201,9 +197,11 @@ create_summary_data <- function(con,
       return(NULL)
     }
     # ---- actually get data when group_vars is valid ----
-    df <- get_summary_data(con = con_db,
-                           selected_vars = selected_vars,
-                           grouping_vars = group_vars)
+    df <- get_summary_data(
+      con = con_db,
+      selected_vars = selected_vars,
+      grouping_vars = group_vars
+    )
 
     return(df)
   })

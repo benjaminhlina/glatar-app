@@ -12,35 +12,65 @@ add_valid_cols <- function(df) {
         .default = NA
       ),
       .month = is.na(month) | (month >= 1 & month <= 12),
-      .season = is.na(season) | season %in% c("spring", "summer",
-                                              "fall", "winter"),
-      .lifestage = is.na(lifestage) | lifestage %in% c("fry", "larva","nymph", 
-                                                       "pupa",
-                                                       "juvenile", "adult"),
+      .season = is.na(season) |
+        season %in% c("spring", "summer", "fall", "winter"),
+      .lifestage = is.na(lifestage) |
+        lifestage %in% c("fry", "larva", "nymph", "pupa", "juvenile", "adult"),
       .sex = is.na(sex) | sex %in% c("male", "female", "unknown", "both"),
-      .length_type = is.na(length_type) | length_type %in% c("total",
-                                                             "fork",
-                                                             "standard",
-                                                             "carapace"),
-      .composite = is.na(composite) | composite %in% c(
-        "individual", "composite", "mean", "equation"
-        ),
-      .tissue_type = is.na(tissue_type) | tissue_type %in% c(
-        "belly flap", "blood", "carcass", "cleithra", "eye lens",
-        "egg", "fin", "gonad", "heart", "liver", "muscle", "otolith", "scale",
-        "spine", "stomach", "viscera", "whole body",
-        "whole body (gonads removed)", "whole body (stomach removed)"
-      ),
-      .sample_procedure = is.na(sample_procedure) | sample_procedure %in% c(
-        "wet", "dried"),
-      .calorimetry_method = is.na(calorimetry_method) | calorimetry_method %in% c(
-        "parr oxygen bomb", "parr semi-micro oxygen bomb",
-        "phillipson microbomb", "gentry-weigert bomb",
-        "unknown bomb", "proximate composition",
-        "organic analysis", "wet digestion", "unknown"
-      ),
-      .sample_weight_type =
-        is.na(sample_weight_type) | sample_weight_type %in% c("wet", "dry"),
+      .length_type = is.na(length_type) |
+        length_type %in% c("total", "fork", "standard", "carapace"),
+      .composite = is.na(composite) |
+        composite %in%
+          c(
+            "individual",
+            "composite",
+            "mean",
+            "equation"
+          ),
+      .tissue_type = is.na(tissue_type) |
+        tissue_type %in%
+          c(
+            "belly flap",
+            "blood",
+            "carcass",
+            "cleithra",
+            "eye lens",
+            "egg",
+            "fin",
+            "gonad",
+            "heart",
+            "liver",
+            "muscle",
+            "otolith",
+            "scale",
+            "spine",
+            "stomach",
+            "viscera",
+            "whole body",
+            "whole body (gonads removed)",
+            "whole body (stomach removed)"
+          ),
+      .sample_procedure = is.na(sample_procedure) |
+        sample_procedure %in%
+          c(
+            "wet",
+            "dried"
+          ),
+      .calorimetry_method = is.na(calorimetry_method) |
+        calorimetry_method %in%
+          c(
+            "parr oxygen bomb",
+            "parr semi-micro oxygen bomb",
+            "phillipson microbomb",
+            "gentry-weigert bomb",
+            "unknown bomb",
+            "proximate composition",
+            "organic analysis",
+            "wet digestion",
+            "unknown"
+          ),
+      .sample_weight_type = is.na(sample_weight_type) |
+        sample_weight_type %in% c("wet", "dry"),
     )
 
   return(df)
@@ -49,10 +79,8 @@ add_valid_cols <- function(df) {
 # ----- add valid txaomnmy ------
 
 add_valid_taxonomy <- function(df, species_list) {
-
   # ---- get tax from db ----
   valid_taxonomy <- valid_taxonomy(species_list)
-
 
   valid_common_sentence <- str_to_sentence(valid_taxonomy$valid_common)
   valid_sci_sentence <- str_to_sentence(valid_taxonomy$valid_scientific)
@@ -64,10 +92,8 @@ add_valid_taxonomy <- function(df, species_list) {
     )
 
   # Store validation results in df attributes for later use
-  common_check <- check_taxonomy_match(df$common_name,
-                                       valid_common_sentence)
-  sci_check <- check_taxonomy_match(df$scientific_name,
-                                    valid_sci_sentence)
+  common_check <- check_taxonomy_match(df$common_name, valid_common_sentence)
+  sci_check <- check_taxonomy_match(df$scientific_name, valid_sci_sentence)
 
   cli::cli_alert_info("comon_check {.val {common_check}}")
   cli::cli_alert_info("sci_check {.val {sci_check}}")
@@ -94,7 +120,9 @@ check_taxonomy_match <- function(input_values, db_values) {
 
   # For non-matches, find closest suggestions
   suggestions <- sapply(which(!matches), function(i) {
-    if (is.na(input_values[i])) return(NA)
+    if (is.na(input_values[i])) {
+      return(NA)
+    }
 
     # Calculate string distances using Jaro-Winkler distance
     distances <- stringdist::stringdist(
@@ -126,44 +154,58 @@ check_taxonomy_match <- function(input_values, db_values) {
 }
 
 # ----- pretty pointblank -----
-pretty_validate_report <- function(confrontation,
-                                   table_name = NULL) {
-
+pretty_validate_report <- function(confrontation, table_name = NULL) {
   df <- as.data.frame(confrontation, add_columns = TRUE)
 
   original_data <- confrontation$._keys$keyset
 
-  common_name_suggestions <- attr(original_data,
-                                  "common_name_suggestions")
-  scientific_name_suggestions <- attr(original_data,
-                                      "scientific_name_suggestions")
+  common_name_suggestions <- attr(original_data, "common_name_suggestions")
+  scientific_name_suggestions <- attr(
+    original_data,
+    "scientific_name_suggestions"
+  )
 
-  cli::cli_alert_info("Common suggestions found:
-                      {!is.null(common_name_suggestions)}")
-  cli::cli_alert_info("Scientific suggestions found:
-                      {!is.null(scientific_name_suggestions)}")
+  cli::cli_alert_info(
+    "Common suggestions found:
+                      {!is.null(common_name_suggestions)}"
+  )
+  cli::cli_alert_info(
+    "Scientific suggestions found:
+                      {!is.null(scientific_name_suggestions)}"
+  )
 
   # if valdiate doens't return anything then  return nulll
-  if (nrow(df) == 0) return(NULL)
+  if (nrow(df) == 0) {
+    return(NULL)
+  }
 
   # transfer forw number
   df <- df |>
     group_by(name) |>
     mutate(
-      data_row = row_number()  # This cycles 1, 2, 3, 4... within each rule
+      data_row = row_number() # This cycles 1, 2, 3, 4... within each rule
     ) |>
     ungroup() |>
     mutate(
       col_name = case_when(
-        grepl("%vin% colnames", expression) ~ gsub('.*"([^"]+)".*', '\\1',
-                                                   expression),
+        grepl("%vin% colnames", expression) ~ gsub(
+          '.*"([^"]+)".*',
+          '\\1',
+          expression
+        ),
         # Handle %vin% expressions: get the word before %vin%
-        grepl("%vin%", expression) ~ sub("^\\s*(\\w+)\\s+%vin%.*", "\\1",
-                                         expression),
+        grepl("%vin%", expression) ~ sub(
+          "^\\s*(\\w+)\\s+%vin%.*",
+          "\\1",
+          expression
+        ),
 
         # Handle comparison expressions (month - 1 >= ..., etc.)
-        grepl("[-+].*[><=]", expression) ~ sub("^\\s*(\\w+)\\s+[-+].*", "\\1",
-                                               expression),
+        grepl("[-+].*[><=]", expression) ~ sub(
+          "^\\s*(\\w+)\\s+[-+].*",
+          "\\1",
+          expression
+        ),
 
         # Handle function calls with commas - get first word before
         # comma in innermost parens
@@ -175,8 +217,11 @@ pretty_validate_report <- function(confrontation,
         # Handle function calls without commas - get content of innermost parens
         grepl("\\(", expression) ~ sub(".*\\(([^()]+)\\).*", "\\1", expression),
 
-        grepl("^\\.valid_", expression) ~ sub("^\\.valid_([^ =]+).*", "\\1",
-                                              expression),
+        grepl("^\\.valid_", expression) ~ sub(
+          "^\\.valid_([^ =]+).*",
+          "\\1",
+          expression
+        ),
 
         # Default: return the expression as-is
         .default = expression
@@ -191,8 +236,9 @@ pretty_validate_report <- function(confrontation,
     filter(value %in% FALSE)
 
   # ----- if tehre are non-return NULL -----
-  if (nrow(bad) == 0) return(NULL)
-
+  if (nrow(bad) == 0) {
+    return(NULL)
+  }
 
   # ----- create pretty names -----
   out <- bad |>
@@ -206,30 +252,58 @@ pretty_validate_report <- function(confrontation,
 
         grepl('%vin% colnames', expression) ~ paste0(
           "Missing required column(s):",
-          gsub('.*"([^"]+)".*', '\\1',
-               expression), " - you have altered the data entry template -
-          please reupload an unaltered file"),
+          gsub('.*"([^"]+)".*', '\\1', expression),
+          " - you have altered the data entry template -
+          please reupload an unaltered file"
+        ),
 
-        grepl("is.na\\(as.Date", expression) ~"Date format does not follow the
+        grepl("is.na\\(as.Date", expression) ~ "Date format does not follow the
         required format of yyyy-mm-dd or is an invalid date",
 
         grepl("is.na", expression) ~ "Required field - cannot be empty",
 
         grepl("\\.month", expression) ~ "Month must be between 1 and 12",
-        grepl("\\.season", expression) ~ "Invalid season - must be spring, summer, fall, or winter",
-        grepl("\\.sex", expression) ~ "Invalid sex - must be female, male, unknown, or both",
-        grepl("\\.lifestage", expression) ~ "Invalid lifestage - must be fry, larva, juvenile, or adult",
-        grepl("\\.length_type", expression) ~ "Invalid length type - must be total, fork, standard, or carapace",
-        grepl("\\.composite", expression) ~ "Invalid composite - must be individual, composite, mean, or equation",
-        grepl("\\.tissue_type", expression) ~ "Invalid tissue type - must be a recognised tissue type see data dictionary if unfamiliar",
-        grepl("\\.sample_procedure", expression) ~ "Invalid sample procedure - must be wet or dried",
-        grepl("\\.calorimetry_method", expression) ~ "Invalid calorimetry method - must be a recognised calorimetry method",
-        grepl("\\.sample_weight_type", expression) ~ "Invalid sample weight type - must be wet or dry",
+        grepl(
+          "\\.season",
+          expression
+        ) ~ "Invalid season - must be spring, summer, fall, or winter",
+        grepl(
+          "\\.sex",
+          expression
+        ) ~ "Invalid sex - must be female, male, unknown, or both",
+        grepl(
+          "\\.lifestage",
+          expression
+        ) ~ "Invalid lifestage - must be fry, larva, juvenile, or adult",
+        grepl(
+          "\\.length_type",
+          expression
+        ) ~ "Invalid length type - must be total, fork, standard, or carapace",
+        grepl(
+          "\\.composite",
+          expression
+        ) ~ "Invalid composite - must be individual, composite, mean, or equation",
+        grepl(
+          "\\.tissue_type",
+          expression
+        ) ~ "Invalid tissue type - must be a recognised tissue type see data dictionary if unfamiliar",
+        grepl(
+          "\\.sample_procedure",
+          expression
+        ) ~ "Invalid sample procedure - must be wet or dried",
+        grepl(
+          "\\.calorimetry_method",
+          expression
+        ) ~ "Invalid calorimetry method - must be a recognised calorimetry method",
+        grepl(
+          "\\.sample_weight_type",
+          expression
+        ) ~ "Invalid sample weight type - must be wet or dry",
         grepl("\\.ed", expression) ~ "Invalid energy measurement - must be
         within appropriate ranges for Joules/g wet or dry weight",
         grepl("is.numeric", expression) ~ "Must be numeric value",
 
-        grepl("common_name", expression)  ~ "Common name not found in database",
+        grepl("common_name", expression) ~ "Common name not found in database",
         grepl("scientific_name", expression) ~ "Scientific name not found in
         database",
         .default = expression
@@ -237,7 +311,7 @@ pretty_validate_report <- function(confrontation,
       col_name = case_when(
         grepl("\\.ed", expression) ~ "energy_measurment",
         grepl("\\.month", expression) ~ "month",
-        grepl("\\.date", expression) ~  "date",
+        grepl("\\.date", expression) ~ "date",
         grepl("\\.season", expression) ~ "season",
         grepl("\\.sex", expression) ~ "sex",
         grepl("\\.lifestage", expression) ~ "lifestage",
@@ -250,9 +324,7 @@ pretty_validate_report <- function(confrontation,
         .default = col_name
       )
     ) |>
-    select(Row = data_row,
-           Column = col_name,
-           Issue)
+    select(Row = data_row, Column = col_name, Issue)
 
   if (!is.character(common_name_suggestions)) {
     common_name_suggestions <- character(0)
@@ -273,11 +345,14 @@ pretty_validate_report <- function(confrontation,
   out <- out |>
     mutate(
       Suggestion = case_when(
-        Column %in% "common_name" & !is.null(common_name_suggestions) &
+        Column %in%
+          "common_name" &
+          !is.null(common_name_suggestions) &
           Row <= length(common_name_suggestions) &
           !is.na(common_name_suggestions[Row]) ~
           paste0("Did you mean: ", common_name_suggestions[Row], "?"),
-        Column == "scientific_name" & !is.null(scientific_name_suggestions) &
+        Column == "scientific_name" &
+          !is.null(scientific_name_suggestions) &
           Row <= length(scientific_name_suggestions) &
           !is.na(scientific_name_suggestions[Row]) ~
           paste0("Did you mean: ", scientific_name_suggestions[Row], "?"),
@@ -287,9 +362,11 @@ pretty_validate_report <- function(confrontation,
     )
 
   cli::cli_alert_info("Rows with suggestions: {sum(!is.na(out$Suggestion))}")
-  cli::cli_alert_success("Suggestions are the following:
+  cli::cli_alert_success(
+    "Suggestions are the following:
                          {.val {paste(unique(na.omit(out$Suggestion)),
-                         collapse = ';')}}")
+                         collapse = ';')}}"
+  )
   # ---- clean this up -----
   out <- out |>
     group_by(Column, Issue) |>
@@ -302,7 +379,6 @@ pretty_validate_report <- function(confrontation,
       Suggestion = if_else(nzchar(Suggestion), Suggestion, "-")
     )
 
-
   return(out)
 }
 
@@ -310,7 +386,6 @@ pretty_validate_report <- function(confrontation,
 # ----- run all validators -----
 
 clean_all_validations <- function(...) {
-
   dots <- rlang::enquos(...)
 
   reports <- purrr::imap(dots, function(x, nm) {
@@ -325,7 +400,9 @@ clean_all_validations <- function(...) {
   }) |>
     purrr::compact()
 
-  if (length(reports) == 0) return(NULL)
+  if (length(reports) == 0) {
+    return(NULL)
+  }
 
   reports_combo <- dplyr::bind_rows(reports) |>
     select(Table, Column, Issue, `Row Index`, Suggestion) |>
@@ -336,7 +413,6 @@ clean_all_validations <- function(...) {
 
 # ---- get valid taxonomy ------
 valid_taxonomy <- function(x) {
-
   valid_common <- x |>
     pull(common_name) |>
     unique() |>
@@ -355,44 +431,73 @@ valid_taxonomy <- function(x) {
 }
 
 
-
 # ----- validate tbl_samples ------
 validate_tbl_samples <- function(df) {
-
   required_fields <- c(
-    "pi_name", "source_id", "user_sample_id", "date", "month",
-    "season", "sample_year", "common_name", "scientific_name", "genus",
-    "family", "sex", "lifestage", "wild_lab",
-    "trt_description", "age_year", "length_mm", "length_type", "weight_g",
-    "composite", "composite_n", "tissue_type", "sample_procedure",
-    "location", "waterbody", "area", "site", "site_depth", "latitude",
-    "longitude", "calorimetry_method", "calorimeter_conversion_factor",
-    "sample_weight", "sample_weight_type", "energy_measurement",
-    "energy_units", "slope", "intercept", "x_units", "y_units", "percent_water",
-    "percent_ash", "percent_lipid", "percent_protein", "percent_carbon",
-    "percent_nitrogen", "d13c", "d15n", "d34s", "c_n"
+    "pi_name",
+    "source_id",
+    "user_sample_id",
+    "date",
+    "month",
+    "season",
+    "sample_year",
+    "common_name",
+    "scientific_name",
+    "genus",
+    "family",
+    "sex",
+    "lifestage",
+    "wild_lab",
+    "trt_description",
+    "age_year",
+    "length_mm",
+    "length_type",
+    "weight_g",
+    "composite",
+    "composite_n",
+    "tissue_type",
+    "sample_procedure",
+    "location",
+    "waterbody",
+    "area",
+    "site",
+    "site_depth",
+    "latitude",
+    "longitude",
+    "calorimetry_method",
+    "calorimeter_conversion_factor",
+    "sample_weight",
+    "sample_weight_type",
+    "energy_measurement",
+    "energy_units",
+    "slope",
+    "intercept",
+    "x_units",
+    "y_units",
+    "percent_water",
+    "percent_ash",
+    "percent_lipid",
+    "percent_protein",
+    "percent_carbon",
+    "percent_nitrogen",
+    "d13c",
+    "d15n",
+    "d34s",
+    "c_n"
   )
 
   if (!all(required_fields %in% colnames(df))) {
-
-
     rules <- do.call(
       validate::validator,
       c(rule_column_names(required_fields))
-
     )
-
-  } else if(nrow(df) == 0) {
-
+  } else if (nrow(df) == 0) {
     rules <- validator(
       nrow(.) == 1
     )
-  } else{
-
+  } else {
     rules <- validator(
-
       # ---- structure ----
-
 
       # ---- not null ----
       !is.na(pi_name),
@@ -443,19 +548,16 @@ validate_tbl_samples <- function(df) {
       .valid_common_name == TRUE,
       .valid_scientific_name == TRUE,
       .ed == TRUE
-
     )
   }
 
   out <- confront(df, rules)
-
 
   return(out)
 }
 
 # ----- validate source ------
 validate_tbl_source <- function(df) {
-
   required_fields <- c(
     "source_id",
     "publication_type",
@@ -475,21 +577,16 @@ validate_tbl_source <- function(df) {
   )
 
   if (!all(required_fields %in% colnames(df))) {
-
     rules <- do.call(
       validate::validator,
       c(rule_column_names(required_fields))
-
     )
-  }  else if(nrow(df) == 0) {
-
+  } else if (nrow(df) == 0) {
     rules <- validator(
       nrow(.) == 1
     )
-  } else{
-
+  } else {
     rules <- validator(
-
       # ---- required fields
       !is.na(source_id),
       !is.na(publication_type),
@@ -499,40 +596,33 @@ validate_tbl_source <- function(df) {
       !is.na(email),
       !is.na(title),
 
-      publication_type %in% c("Journal Article",
-                              "Book", "Book Section",
-                              "Report", "Unpublished"
-      )
+      publication_type %in%
+        c("Journal Article", "Book", "Book Section", "Report", "Unpublished")
     )
   }
 
   out <- confront(df, rules)
 
-
   return(out)
-
 }
 # ----- validate source ------
 validate_tbl_submission <- function(df) {
-
-  required_fields <- c("submitted_by",
-                       "submission_email",
-                       "submission_affiliation")
+  required_fields <- c(
+    "submitted_by",
+    "submission_email",
+    "submission_affiliation"
+  )
 
   if (!all(required_fields %in% colnames(df))) {
-
     rules <- do.call(
       validate::validator,
       c(rule_column_names(required_fields))
-
     )
-  } else if(nrow(df) == 0) {
-
+  } else if (nrow(df) == 0) {
     rules <- validator(
       nrow(.) == 1
     )
   } else {
-
     rules <- do.call(
       validate::validator,
       c(
@@ -542,11 +632,8 @@ validate_tbl_submission <- function(df) {
         rule_email
       )
     )
-
   }
   out <- confront(df, rules)
 
   return(out)
-
 }
-

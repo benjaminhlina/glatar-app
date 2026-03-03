@@ -32,11 +32,15 @@ module_files <- list.files("modules", full.names = TRUE)
 lapply(module_files, function(f) {
   tryCatch(
     source(f, local = FALSE),
-    error = function(e) cli::cli_alert_danger("Failed to load {.file {f}}: {e$message}")
+    error = function(e) {
+      cli::cli_alert_danger("Failed to load {.file {f}}: {e$message}")
+    }
   )
 })
 
-cli::cli_alert_success("All {length(module_files)} modules successfully loaded!")
+cli::cli_alert_success(
+  "All {length(module_files)} modules successfully loaded!"
+)
 
 nice_name_lookup <- get_nice_name_lookup(con)
 
@@ -51,18 +55,19 @@ credentials <- data.frame(
 cli::cli_alert_info("Starting the App")
 ui <- dashboardPage(
   # ----- title -----
-  dashboardHeader(title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
-                  titleWidth = 500,
-                  tags$li(
-                    class = "dropdown",
-                    tags$a(
-                      href = "https://github.com/benjaminhlina/glatar-app",
-                      target = "_blank",
-                      icon("github", class = "fa-2x"),
-                      style = "padding-top: 10px; padding-bottom: 10px;"
-                    )
-                  )
-                  ),
+  dashboardHeader(
+    title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
+    titleWidth = 500,
+    tags$li(
+      class = "dropdown",
+      tags$a(
+        href = "https://github.com/benjaminhlina/glatar-app",
+        target = "_blank",
+        icon("github", class = "fa-2x"),
+        style = "padding-top: 10px; padding-bottom: 10px;"
+      )
+    )
+  ),
 
   # ---- sidebar -----
   dashboardSidebar(
@@ -72,10 +77,12 @@ ui <- dashboardPage(
       menuItem("Home", tabName = "home", icon = icon("home")),
       menuItem("Map", tabName = "view_map", icon = icon("map")),
       menuItem("Summmary", tabName = "summary_info", icon = icon("bar-chart")),
-      menuItem("Scatter Plot", tabName = "scatter_plot",
-               icon = icon("chart-line")
+      menuItem(
+        "Scatter Plot",
+        tabName = "scatter_plot",
+        icon = icon("chart-line")
       ),
-      menuItem("View Data",tabName = "view_data", icon = icon("table")),
+      menuItem("View Data", tabName = "view_data", icon = icon("table")),
       menuItem("Upload Data", tabName = "insert_data", icon = icon("plus")),
       menuItem("Documentation", tabName = "docs", icon = icon("book")),
       menuItem("About", tabName = "about", icon = icon("circle-info")),
@@ -116,7 +123,6 @@ ui <- dashboardPage(
       tabItem(tabName = "insert_data", upload_data_ui("insert_data")),
       tabItem(tabName = "docs", docs_ui("docs")),
       tabItem(tabName = "about", about_ui("about"))
-
     )
   )
 )
@@ -132,8 +138,10 @@ ui <- secure_app(
   fab_position = "none",
   # Customize the login page appearance
   tags_top = tags$div(
-    tags$h2("Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
-            style = "text-align: center; color: #2c3e50; margin-bottom: 20px;"),
+    tags$h2(
+      "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
+      style = "text-align: center; color: #2c3e50; margin-bottom: 20px;"
+    ),
     tags$img(
       src = "logo/glfc-logo.png",
       width = 150,
@@ -142,8 +150,10 @@ ui <- secure_app(
   ),
 
   tags_bottom = tags$div(
-    tags$p("Please login to access the application",
-           style = "text-align: center; color: #7f8c8d;")
+    tags$p(
+      "Please login to access the application",
+      style = "text-align: center; color: #7f8c8d;"
+    )
   ),
 
   # Customize button colors and text
@@ -165,7 +175,6 @@ server <- function(input, output, session) {
 
   res_auth <- secure_server(
     check_credentials = check_credentials(credentials),
-
   )
 
   # ---- add in logout tab -----
@@ -176,7 +185,6 @@ server <- function(input, output, session) {
     }
   })
 
-
   # ----- link to docs -----
   observeEvent(input$go_docs, {
     updateTabItems(session, "tabs", "docs")
@@ -186,29 +194,37 @@ server <- function(input, output, session) {
   view_map_server("view_map", con)
   # ----- summary pane -----
   # ----- summary dropdowns -----
-  summary_sidebar_vals <- summary_sidebar_server("summary_sidebar", con,
-                                                 main_input = input)
+  summary_sidebar_vals <- summary_sidebar_server(
+    "summary_sidebar",
+    con,
+    main_input = input
+  )
 
   # ----- view summary ------
-  summary_info <- summary_info_server("summary_info",
-                                      con,
-                                      main_input = input,
-                                      summary_sidebar_vals = summary_sidebar_vals)
+  summary_info <- summary_info_server(
+    "summary_info",
+    con,
+    main_input = input,
+    summary_sidebar_vals = summary_sidebar_vals
+  )
   # make the download button run
 
   summary_sidebar_vals$register_summary(summary_info)
 
   # ---- scatter plot -----
   # ---- scatter plot dropdowns -----
-  scatter_sidebar_vals <- scatter_sidebar_server("scatter_sidebar",
-                                                 con,
-                                                 main_input = input)
+  scatter_sidebar_vals <- scatter_sidebar_server(
+    "scatter_sidebar",
+    con,
+    main_input = input
+  )
   # ---- create and view scatter plot -----
   scatter_plot <- scatter_plot_server(
     "scatter_plot",
     con,
     main_input = input,
-    scatter_sidebar_vals = scatter_sidebar_vals)
+    scatter_sidebar_vals = scatter_sidebar_vals
+  )
   # ----- get tables -----
   view_data_server("view_data", con)
 
@@ -216,10 +232,8 @@ server <- function(input, output, session) {
   upload_data_server("insert_data", con)
   docs_server("docs")
 
-
   # ram_tracker()
 }
 
 # render ui and serve together to create dashboard
 shinyApp(ui = ui, server = server)
-

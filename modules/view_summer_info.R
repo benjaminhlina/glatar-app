@@ -3,31 +3,38 @@ view_summary_info_ui <- function(id) {
 
   shiny::tagList(
     useShinyjs(),
-    div(id = ns("summary_ui"),
-        style = "display:none;",
-        shiny::h2("Summary Statistics"),
-           shiny::p("This panel displays summary statistics and histograms for your selected data.
+    div(
+      id = ns("summary_ui"),
+      style = "display:none;",
+      shiny::h2("Summary Statistics"),
+      shiny::p(
+        "This panel displays summary statistics and histograms for your selected data.
                   Use the dropdowns to filter your results by either clicking andelect a choice 
                   or choices from dropdowns or by typing directly into the dropdown to search for
                   specific options. To clear selections, click on the dropdown and 
                   press Backspace which will clear a selected choice. All dropdowns can have 
                   multiple selections, except when selecting the desirable
-                  variable used for the histogram and when the filters are set to 'All'."),
-        shiny::fluidRow(
-          shinydashboard::box(
-            title = "Summary Table",
-            status = "primary",
-            solidHeader = TRUE,
-            width = 12,
-            div(style = "overflow-x: auto; width: 100%;",
-                DT::DTOutput(ns("summary_table_output")))
+                  variable used for the histogram and when the filters are set to 'All'."
+      ),
+      shiny::fluidRow(
+        shinydashboard::box(
+          title = "Summary Table",
+          status = "primary",
+          solidHeader = TRUE,
+          width = 12,
+          div(
+            style = "overflow-x: auto; width: 100%;",
+            DT::DTOutput(ns("summary_table_output"))
           )
-        ),
-        shiny::br(),
-        plot_ui(title = "Summary Histograms",
-                plot_id = "summary_histogram",
-                height = "300px",
-                ns = ns),
+        )
+      ),
+      shiny::br(),
+      plot_ui(
+        title = "Summary Histograms",
+        plot_id = "summary_histogram",
+        height = "300px",
+        ns = ns
+      ),
     )
   )
 }
@@ -35,13 +42,16 @@ view_summary_info_ui <- function(id) {
 # ----- summmary server --------
 summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
   moduleServer(id, function(input, output, session) {
-
-    observeEvent(main_input$tabs, {
-      shinyjs::toggle(
-        id = "summary_ui",
-        condition = main_input$tabs == "summary_info"
-      )
-    }, ignoreInit = TRUE)
+    observeEvent(
+      main_input$tabs,
+      {
+        shinyjs::toggle(
+          id = "summary_ui",
+          condition = main_input$tabs == "summary_info"
+        )
+      },
+      ignoreInit = TRUE
+    )
 
     # ---- namespaces -----
     ns <- session$ns
@@ -54,29 +64,37 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
 
     #  ----- first create summary data -----
     # summary actived_true only if summary_info
-    observeEvent(main_input$tabs, {
-      req(main_input$tabs == "summary_info")
-      summary_activated(TRUE)
-    }, ignoreInit = TRUE)
+    observeEvent(
+      main_input$tabs,
+      {
+        req(main_input$tabs == "summary_info")
+        summary_activated(TRUE)
+      },
+      ignoreInit = TRUE
+    )
 
     # create summary data
-    summary_data <- create_summary_data(con = con,
-                                        main_input = main_input,
-                                        input_source = summary_sidebar_vals,
-                                        tab = "summary_info",
-                                        var_field = "y_variable",
-                                        activated = summary_activated())
-
+    summary_data <- create_summary_data(
+      con = con,
+      main_input = main_input,
+      input_source = summary_sidebar_vals,
+      tab = "summary_info",
+      var_field = "y_variable",
+      activated = summary_activated()
+    )
 
     # filtered summary by waterbody and species
     filtered_summary_data <- create_filtered_data(
       input_source = summary_sidebar_vals,
       data = summary_data,
-      pane = "summary_info")
+      pane = "summary_info"
+    )
 
     # ---- Generate summary stats with dynamic grouping -----
-    summary_mean_df <- create_mean_data(input_source = summary_sidebar_vals,
-                                        data = filtered_summary_data)
+    summary_mean_df <- create_mean_data(
+      input_source = summary_sidebar_vals,
+      data = filtered_summary_data
+    )
 
     # ---- fix names ----
     summary_mean_df_names <- reactive({
@@ -84,46 +102,51 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
 
       df <- summary_mean_df() |>
         dplyr::rename_with(~ convert_nice_name(.x))
-
     })
 
     # ---- check summary_data
-    observeEvent(summary_mean_df_names(), {
-      req(summary_mean_df_names())
-      check_summary_data(summary_mean_df_names())
-    }, ignoreInit = TRUE)
+    observeEvent(
+      summary_mean_df_names(),
+      {
+        req(summary_mean_df_names())
+        check_summary_data(summary_mean_df_names())
+      },
+      ignoreInit = TRUE
+    )
 
     #  ----- Render Summary Table -----
     display_table(data = summary_mean_df_names, output)
 
     # ---- create summary dats for histogram -----
-    summary_data_hist <- create_summary_data(con = con,
-                                             main_input = main_input,
-                                             input_source = summary_sidebar_vals,
-                                             tab = "summary_info",
-                                             var_field = "hist_vars",
-                                             activated = summary_activated())
+    summary_data_hist <- create_summary_data(
+      con = con,
+      main_input = main_input,
+      input_source = summary_sidebar_vals,
+      tab = "summary_info",
+      var_field = "hist_vars",
+      activated = summary_activated()
+    )
 
     # filtered summary by waterbody and species
     filtered_summary_data_hist <- create_filtered_data(
       input_source = summary_sidebar_vals,
       data = summary_data_hist,
-      pane = "summary_info")
+      pane = "summary_info"
+    )
 
     # ---- add in histogram ----
-    display_hist(data = filtered_summary_data_hist,
-                 input_source = summary_sidebar_vals,
-                 output)
+    display_hist(
+      data = filtered_summary_data_hist,
+      input_source = summary_sidebar_vals,
+      output
+    )
 
     # ----- grab reactive summary as recative val- ----
     summary_export_df(summary_mean_df_names)
-
 
     # ----- return this so it can be exported -----
     return(list(
       summary_df = summary_export_df
     ))
-
   })
 }
-

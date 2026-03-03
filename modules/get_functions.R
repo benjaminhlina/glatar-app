@@ -5,7 +5,6 @@ get_column_map <- function(con) {
 }
 
 get_data <- function(con, debug_sql = FALSE) {
-
   req(con)
 
   # Always start from samples
@@ -19,10 +18,12 @@ get_data <- function(con, debug_sql = FALSE) {
 
   df <- df |>
     left_join(
-      tbl_loc, by = "sample_id"
+      tbl_loc,
+      by = "sample_id"
     ) |>
     left_join(
-      tbl_length, by = "sample_id"
+      tbl_length,
+      by = "sample_id"
     )
   if (debug_sql == TRUE) {
     cli::cli_alert_info(dbplyr::sql_render(df))
@@ -32,7 +33,6 @@ get_data <- function(con, debug_sql = FALSE) {
 
 # ---- get good groups -----
 get_good_groups <- function(df) {
-
   good_groups <- c(
     "pi_name",
     "month",
@@ -68,12 +68,10 @@ get_good_groups <- function(df) {
   cols <- dplyr::tbl_vars(df) |>
     as.character()
 
+  # # Return only those that are in good_groups
+  groups <- sort(intersect(cols, good_groups))
 
-    # # Return only those that are in good_groups
-    groups <- sort(intersect(cols, good_groups))
-
-    cli::cli_alert_info("Converted names: {.val {cols}}"
-    )
+  cli::cli_alert_info("Converted names: {.val {cols}}")
   return(groups)
 }
 
@@ -86,8 +84,7 @@ get_groups <- function(df) {
   cli::cli_inform(c(
     "v" = "Selecting groups.",
     "•" = "Groups selected: {.val {groups}}"
-  )
-  )
+  ))
   return(groups)
 }
 
@@ -102,7 +99,6 @@ get_join_table <- function(df, table, con) {
 # ---- get vart types ----
 
 get_var_types <- function(df, var) {
-
   var_types <- df |>
     distinct(.data[[var]]) |>
     arrange(.data[[var]]) |>
@@ -115,11 +111,15 @@ get_var_types <- function(df, var) {
     vars <- paste0("length_mm__", var_types)
     labels <- paste0(stringr::str_to_title(var_types), " Length (mm)")
   }
-  if (any(var_types %in% c(
-    "Joules/g dry weight",
-    "Joules/g wet weight"
-  ))) {
-
+  if (
+    any(
+      var_types %in%
+        c(
+          "Joules/g dry weight",
+          "Joules/g wet weight"
+        )
+    )
+  ) {
     # cleaned_var_types <- gsub("/", " ", var_types)
     # cleaned_var_types <- gsub("\\s+", "_", cleaned_var_types)
 
@@ -127,7 +127,7 @@ get_var_types <- function(df, var) {
     labels <- paste0("Energy Density (", var_types, ")")
   }
 
-  setNames(vars, labels)  # names = labels, values = synthetic variable codes
+  setNames(vars, labels) # names = labels, values = synthetic variable codes
 }
 
 # ----- get nice names -----
@@ -138,9 +138,7 @@ convert_nice_name <- function(cols, lookup = nice_name_lookup) {
     } else {
       col
     }
-  }
-  )
-  )
+  }))
 }
 
 # ---- get numeric vars -----
@@ -148,7 +146,7 @@ get_numeric_vars <- function(con) {
   get_column_map(con) |>
     dplyr::filter(
       field_class %in% c("integer", "numeric", "double")
-    )  |>
+    ) |>
     dplyr::distinct(field_name) |>
     dplyr::arrange(field_name) |>
     dplyr::pull(field_name)
@@ -169,7 +167,9 @@ get_selected_tab <- function(input) {
   )
   cli::cli_alert_info("Active tab: {current_tab}")
   cli::cli_alert_info("Selected table from sidebar: {out}")
-  if (is.null(out) || is.na(out) || out == "") return(NULL)
+  if (is.null(out) || is.na(out) || out == "") {
+    return(NULL)
+  }
   out
 }
 
@@ -184,8 +184,10 @@ get_sidebar_df <- function(con) {
     df <- get_data(
       con = con_db
     ) |>
-      left_join(tbl(con_db, "tbl_calorimetry") |>
-                  select(sample_id, energy_units))
+      left_join(
+        tbl(con_db, "tbl_calorimetry") |>
+          select(sample_id, energy_units)
+      )
 
     cli::cli_alert_success("sidebar base tbl has completed")
     return(df)
@@ -194,11 +196,12 @@ get_sidebar_df <- function(con) {
 
 # ---- get summary data frame -----
 
-get_summary_data <- function(con,
-                             selected_vars = NULL,
-                             grouping_vars = NULL,
-                             debug_sql = FALSE) {
-
+get_summary_data <- function(
+  con,
+  selected_vars = NULL,
+  grouping_vars = NULL,
+  debug_sql = FALSE
+) {
   req(con)
 
   if (is.null(selected_vars)) {
@@ -210,7 +213,6 @@ get_summary_data <- function(con,
     "•" = "Variables selected: {.val {selected_vars}}"
   ))
 
-
   # Always start from samples
   # --grab location
   df <- get_data(con) |>
@@ -221,9 +223,10 @@ get_summary_data <- function(con,
   # ----- grab seelected vars ----
 
   if (!is.null(selected_vars) && length(selected_vars) > 0) {
-    needed_tables <- setdiff(get_tables_needed(con = con,
-                                               var = selected_vars),
-                             "tbl_samples")
+    needed_tables <- setdiff(
+      get_tables_needed(con = con, var = selected_vars),
+      "tbl_samples"
+    )
 
     if (!is.null(needed_tables)) {
       df <- needed_tables |>
@@ -233,12 +236,12 @@ get_summary_data <- function(con,
     # --- get selected vars -----
     vars_for_select <- as.character(selected_vars)
 
-
     vars_for_select <- dplyr::case_when(
-      grepl("^length_mm__(fork|total|standard)$",
-            vars_for_select) ~ "length_mm",
-      grepl("^energy_units__",
-            vars_for_select) ~ "energy_measurement",
+      grepl(
+        "^length_mm__(fork|total|standard)$",
+        vars_for_select
+      ) ~ "length_mm",
+      grepl("^energy_units__", vars_for_select) ~ "energy_measurement",
       .default = vars_for_select
     )
 
@@ -247,20 +250,24 @@ get_summary_data <- function(con,
     if (is.null(grouping_vars)) {
       # Select only requested columns (plus keys if needed)
       df <- df |>
-        select(waterbody,
-               scientific_name,
-               length_type,
-               energy_units,
-               any_of(vars_for_select))
+        select(
+          waterbody,
+          scientific_name,
+          length_type,
+          energy_units,
+          any_of(vars_for_select)
+        )
       # }
     } else {
       df <- df |>
-        select(waterbody,
-               scientific_name,
-               length_type,
-               energy_units,
-               any_of(grouping_vars),
-               any_of(vars_for_select))
+        select(
+          waterbody,
+          scientific_name,
+          length_type,
+          energy_units,
+          any_of(grouping_vars),
+          any_of(vars_for_select)
+        )
     }
   } else {
     df
@@ -276,13 +283,11 @@ get_summary_data <- function(con,
 
 # ---- get teh tables we need to filter by based on what the user selects -----
 get_tables_needed <- function(con, var) {
-
   req(con)
 
   if (is.null(var) || length(var) == 0) {
     return(character(0))
   }
-
 
   get_column_map(con) |>
     filter(field_name %in% var) |>

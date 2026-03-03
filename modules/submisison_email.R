@@ -1,8 +1,7 @@
 send_submission_email <- function(to_user, submission_id) {
-
-
   email <- compose_email(
-    body = md(glue::glue("
+    body = md(glue::glue(
+      "
 ### ✅ Submission Received
 
 Thank you for your submission.
@@ -15,7 +14,8 @@ If you have questions, please contact the database manager at
 benjamin.hlina@gmail.com to this email.
 
 — GLATAR Database Team
-"))
+"
+    ))
   )
 
   smtp_send(

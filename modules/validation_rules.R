@@ -18,7 +18,6 @@ rule_column_names <- function(required_fields) {
     paste0("not_field_", required_fields)
   )
   return(rule)
-
 }
 # --- special email rule
 rule_email <- list(
@@ -29,7 +28,6 @@ rule_email <- list(
 
 # --- length == 1 rules
 rule_len <- function(required_fields) {
-
   rule <- setNames(
     lapply(required_fields, function(x) {
       substitute(length(COL) == 1, list(COL = as.name(x)))
@@ -49,7 +47,3 @@ rule_na <- function(required_fields) {
   )
   return(rule)
 }
-
-
-
-

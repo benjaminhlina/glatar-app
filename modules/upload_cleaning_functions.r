@@ -1,6 +1,5 @@
 # Match Excel column to DB column using progressive matching
 match_to_db_col <- function(col_name, db_cols) {
-
   # Strip example: split on "_e_g_" or "_i_e_" and take the first part
   # ., "common_name_e_g_lake_trout" -> "common_name"
   candidate_col <- col_name
@@ -20,7 +19,6 @@ match_to_db_col <- function(col_name, db_cols) {
 
 # Rename Excel columns to match database schema
 rename_to_db_col <- function(df, con, table_name) {
-
   db_cols <- get_column_map(con) |>
     dplyr::filter(table_name == !!table_name) |>
     dplyr::pull(field_name)
@@ -51,9 +49,10 @@ rename_to_db_col <- function(df, con, table_name) {
 
   names(df) <- new_names
 
-  cli::cli_alert_info("Columns after rename: {paste(names(df), collapse = ', ')}")
+  cli::cli_alert_info(
+    "Columns after rename: {paste(names(df), collapse = ', ')}"
+  )
 
   # drop example cols
   return(df)
-
 }

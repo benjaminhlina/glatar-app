@@ -1,7 +1,9 @@
-display_hist <- function(data,
-                         input_source,
-                         output,
-                         output_id = "summary_histogram") {
+display_hist <- function(
+  data,
+  input_source,
+  output,
+  output_id = "summary_histogram"
+) {
   output[[output_id]] <- renderPlot({
     # Get raw data (not summarized)
     df <- data() |>
@@ -12,7 +14,9 @@ display_hist <- function(data,
 
     cli::cli_alert_info("selected var initially is: {.field {var}}")
 
-    cli::cli_alert_info("colnames is present: {.val {any(colnames(df) %in% var)}}")
+    cli::cli_alert_info(
+      "colnames is present: {.val {any(colnames(df) %in% var)}}"
+    )
     # detect length-type UI choices
     is_length <- grepl("length_mm", var, ignore.case = TRUE) &&
       !var %in% colnames(df)
@@ -22,7 +26,6 @@ display_hist <- function(data,
 
     cli::cli_alert_info("colnames are: {.val {colnames(df)}}")
     if (is_length) {
-
       # Convert UI label to the length_type in the data
       length_type_val <- case_when(
         grepl("fork", var, ignore.case = TRUE) ~ "fork",
@@ -49,15 +52,19 @@ display_hist <- function(data,
       check_hist_vars(df, var, ba = "after")
 
       var <- "length_mm"
-
     } else if (is_energy) {
-
       # Convert UI label to the length_type in the data
       energy_type_val <- case_when(
-        grepl("Joules/g dry weight", var,
-              ignore.case = TRUE) ~ "Joules/g dry weight",
-        grepl("Joules/g wet weight", var,
-              ignore.case = TRUE) ~ "Joules/g wet weight",
+        grepl(
+          "Joules/g dry weight",
+          var,
+          ignore.case = TRUE
+        ) ~ "Joules/g dry weight",
+        grepl(
+          "Joules/g wet weight",
+          var,
+          ignore.case = TRUE
+        ) ~ "Joules/g wet weight",
 
         .default = NA
       )
@@ -72,15 +79,16 @@ display_hist <- function(data,
 
       df <- df |>
         filter(energy_units == energy_type_val) |>
-        mutate(energy_measurement = suppressWarnings(
-          as.numeric(energy_measurement))) |>
+        mutate(
+          energy_measurement = suppressWarnings(
+            as.numeric(energy_measurement)
+          )
+        ) |>
         filter(!is.na(energy_measurement))
       check_hist_vars(df, var, ba = "after")
 
       var <- "energy_measurement"
-
     } else {
-
       # ---- NON-LENGTH VARIABLES ----
       cli::cli_alert_success("entered else statement")
 
@@ -92,7 +100,6 @@ display_hist <- function(data,
         filter(!is.na(.data[[var]]))
 
       check_hist_vars(df, var, ba = "after")
-
     }
 
     species_f <- input_source$species_filter()
@@ -103,28 +110,36 @@ display_hist <- function(data,
 
     nice_label <- convert_nice_name(var)[[1]]
 
-
     if (nice_label %in% "Length (mm)") {
-      nice_label <- paste(stringr::str_to_title(length_type_val),
-                          convert_nice_name(var)[[1]],
-                          sep = " ")
+      nice_label <- paste(
+        stringr::str_to_title(length_type_val),
+        convert_nice_name(var)[[1]],
+        sep = " "
+      )
     } else if (nice_label %in% "Energy Density") {
-      nice_label <- paste(convert_nice_name(var)[[1]], " (",
-                          energy_type_val, ")", sep = "")
+      nice_label <- paste(
+        convert_nice_name(var)[[1]],
+        " (",
+        energy_type_val,
+        ")",
+        sep = ""
+      )
     }
 
     title_text <- paste0(
-      "Histogram of ", nice_label,
-      "<br><b>Species:</b> ", fix_title_label(species_f),
-      "<br><b>Waterbody:</b> ", fix_title_label(waterbody_f)
+      "Histogram of ",
+      nice_label,
+      "<br><b>Species:</b> ",
+      fix_title_label(species_f),
+      "<br><b>Waterbody:</b> ",
+      fix_title_label(waterbody_f)
     )
 
     cli::cli_alert_info("selected var prior to plotting is: {.field {var}}")
 
     # Plot the histogram of the selected variable
     p <- ggplot(data = df, aes(x = !!sym(var))) +
-      geom_histogram(fill = "#4DB6AC",
-                     color = "black") +
+      geom_histogram(fill = "#4DB6AC", color = "black") +
       # facet_wrap(~ common_name) +
       theme_bw(
         base_size = 15
@@ -141,18 +156,17 @@ display_hist <- function(data,
       )
     return(p)
   })
-
 }
 
 # ----- display scatter plot -----
-display_scatter_plot <- function(data,
-                                 input_source,
-                                 output,
-                                 output_id = "scatter_plot") {
+display_scatter_plot <- function(
+  data,
+  input_source,
+  output,
+  output_id = "scatter_plot"
+) {
   # ----- display scatter plot -----
   output[[output_id]] <- renderPlot({
-
-
     #     # Get raw data (not summarized)
 
     df <- data()
@@ -160,7 +174,8 @@ display_scatter_plot <- function(data,
     # ---- if data is null/no grouping varialbes display message -----
     if (is.null(df)) {
       p <- empty_plot(
-        "Select one or more grouping variables from the sidebar to start to generate a plot.\nNext select your x and y variables of interest")
+        "Select one or more grouping variables from the sidebar to start to generate a plot.\nNext select your x and y variables of interest"
+      )
       return(p)
     }
 
@@ -170,15 +185,16 @@ display_scatter_plot <- function(data,
 
     scatter_grouping_vars <- input_source$grouping_vars()
 
-      # ---- get the number of groups ----
+    # ---- get the number of groups ----
     n_groups <- length(scatter_grouping_vars)
 
     cli::cli_alert_info("The number of groups is {.field {n_groups}}")
 
-
     # ---- too many groups ----
     if (n_groups > 3) {
-      p <- empty_plot("You have selected 4 or more grouping variables.\nPlease select 3 or fewer.")
+      p <- empty_plot(
+        "You have selected 4 or more grouping variables.\nPlease select 3 or fewer."
+      )
       return(p)
     }
     # get the x var
@@ -218,9 +234,14 @@ display_scatter_plot <- function(data,
     waterbody_f <- input_source$waterbody_filter()
 
     title_text <- paste0(
-      "Scatter plot of ", y_label, " by ", x_label,
-      "<br><b>Species:</b> ", fix_title_label(species_f),
-      "<br><b>Waterbody:</b> ", fix_title_label(waterbody_f)
+      "Scatter plot of ",
+      y_label,
+      " by ",
+      x_label,
+      "<br><b>Species:</b> ",
+      fix_title_label(species_f),
+      "<br><b>Waterbody:</b> ",
+      fix_title_label(waterbody_f)
     )
 
     # use convert_nice_name to make title nice
@@ -241,14 +262,19 @@ display_scatter_plot <- function(data,
     y_label <- gsub('"', '', y_label)
 
     # ----- plot -----
-    p <- ggplot(data  = df, aes(
-      x = !!sym(x_var),
-      y = !!sym(y_var))) +
-      scale_fill_viridis_d(name = legend_title,
-                           option = "B",
-                           begin = 0.1,
-                           end = 0.9,
-                           alpha = 0.5
+    p <- ggplot(
+      data = df,
+      aes(
+        x = !!sym(x_var),
+        y = !!sym(y_var)
+      )
+    ) +
+      scale_fill_viridis_d(
+        name = legend_title,
+        option = "B",
+        begin = 0.1,
+        end = 0.9,
+        alpha = 0.5
       ) +
       theme_bw(base_size = 15) +
       theme(
@@ -275,11 +301,12 @@ display_scatter_plot <- function(data,
           shape = 21
         )
     } else {
-      p <- p + geom_point(
-        alpha = 0.7,
-        size = 3,
-        shape = 21
-      )
+      p <- p +
+        geom_point(
+          alpha = 0.7,
+          size = 3,
+          shape = 21
+        )
     }
     # ---- Faceting logic ----
     if (n_groups %in% 2) {
@@ -320,14 +347,14 @@ display_table <- function(data, output, output_id = "summary_table_output") {
 
     # display data
 
-    datatable(df,
-              options = list(pageLength = 10,
-                             scrollX = TRUE
-                             # autoWidth = TRUE
-              ), escape = FALSE)
+    datatable(
+      df,
+      options = list(
+        pageLength = 10,
+        scrollX = TRUE
+        # autoWidth = TRUE
+      ),
+      escape = FALSE
+    )
   })
 }
-
-
-
-

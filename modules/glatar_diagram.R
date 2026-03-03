@@ -1,7 +1,8 @@
 glatar_diagram_ui <- function() {
   htmltools::tags$div(
     style = "width:100%; padding: 10px 0;",
-    htmltools::tags$style(HTML("
+    htmltools::tags$style(HTML(
+      "
       /* ── GLATAR Bubble Diagram ── */
       .glatar-diagram-wrap {
         font-family: 'Georgia', 'Times New Roman', serif;
@@ -201,13 +202,20 @@ glatar_diagram_ui <- function() {
         flex-shrink: 0;
         opacity: 0.75;
       }
-    ")),
+    "
+    )),
 
     htmltools::tags$div(
       class = "glatar-diagram-wrap",
 
-      htmltools::tags$div(class = "glatar-diagram-title", "Database Components"),
-      htmltools::tags$div(class = "glatar-hint", "Click a bubble to explore each data type"),
+      htmltools::tags$div(
+        class = "glatar-diagram-title",
+        "Database Components"
+      ),
+      htmltools::tags$div(
+        class = "glatar-hint",
+        "Click a bubble to explore each data type"
+      ),
 
       # SVG bubble diagram
       htmltools::tags$svg(
@@ -216,8 +224,11 @@ glatar_diagram_ui <- function() {
         xmlns = "http://www.w3.org/2000/svg",
         htmltools::tags$defs(
           htmltools::tags$radialGradient(
-            id = "hub-grad", cx = "50%", cy = "35%", r = "65%",
-            htmltools::tags$stop(offset = "0%",   `stop-color` = "#1a4a6e"),
+            id = "hub-grad",
+            cx = "50%",
+            cy = "35%",
+            r = "65%",
+            htmltools::tags$stop(offset = "0%", `stop-color` = "#1a4a6e"),
             htmltools::tags$stop(offset = "100%", `stop-color` = "#0a2440")
           ),
           # individual bubble gradients generated in JS
@@ -242,7 +253,8 @@ glatar_diagram_ui <- function() {
     ),
 
     # Build the SVG with JS
-    htmltools::tags$script(HTML('
+    htmltools::tags$script(HTML(
+      '
 (function() {
 
   var components = [
@@ -577,6 +589,7 @@ glatar_diagram_ui <- function() {
   });
 
 })();
-    '))
+    '
+    ))
   )
 }

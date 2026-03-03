@@ -12,7 +12,6 @@ docs_ui <- function(id) {
         tags$p("Download the data entry templates and documentation below:"),
 
         fluidRow(
-
           # ---- Templates column ----
           column(
             width = 6,
@@ -98,7 +97,6 @@ docs_ui <- function(id) {
             )
           )
         )
-
       )
     )
   )

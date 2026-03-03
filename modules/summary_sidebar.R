@@ -3,26 +3,38 @@ summary_sidebar_ui <- function(id) {
 
   shiny::tagList(
     useShinyjs(),
-    div(id = ns("summary_ui"),
-        style = "display:none;",
-        shiny::conditionalPanel(
-          condition = "input.tabs == 'summary_info'",
-          shiny::selectInput(ns("summary_grouping_vars"),
-                             "Select Grouping Variables",
-                             choices = NULL, multiple = TRUE),
-          shiny::selectInput(ns("summary_waterbody_filter"),
-                             "Select Waterbody", choices = NULL,
-                             multiple = TRUE),
-          shiny::selectInput(ns("summary_species_filter"),
-                             "Select Species",
-                             choices = NULL,
-                             multiple = TRUE),
-          shiny::selectizeInput(ns("summary_y_variable"),
-                                "Select Summary Columns of Interest",
-                                choices = NULL,
-                                multiple = TRUE,
-                                options = list(placeholder = 'Select columns...',
-                                               render = I("
+    div(
+      id = ns("summary_ui"),
+      style = "display:none;",
+      shiny::conditionalPanel(
+        condition = "input.tabs == 'summary_info'",
+        shiny::selectInput(
+          ns("summary_grouping_vars"),
+          "Select Grouping Variables",
+          choices = NULL,
+          multiple = TRUE
+        ),
+        shiny::selectInput(
+          ns("summary_waterbody_filter"),
+          "Select Waterbody",
+          choices = NULL,
+          multiple = TRUE
+        ),
+        shiny::selectInput(
+          ns("summary_species_filter"),
+          "Select Species",
+          choices = NULL,
+          multiple = TRUE
+        ),
+        shiny::selectizeInput(
+          ns("summary_y_variable"),
+          "Select Summary Columns of Interest",
+          choices = NULL,
+          multiple = TRUE,
+          options = list(
+            placeholder = 'Select columns...',
+            render = I(
+              "
           {
             option: function(item, escape) {
               return '<div>' + item.label + '</div>';
@@ -31,162 +43,188 @@ summary_sidebar_ui <- function(id) {
               return '<div>' + item.label + '</div>';
             }
           }
-        ")
-                                )
-          ),
-          shiny::selectizeInput(
-            inputId = ns("hist_var"),
-            label = "Select Variable for Histogram",
-            choices = NULL,
-            options = list(
-              render = I("
-          {
-            option: function(item, escape) {
-              return '<div>' + item.label + '</div>';
-            },
-            item: function(item, escape) {
-              return '<div>' + item.label + '</div>';
-            }
-          }
-        ")
+        "
             )
-          ),
-          shiny::downloadButton(ns("download_summary"),
-                                "Download Summary as Excel",
-                                class = "btn-primary",
-                                style = "margin-left: 15px; margin-top: 10px;
-                                width: 245px")
+          )
+        ),
+        shiny::selectizeInput(
+          inputId = ns("hist_var"),
+          label = "Select Variable for Histogram",
+          choices = NULL,
+          options = list(
+            render = I(
+              "
+          {
+            option: function(item, escape) {
+              return '<div>' + item.label + '</div>';
+            },
+            item: function(item, escape) {
+              return '<div>' + item.label + '</div>';
+            }
+          }
+        "
+            )
+          )
+        ),
+        shiny::downloadButton(
+          ns("download_summary"),
+          "Download Summary as Excel",
+          class = "btn-primary",
+          style = "margin-left: 15px; margin-top: 10px;
+                                width: 245px"
         )
+      )
     )
   )
 }
 
 
-
 summary_sidebar_server <- function(id, con, main_input) {
   moduleServer(id, function(input, output, session) {
-
     observe({
-      shinyjs::toggle(id = "summary_ui",
-                      condition = main_input$tabs == "summary_info")
+      shinyjs::toggle(
+        id = "summary_ui",
+        condition = main_input$tabs == "summary_info"
+      )
     })
 
     # ---- initalize ------
     initialized <- reactiveVal(FALSE)
     # --- get sidebar info -----
-    observeEvent(main_input$tabs, {
-      req(main_input$tabs == "summary_info")
-      req(!initialized())
+    observeEvent(
+      main_input$tabs,
+      {
+        req(main_input$tabs == "summary_info")
+        req(!initialized())
 
-      sidebar_df <- get_sidebar_df(con)
+        sidebar_df <- get_sidebar_df(con)
 
-      exclusive_all_observer(input, session, "summary_waterbody_filter")
-      exclusive_all_observer(input, session, "summary_species_filter")
-      # get df
-      df <- sidebar_df()
-      req(df)
+        exclusive_all_observer(input, session, "summary_waterbody_filter")
+        exclusive_all_observer(input, session, "summary_species_filter")
+        # get df
+        df <- sidebar_df()
+        req(df)
 
-      # get grouping snad numerical values
-      grouping_choices <- get_groups(df) |>
-        sort()
+        # get grouping snad numerical values
+        grouping_choices <- get_groups(df) |>
+          sort()
 
-      grouping_choices <- setNames(grouping_choices,
-                                   convert_nice_name(grouping_choices))
+        grouping_choices <- setNames(
+          grouping_choices,
+          convert_nice_name(grouping_choices)
+        )
 
-      numeric_choices <- get_numeric_vars(con)
+        numeric_choices <- get_numeric_vars(con)
 
-      # ---- remove grouping or non needed variblaes ----
+        # ---- remove grouping or non needed variblaes ----
 
-      numeric_choices <-  setdiff(numeric_choices, c(
-        "calorimeter_conversion_factor",
-        "issue",
-        "length_mm",
-        "energy_measurement",
-        "latitude",
-        "longitude",
-        "month",
-        "publication_year",
-        "site",
-        "site_depth",
-        "source_id",
-        "user_sample_id",
-        "sample_year",
-        "volume")
-      )
-      numeric_names <- convert_nice_name(numeric_choices)
-      # get length variables
-      length_vars <- get_var_types(df, var = "length_type")
-      energy_vars <- get_var_types(df, var = "energy_units")
+        numeric_choices <- setdiff(
+          numeric_choices,
+          c(
+            "calorimeter_conversion_factor",
+            "issue",
+            "length_mm",
+            "energy_measurement",
+            "latitude",
+            "longitude",
+            "month",
+            "publication_year",
+            "site",
+            "site_depth",
+            "source_id",
+            "user_sample_id",
+            "sample_year",
+            "volume"
+          )
+        )
+        numeric_names <- convert_nice_name(numeric_choices)
+        # get length variables
+        length_vars <- get_var_types(df, var = "length_type")
+        energy_vars <- get_var_types(df, var = "energy_units")
 
-      # create summary choices
-      summary_choices <- sort(c(setNames(numeric_choices,
-                                         numeric_names),
-                                length_vars, energy_vars))
+        # create summary choices
+        summary_choices <- sort(c(
+          setNames(numeric_choices, numeric_names),
+          length_vars,
+          energy_vars
+        ))
 
-      # watervody
-      waterbody_choices <- df |>
-        distinct(waterbody) |>
-        # filter(!(is.na(waterbody))) |>
-        arrange(waterbody) |>
-        pull(waterbody)
+        # watervody
+        waterbody_choices <- df |>
+          distinct(waterbody) |>
+          # filter(!(is.na(waterbody))) |>
+          arrange(waterbody) |>
+          pull(waterbody)
 
-      # species
-      species_choices <-  df |>
-        distinct(scientific_name) |>
-        # filter(!(is.na(scientific_name))) |>
-        arrange(scientific_name) |>
-        pull(scientific_name)
+        # species
+        species_choices <- df |>
+          distinct(scientific_name) |>
+          # filter(!(is.na(scientific_name))) |>
+          arrange(scientific_name) |>
+          pull(scientific_name)
 
-      # get info to make pretty console info
-      n_wb <- length(waterbody_choices)
-      n_sp <- length(species_choices)
-      grp <- paste(grouping_choices, collapse = ', ')
-      nc <- paste(summary_choices, collapse = ', ')
-      # check_dropdowns()
-      cli::cli_alert_success("Updating dropdowns")
-      cli::cli_ul(c(
-        "Waterbody unique values: {.val {n_wb}}",
-        "Species unique values: {.val {n_sp}}",
-        "Grouping choices: {.val {grp}}",
-        "Numeric choices: {.val {nc}}"
-      ))
+        # get info to make pretty console info
+        n_wb <- length(waterbody_choices)
+        n_sp <- length(species_choices)
+        grp <- paste(grouping_choices, collapse = ', ')
+        nc <- paste(summary_choices, collapse = ', ')
+        # check_dropdowns()
+        cli::cli_alert_success("Updating dropdowns")
+        cli::cli_ul(c(
+          "Waterbody unique values: {.val {n_wb}}",
+          "Species unique values: {.val {n_sp}}",
+          "Grouping choices: {.val {grp}}",
+          "Numeric choices: {.val {nc}}"
+        ))
 
-      # grouping choices
-      updateSelectInput(session, "summary_grouping_vars",
-                        choices = grouping_choices,
-                        selected = c("waterbody",
-                                     "scientific_name")
-      )
-      # waterbody
-      updateSelectInput(session, "summary_waterbody_filter",
-                        choices = c("All", waterbody_choices),
-                        selected = "All")
-      # Species Drop-down
+        # grouping choices
+        updateSelectInput(
+          session,
+          "summary_grouping_vars",
+          choices = grouping_choices,
+          selected = c("waterbody", "scientific_name")
+        )
+        # waterbody
+        updateSelectInput(
+          session,
+          "summary_waterbody_filter",
+          choices = c("All", waterbody_choices),
+          selected = "All"
+        )
+        # Species Drop-down
 
-      updateSelectInput(session, "summary_species_filter",
-                        choices = c("All", species_choices),
-                        selected = "All")
+        updateSelectInput(
+          session,
+          "summary_species_filter",
+          choices = c("All", species_choices),
+          selected = "All"
+        )
 
-      # Update y summary  variable choices
+        # Update y summary  variable choices
 
-      updateSelectizeInput(session, "summary_y_variable",
-                           choices = summary_choices,
-                           server = TRUE)
+        updateSelectizeInput(
+          session,
+          "summary_y_variable",
+          choices = summary_choices,
+          server = TRUE
+        )
 
-      # Update histogram variable choices
-      updateSelectizeInput(session, "hist_var",
-                           choices = summary_choices,
-                           server = TRUE)
+        # Update histogram variable choices
+        updateSelectizeInput(
+          session,
+          "hist_var",
+          choices = summary_choices,
+          server = TRUE
+        )
 
-      # set inalize as true to make this trigger once it is hit
-      initialized(TRUE)
-
-    },
-    ignoreInit = TRUE)
+        # set inalize as true to make this trigger once it is hit
+        initialized(TRUE)
+      },
+      ignoreInit = TRUE
+    )
 
     # make this into a function that sidebar exports out
     register_summary <- function(input_source) {
-
       output$download_summary <- downloadHandler(
         filename = function() {
           paste0("glatar_summary_tbl_", Sys.Date(), ".xlsx")
@@ -205,8 +243,10 @@ summary_sidebar_server <- function(id, con, main_input) {
         df <- input_source$summary_df()()
 
         # toggle button
-        shinyjs::toggleState(session$ns("download_summary"),
-                             condition = !is.null(df) && nrow(df) > 0)
+        shinyjs::toggleState(
+          session$ns("download_summary"),
+          condition = !is.null(df) && nrow(df) > 0
+        )
       })
     }
 
@@ -221,6 +261,5 @@ summary_sidebar_server <- function(id, con, main_input) {
       hist_vars = reactive(input$hist_var),
       register_summary = register_summary
     ))
-
   })
 }

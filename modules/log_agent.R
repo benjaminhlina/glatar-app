@@ -1,5 +1,4 @@
 old_log_agent <- function(x, name) {
-
   vals <- values(x)
   smry <- summary(x)
 
@@ -20,7 +19,6 @@ old_log_agent <- function(x, name) {
 }
 
 old_2_log_agent <- function(x, name) {
-
   raw_vals <- values(x)
 
   # ---- flatten safely ----
@@ -43,7 +41,6 @@ old_2_log_agent <- function(x, name) {
 }
 
 old_3_log_agent <- function(x, name, show = 10) {
-
   raw_vals <- values(x)
   vals <- unlist(raw_vals, use.names = FALSE)
 
@@ -85,7 +82,6 @@ old_3_log_agent <- function(x, name, show = 10) {
 
 
 log_agent <- function(x, name, show = 10) {
-
   raw_vals <- values(x)
   vals <- unlist(raw_vals, use.names = FALSE)
 
@@ -114,7 +110,9 @@ log_agent <- function(x, name, show = 10) {
     cli::cli_alert_warning("Rows with NA: {length(rows_with_na)}")
 
     if (length(rows_with_na) > 0) {
-      cli::cli_alert_info("First rows with NA: {paste(head(rows_with_na, show), collapse = ', ')}")
+      cli::cli_alert_info(
+        "First rows with NA: {paste(head(rows_with_na, show), collapse = ', ')}"
+      )
       print(utils::head(df[rows_with_na, ], show))
     }
 

@@ -1,6 +1,4 @@
 fix_var_generic <- function(df, var_raw) {
-
-
   # detect if it's one of the synthetic length vars
   if (grepl("^length_mm__", var_raw)) {
     # split if length_mm__ is presnet in
@@ -16,9 +14,7 @@ fix_var_generic <- function(df, var_raw) {
     # Dynamic label
     var_label <- paste0(stringr::str_to_title(var_type), " Length (mm)")
     var <- "length_mm"
-
   } else if (grepl("^energy_units__", var_raw)) {
-
     parts <- strsplit(var_raw, "__")[[1]]
     # grab the second element of part
     var_type <- parts[2]
@@ -36,8 +32,6 @@ fix_var_generic <- function(df, var_raw) {
     var <- "energy_measurement"
 
     cli::cli_alert_danger("var_label is: {.field {var_label}}")
-
-
   } else {
     cli::cli_alert_info("Checking for {.field {var_raw}} in columns...")
     cli::cli_inform("Available columns: {.val {colnames(df)}}")
@@ -53,10 +47,9 @@ fix_var_generic <- function(df, var_raw) {
     var = var,
     var_label = var_label
   )
-
 }
 # ---- fix tittle label -----
-fix_title_label <-  function(x, max = NULL) {
+fix_title_label <- function(x, max = NULL) {
   if (is.null(max)) {
     max <- 4
   }
@@ -65,7 +58,9 @@ fix_title_label <-  function(x, max = NULL) {
   } else {
     paste0(
       paste(head(x, max), collapse = ", "),
-      ", <br>… (", length(x) - max, " more)"
+      ", <br>… (",
+      length(x) - max,
+      " more)"
     )
   }
 }

@@ -1,7 +1,9 @@
-check_dropdowns <- function(waterbody_choices,
-                            common_name_choices,
-                            grouping_choices,
-                            numeric_choices) {
+check_dropdowns <- function(
+  waterbody_choices,
+  common_name_choices,
+  grouping_choices,
+  numeric_choices
+) {
   cli::cli_alert_success("Updating dropdowns")
   cli::cli_ul(c(
     "Waterbody unique values: {length(waterbody_choices)}",
@@ -28,34 +30,34 @@ check_input_source <- function(input_source_name, envir = parent.frame()) {
 
 # ---- check lenght_ui -----
 check_hist_ui <- function(
-    df,
-    var,
-    type_val,
-    col) {
+  df,
+  var,
+  type_val,
+  col
+) {
   cli::cli_alert_info("UI var: {var}")
   cli::cli_alert_info("Mapped type_val: {type_val}")
   cli::cli_alert_info(
-    "Unique df$type_val: {paste(unique(df$col), collapse=', ')}")
+    "Unique df$type_val: {paste(unique(df$col), collapse=', ')}"
+  )
 }
 
-check_hist_vars <- function(df,
-                            var,
-                            ba
-                            ) {
+check_hist_vars <- function(df, var, ba) {
   if (ba == "before") {
     cli::cli_alert_info("Variable: {.var {var}}")
     cli::cli_alert_info("Rows before filtering: {.val {nrow(df)}}")
-    cli::cli_alert_info("Sample values: {.val {paste(head(sort(unique(df[[var]]))),
-                        collapse = ', ')}}")
+    cli::cli_alert_info(
+      "Sample values: {.val {paste(head(sort(unique(df[[var]]))),
+                        collapse = ', ')}}"
+    )
   }
   if (ba == "after") {
-    cli::cli_alert_success("Rows after filtering: {.val {nrow(df)}}")}
+    cli::cli_alert_success("Rows after filtering: {.val {nrow(df)}}")
+  }
 }
 
 # ----- chekc mean_data ------
-check_mean_data <- function(df,
-                            summary_grouping_vars,
-                            y_vals) {
+check_mean_data <- function(df, summary_grouping_vars, y_vals) {
   cli::cli_h2("create_mean_data() diagnostics")
 
   cli::cli_ul(c(
@@ -73,16 +75,13 @@ check_mean_data <- function(df,
 # ---- check tab name -----
 
 check_tab_name <- function(tab) {
-  if (!(tab %in% c("summary_info",
-                   "scatter_plot"))) {
-
+  if (!(tab %in% c("summary_info", "scatter_plot"))) {
     cli::cli_abort("Cannot execute function for {.val {tab}} tab")
   }
 }
 
 # ---- ehck if summary data is being triggered ----
 check_summary_data <- function(df, name = deparse(substitute(df))) {
-
   cli::cli_alert_success("{name} triggered")
 
   # Lazy dbplyr table → do NOT validate rows

@@ -1,9 +1,11 @@
 upload_data_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  shinydashboard::tabItem(tabName = id,
-                          shiny::h2("Upload Excel File"),
-                   shiny::p("This panel allows you to upload data to the GLATAR database.
+  shinydashboard::tabItem(
+    tabName = id,
+    shiny::h2("Upload Excel File"),
+    shiny::p(
+      "This panel allows you to upload data to the GLATAR database.
                    First, select the Excel file you would like to upload. Then click
                    'Upload & Process'. The system will run a series of validation checks and
                    process the data to adhere to database standards. Validation checks will
@@ -15,52 +17,55 @@ upload_data_ui <- function(id) {
                    locations are correct. Once you have reviewed the map, click the
                    'Submit to Database' button to finalize the upload.
                    A successful submission will generate a confirmation message (displayed
-                   in green) and you will receive a confirmation email."),
-                          shiny::fileInput(ns("file_upload"),
-                                           "Choose an Excel File",
-                                           accept = c(".xlsx")),
+                   in green) and you will receive a confirmation email."
+    ),
+    shiny::fileInput(
+      ns("file_upload"),
+      "Choose an Excel File",
+      accept = c(".xlsx")
+    ),
 
-                          shiny::actionButton(ns("upload_btn"),
-                                              "Upload & Process",
-                                              icon = icon("upload")),
+    shiny::actionButton(
+      ns("upload_btn"),
+      "Upload & Process",
+      icon = icon("upload")
+    ),
 
-                          shinyjs::useShinyjs(),
+    shinyjs::useShinyjs(),
 
-                          shiny::actionButton(
-                            ns("submit_btn"),
-                            "Submit to Database",
-                            icon = icon("database"),
-                            disabled = TRUE
-                          ),
-                          shinyjs::hidden(
-                            div(
-                              id = ns("loading_indicator"),
-                              style = "display: flex; align-items: center; gap: 8px; margin-top: 10px; color: #555;",
-                                tags$i(class = "fa fa-spinner fa-spin fa-lg"),
-                              shiny::textOutput(ns("loading_msg"), inline = TRUE)
-                            )
-                          ),
-                          shiny::uiOutput(ns("upload_status")),
-                          shiny::uiOutput(ns("location_map"))
-
+    shiny::actionButton(
+      ns("submit_btn"),
+      "Submit to Database",
+      icon = icon("database"),
+      disabled = TRUE
+    ),
+    shinyjs::hidden(
+      div(
+        id = ns("loading_indicator"),
+        style = "display: flex; align-items: center; gap: 8px; margin-top: 10px; color: #555;",
+        tags$i(class = "fa fa-spinner fa-spin fa-lg"),
+        shiny::textOutput(ns("loading_msg"), inline = TRUE)
+      )
+    ),
+    shiny::uiOutput(ns("upload_status")),
+    shiny::uiOutput(ns("location_map"))
   )
 }
 
 
 upload_data_server <- function(id, con) {
   moduleServer(id, function(input, output, session) {
-    options(shiny.maxRequestSize = 20 * 1024 ^ 2)
+    options(shiny.maxRequestSize = 20 * 1024^2)
     ns <- session$ns
 
     # ---- reactive validate ------
     validated_samples <- reactiveVal(NULL)
     validated_source <- reactiveVal(NULL)
     validated_submission <- reactiveVal(NULL)
-    tables_to_submit<- reactiveVal(NULL)
+    tables_to_submit <- reactiveVal(NULL)
     tables_split_full <- reactiveVal(NULL)
 
     observeEvent(input$upload_btn, {
-
       # ---- get file upload -----
       req(input$file_upload)
       shinyjs::show("loading_indicator")
@@ -71,7 +76,7 @@ upload_data_server <- function(id, con) {
         shinyjs::hide("loading_indicator")
         shinyjs::enable("upload_btn")
       })
-      
+
       shinyjs::disable("submit_btn")
 
       # get path
@@ -81,10 +86,9 @@ upload_data_server <- function(id, con) {
 
       # check if all sheets are there
       required_sheets <- c("tbl_submission", "tbl_sources", "tbl_samples")
-      missing_sheets  <- setdiff(required_sheets, sheets)
+      missing_sheets <- setdiff(required_sheets, sheets)
 
       if (length(missing_sheets) > 0) {
-
         output$upload_status <- renderUI({
           p(
             paste0(
@@ -118,7 +122,6 @@ upload_data_server <- function(id, con) {
         janitor::clean_names() |>
         rename_to_db_col(con, "tbl_source")
 
-
       agent_source <- validate_tbl_source(tbl_source_submitted)
 
       # ----- validate tbl sample ----
@@ -130,7 +133,6 @@ upload_data_server <- function(id, con) {
         skip = 4,
         n_max = 1
       ))
-
 
       # ---- then dynamically create col_types
       col_types <- c(
@@ -154,20 +156,33 @@ upload_data_server <- function(id, con) {
       species_list <- tbl(con, "tbl_taxonomy")
 
       # ---- add valid taxoonmy -----
-      tbl_samples_submitted <- add_valid_taxonomy(tbl_samples_submitted,
-                                                  species_list)
-
+      tbl_samples_submitted <- add_valid_taxonomy(
+        tbl_samples_submitted,
+        species_list
+      )
 
       tbl_samples_submitted <- add_valid_cols(tbl_samples_submitted)
 
-
-
-
       num_cols <- c(
-        "length_mm","weight_g","age_year","composite_n","latitude","longitude",
-        "calorimeter_conversion_factor","sample_weight","energy_measurement",
-        "percent_water","percent_ash","percent_lipid","percent_protein",
-        "percent_carbon","percent_nitrogen","d13c","d15n","d34s","c_n"
+        "length_mm",
+        "weight_g",
+        "age_year",
+        "composite_n",
+        "latitude",
+        "longitude",
+        "calorimeter_conversion_factor",
+        "sample_weight",
+        "energy_measurement",
+        "percent_water",
+        "percent_ash",
+        "percent_lipid",
+        "percent_protein",
+        "percent_carbon",
+        "percent_nitrogen",
+        "d13c",
+        "d15n",
+        "d34s",
+        "c_n"
       )
 
       # num_col <- get_column_map(con) |>
@@ -182,7 +197,6 @@ upload_data_server <- function(id, con) {
       # ---- run validtor validation ----
       agent_sample <- validate_tbl_samples(tbl_samples_submitted)
 
-
       cli::cli_h2("Agent validation checks")
 
       log_agent(agent_submission, "agent_submission")
@@ -191,7 +205,7 @@ upload_data_server <- function(id, con) {
 
       ok_submission <- all(unlist(values(agent_submission)), na.rm = TRUE)
       ok_source <- all(unlist(values(agent_source)), na.rm = TRUE)
-      ok_sample <- all(unlist(values(agent_sample)),  na.rm = TRUE)
+      ok_sample <- all(unlist(values(agent_sample)), na.rm = TRUE)
 
       cli::cli_alert_info(
         "Gate status to submission: {ok_submission},
@@ -200,8 +214,6 @@ upload_data_server <- function(id, con) {
 
       # if all agents are good process and get ready to submitt
       if (isTRUE(ok_submission) && isTRUE(ok_source) && isTRUE(ok_sample)) {
-
-
         # ---- make all of them reactive vals -----
         validated_submission(tbl_samples_submitted)
         validated_source(tbl_source_submitted)
@@ -213,9 +225,10 @@ upload_data_server <- function(id, con) {
           glue::glue("SELECT gen_random_uuid() AS next_id")
         )
 
-        cli::cli_alert_info("Submission id is: \
-                            {.val {next_submission_id$next_id}}")
-
+        cli::cli_alert_info(
+          "Submission id is: \
+                            {.val {next_submission_id$next_id}}"
+        )
 
         # ---- splap submisison id on to source and submission -----
         tbl_submission_submitted <- tbl_submission_submitted |>
@@ -225,17 +238,19 @@ upload_data_server <- function(id, con) {
           mutate(submission_id = next_submission_id$next_id)
 
         # ---- pull column names that are all have id
-        tables_ids <- dbGetQuery(con, "
+        tables_ids <- dbGetQuery(
+          con,
+          "
         SELECT table_name, column_name
         FROM information_schema.columns
         WHERE table_schema = 'public'
         AND column_name LIKE '%_id'
-        AND table_name <> 'tbl_submission'") |>
-          filter(!column_name %in% c("submission_id",
-                                     "percent_lipid",
-                                     "user_sample_id")
+        AND table_name <> 'tbl_submission'"
+        ) |>
+          filter(
+            !column_name %in%
+              c("submission_id", "percent_lipid", "user_sample_id")
           )
-
 
         cli::cli_alert_info("Columns that have id are: {.val {tables_ids}}")
 
@@ -246,8 +261,12 @@ upload_data_server <- function(id, con) {
         ) |>
           set_names(tables_ids$column_name)
 
-        max_ids_str <- paste(names(max_ids), unlist(max_ids), sep = " = ",
-                             collapse = ", ")
+        max_ids_str <- paste(
+          names(max_ids),
+          unlist(max_ids),
+          sep = " = ",
+          collapse = ", "
+        )
         cli::cli_alert_info("Next id for each starts here: {max_ids_str}")
         # ------ get tables to split -----
         tables_to_split <- get_column_map(con) |>
@@ -255,31 +274,38 @@ upload_data_server <- function(id, con) {
           collect() |>
           (\(.) split(., .$table_name))()
 
-
         # ----- do the same for source id -----
         tbl_source_submitted <- tbl_source_submitted |>
-          mutate(.source_id = seq(from = max_ids[["source_id"]] + 1,
-                                  length.out = n()))
+          mutate(
+            .source_id = seq(
+              from = max_ids[["source_id"]] + 1,
+              length.out = n()
+            )
+          )
 
         # ----- we need to do a couple things to tbl_submission before submitting
         tbl_samples_submitted <- tbl_samples_submitted |>
           mutate(
             submission_id = next_submission_id$next_id,
-            sample_id = seq(from = max_ids[["sample_id"]] + 1,
-                            length.out = n()),
-            across(common_name:family, ~  stringr::str_to_sentence(.x)),
+            sample_id = seq(
+              from = max_ids[["sample_id"]] + 1,
+              length.out = n()
+            ),
+            across(common_name:family, ~ stringr::str_to_sentence(.x)),
             length_type = tolower(length_type),
-            .energy_units = paste(energy_units,
-                                  sample_weight_type, "weight", sep = " "),
+            .energy_units = paste(
+              energy_units,
+              sample_weight_type,
+              "weight",
+              sep = " "
+            ),
             calorimetry_method = stringr::str_to_sentence(calorimetry_method) |>
               stringr::str_replace("Gentry-weigert", "Gentry-Weigert")
-
           ) |>
           select(-energy_units) |>
           rename(
             energy_units = .energy_units
           )
-
 
         # ---- add source id based on user supplied id ------
         tbl_samples_submitted <- tbl_samples_submitted |>
@@ -290,11 +316,11 @@ upload_data_server <- function(id, con) {
           select(-source_id) |>
           rename(source_id = .source_id)
 
-
-
         tbl_samples_submitted <- tbl_samples_submitted |>
-          left_join(species_list |>
-                      collect())
+          left_join(
+            species_list |>
+              collect()
+          )
 
         # doo the same to source -----
         tbl_source_submitted <- tbl_source_submitted |>
@@ -304,8 +330,7 @@ upload_data_server <- function(id, con) {
         # ----- split by table name ----
 
         tables_split <- lapply(names(tables_to_split), function(tbl_name) {
-
-          map  <- tables_to_split[[tbl_name]]
+          map <- tables_to_split[[tbl_name]]
           cols <- map$field_name
 
           # --- select only payload columns first
@@ -316,7 +341,6 @@ upload_data_server <- function(id, con) {
           has_data <- nrow(payload) > 0 && any(!is.na(as.matrix(payload)))
 
           if (has_data) {
-
             # --- always include sample_id
             id_cols <- c("sample_id")
 
@@ -334,7 +358,6 @@ upload_data_server <- function(id, con) {
 
             cli::cli_alert_success("Using data for table: {tbl_name}")
             out
-
           } else {
             cli::cli_alert_info("Skipping empty table: {tbl_name}")
             NULL
@@ -354,12 +377,14 @@ upload_data_server <- function(id, con) {
         tables_split_full$tbl_source <- tbl_source_submitted
         tables_split_full$tbl_submission <- tbl_submission_submitted
 
-
         # Define the "priority" tables to go first
         priority_tables <- c("tbl_submission", "tbl_source", "tbl_samples")
 
         # Find which priority tables exist in your list
-        existing_priority <- intersect(priority_tables, names(tables_split_full))
+        existing_priority <- intersect(
+          priority_tables,
+          names(tables_split_full)
+        )
 
         # Get remaining tables
         other_tables <- setdiff(names(tables_split_full), existing_priority)
@@ -371,13 +396,14 @@ upload_data_server <- function(id, con) {
         tables_split_full <- tables_split_full[tables_ordered]
 
         # Optional: check order
-        cli::cli_alert_info("Tables will be submitted in this order:
-                            {paste(names(tables_split_full), collapse = ' -> ')}")
+        cli::cli_alert_info(
+          "Tables will be submitted in this order:
+                            {paste(names(tables_split_full), collapse = ' -> ')}"
+        )
         # etc for other tables
         tables_to_submit(tables_split_full)
 
         shinyjs::enable("submit_btn")
-
 
         output$map <- renderLeaflet({
           req(tables_split_full$tbl_location)
@@ -394,23 +420,31 @@ upload_data_server <- function(id, con) {
             ) |>
             ungroup()
 
-
           # Show the actual coordinates for debugging
-          cli::cli_alert_info("Locations validated: {nrow(location_summary)} location{?s} ({min(location_summary$n_samples)}-{max(location_summary$n_samples)} samples per location)")
-          cli::cli_alert_info("Coordinates: lat range [{min(location_summary$latitude, na.rm=TRUE)}, {max(location_summary$latitude, na.rm=TRUE)}], lon range [{min(location_summary$longitude, na.rm=TRUE)}, {max(location_summary$longitude, na.rm=TRUE)}]")
+          cli::cli_alert_info(
+            "Locations validated: {nrow(location_summary)} location{?s} ({min(location_summary$n_samples)}-{max(location_summary$n_samples)} samples per location)"
+          )
+          cli::cli_alert_info(
+            "Coordinates: lat range [{min(location_summary$latitude, na.rm=TRUE)}, {max(location_summary$latitude, na.rm=TRUE)}], lon range [{min(location_summary$longitude, na.rm=TRUE)}, {max(location_summary$longitude, na.rm=TRUE)}]"
+          )
 
           # Check for issues
-          if (any(is.na(location_summary$latitude)) || any(is.na(location_summary$longitude))) {
+          if (
+            any(is.na(location_summary$latitude)) ||
+              any(is.na(location_summary$longitude))
+          ) {
             cli::cli_alert_warning("Some coordinates are NA!")
           }
           if (any(abs(location_summary$latitude) > 90, na.rm = TRUE)) {
-            cli::cli_alert_warning("Some latitudes are out of range (-90 to 90)!")
+            cli::cli_alert_warning(
+              "Some latitudes are out of range (-90 to 90)!"
+            )
           }
           if (any(abs(location_summary$longitude) > 180, na.rm = TRUE)) {
-            cli::cli_alert_warning("Some longitudes are out of range (-180 to 180)!")
+            cli::cli_alert_warning(
+              "Some longitudes are out of range (-180 to 180)!"
+            )
           }
-
-
 
           leaflet(location_summary) |>
             addTiles() |>
@@ -421,24 +455,32 @@ upload_data_server <- function(id, con) {
               color = "#0066cc",
               fillColor = "#3399ff",
               fillOpacity = 0.7,
-              popup = ~paste0(
-                "<b>Number of samples:</b> ", n_samples, "<br>",
-                "<b>Sample ID(s):</b> ", sample_ids
+              popup = ~ paste0(
+                "<b>Number of samples:</b> ",
+                n_samples,
+                "<br>",
+                "<b>Sample ID(s):</b> ",
+                sample_ids
               ),
-              label = ~paste0(n_samples, " sample(s)")
+              label = ~ paste0(n_samples, " sample(s)")
             )
         })
 
-
         output$upload_status <- renderUI({
           tagList(
-            p("✔ All validations passed",
-              style = "color:green; font-weight:600;"),
-            p(paste0("Ready to submit ", nrow(tbl_samples_submitted),
-                     " rows to database."),
-              style = "color:green;")
+            p(
+              "✔ All validations passed",
+              style = "color:green; font-weight:600;"
+            ),
+            p(
+              paste0(
+                "Ready to submit ",
+                nrow(tbl_samples_submitted),
+                " rows to database."
+              ),
+              style = "color:green;"
+            )
           )
-
         })
 
         output$location_map <- renderUI({
@@ -447,58 +489,59 @@ upload_data_server <- function(id, con) {
           req(validated_submission(), validated_source(), validated_samples())
           tbl_loc <- tables_split_full$tbl_location
           if (all(is.na(tbl_loc$latitude)) & all(is.na(tbl_loc$longitude))) {
-
             tagList(
-              h4("No locations were detected in the longtiude and latitude
+              h4(
+                "No locations were detected in the longtiude and latitude
                   columns of your submitted data.
                   If this is correct, please proceed to submitting
                   the data to the database",
-                 style = "margin-top: 20px; margin-bottom: 10px;")
+                style = "margin-top: 20px; margin-bottom: 10px;"
+              )
             )
-
           } else {
             tagList(
-              h4("Please check that your sample locations, the number of samples,
+              h4(
+                "Please check that your sample locations, the number of samples,
                   and their corresponding ids are correct prior to submitting to
                   the database. To check, click on each point
                   to view the number of samples and the user submitted sample ids.",
-                 style = "margin-top: 20px; margin-bottom: 10px;"),
+                style = "margin-top: 20px; margin-bottom: 10px;"
+              ),
               leafletOutput(ns("map"), height = "500px")
             )
           }
         })
+      } else {
+        validated_submission(NULL)
+        validated_source(NULL)
+        validated_samples(NULL)
+        tables_to_submit(NULL)
+        tables_split_full(NULL)
 
-        } else {
+        error_report <- clean_all_validations(
+          tbl_submssion = agent_submission,
+          tbl_source = agent_source,
+          tbl_samples = agent_sample
+        )
 
-          validated_submission(NULL)
-          validated_source(NULL)
-          validated_samples(NULL)
-          tables_to_submit(NULL)
-          tables_split_full(NULL)
-
-          error_report <- clean_all_validations(
-            tbl_submssion = agent_submission,
-            tbl_source = agent_source,
-            tbl_samples = agent_sample
+        output$upload_status <- renderUI({
+          tagList(
+            p(
+              "✖ Validation failed - please fix the following issues:",
+              style = "color:red; font-weight:600;"
+            ),
+            shiny::tableOutput(ns("error_table"))
           )
+        })
 
-          output$upload_status <- renderUI({
-            tagList(
-              p("✖ Validation failed - please fix the following issues:",
-                style = "color:red; font-weight:600;"),
-              shiny::tableOutput(ns("error_table"))
-            )
-          })
-
-          output$error_table <- shiny::renderTable({
-            error_report
-          })
-        }
-      })
+        output$error_table <- shiny::renderTable({
+          error_report
+        })
+      }
+    })
 
     # ---- submit to database ----
     observeEvent(input$submit_btn, {
-
       req(validated_submission())
       req(validated_source())
       req(validated_samples())
@@ -515,62 +558,84 @@ upload_data_server <- function(id, con) {
 
       # keep looop but now wrap in try catch so that it won't let you
       # submit if this errors
-      upload_succeeded <- tryCatch({
-        for (tbl_name in names(tables_to_submit)) {
-          df <- tables_to_submit[[tbl_name]]
+      upload_succeeded <- tryCatch(
+        {
+          for (tbl_name in names(tables_to_submit)) {
+            df <- tables_to_submit[[tbl_name]]
 
-          if (nrow(df) > 0) {
-            cli::cli_alert_info("Submitting table: {tbl_name} with {nrow(df)} rows...")
+            if (nrow(df) > 0) {
+              cli::cli_alert_info(
+                "Submitting table: {tbl_name} with {nrow(df)} rows..."
+              )
 
-            DBI::dbAppendTable(con, tbl_name, df)  # all writes inside the single transaction
+              DBI::dbAppendTable(con, tbl_name, df) # all writes inside the single transaction
 
-            cli::cli_alert_success("{tbl_name} submitted successfully")
-            submission_results[[tbl_name]] <- list(
-              rows_submitted = nrow(df),
-              submission_id  = if ("submission_id" %in% colnames(df)) unique(df$submission_id) else NA
-            )
-          } else {
-            submission_results[[tbl_name]] <- list(rows_submitted = 0,
-                                                   submission_id = NA)
-            cli::cli_alert_info("{tbl_name} has no rows to submit, skipping.")
+              cli::cli_alert_success("{tbl_name} submitted successfully")
+              submission_results[[tbl_name]] <- list(
+                rows_submitted = nrow(df),
+                submission_id = if ("submission_id" %in% colnames(df)) {
+                  unique(df$submission_id)
+                } else {
+                  NA
+                }
+              )
+            } else {
+              submission_results[[tbl_name]] <- list(
+                rows_submitted = 0,
+                submission_id = NA
+              )
+              cli::cli_alert_info("{tbl_name} has no rows to submit, skipping.")
+            }
           }
+
+          DBI::dbCommit(con)
+          showNotification("Upload successful!", type = "message")
+          TRUE
+        },
+        error = function(e) {
+          # if errors it will rolle back and display an alert
+          DBI::dbRollback(con)
+          cli::cli_alert_danger(
+            "Upload failed due to inconsistances,
+                              rolled back: {e$message}"
+          )
+          showNotification("Upload failed. No data was saved.", type = "error")
+          FALSE
         }
-
-        DBI::dbCommit(con)
-        showNotification("Upload successful!", type = "message")
-        TRUE
-
-      }, error = function(e) {
-        # if errors it will rolle back and display an alert
-        DBI::dbRollback(con)
-        cli::cli_alert_danger("Upload failed due to inconsistances,
-                              rolled back: {e$message}")
-        showNotification("Upload failed. No data was saved.", type = "error")
-        FALSE
-      })
+      )
 
       # Create a message to display
       output$upload_status <- renderUI({
         if (!upload_succeeded) {
-          HTML("<span style='color: red;'>
+          HTML(
+            "<span style='color: red;'>
            ✘ Upload failed — no data was saved. Please check your data and try again.
-         </span>")
-        } else {
-
-      msg <- lapply(names(submission_results), function(tbl_name) {
-        res <- submission_results[[tbl_name]]
-        paste0("✔ ", tbl_name, ": ", res$rows_submitted,
-               " rows submitted",
-               if(!is.na(res$submission_id)) paste0(", submission_id = ", res$submission_id) else "")
-      })
-
-        HTML(
-          paste0(
-            "<span style='color: green;'>",
-            paste(msg, collapse = "<br>"),
-            "</span>"
+         </span>"
           )
-        )
+        } else {
+          msg <- lapply(names(submission_results), function(tbl_name) {
+            res <- submission_results[[tbl_name]]
+            paste0(
+              "✔ ",
+              tbl_name,
+              ": ",
+              res$rows_submitted,
+              " rows submitted",
+              if (!is.na(res$submission_id)) {
+                paste0(", submission_id = ", res$submission_id)
+              } else {
+                ""
+              }
+            )
+          })
+
+          HTML(
+            paste0(
+              "<span style='color: green;'>",
+              paste(msg, collapse = "<br>"),
+              "</span>"
+            )
+          )
         }
       })
 

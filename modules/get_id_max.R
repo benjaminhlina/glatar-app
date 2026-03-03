@@ -1,5 +1,3 @@
-
-
 id_max <- function(table_name, id_col) {
   result <- DBI::dbGetQuery(
     con,

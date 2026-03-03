@@ -1,7 +1,7 @@
 app_version_head <- function() {
-
   tags$head(
-    tags$style(HTML("
+    tags$style(HTML(
+      "
         #app-version {
           position: fixed;
           bottom: 6px;
@@ -28,11 +28,10 @@ app_version_head <- function() {
         padding: 2px 6px;
         color: #666;
         }
-      "))
-
+      "
+    ))
   )
 }
-
 
 
 app_version_label <- function(app_version, build_time = NULL) {
@@ -46,5 +45,3 @@ app_version_label <- function(app_version, build_time = NULL) {
     tags$span(class = "build", paste0("Built: ", build_time))
   )
 }
-
-
