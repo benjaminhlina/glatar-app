@@ -28,15 +28,21 @@ view_data_server <- function(id, con) {
     output$selected_table <- DT::renderDT({
      
       allowed_tables <- c(
+      "tbl_amino_acid", 
       "tbl_calorimetry", 
-      "tbl_data_dictionary", 
+      "tbl_contaminants",
+      "tbl_data_dictionary",
+      "tbl_fatty_acid", 
       "tbl_isotope", 
       "tbl_length", 
+      "tbl_lipid_composition",
       "tbl_location", 
       "tbl_proxcomp", 
       "tbl_samples", 
       "tbl_source", 
-      "tbl_taxonomy")
+      "tbl_taxonomy",
+      "tbl_thiamine"
+      )
       
       req(input$table_select %in% allowed_tables)
 
