@@ -1,6 +1,7 @@
 # ---- create renaming table ----
 
-naming_conventions <- tbl(con, "tbl_naming_conventions") |>
+get_nice_name_lookup <- get_nice_name_lookup <- function(con) { 
+  tbl(con, "tbl_naming_conventions") |>
   collect() |> 
   mutate(
     nice_names = case_when(
@@ -14,5 +15,6 @@ naming_conventions <- tbl(con, "tbl_naming_conventions") |>
 # print(naming_conventions, n = 50)
 
 # create named vectors
-nice_name_lookup <- setNames(naming_conventions$nice_names,
+ setNames(naming_conventions$nice_names,
                              naming_conventions$raw_names)
+}
