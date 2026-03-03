@@ -3,15 +3,19 @@ upload_data_ui <- function(id) {
 
   shinydashboard::tabItem(tabName = id,
                           shiny::h2("Upload Excel File"),
-                             shiny::p("This panel allows you to upload data into the 
-                             GLATAR database. First choose the excel file you desire to upload, 
-                             second, click upload & process. This will check whether the data meets
-                             all validation checks, if not it will tell you which rows, columns and what the 
-                             isssue is. If it is sucessful, it will confirm and then display 
-                             an interactive map to allow you to check if your points are correct. At this 
-                             point you can click the Submit to Database button. This will produce some 
-                             information in green when sucessful and email you confirmation. 
-                             "),
+                   shiny::p("This panel allows you to upload data to the GLATAR database. 
+                   First, select the Excel file you would like to upload. Then click 
+                   'Upload & Process'. The system will run a series of validation checks and 
+                   process the data to adhere to database standards. Validation checks will
+                   notify you of any issues, including the specific rows, columns, 
+                   and descriptions of the errors.
+                   
+                   If the upload is successful, a confirmation message will appear and an 
+                   interactive map will be displayed so you can verify that your sampling 
+                   locations are correct. Once you have reviewed the map, click the 
+                   'Submit to Database' button to finalize the upload.
+                   A successful submission will generate a confirmation message (displayed 
+                   in green) and you will receive a confirmation email."),
                           shiny::fileInput(ns("file_upload"),
                                            "Choose an Excel File",
                                            accept = c(".xlsx")),
