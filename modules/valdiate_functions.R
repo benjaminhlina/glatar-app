@@ -1,7 +1,15 @@
-add_valid_date <- function(df) {
+add_valid_cols <- function(df) {
   df <- df |>
     dplyr::mutate(
-      .date = is.na(date) | grepl("^\\d{4}-\\d{2}-\\d{2}$", date)
+      .date = is.na(date) | grepl("^\\d{4}-\\d{2}-\\d{2}$", date),
+      .ed = case_when(
+        is.na(sample_weight_type) ~ NA,
+        sample_weight_type == "wet" ~ energy_measurement >= 0 &
+          energy_measurement <= 11000,
+        sample_weight_type == "dry" ~ energy_measurement >= 13000 &
+          energy_measurement <= 40000,
+        .default = NA
+      )
     )
 
   return(df)
