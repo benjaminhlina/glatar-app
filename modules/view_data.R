@@ -19,7 +19,7 @@ view_data_server <- function(id, con) {
      observe({
       table_names <- DBI::dbListTables(con)
       
-      table_names <- table_names[-9]
+      table_names <- setdiff(table_names, "tbl_submission")
        
       updateSelectInput(session, "table_select", choices = table_names)
      })
