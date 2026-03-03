@@ -1,4 +1,4 @@
-name: Deploy Docker Compose to AWS 
+name: Deploy Docker Compose to DO
 
 on:
   workflow_run:
