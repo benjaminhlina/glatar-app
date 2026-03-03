@@ -390,7 +390,8 @@ validate_tbl_samples <- function(df) {
       is.numeric(c_n),
       # ---- see if these are true -----
       .valid_common_name == TRUE,
-      .valid_scientific_name == TRUE
+      .valid_scientific_name == TRUE,
+      .ed == TRUE
 
     )
   }
