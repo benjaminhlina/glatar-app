@@ -32,7 +32,14 @@ upload_data_ui <- function(id) {
                             icon = icon("database"),
                             disabled = TRUE
                           ),
-
+                          shinyjs::hidden(
+                            div(
+                              id = ns("loading_indicator"),
+                              style = "display: flex; align-items: center; gap: 8px; margin-top: 10px; color: #555;",
+                                tags$i(class = "fa fa-spinner fa-spin fa-lg"),
+                              shiny::textOutput(ns("loading_msg"), inline = TRUE)
+                            )
+                          ),
                           shiny::uiOutput(ns("upload_status")),
                           shiny::uiOutput(ns("location_map"))
 
@@ -56,7 +63,15 @@ upload_data_server <- function(id, con) {
 
       # ---- get file upload -----
       req(input$file_upload)
+      shinyjs::show("loading_indicator")
+      output$loading_msg <- renderText("Processing file, please wait...")
+      shinyjs::disable("upload_btn")
 
+      on.exit({
+        shinyjs::hide("loading_indicator")
+        shinyjs::enable("upload_btn")
+      })
+      
       shinyjs::disable("submit_btn")
 
       # get path
