@@ -352,7 +352,7 @@ validate_tbl_samples <- function(df) {
       # ---- sets ----
       season %in% c("spring", "summer", "fall", "winter"),
       lifestage %in% c("fry", "larva", "juvenile", "adult"),
-      sex %in% c("male", "female", "unknown"),
+      sex %in% c("male", "female", "unknown", "both"),
       length_type %in% c("Total", "Fork", "Standard", "Carapace"),
       composite %in% c("individual", "composite", "mean", "equation"),
       tissue_type %in% c("muscle", "liver", "stomach", "scales",
