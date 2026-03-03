@@ -7,12 +7,12 @@ view_summary_info_ui <- function(id) {
         style = "display:none;",
         shiny::h2("Summary Statistics"),
            shiny::p("This panel displays summary statistics and histograms for your selected data.
-                  Use the dropdowns to filter your results by either clicking and select choices
-                  in the dropdowns or by typing directly into the dropdown to search for
+                  Use the dropdowns to filter your results by either clicking andelect a choice 
+                  or choices from dropdowns or by typing directly into the dropdown to search for
                   specific options. To clear selections, click on the dropdown and 
-                  press Backspace to clear a current selection. All dropdowns can have m
-                  ultiple selections, except when selecting the desirable
-                  variable used in the histogram and when the filters are set to 'All'."),
+                  press Backspace which will clear a selected choice. All dropdowns can have 
+                  multiple selections, except when selecting the desirable
+                  variable used for the histogram and when the filters are set to 'All'."),
         shiny::fluidRow(
           shinydashboard::box(
             title = "Summary Table",

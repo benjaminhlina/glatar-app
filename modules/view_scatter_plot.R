@@ -8,10 +8,11 @@ view_scatter_plot_ui <- function(id) {
         style = "display:none;",
         h2("Scatter Plot"),
          shiny::p("This panel displays scatter plots for your selected data.
-                  Use the dropdowns to filter your results by either clicking and select choices
-                  in the dropdowns or by typing directly into the dropdown to search for
+                  Use the dropdowns to filter your results by either clicking and select a choice 
+                  or choices from the dropdowns or by typing directly into the dropdown to search for
                   specific options. To clear selections, click on the dropdown and 
-                  press Backspace to clear a current selection. All dropdowns can have multiple selections, except
+                  press Backspace which will clear a selected choice. 
+                  All dropdowns can have multiple selections, except
                   the x and y variables and when the filters are set to 'All'."),
         plot_ui(title = "Scatter Plot",
                 plot_id = "scatter_plot",
