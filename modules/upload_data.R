@@ -3,18 +3,18 @@ upload_data_ui <- function(id) {
 
   shinydashboard::tabItem(tabName = id,
                           shiny::h2("Upload Excel File"),
-                   shiny::p("This panel allows you to upload data to the GLATAR database. 
-                   First, select the Excel file you would like to upload. Then click 
-                   'Upload & Process'. The system will run a series of validation checks and 
+                   shiny::p("This panel allows you to upload data to the GLATAR database.
+                   First, select the Excel file you would like to upload. Then click
+                   'Upload & Process'. The system will run a series of validation checks and
                    process the data to adhere to database standards. Validation checks will
-                   notify you of any issues, including the specific rows, columns, 
+                   notify you of any issues, including the specific rows, columns,
                    and descriptions of the errors.
-                   
-                   If the upload is successful, a confirmation message will appear and an 
-                   interactive map will be displayed so you can verify that your sampling 
-                   locations are correct. Once you have reviewed the map, click the 
+
+                   If the upload is successful, a confirmation message will appear and an
+                   interactive map will be displayed so you can verify that your sampling
+                   locations are correct. Once you have reviewed the map, click the
                    'Submit to Database' button to finalize the upload.
-                   A successful submission will generate a confirmation message (displayed 
+                   A successful submission will generate a confirmation message (displayed
                    in green) and you will receive a confirmation email."),
                           shiny::fileInput(ns("file_upload"),
                                            "Choose an Excel File",
