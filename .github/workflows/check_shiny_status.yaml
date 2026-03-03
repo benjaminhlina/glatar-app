@@ -2,7 +2,7 @@ name: Check App Status
 
 on:
   workflow_run:
-    workflows: ["Deploy Docker Compose to AWS"]
+    workflows: ["Deploy Docker Compose to DO"]
     types:
       - completed
   workflow_dispatch:
