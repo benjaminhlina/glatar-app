@@ -357,7 +357,7 @@ validate_tbl_samples <- function(df) {
       composite %in% c("individual", "composite", "mean", "equation"),
       tissue_type %in%  c(
         "belly flap", "blood", "carcass", "cleithra", "eye lens",
-        "fin", "gonad", "liver", "muscle", "otolith", "scale",
+        "egg", "fin", "gonad", "heart", "liver", "muscle", "otolith", "scale",
         "spine", "stomach", "viscera", "whole body",
         "whole body (gonads removed)", "whole body (stomach removed)"
       ),
