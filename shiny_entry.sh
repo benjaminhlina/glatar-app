@@ -2,7 +2,12 @@
 set -e
 
 # Write env vars to shiny user's Renviron
-cat <<EOF > /etc/R/Renviron.site
+mkdir -p /etc/R
+touch /etc/R/Renviron.site
+
+# Write env vars # cat <<EOF > /home/shiny/.Renviron
+cat <<EOF >> /etc/R/Renviron.site
+
 POSTGRES_HOST=${POSTGRES_HOST}
 POSTGRES_USER=${POSTGRES_USER}
 POSTGRES_PORT=${POSTGRES_PORT}
