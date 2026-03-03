@@ -200,20 +200,35 @@ pretty_validate_report <- function(confrontation,
       Issue = case_when(
         grepl("nrow(.) == 1", expression) ~ "Sheet is empty - please enter in
         data and reupload",
+
         expression %in% "publication_type" ~ "Invalid publication type - must
         be Journal Article, Book, Book Section, Report, or Unpublished",
-        grepl('%vin% colnames', expression) ~ paste0("Missing required column(s):",
-                                                     gsub('.*"([^"]+)".*', '\\1', expression), " - you have
-        altered the data entry template - please reupload an unaltered file"),
+
+        grepl('%vin% colnames', expression) ~ paste0(
+          "Missing required column(s):",
+          gsub('.*"([^"]+)".*', '\\1',
+               expression), " - you have altered the data entry template -
+          please reupload an unaltered file"),
+
         grepl("is.na\\(as.Date", expression) ~"Date format does not follow the
         required format of yyyy-mm-dd or is an invalid date",
+
         grepl("is.na", expression) ~ "Required field - cannot be empty",
-        expression %in% ".month" ~ "Month must be between 1 and 12",
-        expression %in% "season" ~ "Invalid season - must be spring,
-        summer, fall, winter",
-        expression %in% "sex" ~ "Invalid sex - must be female, male,
-        unknown, or mixed",
+
+        grepl("\\.month", expression) ~ "Month must be between 1 and 12",
+        grepl("\\.season", expression) ~ "Invalid season - must be spring, summer, fall, or winter",
+        grepl("\\.sex", expression) ~ "Invalid sex - must be female, male, unknown, or both",
+        grepl("\\.lifestage", expression) ~ "Invalid lifestage - must be fry, larva, juvenile, or adult",
+        grepl("\\.length_type", expression) ~ "Invalid length type - must be total, fork, standard, or carapace",
+        grepl("\\.composite", expression) ~ "Invalid composite - must be individual, composite, mean, or equation",
+        grepl("\\.tissue_type", expression) ~ "Invalid tissue type - must be a recognised tissue type see data dictionary if unfamiliar",
+        grepl("\\.sample_procedure", expression) ~ "Invalid sample procedure - must be wet or dried",
+        grepl("\\.calorimetry_method", expression) ~ "Invalid calorimetry method - must be a recognised calorimetry method",
+        grepl("\\.sample_weight_type", expression) ~ "Invalid sample weight type - must be wet or dry",
+        grepl("\\.ed", expression) ~ "Invalid energy measurement - must be
+        within appropriate ranges for Joules/g wet or dry weight",
         grepl("is.numeric", expression) ~ "Must be numeric value",
+
         grepl("common_name", expression)  ~ "Common name not found in database",
         grepl("scientific_name", expression) ~ "Scientific name not found in
         database",
