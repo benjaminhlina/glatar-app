@@ -367,7 +367,7 @@ validate_tbl_samples <- function(df) {
       calorimetry_method %in% c("parr oxygen bomb", "parr semi-micro oxygen bomb",
                                 "phillipson microbomb", "gentry-weigert bomb",
                                 "unknown bomb", "proximate composition",
-                                "Organic analysis", "wet digestion", "unknown"),
+                                "organic analysis", "wet digestion", "unknown"),
       sample_weight_type %in% c("wet", "dry"),
 
       # ---- numeric ----
