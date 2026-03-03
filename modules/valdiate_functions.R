@@ -317,7 +317,7 @@ clean_all_validations <- function(...) {
     res <- pretty_validate_report(
       rlang::eval_tidy(x),
       table_name = nm
-      )
+    )
     if (!is.null(res)) {
       res$Table <- nm
     }
