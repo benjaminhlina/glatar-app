@@ -10,7 +10,6 @@ view_summary_info_ui <- function(id) {
                   Use the dropdowns to filter your results, either click and select or type directly into any dropdown to search for
                   specific options, or press Backspace to clear a current selection. All dropdowns can have multiple selections, execept
                   the variable selected for the histogram and when the filters are set to 'All'."),
-        shiny::br(),
         shiny::fluidRow(
           shinydashboard::box(
             title = "Summary Table",
