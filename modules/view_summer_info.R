@@ -8,7 +8,7 @@ view_summary_info_ui <- function(id) {
         shiny::h2("Summary Statistics"),
            shiny::p("This panel displays summary statistics and histograms for your selected data.
                   Use the dropdowns to filter your results, either click and select or type directly into any dropdown to search for
-                  specific options, or press Backspace to clear a current selection. All dropdowns can have multiple selections, execept
+                  specific options, or press Backspace to clear a current selection. All dropdowns can have multiple selections, except
                   the variable selected for the histogram and when the filters are set to 'All'."),
         shiny::fluidRow(
           shinydashboard::box(
