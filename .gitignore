@@ -9,3 +9,6 @@ aws
 NAAEDdb_test.dump
 NAAEDdb_test2.dump
 .Rprofile
+.vscode/extensions.json
+.gitignore
+.vscode/settings.json
