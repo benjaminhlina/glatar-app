@@ -6,7 +6,7 @@ mkdir -p /etc/R
 touch /etc/R/Renviron.site
 
 # Write env vars # cat <<EOF > /home/shiny/.Renviron
-cat <<EOF >> /etc/R/Renviron.site
+cat > /srv/shiny-server/GLATAR-app/.Renviron <<EOF
 
 POSTGRES_HOST=${POSTGRES_HOST}
 POSTGRES_USER=${POSTGRES_USER}
@@ -19,6 +19,10 @@ SHINY_PASSWORD=${SHINY_PASSWORD}
 EOF
 
 # chmod 600 /home/shiny/.Renviron
+chown shiny:shiny /srv/shiny-server/GLATAR-app/.Renviron
+chmod 600 /srv/shiny-server/GLATAR-app/.Renviron
 
+echo "--- Renviron written ---"
+cat /srv/shiny-server/YOUR_APP_NAME/.Renviron
 # Start Shiny Server
 exec shiny-server
