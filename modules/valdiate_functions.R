@@ -415,7 +415,7 @@ validate_tbl_samples <- function(df) {
       .composite == TRUE,
       .tissue_type == TRUE,
       .sample_procedure == TRUE,
-      .calorimetry_method == TRUE
+      .calorimetry_method == TRUE,
       .sample_weight_type == TRUE,
 
       # ---- numeric ----
