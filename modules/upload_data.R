@@ -147,6 +147,8 @@ upload_data_server <- function(id, con) {
       tbl_samples_submitted <- add_valid_cols(tbl_samples_submitted)
 
 
+
+
       num_cols <- c(
         "length_mm","weight_g","age_year","composite_n","latitude","longitude",
         "calorimeter_conversion_factor","sample_weight","energy_measurement",
@@ -254,7 +256,10 @@ upload_data_server <- function(id, con) {
             across(common_name:family, ~  stringr::str_to_sentence(.x)),
             length_type = tolower(length_type),
             .energy_units = paste(energy_units,
-                                  sample_weight_type, "weight", sep = " ")
+                                  sample_weight_type, "weight", sep = " "),
+            calorimetry_method = stringr::str_to_sentence(calorimetry_method) |>
+              stringr::str_replace("Gentry-weigert", "Gentry-Weigert")
+
           ) |>
           select(-energy_units) |>
           rename(
