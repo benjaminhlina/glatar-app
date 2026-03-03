@@ -494,26 +494,41 @@ upload_data_server <- function(id, con) {
       # ----- begiging concection -----
       DBI::dbBegin(con)
 
-        if(nrow(df) > 0) {
-          # Append table to database
-          cli::cli_alert_info("Submitting table: {tbl_name} with {nrow(df)} rows...")
+      # keep looop but now wrap in try catch so that it won't let you
+      # submit if this errors
+      upload_succeeded <- tryCatch({
+        for (tbl_name in names(tables_to_submit)) {
+          df <- tables_to_submit[[tbl_name]]
 
-          DBI::dbAppendTable(con, tbl_name, df)
-          cli::cli_alert_success("{tbl_name} submitted successfully")
+          if (nrow(df) > 0) {
+            cli::cli_alert_info("Submitting table: {tbl_name} with {nrow(df)} rows...")
 
-          # Store result info
-          submission_results[[tbl_name]] <- list(
-            rows_submitted = nrow(df),
-            submission_id = if("submission_id" %in% colnames(df)) unique(df$submission_id) else NA
-          )
-        } else {
-          submission_results[[tbl_name]] <- list(
-            rows_submitted = 0,
-            submission_id = NA
-          )
-          cli::cli_alert_info("{tbl_name} has no rows to submit, skipping.")
+            DBI::dbAppendTable(con, tbl_name, df)  # all writes inside the single transaction
+
+            cli::cli_alert_success("{tbl_name} submitted successfully")
+            submission_results[[tbl_name]] <- list(
+              rows_submitted = nrow(df),
+              submission_id  = if ("submission_id" %in% colnames(df)) unique(df$submission_id) else NA
+            )
+          } else {
+            submission_results[[tbl_name]] <- list(rows_submitted = 0,
+                                                   submission_id = NA)
+            cli::cli_alert_info("{tbl_name} has no rows to submit, skipping.")
+          }
         }
-      }
+
+        DBI::dbCommit(con)
+        showNotification("Upload successful!", type = "message")
+        TRUE
+
+      }, error = function(e) {
+        # if errors it will rolle back and display an alert
+        DBI::dbRollback(con)
+        cli::cli_alert_danger("Upload failed due to inconsistances,
+                              rolled back: {e$message}")
+        showNotification("Upload failed. No data was saved.", type = "error")
+        FALSE
+      })
 
       # Create a message to display
       msg <- lapply(names(submission_results), function(tbl_name) {
