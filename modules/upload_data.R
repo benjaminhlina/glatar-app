@@ -491,8 +491,8 @@ upload_data_server <- function(id, con) {
       # Create a list to store submission results
       submission_results <- list()
 
-      for(tbl_name in names(tables_to_submit)) {
-        df <- tables_to_submit[[tbl_name]]
+      # ----- begiging concection -----
+      DBI::dbBegin(con)
 
         if(nrow(df) > 0) {
           # Append table to database
