@@ -162,7 +162,7 @@ upload_data_server <- function(id, con) {
       )
 
       # ---- get numeric cols and make sure they are all numeric -----
-      num_col <- get_column_map(con) |>
+      num_cols <- get_column_map(con) |>
         filter(field_class %in% c("integer", "numeric")) |>
         select(field_name) |>
         arrange(field_name) |>
