@@ -39,7 +39,14 @@ about_ui <- function(id) {
       "If you would like to contribute to the code that generates the toolbox,
       please fork the repository, create a branch within your fork,
       implement your suggestions, and create a pull request on the main repository for
-      the maintainer to review."
+      the maintainer to review.
+
+      This repository will not be accepting LLM submitted PRs nor PRs that contain directly copy 
+      and pasted code from LLMs that has not be vetted and edited.
+      Issues that are submitted by LLMs and/or copied and pasted from LLMs 
+      will be deleted and ignored, as the issuer needs to have the ability 
+      to be able to write their own issues. 
+      If you cannot be bothered to do such, then do not make issues on this repository."
     ),
 
     h3("Citation"),
