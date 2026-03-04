@@ -478,6 +478,9 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl("\\.sample_procedure", expression) ~ "sample_procedure",
         grepl("\\.calorimetry_method", expression) ~ "calorimetry_method",
         grepl("\\.sample_weight_type", expression) ~ "sample_weight_type",
+        grepl("\\.amino_acid_type", expression) ~ "amino_acid_type",
+        grepl("\\.amino_acid_unit", expression) ~ "amino_acid_unit",
+        grepl("\\.lipid_type", expression) ~ "lipid_type",
         .default = col_name
       )
     ) |>
