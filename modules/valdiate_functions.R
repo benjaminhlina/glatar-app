@@ -465,7 +465,20 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         # !!!validation_rules,
         .default = expression
       ),
-      col_name = sub(".*\\.([a-z_]+).*", "\\1", expression)
+      col_name = case_when(
+        grepl("\\.ed", expression) ~ "energy_measurment",
+        grepl("\\.month", expression) ~ "month",
+        grepl("\\.date", expression) ~ "date",
+        grepl("\\.season", expression) ~ "season",
+        grepl("\\.sex", expression) ~ "sex",
+        grepl("\\.lifestage", expression) ~ "lifestage",
+        grepl("\\.length_type", expression) ~ "length_type",
+        grepl("\\.composite", expression) ~ "composite",
+        grepl("\\.tissue_type", expression) ~ "tissue_type",
+        grepl("\\.sample_procedure", expression) ~ "sample_procedure",
+        grepl("\\.calorimetry_method", expression) ~ "calorimetry_method",
+        grepl("\\.sample_weight_type", expression) ~ "sample_weight_type", 
+        .default = col_name 
     ) |>
     select(Row = data_row, Column = col_name, Issue)
 
