@@ -72,7 +72,7 @@ add_valid_cols <- function(df) {
       .sample_weight_type = is.na(sample_weight_type) |
         sample_weight_type %in% c("wet", "dry"),
       .lipid_percent_type = is.na(lipid_percent_type) |
-        lipid_percent_type %in% -c("% sample weight", "% total lipids"),
+        lipid_percent_type %in% c("% sample weight", "% total lipids"),
       .lipid_type = is.na(lipid_type) |
         c(
           "fatty acids",
