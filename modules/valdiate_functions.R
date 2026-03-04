@@ -60,15 +60,18 @@ add_valid_cols <- function(df) {
       .calorimetry_method = is.na(calorimetry_method) |
         calorimetry_method %in%
           c(
+            "adiabatic bomb calorimeter",
+            "gentry-weigert bomb",
+            "isoperibol bomb calorimeter",
+            "organic analysis",
             "parr oxygen bomb",
             "parr semi-micro oxygen bomb",
+            "parr 1261 Bomb calorimeter",
             "phillipson microbomb",
-            "gentry-weigert bomb",
-            "unknown bomb",
             "proximate composition",
-            "organic analysis",
-            "wet digestion",
-            "unknown"
+            "unknown",
+            "unknown bomb",
+            "wet digestion"
           ),
       .sample_weight_type = is.na(sample_weight_type) |
         sample_weight_type %in% c("wet", "dry"),
