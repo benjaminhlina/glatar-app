@@ -1,4 +1,7 @@
 # ---- make validation message ----
 make_validation_message <- function(column, message) {
-  grepl(paste0("\\.", column), expression) ~ message
+  rlang::new_formula(
+    lhs = rlang::expr(grepl(!!paste0("\\.", column), expression)),
+    rhs = message
+  )
 }
