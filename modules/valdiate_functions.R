@@ -614,6 +614,13 @@ validate_tbl_samples <- function(df) {
       is.numeric(d15n),
       is.numeric(d34s),
       is.numeric(c_n),
+      is.numeric(thiamine_nmol_g),
+      is.numeric(mercury_ppm),
+      is.numeric(mercury_type),
+      is.numeric(total_pcb_ng_g),
+      is.numeric(pcb_congener_ng_g),
+      is.numeric(pcb_congener_type),
+
       # ---- see if these are true -----
       .valid_common_name == TRUE,
       .valid_scientific_name == TRUE,
