@@ -115,24 +115,24 @@ add_valid_cols <- function(df) {
       .amino_acid_type = is.na(amino_acid_type) |
         amino_acid_type %in%
           c(
-            "Alanine",
-            "Arginine",
-            "Aspartic acid",
-            "Cysteine",
-            "Cystine",
-            "Glutamic acid",
-            "Glycine",
-            "Histidine",
-            "Isoleucine",
-            "Leucine",
-            "Lysine",
-            "Methionine",
-            "Phenylalanine",
-            "Proline",
-            "Serine",
-            "Threonine",
-            "Tyrosine",
-            "Valine"
+            "alanine",
+            "arginine",
+            "aspartic acid",
+            "cysteine",
+            "cystine",
+            "glutamic acid",
+            "glycine",
+            "histidine",
+            "isoleucine",
+            "leucine",
+            "lysine",
+            "methionine",
+            "phenylalanine",
+            "proline",
+            "serine",
+            "threonine",
+            "tyrosine",
+            "valine"
           ),
     )
 
