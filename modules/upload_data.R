@@ -171,6 +171,8 @@ upload_data_server <- function(id, con) {
       tbl_samples_submitted <- tbl_samples_submitted |>
         mutate(across(all_of(num_cols), ~ suppressWarnings(as.numeric(.))))
 
+      # ---- add validator cols -----
+      tbl_samples_submitted <- add_valid_cols(tbl_samples_submitted)
       # ---- run validtor validation ----
       agent_sample <- validate_tbl_samples(tbl_samples_submitted)
 
