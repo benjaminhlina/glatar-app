@@ -163,7 +163,12 @@ upload_data_server <- function(id, con) {
 
       # ---- get numeric cols and make sure they are all numeric -----
       num_cols <- get_column_map(con) |>
-        filter(field_class %in% c("integer", "numeric")) |>
+        filter(
+          field_class %in%
+            c("integer", "numeric") &
+            !(field_name %in%
+              c("issue", "publication_year", "total_pcb_nmol_g", "volume"))
+        ) |>
         select(field_name) |>
         arrange(field_name) |>
         pull()
