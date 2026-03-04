@@ -392,6 +392,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl("common_name", expression) ~ "Common name not found in database",
         grepl("scientific_name", expression) ~ "Scientific name not found in
         database",
+        !!!validation_rules,
         .default = expression
       ),
       col_name = sub(".*\\.([a-z_]+).*", "\\1", expression)
