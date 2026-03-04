@@ -317,48 +317,74 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
 
         grepl("is.na\\(as.Date", expression) ~ "Date format does not follow the
         required format of yyyy-mm-dd or is an invalid date",
-
         grepl("is.na", expression) ~ "Required field - cannot be empty",
 
-        grepl("\\.month", expression) ~ "Month must be between 1 and 12",
-        grepl(
-          "\\.season",
-          expression
-        ) ~ "Invalid season - must be spring, summer, fall, or winter",
-        grepl(
-          "\\.sex",
-          expression
-        ) ~ "Invalid sex - must be female, male, unknown, or both",
-        grepl(
-          "\\.lifestage",
-          expression
-        ) ~ "Invalid lifestage - must be fry, larva, juvenile, or adult",
-        grepl(
-          "\\.length_type",
-          expression
-        ) ~ "Invalid length type - must be total, fork, standard, or carapace",
-        grepl(
-          "\\.composite",
-          expression
-        ) ~ "Invalid composite - must be individual, composite, mean, or equation",
-        grepl(
-          "\\.tissue_type",
-          expression
-        ) ~ "Invalid tissue type - must be a recognised tissue type see data dictionary if unfamiliar",
-        grepl(
-          "\\.sample_procedure",
-          expression
-        ) ~ "Invalid sample procedure - must be wet or dried",
-        grepl(
-          "\\.calorimetry_method",
-          expression
-        ) ~ "Invalid calorimetry method - must be a recognised calorimetry method",
-        grepl(
-          "\\.sample_weight_type",
-          expression
-        ) ~ "Invalid sample weight type - must be wet or dry",
-        grepl("\\.ed", expression) ~ "Invalid energy measurement - must be
-        within appropriate ranges for Joules/g wet or dry weight",
+        make_validation_message("month", "Month must be between 1 and 12"),
+        make_validation_message(
+          "season",
+          "Invalid season - must be spring, summer, fall, or winter"
+        ),
+        make_validation_message(
+          "sex",
+          "Invalid sex - must be female, male, unknown, or both"
+        ),
+        make_validation_message(
+          "lifestage",
+          "Invalid lifestage - must be fry, larva, nymph, pupa, juvenile, or adult"
+        ),
+        make_validation_message(
+          "length_type",
+          "Invalid length type - must be total, fork, standard, or carapace"
+        ),
+        make_validation_message(
+          "composite",
+          "Invalid composite - must be individual, composite, mean, or equation"
+        ),
+        make_validation_message(
+          "tissue_type",
+          "Invalid tissue type - must be a recognised tissue type see data dictionary if unfamiliar"
+        ),
+        make_validation_message(
+          "sample_procedure",
+          "Invalid sample procedure - must be wet or dried"
+        ),
+        make_validation_message(
+          "calorimetry_method",
+          "Invalid calorimetry method - must be a recognised calorimetry method"
+        ),
+        make_validation_message(
+          "sample_weight_type",
+          "Invalid sample weight type - must be wet or dry"
+        ),
+        make_validation_message(
+          "lipid_percent_type",
+          "Invalid lipid percent type - must be % sample weight or % total lipids"
+        ),
+        make_validation_message(
+          "lipid_type",
+          "Invalid lipid type - must be fatty acids, phospholipids, sterols, or triacylglycerides"
+        ),
+        make_validation_message(
+          "fatty_acid_unit",
+          "Invalid fatty acid unit - must be ug/mg sample weight or % total fatty acid"
+        ),
+        make_validation_message(
+          "fatty_acid_type",
+          "Invalid fatty acid type - must be a recognized fatty acid (e.g. 20:5n-3 (EPA), 22:6n-3 (DHA), ∑PUFA, etc.)"
+        ),
+        make_validation_message(
+          "amino_acid_unit",
+          "Invalid amino acid unit - must be ug/mg sample weight or % total protein"
+        ),
+        make_validation_message(
+          "amino_acid_type",
+          "Invalid amino acid type - must be a recognized amino acid (e.g. Alanine, Lysine, Glycine, etc.)"
+        ),
+        make_validation_message(
+          "ed",
+          "Invalid energy measurement - must be within appropriate ranges for Joules/g wet or dry weight"
+        ),
+
         grepl("is.numeric", expression) ~ "Must be numeric value",
 
         grepl("common_name", expression) ~ "Common name not found in database",
