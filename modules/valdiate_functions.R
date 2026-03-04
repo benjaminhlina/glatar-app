@@ -477,8 +477,9 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl("\\.tissue_type", expression) ~ "tissue_type",
         grepl("\\.sample_procedure", expression) ~ "sample_procedure",
         grepl("\\.calorimetry_method", expression) ~ "calorimetry_method",
-        grepl("\\.sample_weight_type", expression) ~ "sample_weight_type", 
-        .default = col_name 
+        grepl("\\.sample_weight_type", expression) ~ "sample_weight_type",
+        .default = col_name
+      )
     ) |>
     select(Row = data_row, Column = col_name, Issue)
 
