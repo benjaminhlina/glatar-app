@@ -71,6 +71,64 @@ add_valid_cols <- function(df) {
           ),
       .sample_weight_type = is.na(sample_weight_type) |
         sample_weight_type %in% c("wet", "dry"),
+      .lipid_percent_type = is.na(lipid_percent_type) |
+        lipid_percent_type %in% -c("% sample weight", "% total lipids"),
+      .lipid_type = is.na(lipid_type) |
+        c(
+          "fatty acids",
+          "phospholipids",
+          "fatty acids",
+          "sterols",
+          "triacylglycerides"
+        ),
+      .fatty_acid_unit = is.na(fatty_acid_unit) |
+        fatty_acid_unit %in% c("ug/mg sample weight", "% total fatty acid"),
+      .fatty_acid_type = is.an(fatty_acid_type) |
+        fatty_acid_type %in%
+          c(
+            "∑SFA (saturated)",
+            "∑UFA (unsaturated)",
+            "∑MUFA (monounsaturated)",
+            "∑PUFA (polyunsaturated)",
+            "∑n-3",
+            "∑n-6",
+            "14:0",
+            "16:0",
+            "18:0",
+            "16:1n-7 (POA)",
+            "18:1n-9 (OA)",
+            "18:3n-3 (ALA)",
+            "18:4n-3 (SDA)",
+            "18:2n-6 (LIN)",
+            "20:4n-6 (ARA)",
+            "20:5n-3 (EPA)",
+            "22:5n-6 (DPA)",
+            "22:6n-3 (DHA)"
+          ),
+      .amino_acid_unit = is.na(amino_acid_unit) |
+        amino_acid_unit %in% c("ug/mg sample weight", "% total protein"),
+      .amino_acid_type = is.na(amino_acid_type) |
+        amino_acid_type %in%
+          c(
+            "Alanine",
+            "Arginine",
+            "Aspartic acid",
+            "Cysteine",
+            "Cystine",
+            "Glutamic acid",
+            "Glycine",
+            "Histidine",
+            "Isoleucine",
+            "Leucine",
+            "Lysine",
+            "Methionine",
+            "Phenylalanine",
+            "Proline",
+            "Serine",
+            "Threonine",
+            "Tyrosine",
+            "Valine"
+          ),
     )
 
   return(df)
