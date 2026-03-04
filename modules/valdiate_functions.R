@@ -74,13 +74,14 @@ add_valid_cols <- function(df) {
       .lipid_percent_type = is.na(lipid_percent_type) |
         lipid_percent_type %in% c("% sample weight", "% total lipids"),
       .lipid_type = is.na(lipid_type) |
-        c(
-          "fatty acids",
-          "phospholipids",
-          "fatty acids",
-          "sterols",
-          "triacylglycerides"
-        ),
+        lipid_type %in%
+          c(
+            "fatty acids",
+            "phospholipids",
+            "fatty acids",
+            "sterols",
+            "triacylglycerides"
+          ),
       .fatty_acid_unit = is.na(fatty_acid_unit) |
         fatty_acid_unit %in% c("ug/mg sample weight", "% total fatty acid"),
       .fatty_acid_type = is.an(fatty_acid_type) |
