@@ -48,6 +48,7 @@ add_valid_cols <- function(df) {
             "viscera",
             "whole body",
             "whole body (gonads removed)",
+            "whole body (shell removed)",
             "whole body (stomach removed)"
           ),
       .sample_procedure = is.na(sample_procedure) |
