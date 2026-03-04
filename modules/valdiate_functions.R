@@ -6,9 +6,9 @@ add_valid_cols <- function(df) {
       .ed = case_when(
         is.na(sample_weight_type) ~ NA,
         sample_weight_type == "wet" ~ energy_measurement >= 0 &
-          energy_measurement <= 11000,
-        sample_weight_type == "dry" ~ energy_measurement >= 13000 &
-          energy_measurement <= 40000,
+          energy_measurement <= 13000,
+        sample_weight_type == "dry" ~ energy_measurement >= 1000 &
+          energy_measurement <= 43000,
         .default = NA
       ),
       .month = is.na(month) | (month >= 1 & month <= 12),
