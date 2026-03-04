@@ -84,7 +84,7 @@ add_valid_cols <- function(df) {
           ),
       .fatty_acid_unit = is.na(fatty_acid_unit) |
         fatty_acid_unit %in% c("ug/mg sample weight", "% total fatty acid"),
-      .fatty_acid_type = is.an(fatty_acid_type) |
+      .fatty_acid_type = is.na(fatty_acid_type) |
         fatty_acid_type %in%
           c(
             "∑SFA (saturated)",
