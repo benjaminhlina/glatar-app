@@ -12,3 +12,4 @@ NAAEDdb_test2.dump
 .vscode/extensions.json
 .gitignore
 .vscode/settings.json
+data/bash/num_col.R
