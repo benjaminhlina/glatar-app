@@ -624,7 +624,13 @@ validate_tbl_samples <- function(df) {
       # ---- see if these are true -----
       .valid_common_name == TRUE,
       .valid_scientific_name == TRUE,
-      .ed == TRUE
+      .ed == TRUE,
+      .lipid_percent_type == TRUE,
+      .lipid_type == TRUE,
+      .fatty_acid_unit == TRUE,
+      .fatty_acid_type == TRUE,
+      .amino_acid_unit == TRUE,
+      .amino_acid_type == TRUE
     )
   }
 
