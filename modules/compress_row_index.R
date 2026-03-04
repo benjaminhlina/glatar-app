@@ -29,7 +29,7 @@ compress_row_index <- function(row_index_str, min_run = 10) {
   parts <- sapply(groups, function(g) {
     run_length <- g[2] - g[1] + 1
     if (run_length >= min_run) {
-      paste0(g[1], "-", g[2]) # e.g. "9625-9708"
+      paste0(g[1], " - ", g[2]) # e.g. "9625-9708"
     } else if (run_length == 1) {
       as.character(g[1]) # single number
     } else {
