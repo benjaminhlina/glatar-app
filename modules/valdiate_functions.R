@@ -531,7 +531,10 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
   out <- out |>
     group_by(Column, Issue) |>
     summarise(
-      `Row Index` = paste(sort(unique(Row)), collapse = ", "),
+      `Row Index` = compress_row_index(paste(
+        sort(unique(Row)),
+        collapse = ", "
+      )),
       Suggestion = paste(unique(na.omit(Suggestion)), collapse = "; ")
     ) |>
     ungroup() |>
@@ -541,7 +544,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
 
   return(out)
 }
-
+# compress_row_index(paste(sort(unique(Row)), collapse = ", ")),
 
 # ----- run all validators -----
 
