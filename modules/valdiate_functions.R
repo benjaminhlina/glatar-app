@@ -66,7 +66,7 @@ add_valid_cols <- function(df) {
             "organic analysis",
             "parr oxygen bomb",
             "parr semi-micro oxygen bomb",
-            "parr 1261 Bomb calorimeter",
+            "parr 1261 bomb calorimeter",
             "phillipson microbomb",
             "proximate composition",
             "unknown",
