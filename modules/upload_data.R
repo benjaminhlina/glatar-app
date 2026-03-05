@@ -142,15 +142,37 @@ upload_data_server <- function(id, con) {
       )
 
       # ---- get tbl sample -----
-      tbl_samples_submitted <- readxl::read_excel(
-        file_path,
-        sheet = "tbl_samples",
-        col_types = col_types,
-        skip = 4
-      ) |>
-        janitor::clean_names() |>
-        rename_to_db_col(con, "tbl_samples") |>
-        rename_to_db_col(con, "tbl_location")
+      tbl_samples_submitted <- tryCatch(
+        {
+          readxl::read_excel(
+            file_path,
+            sheet = "tbl_samples",
+            col_types = col_types,
+            skip = 4
+          ) |>
+            janitor::clean_names() |>
+            rename_to_db_col(con, "tbl_samples") |>
+            rename_to_db_col(con, "tbl_location")
+        },
+        error = function(e) {
+          msg <- conditionMessage(e)
+
+          # Friendlier message for the col_types mismatch specifically
+          if (grepl("col_types", msg, fixed = TRUE)) {
+            stop(
+              paste0(
+                "Could not read 'tbl_samples': the sheet has more columns than expected. ",
+                "Please check that the template has not been modified (extra columns may have been added). ",
+                "Detail: ",
+                msg
+              ),
+              call. = FALSE
+            )
+          }
+
+          stop(paste0("Could not read 'tbl_samples': ", msg), call. = FALSE)
+        }
+      )
 
       # ----- get species list -----
       species_list <- tbl(con, "tbl_taxonomy")
