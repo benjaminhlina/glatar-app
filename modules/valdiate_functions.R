@@ -733,6 +733,7 @@ validate_tbl_samples <- function(df) {
       .ed == TRUE,
       .lipid_percent_type == TRUE,
       .lipid_type == TRUE,
+      .mecury_type == TRUE,
       .fatty_acid_unit == TRUE,
       .fatty_acid_type == TRUE,
       .amino_acid_unit == TRUE,
