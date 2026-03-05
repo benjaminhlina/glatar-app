@@ -88,7 +88,6 @@ if (any(colnames(df) %in% c("lipid_percent_type", "lipid_type", "fatty_acid_unit
           c(
             "fatty acids",
             "phospholipids",
-            "fatty acids",
             "sterols",
             "triacylglycerides"
           ),
@@ -140,6 +139,8 @@ if (any(colnames(df) %in% c("lipid_percent_type", "lipid_type", "fatty_acid_unit
             "tyrosine",
             "valine"
           ),
+        .mercury_type = is.na(mercury_type) | 
+            mercury_type %in% c("total mercury", "methyl mercury")
     )
 
   }
@@ -466,6 +467,10 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
           expression
         ) ~ "Invalid amino acid type - must be a recognized amino acid (e.g. Alanine, Lysine, Glycine, etc.)",
         grepl(
+          "\\.mercury_type",
+          expression
+        ) ~ "Invalid mercury type type - must be otal mercury or methyl mercury",
+        grepl(
           "\\.ed",
           expression
         ) ~ "Invalid energy measurement - must be within appropriate ranges for Joules/g wet or dry weight",
@@ -489,6 +494,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl("\\.amino_acid_type", expression) ~ "amino_acid_type",
         grepl("\\.amino_acid_unit", expression) ~ "amino_acid_unit",
         grepl("\\.lipid_type", expression) ~ "lipid_type",
+        grepl("\\.mercury_type", expression) ~ ".mercury_type",
         .default = col_name
       )
     ) |>
