@@ -142,6 +142,8 @@ if (any(colnames(df) %in% c("lipid_percent_type", "lipid_type", "fatty_acid_unit
           ),
     )
 
+  }
+
   return(df)
 }
 
