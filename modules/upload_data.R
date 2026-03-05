@@ -189,14 +189,14 @@ upload_data_server <- function(id, con) {
           field_class %in%
             c("integer", "numeric") &
             !(field_name %in%
-              c("issue", "publication_year", "total_pcb_nmol_g", "volume"))
+              c("issue", "publication_year", "volume"))
         ) |>
         select(field_name) |>
         arrange(field_name) |>
         pull()
 
       tbl_samples_submitted <- tbl_samples_submitted |>
-        mutate(across(all_of(num_cols), ~ suppressWarnings(as.numeric(.))))
+        mutate(across(any_of(num_cols), ~ suppressWarnings(as.numeric(.))))
 
       # ---- add validator cols -----
       tbl_samples_submitted <- add_valid_cols(tbl_samples_submitted)
