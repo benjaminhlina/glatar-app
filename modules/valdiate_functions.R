@@ -97,10 +97,10 @@ if (any(colnames(df) %in% c("lipid_percent_type", "lipid_type", "fatty_acid_unit
       .fatty_acid_type = is.na(fatty_acid_type) |
         fatty_acid_type %in%
           c(
-            "∑SFA (saturated)",
-            "∑UFA (unsaturated)",
-            "∑MUFA (monounsaturated)",
-            "∑PUFA (polyunsaturated)",
+            "∑sfa (saturated)",
+            "∑ufa (unsaturated)",
+            "∑mufa (monounsaturated)",
+            "∑pufa (polyunsaturated)",
             "∑n-3",
             "∑n-6",
             "14:0",
