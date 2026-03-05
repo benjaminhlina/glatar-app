@@ -717,7 +717,6 @@ validate_tbl_samples <- function(df) {
       is.numeric(c_n),
       is.numeric(thiamine_nmol_g),
       is.numeric(mercury_ppm),
-      is.numeric(mercury_type),
       is.numeric(total_pcb_ng_g),
       is.numeric(pcb_congener_ng_g),
       is.numeric(pcb_congener_type),
