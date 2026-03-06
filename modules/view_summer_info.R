@@ -9,7 +9,7 @@ view_summary_info_ui <- function(id) {
       shiny::h2("Summary Statistics"),
       shiny::p(
         "This panel displays summary statistics and histograms for your selected data.
-                  Use the dropdowns to filter your results by either clicking andelect a choice 
+                  Use the dropdowns to filter your results by either clicking and select a choice 
                   or choices from dropdowns or by typing directly into the dropdown to search for
                   specific options. To clear selections, click on the dropdown and 
                   press Backspace which will clear a selected choice. All dropdowns can have 
