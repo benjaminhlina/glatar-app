@@ -83,6 +83,11 @@ ui <- dashboardPage(
       ),
       menuItem("View Data", tabName = "view_data", icon = icon("table")),
       menuItem("Upload Data", tabName = "insert_data", icon = icon("plus")),
+      menuItem(
+        "Taxonomic Search",
+        tabName = "taxa_search",
+        icon = icon("fish")
+      ),
       menuItem("Documentation", tabName = "docs", icon = icon("book")),
       menuItem("About", tabName = "about", icon = icon("circle-info")),
       menuItem("Logout", tabName = "logout", icon = icon("sign-out-alt"))
@@ -120,6 +125,7 @@ ui <- dashboardPage(
       tabItem(tabName = "scatter_plot", view_scatter_plot_ui("scatter_plot")),
       tabItem(tabName = "view_data", view_data_ui("view_data")),
       tabItem(tabName = "insert_data", upload_data_ui("insert_data")),
+      tabItem(tabName = "taxa_search", taxa_search_ui("taxa_search")),
       tabItem(tabName = "docs", docs_ui("docs")),
       tabItem(tabName = "about", about_ui("about"))
     )
@@ -229,6 +235,8 @@ server <- function(input, output, session) {
 
   # ---- upload data -----
   upload_data_server("insert_data", con)
+  # ---- taxa search -----
+  taxa_search_server("taxa_search", con)
   docs_server("docs")
 
   # ram_tracker()
