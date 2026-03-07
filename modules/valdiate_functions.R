@@ -762,7 +762,8 @@ validate_tbl_samples <- function(df) {
       .fatty_acid_unit == TRUE,
       .fatty_acid_type == TRUE,
       .amino_acid_unit == TRUE,
-      .amino_acid_type == TRUE
+      .amino_acid_type == TRUE,
+      .thiamine_type == TRUE
     )
   }
 
