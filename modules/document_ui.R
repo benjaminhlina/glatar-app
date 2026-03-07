@@ -29,9 +29,9 @@ docs_ui <- function(id) {
               # add more templates here
               tags$li(
                 tags$a(
-                  "Extended Data Entry Template (v16)",
-                  href = "data-entry-template/GLATAR_data_entry_template_v16_long.xlsx",
-                  download = "GLATAR_data_entry_template_v16_long.xlsx",
+                  "Extended Data Entry Template (v17)",
+                  href = "data-entry-template/GLATAR_data_entry_template_v17_long.xlsx",
+                  download = "GLATAR_data_entry_template_v17_long.xlsx",
                   target = "_blank"
                 )
               )
