@@ -111,24 +111,24 @@ add_valid_cols <- function(df) {
         .fatty_acid_type = is.na(fatty_acid_type) |
           fatty_acid_type %in%
             c(
-              "∑sfa (saturated)",
-              "∑ufa (unsaturated)",
-              "∑mufa (monounsaturated)",
-              "∑pufa (polyunsaturated)",
+              "∑SFA (saturated)",
+              "∑UFA (unsaturated)",
+              "∑MUFA (monounsaturated)",
+              "∑PUFA (polyunsaturated)",
               "∑n-3",
               "∑n-6",
               "14:0",
               "16:0",
               "18:0",
-              "16:1n-7 (poa)",
-              "18:1n-9 (oa)",
-              "18:3n-3 (ala)",
-              "18:4n-3 (sda)",
-              "18:2n-6 (lin)",
-              "20:4n-6 (ara)",
-              "20:5n-3 (epa)",
-              "22:5n-6 (dpa)",
-              "22:6n-3 (dha)"
+              "16:1n-7 (POA)",
+              "18:1n-9 (OA)",
+              "18:3n-3 (ALA)",
+              "18:4n-3 (SDA)",
+              "18:2n-6 (LIN)",
+              "20:4n-6 (ARA)",
+              "20:5n-3 (EPA)",
+              "22:5n-6 (DPA)",
+              "22:6n-3 (DHA)"
             ),
         .amino_acid_unit = is.na(amino_acid_unit) |
           amino_acid_unit %in% c("ug/mg sample weight", "% total protein"),
