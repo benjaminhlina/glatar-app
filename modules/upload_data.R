@@ -300,7 +300,6 @@ upload_data_server <- function(id, con) {
             across(common_name:family, ~ stringr::str_to_sentence(.x)),
             length_type = tolower(length_type),
             amino_acid_type = stringr::str_to_sentence(amino_acid_type),
-            fatty_acid_type = fix_case_types(fatty_acid_type),
             waterbody = stringr::str_to_title(waterbody),
             .energy_units = paste(
               energy_units,
