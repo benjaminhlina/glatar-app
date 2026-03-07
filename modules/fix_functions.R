@@ -1,30 +1,3 @@
-fix_case_types <- function(x) {
-  sapply(
-    x,
-    function(s) {
-      upper <- toupper(s)
-      m <- gregexpr("\\([^)]+\\)", upper)
-      matches <- regmatches(upper, m)[[1]]
-      if (length(matches) == 0) {
-        return(upper)
-      }
-      result <- upper
-      for (match in matches) {
-        inner <- substr(match, 2, nchar(match) - 1)
-        sentence_case <- paste0(
-          "(",
-          toupper(substr(inner, 1, 1)),
-          tolower(substr(inner, 2, nchar(inner))),
-          ")"
-        )
-        result <- base::sub(match, sentence_case, result, fixed = TRUE)
-      }
-      result
-    },
-    USE.NAMES = FALSE
-  )
-}
-
 fix_var_generic <- function(df, var_raw) {
   # detect if it's one of the synthetic length vars
   if (grepl("^length_mm__", var_raw)) {
