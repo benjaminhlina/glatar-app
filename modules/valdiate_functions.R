@@ -487,7 +487,11 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl(
           "\\.mercury_type",
           expression
-        ) ~ "Invalid mercury type type - must be otal mercury or methyl mercury",
+        ) ~ "Invalid mercury type type - must be total mercury or methyl mercury",
+        grepl(
+          "\\.thiamine_type ",
+          expression
+        ) ~ "Invalid thiamine type type - must be the correct Vitamer",
         grepl(
           "\\.ed",
           expression
@@ -512,7 +516,8 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl("\\.amino_acid_type", expression) ~ "amino_acid_type",
         grepl("\\.amino_acid_unit", expression) ~ "amino_acid_unit",
         grepl("\\.lipid_type", expression) ~ "lipid_type",
-        grepl("\\.mercury_type", expression) ~ ".mercury_type",
+        grepl("\\.mercury_type", expression) ~ "mercury_type",
+        grepl("\\.thiamine_type ", expression) ~ "thiamine_type",
         .default = col_name
       )
     ) |>
