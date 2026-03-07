@@ -683,6 +683,8 @@ validate_tbl_samples <- function(df) {
     "d13c",
     "d15n",
     "d34s",
+    "d18o",
+    "d2h",
     "c_n"
   )
 
