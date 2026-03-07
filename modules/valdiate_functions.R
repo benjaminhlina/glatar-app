@@ -75,74 +75,92 @@ add_valid_cols <- function(df) {
           ),
       .sample_weight_type = is.na(sample_weight_type) |
         sample_weight_type %in% c("wet", "dry"),
+    )
+
+  if (
+    any(
+      colnames(df) %in%
+        c(
+          "lipid_percent_type",
+          "lipid_type",
+          "fatty_acid_unit",
+          "fatty_acid_type",
+          "amino_acid_unit",
+          "amino_acid_type"
         )
-  
-if (any(colnames(df) %in% c("lipid_percent_type", "lipid_type", "fatty_acid_unit", "fatty_acid_type", "amino_acid_unit", 
-  "amino_acid_type"))) {
+    )
+  ) {
     df <- df |>
       dplyr::mutate(
         .lipid_percent_type = is.na(lipid_percent_type) |
-        lipid_percent_type %in% c("% sample weight", "% total lipids"),
-      .lipid_type = is.na(lipid_type) |
-        lipid_type %in%
-          c(
-            "fatty acids",
-            "phospholipids",
-            "sterols",
-            "triacylglycerides"
-          ),
-      .fatty_acid_unit = is.na(fatty_acid_unit) |
-        fatty_acid_unit %in% c("ug/mg sample weight", "% total fatty acid"),
-      .fatty_acid_type = is.na(fatty_acid_type) |
-        fatty_acid_type %in%
-          c(
-            "∑sfa (saturated)",
-            "∑ufa (unsaturated)",
-            "∑mufa (monounsaturated)",
-            "∑pufa (polyunsaturated)",
-            "∑n-3",
-            "∑n-6",
-            "14:0",
-            "16:0",
-            "18:0",
-            "16:1n-7 (poa)",
-            "18:1n-9 (oa)",
-            "18:3n-3 (ala)",
-            "18:4n-3 (sda)",
-            "18:2n-6 (lin)",
-            "20:4n-6 (ara)",
-            "20:5n-3 (epa)",
-            "22:5n-6 (dpa)",
-            "22:6n-3 (dha)"
-          ),
-      .amino_acid_unit = is.na(amino_acid_unit) |
-        amino_acid_unit %in% c("ug/mg sample weight", "% total protein"),
-      .amino_acid_type = is.na(amino_acid_type) |
-        amino_acid_type %in%
-          c(
-            "alanine",
-            "arginine",
-            "aspartic acid",
-            "cysteine",
-            "cystine",
-            "glutamic acid",
-            "glycine",
-            "histidine",
-            "isoleucine",
-            "leucine",
-            "lysine",
-            "methionine",
-            "phenylalanine",
-            "proline",
-            "serine",
-            "threonine",
-            "tyrosine",
-            "valine"
-          ),
-        .mercury_type = is.na(mercury_type) | 
-            mercury_type %in% c("total mercury", "methyl mercury")
-    )
-
+          lipid_percent_type %in% c("% sample weight", "% total lipids"),
+        .lipid_type = is.na(lipid_type) |
+          lipid_type %in%
+            c(
+              "fatty acids",
+              "phospholipids",
+              "sterols",
+              "triacylglycerides"
+            ),
+        .fatty_acid_unit = is.na(fatty_acid_unit) |
+          fatty_acid_unit %in% c("ug/mg sample weight", "% total fatty acid"),
+        .fatty_acid_type = is.na(fatty_acid_type) |
+          fatty_acid_type %in%
+            c(
+              "∑sfa (saturated)",
+              "∑ufa (unsaturated)",
+              "∑mufa (monounsaturated)",
+              "∑pufa (polyunsaturated)",
+              "∑n-3",
+              "∑n-6",
+              "14:0",
+              "16:0",
+              "18:0",
+              "16:1n-7 (poa)",
+              "18:1n-9 (oa)",
+              "18:3n-3 (ala)",
+              "18:4n-3 (sda)",
+              "18:2n-6 (lin)",
+              "20:4n-6 (ara)",
+              "20:5n-3 (epa)",
+              "22:5n-6 (dpa)",
+              "22:6n-3 (dha)"
+            ),
+        .amino_acid_unit = is.na(amino_acid_unit) |
+          amino_acid_unit %in% c("ug/mg sample weight", "% total protein"),
+        .amino_acid_type = is.na(amino_acid_type) |
+          amino_acid_type %in%
+            c(
+              "alanine",
+              "arginine",
+              "aspartic acid",
+              "cysteine",
+              "cystine",
+              "glutamic acid",
+              "glycine",
+              "histidine",
+              "isoleucine",
+              "leucine",
+              "lysine",
+              "methionine",
+              "phenylalanine",
+              "proline",
+              "serine",
+              "threonine",
+              "tyrosine",
+              "valine"
+            ),
+        .mercury_type = is.na(mercury_type) |
+          mercury_type %in% c("total mercury", "methyl mercury"),
+        .thiamine_type = is.na(thiamine_type) |
+          thiamine_type %in%
+            c(
+              "Th (free thiamine)",
+              "TMP (thiamine monophosphate)",
+              "TPP (thiamine pyrophosphate)",
+              "TTh (total thiamine)"
+            ),
+      )
   }
 
   return(df)
