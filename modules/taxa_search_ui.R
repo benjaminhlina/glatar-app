@@ -5,7 +5,9 @@ taxa_search_ui <- function(id) {
     tabName = id,
     shiny::h2("Search Taxa in the Database"),
     shiny::p(
-      "Use the search bar to look up the taxa that are in the database"
+      "Use the search bar to look up the taxa that are in the database. This tab servers two purposes 1)
+      to let the user know what species exisit in the database and 2) when uploading new data the user can 
+      check validation errors to match what species are in the database."
     ),
     shiny::textInput(
       ns("search_bar"),
@@ -43,6 +45,13 @@ taxa_search_server <- function(id, con) {
 
       df <- df |>
         dplyr::collect()
+      current_names <- names(df)
+
+      names(df) <- dplyr::coalesce(
+        nice_name_lookup[current_names],
+        current_names
+      )
+
       return(df)
     })
 
