@@ -186,8 +186,19 @@ server <- function(input, output, session) {
   observeEvent(input$tabs, {
     if (input$tabs == "logout") {
       updateTabItems(session, "tabs", "home")
-      session$reload()
+      showModal(modalDialog(
+        title = "Confirm Logout",
+        "Are you sure you want to log out?",
+        footer = tagList(
+          modalButton("Cancel"),
+          actionButton("confirm_logout", "Logout", class = "btn btn-danger")
+        )
+      ))
     }
+    observeEvent(input$confirm_logout, {
+      removeModal()
+      session$reload()
+    })
   })
 
   # ----- link to docs -----
