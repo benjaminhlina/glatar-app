@@ -13,15 +13,26 @@ about_ui <- function(id) {
 
     h3("Contributors"),
     p(
-      "The following individuals provided thoughts and design for this project:"
+      "The following individuals provided thoughts, critiques, and design for this project with 
+      the core group consisting:"
     ),
     p(
-      "Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers,
-    Carolyn J. Foley, Mark W. Kershner, Charles P. Madenjian, Brent W. Metcalfe,
-    Michael H.P. O’Brien, Steven A. Pothoven, Jonathan D. Pye, Kate M.J. Storey,
-    Mark J. Wuenschel, and Benjamin L. Hlina."
+      "Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers, 
+      Mark W. Kershner, Charles P. Madenjian, Brent W. Metcalfe, 
+      Steven A. Pothoven, Michael D. Rennie, and Benjamin L. Hlina."
     ),
+    p(
+      "The following individuals contributed to the database design and thoughts on 
+      the programming of the toolxbox:"
+    ),
+    p("Benjamin L. Hlina, Michael H.P. O’Brien, and Jonathan D. Pye"),
 
+    p(
+      "The following people have assited in testing the database and toolbox:"
+    ),
+    p(
+      "Carolyn J. Foley, Kate M.J. Storey, Andrew Welbourne, and Mark J. Wuenschel"
+    ),
     h3("Code & Maintenance"),
     p(
       "The database and toolbox are authored and maintained by Benjamin L. Hlina."
@@ -49,8 +60,7 @@ about_ui <- function(id) {
       and pasted code from LLMs that has not be vetted and edited.
       Issues that are submitted by LLMs and/or copied and pasted from LLMs 
       will be deleted and ignored, as the issuer needs to have the ability 
-      to be able to write their own issues. 
-      If you cannot be bothered to do such, then do not make issues on this repository."
+      to be able to write their own issues."
     ),
 
     h3("Citation"),
