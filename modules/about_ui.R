@@ -12,23 +12,21 @@ about_ui <- function(id) {
     ),
 
     h3("Contributors"),
-    tags$li(
-      tags$a(
+    tags$ul(
+      tags$li(
         "The following individuals provided thoughts, critiques, and design for this project with 
         the core group being: Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers, 
         Mark W. Kershner, Charles P. Madenjian, Brent W. Metcalfe, 
         Steven A. Pothoven, Michael D. Rennie, and Benjamin L. Hlina."
-      )
-    ),
-    tags$li(
-      tags$a(
+      ),
+      br(),
+      tags$li(
         "The following individuals contributed to the database design and thoughts on 
         the programming of the toolbox: Benjamin L. Hlina, Michael H.P. O’Brien, and Jonathan D. Pye"
-      )
-    ),
-    tags$li(
-      tags$a(
-        "The following people have assited in testing the database and toolbox: 
+      ),
+      br(),
+      tags$li(
+        "The following people have assisted in testing the database and toolbox: 
       Carolyn J. Foley, Kate M.J. Storey, Andrew Welbourne, and Mark J. Wuenschel"
       )
     ),
