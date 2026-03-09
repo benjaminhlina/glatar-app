@@ -22,8 +22,8 @@ lifestage,Life Stage
 wild_lab,Wild/Lab
 age_year,Age (yrs)
 weight_g,Weight (g)
-composite,Composite
-composite_n,Composite (n)
+composite,Data Type
+composite_n,Data Type - (n)
 tissue_type,Tissue Type
 sample_procedure,Sampling Procedure
 trt_description,Treatment Description
@@ -53,4 +53,16 @@ percent_nitrogen,Percent Nitrogen (%)
 d13c,\U03B4<sup>13</sup>C
 d15n,\U03B4<sup>15</sup>N
 d34s,\U03B4<sup>34</sup>S
+d18o,\U03B4<sup>18</sup>O
+d2o,\U03B4<sup>2</sup>H
 c_n,C:N
+percent_lipid_composition, Percent Lipid Composition (%)
+amino_acid_measurement, Amino Acid
+fatty_acid_measurement, Fatty Acid
+thiamine_nmol_g, Thiamine (nmol/g)
+thiamine_nmol_g_sd, Thiamine SD (nmol/g)
+thiaminase_activity, Thiaminase Activity
+thiaminase_activity_sd, Thiaminase Activity SD
+mercury_ppm, Hg (ppm)
+total_pcb_ng_g, Total PCB (ng/g)
+pcb_congener_ng_g, PCB Congener (ng/g)
