@@ -12,27 +12,25 @@ about_ui <- function(id) {
     ),
 
     h3("Contributors"),
-    p(
-      "The following individuals provided thoughts, critiques, and design for this project with 
-      the core group consisting:"
+    tags$li(
+      tags$a(
+        "The following individuals provided thoughts, critiques, and design for this project with 
+        the core group being: Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers, 
+        Mark W. Kershner, Charles P. Madenjian, Brent W. Metcalfe, 
+        Steven A. Pothoven, Michael D. Rennie, and Benjamin L. Hlina."
+    )
+  ),
+    tags$li(
+      tags$a(
+        "The following individuals contributed to the database design and thoughts on 
+        the programming of the toolbox: Benjamin L. Hlina, Michael H.P. O’Brien, and Jonathan D. Pye")
+      )
     ),
-    p(
-      "Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers, 
-      Mark W. Kershner, Charles P. Madenjian, Brent W. Metcalfe, 
-      Steven A. Pothoven, Michael D. Rennie, and Benjamin L. Hlina."
-    ),
-    p(
-      "The following individuals contributed to the database design and thoughts on 
-      the programming of the toolxbox:"
-    ),
-    p("Benjamin L. Hlina, Michael H.P. O’Brien, and Jonathan D. Pye"),
-
-    p(
-      "The following people have assited in testing the database and toolbox:"
-    ),
-    p(
-      "Carolyn J. Foley, Kate M.J. Storey, Andrew Welbourne, and Mark J. Wuenschel"
-    ),
+   tags$li(
+    tags$a("The following people have assited in testing the database and toolbox: 
+      Carolyn J. Foley, Kate M.J. Storey, Andrew Welbourne, and Mark J. Wuenschel"
+    )
+  ),
     h3("Code & Maintenance"),
     p(
       "The database and toolbox are authored and maintained by Benjamin L. Hlina."
@@ -75,3 +73,4 @@ about_server <- function(id) {
     # future logic here
   })
 }
+  
