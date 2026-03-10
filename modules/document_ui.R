@@ -69,6 +69,13 @@ docs_ui <- function(id) {
             ),
             tags$li(
               tags$a(
+                "Calorimetry Documentation",
+                href = "documentation/calorimetry_documentation.pdf",
+                target = "_blank"
+              )
+            ),
+            tags$li(
+              tags$a(
                 "Fatty Acid Documentation",
                 href = "documentation/fatty_acids_documentation.pdf",
                 target = "_blank"
