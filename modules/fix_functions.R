@@ -47,14 +47,13 @@ fix_var_generic <- function(df, var_raw) {
 
     cli::cli_alert_danger("units is: {.field {eu}}")
     # Dynamic label
-    var_label <-  paste0(
+    var_label <- paste0(
       stringr::str_to_sentence(var_types),
       " (",
       amino_acid_unit,
       ")"
     )
     var <- "amino_acid_measurement"
-  }
     cli::cli_alert_danger("var_label is: {.field {var_label}}")
   } else {
     cli::cli_alert_info("Checking for {.field {var_raw}} in columns...")
