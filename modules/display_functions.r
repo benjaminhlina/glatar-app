@@ -181,7 +181,6 @@ display_scatter_plot <- function(
       p <- empty_plot(
         "Select one or more grouping variables from the sidebar.
         \n**Next** select your _x_ and _y_ variables of interest."
-
       )
 
       return(p)
