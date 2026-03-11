@@ -171,6 +171,11 @@ display_scatter_plot <- function(
 
     df <- data()
 
+    x_var_raw <- input_source$x_choices()
+
+    # get the y var
+    y_var_raw <- input_source$y_choices()
+
     # ---- if data is null/no grouping varialbes display message -----
     if (is.null(df)) {
       p <- empty_plot(
@@ -197,12 +202,6 @@ display_scatter_plot <- function(
       )
       return(p)
     }
-    # get the x var
-
-    x_var_raw <- input_source$x_choices()
-
-    # get the y var
-    y_var_raw <- input_source$y_choices()
 
     # use generic function to filter and grab the correct for length only
     fix_x <- fix_var_generic(
