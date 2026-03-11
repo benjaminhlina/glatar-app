@@ -179,8 +179,19 @@ display_scatter_plot <- function(
     # ---- if data is null/no grouping varialbes display message -----
     if (is.null(df)) {
       p <- empty_plot(
-        "Select one or more grouping variables from the sidebar to start to generate a plot.\nNext select your x and y variables of interest"
+        "Select one or more grouping variables from the sidebar.
+        \n**Next** select your _x_ and _y_ variables of interest."
+
       )
+
+      return(p)
+    }
+    if (is_empty(x_var_raw) | is_empty(y_var_raw)) {
+      p <- empty_plot(
+        "Grouping variables selected ✓\n\nNow 
+      choose your **x** and **y** variables of interest."
+      )
+
       return(p)
     }
 
