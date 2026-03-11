@@ -1,9 +1,14 @@
 add_valid_cols <- function(df) {
   df <- df |>
-    dplyr::across(
-      where(is.character) & !any_of(c("fatty_acid_type", "thiamine_type")),
+    mutate(dplyr::across(
+      where(is.character) &
+        !any_of(c(
+          "fatty_acid_type",
+          "thiamine_type",
+          "energy_measurment_units"
+        )),
       tolower
-    ) |>
+    )) |>
     dplyr::mutate(
       .date = is.na(date) | grepl("^\\d{4}-\\d{2}-\\d{2}$", date),
       .ed = case_when(
