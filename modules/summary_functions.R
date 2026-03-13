@@ -125,6 +125,10 @@ create_mean_data <- function(input_source, data) {
     grouped_summary_df <- grouped_summary_df |>
       left_join(base_df, by = summary_grouping_vars, na_matches = "na") |>
       relocate(
+        "data_type",
+        .before = everything()
+      ) |>
+      relocate(
         n,
         .after = all_of(tail(summary_grouping_vars, 1))
       ) |>
@@ -132,7 +136,7 @@ create_mean_data <- function(input_source, data) {
         if_any(contains("(mean)"), ~ !is.na(.x))
       ) |>
       collect() |>
-      arrange(across(all_of(summary_grouping_vars))) |>
+      arrange(across(all_of(c("data_type", summary_grouping_vars)))) |>
       mutate(across(where(is.numeric), ~ round(.x, 2)))
 
     return(grouped_summary_df)
