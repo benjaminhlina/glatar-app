@@ -260,27 +260,33 @@ summary_sidebar_server <- function(id, con, main_input) {
 
         # Update y summary  variable choices
 
-        updateSelectizeInput(
-          session,
-          "summary_y_variable",
-          choices = summary_choices,
-          server = TRUE
-        )
-
-        # Update histogram variable choices
-        updateSelectizeInput(
-          session,
-          "hist_var",
-          choices = summary_choices,
-          server = TRUE
-        )
-
         # set inalize as true to make this trigger once it is hit
         initialized(TRUE)
       },
       ignoreInit = TRUE
     )
+    # Update y summary  variable choices
+    observe({
+      req(summary_choices())
+      nc <- paste(summary_choices(), collapse = ', ')
+      cli::cli_alert_info(
+        "Numeric choices: {.val {nc}}"
+      )
+      updateSelectizeInput(
+        session,
+        "summary_y_variable",
+        choices = summary_choices(),
+        server = TRUE
+      )
 
+      # Update histogram variable choices
+      updateSelectizeInput(
+        session,
+        "hist_var",
+        choices = summary_choices(),
+        server = TRUE
+      )
+    })
     # make this into a function that sidebar exports out
     register_summary <- function(input_source) {
       output$download_summary <- downloadHandler(
