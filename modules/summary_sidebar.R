@@ -21,6 +21,12 @@ summary_sidebar_ui <- function(id) {
           multiple = TRUE
         ),
         shiny::selectInput(
+          ns("summary_data_types"),
+          "Select a data type",
+          choices = NULL,
+          multiple = TRUE
+        ),
+        shiny::selectInput(
           ns("summary_waterbody_filter"),
           "Select Waterbody",
           choices = NULL,
@@ -127,6 +133,8 @@ summary_sidebar_server <- function(id, con, main_input) {
 
         exclusive_all_observer(input, session, "summary_waterbody_filter")
         exclusive_all_observer(input, session, "summary_species_filter")
+        exclusive_all_observer(input, session, "summary_data_types")
+
         # get df
         df <- sidebar_df()
         req(df)
@@ -235,12 +243,12 @@ summary_sidebar_server <- function(id, con, main_input) {
           selected = c("waterbody", "scientific_name")
         )
         # ---- create data choices -----
-        # updateSelectInput(
-        #   session,
-        #   "data_types",
-        #   choices = c("All", data_types_choices),
-        #   selected = c("All")
-        # )
+        updateSelectInput(
+          session,
+          "summary_data_types",
+          choices = c("All", data_types_choices),
+          selected = c("All")
+        )
         # waterbody this needs to be reactive
         updateSelectInput(
           session,
@@ -317,6 +325,7 @@ summary_sidebar_server <- function(id, con, main_input) {
     # we need grouping and hist variables we also need the function
 
     return(list(
+      data_types = reactive(input$data_types),
       grouping_vars = reactive(input$summary_grouping_vars),
       waterbody_filter = reactive(input$summary_waterbody_filter),
       species_filter = reactive(input$summary_species_filter),
