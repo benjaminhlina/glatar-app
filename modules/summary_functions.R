@@ -19,6 +19,11 @@ create_filtered_data <- function(input_source, data, pane) {
     waterbody_f <- input_source$waterbody_filter()
     species_f <- input_source$species_filter()
 
+    cli::cli_inform(c(
+      "data_type_f: {paste(data_type_f, collapse = ', ')}",
+      "waterbody_f: {paste(waterbody_f, collapse = ', ')}",
+      "species_f:   {paste(species_f, collapse = ', ')}"
+    ))
     # ----- filters -----
     if (!is.null(data_type_f) && !"All" %in% data_type_f) {
       df <- df |>
