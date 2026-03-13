@@ -8,6 +8,12 @@ scatter_sidebar_ui <- function(id) {
       id = ns("scatter_ui"),
       style = "display:none;",
       shiny::selectInput(
+        ns("themes"),
+        "Select a theme",
+        choices = NULL,
+        # multiple = TRUE
+      ),
+      shiny::selectInput(
         ns("scatter_grouping_vars"),
         "Select Grouping Variables",
         choices = NULL,
@@ -88,6 +94,24 @@ scatter_sidebar_server <- function(id, con, main_input) {
 
     # ---- intialize scatter plot -----
     initialized_scatter <- reactiveVal(FALSE)
+    # Store computed values so the reactive can access them
+    numeric_choices_r <- reactiveVal(NULL)
+    numeric_names_r <- reactiveVal(NULL)
+    length_vars_r <- reactiveVal(NULL)
+    energy_vars_r <- reactiveVal(NULL)
+
+    axis_choices <- reactive({
+      req(input$themes)
+      req(numeric_choices_r())
+      get_theme_choices(
+        theme = input$themes,
+        con = con,
+        numeric_choices = numeric_choices_r(),
+        numeric_names = numeric_names_r(),
+        length_vars = length_vars_r(),
+        energy_vars = energy_vars_r()
+      )
+    })
 
     # ---- observe events -----
     observeEvent(
@@ -107,6 +131,24 @@ scatter_sidebar_server <- function(id, con, main_input) {
         # get use the reactive
         df <- sidebar_df()
         req(df)
+        theme_choices <- c(
+          "Energy Density",
+          "Body Composition",
+          "Stable Isotopes",
+          "Amino Acids",
+          "Fatty Acids",
+          "Contaminates",
+          "Thiamine"
+        )
+
+        # ---- get data types -----
+        data_types_choices <- c(
+          "Individual",
+          "Composite",
+          "Mean",
+          "SD",
+          "Equation"
+        )
 
         # get grouping
         grouping_choices <- get_groups(df) |>
@@ -148,11 +190,16 @@ scatter_sidebar_server <- function(id, con, main_input) {
         energy_vars <- get_var_types(df, var = "energy_units")
 
         # create axis choices
-        axis_choices <- sort(c(
-          setNames(numeric_choices, numeric_names),
-          length_vars,
-          energy_vars
-        ))
+        # axis_choices <- sort(c(
+        #   setNames(numeric_choices, numeric_names),
+        #   length_vars,
+        #   energy_vars
+        # ))
+        numeric_choices_r(numeric_choices)
+
+        numeric_names_r(numeric_names)
+        length_vars_r(length_vars)
+        energy_vars_r(energy_vars)
 
         # waterbody
         waterbody_choices <- df |>
@@ -179,10 +226,17 @@ scatter_sidebar_server <- function(id, con, main_input) {
         cli::cli_ul(c(
           "Waterbody unique values: {.val {n_wb}}",
           "Species unique values: {.val {n_sp}}",
-          "Grouping choices: {.val {grp}}",
-          "Numeric choices: {.val {nc}}"
+          "Grouping choices: {.val {grp}}"
         ))
-        # Grouping Variables: Allow dynamic selection
+
+        # # ----- create themes -----
+        updateSelectInput(
+          session,
+          "themes",
+          choices = theme_choices
+        )
+
+        # grouping choices
         updateSelectInput(
           session,
           "scatter_grouping_vars",
@@ -240,6 +294,31 @@ scatter_sidebar_server <- function(id, con, main_input) {
         shinyjs::hide("grouping_message")
       }
     })
+    observe({
+      req(axis_choices())
+      nc <- paste(axis_choices(), collapse = ', ')
+      cli::cli_alert_info(
+        "Numeric choices: {.val {nc}}"
+      )
+      updateSelectizeInput(
+        session,
+        "x_var",
+        choices = axis_choices(),
+        server = TRUE,
+        # selected = "percent_water"
+      )
+
+      # make y_choices
+
+      updateSelectizeInput(
+        session,
+        "y_var",
+        choices = axis_choices(),
+        server = TRUE,
+        # selected = "energy_units__Joules/g wet weight"
+      )
+    })
+
     # ---- export what we need from the severer ----
     # we need grouping and hist variables we also need the function
 
