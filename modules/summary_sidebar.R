@@ -194,19 +194,6 @@ summary_sidebar_server <- function(id, con, main_input) {
         length_vars_r(length_vars)
         energy_vars_r(energy_vars)
 
-        # ----- create themes -----
-        updateSelectInput(
-          session,
-          "themes",
-          choices = theme_choices
-        )
-        # create summary choices
-        # summary_choices <- sort(c(
-        #   setNames(numeric_choices, numeric_names),
-        #   length_vars,
-        #   energy_vars
-        # ))
-
         # watervody
         waterbody_choices <- df |>
           distinct(waterbody) |>
@@ -232,8 +219,14 @@ summary_sidebar_server <- function(id, con, main_input) {
           "Waterbody unique values: {.val {n_wb}}",
           "Species unique values: {.val {n_sp}}",
           "Grouping choices: {.val {grp}}"
-          # "Numeric choices: {.val {nc}}"
         ))
+
+        # # ----- create themes -----
+        updateSelectInput(
+          session,
+          "themes",
+          choices = theme_choices
+        )
 
         # grouping choices
         updateSelectInput(
