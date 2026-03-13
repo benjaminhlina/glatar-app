@@ -235,7 +235,14 @@ summary_sidebar_server <- function(id, con, main_input) {
           choices = grouping_choices,
           selected = c("waterbody", "scientific_name")
         )
-        # waterbody
+        # ---- create data choices -----
+        # updateSelectInput(
+        #   session,
+        #   "data_types",
+        #   choices = c("All", data_types_choices),
+        #   selected = c("All")
+        # )
+        # waterbody this needs to be reactive
         updateSelectInput(
           session,
           "summary_waterbody_filter",
