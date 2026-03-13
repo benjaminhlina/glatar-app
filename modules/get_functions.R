@@ -276,7 +276,7 @@ get_summary_data <- function(
         vars_for_select
       ) ~ "length_mm",
       grepl("^energy_units__", vars_for_select) ~ "energy_measurement",
-      grepl("amino_acid_type__", vars_for_select) ~ "amino_acid_measurement",
+      # grepl("amino_acid_type__", vars_for_select) ~ "amino_acid_measurement",
       .default = vars_for_select
     )
 
