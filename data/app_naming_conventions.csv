@@ -22,8 +22,8 @@ lifestage,Life Stage
 wild_lab,Wild/Lab
 age_year,Age (yrs)
 weight_g,Weight (g)
-composite,Data Type
-composite_n,Data Type - (n)
+data_type,Data Type
+data_type_n,Data Type - (n)
 tissue_type,Tissue Type
 sample_procedure,Sampling Procedure
 trt_description,Treatment Description
