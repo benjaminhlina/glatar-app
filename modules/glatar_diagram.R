@@ -323,7 +323,8 @@ glatar_diagram_ui <- function() {
       glow: "#c8e840",
       grad: ["#84a100ff","#566900ff"],
       desc: "Total mercury and methylmercury concentrations in fish and invertabrate tissues are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies.",
-      tags: ["Total Hg","Methylmercury","μg/g wet wt","Bioaccumulation"]
+      tags: ["Total Hg","Methylmercury","μg/g wet wt","Bioaccumulation"],
+      doc: "documentation/mercury_and_methylmercury_documentation.pdf"
     },
     {
       id: "pcb",
