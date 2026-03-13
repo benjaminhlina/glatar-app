@@ -187,6 +187,19 @@ summary_sidebar_server <- function(id, con, main_input) {
         length_vars <- get_var_types(df, var = "length_type")
         energy_vars <- get_var_types(df, var = "energy_units")
 
+        # Store into reactiveVals so summary_choices reactive can use them
+        numeric_choices_r(numeric_choices)
+
+        numeric_names_r(numeric_names)
+        length_vars_r(length_vars)
+        energy_vars_r(energy_vars)
+
+        # ----- create themes -----
+        updateSelectInput(
+          session,
+          "themes",
+          choices = theme_choices
+        )
         # create summary choices
         summary_choices <- sort(c(
           setNames(numeric_choices, numeric_names),
