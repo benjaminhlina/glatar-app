@@ -329,3 +329,58 @@ get_tables_needed <- function(con, var) {
     distinct(table_name) |>
     pull(table_name)
 }
+
+# ---- get theme selection -----
+get_theme_choices <- function(
+  theme,
+  con,
+  numeric_choices,
+  numeric_names,
+  length_vars,
+  energy_vars
+) {
+  cli::cli_alert_info("Available numeric_choices: {.val {numeric_choices}}")
+  # Always included regardless of theme
+  shared_vars <- c(
+    "sample_weight",
+    "weight_g"
+  )
+
+  theme_vars <- switch(
+    theme,
+    "Energy Density" = c(
+      energy_vars,
+      "percent_water",
+      "percent_ash"
+    ),
+    "Body Composition" = tbl(con, "tbl_proxcomp") |>
+      colnames(),
+    "Stable Isotopes" = tbl(con, "tbl_isotope") |>
+      colnames(),
+    "Amino Acids" = tbl(con, "tbl_amino_acid") |>
+      colnames(),
+    "Fatty Acids" = tbl(con, "tbl_fatty_acid") |>
+      colnames(),
+    "Contaminates" = tbl(con, "tbl_contaminants") |>
+      colnames(),
+    "Thiamine" = tbl(con, "tbl_thiamine") |>
+      colnames(),
+    character(0)
+  )
+  cli::cli_alert_info("Theme vars resolved to: {.val {theme_vars}}") # add after switch()
+
+  # Combine shared + theme-specific, filter to only valid choices
+  relevant_vars <- c(shared_vars, theme_vars)
+
+  valid_numeric <- numeric_choices[numeric_choices %in% relevant_vars]
+  valid_names <- numeric_names[numeric_choices %in% relevant_vars]
+  cli::cli_alert_info("Relevant vars matched: {.val {relevant_vars}}")
+
+  summary_choices <- sort(c(
+    setNames(valid_numeric, valid_names),
+    length_vars,
+    if (theme %in% c("Energy Density")) energy_vars else NULL
+  ))
+
+  return(summary_choices)
+}
