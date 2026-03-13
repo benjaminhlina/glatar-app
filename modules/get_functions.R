@@ -126,39 +126,39 @@ get_var_types <- function(df, var) {
     vars <- paste0("energy_units__", var_types)
     labels <- paste0("Energy Density (", var_types, ")")
   }
-  if (
-    any(
-      var_types %in%
-        c(
-          "Alanine",
-          "Arginine",
-          "Aspartic acid",
-          "Cysteine",
-          "Cystine",
-          "Glutamic acid",
-          "Glycine",
-          "Histidine",
-          "Isoleucine",
-          "Leucine",
-          "Lysine",
-          "Methionine",
-          "Phenylalanine",
-          "Proline",
-          "Serine",
-          "Threonine",
-          "Tyrosine",
-          "Valine"
-        )
-    )
-  ) {
-    vars <- paste0("amino_acid_type__", var_types)
-    labels <- paste0(
-      stringr::str_to_sentence(var_types)
-      # " (",
-      # amino_acid_unit,
-      # ")"
-    )
-  }
+  # if (
+  #   any(
+  #     var_types %in%
+  #       c(
+  #         "Alanine",
+  #         "Arginine",
+  #         "Aspartic acid",
+  #         "Cysteine",
+  #         "Cystine",
+  #         "Glutamic acid",
+  #         "Glycine",
+  #         "Histidine",
+  #         "Isoleucine",
+  #         "Leucine",
+  #         "Lysine",
+  #         "Methionine",
+  #         "Phenylalanine",
+  #         "Proline",
+  #         "Serine",
+  #         "Threonine",
+  #         "Tyrosine",
+  #         "Valine"
+  #       )
+  #   )
+  # ) {
+  #   vars <- paste0("amino_acid_type__", var_types)
+  #   labels <- paste0(
+  #     stringr::str_to_sentence(var_types)
+  #     # " (",
+  #     # amino_acid_unit,
+  #     # ")"
+  #   )
+  # }
   # c("ug/mg sample weigh"t, "% total protein")
 
   setNames(vars, labels) # names = labels, values = synthetic variable codes
