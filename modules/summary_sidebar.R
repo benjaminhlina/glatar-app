@@ -201,11 +201,11 @@ summary_sidebar_server <- function(id, con, main_input) {
           choices = theme_choices
         )
         # create summary choices
-        summary_choices <- sort(c(
-          setNames(numeric_choices, numeric_names),
-          length_vars,
-          energy_vars
-        ))
+        # summary_choices <- sort(c(
+        #   setNames(numeric_choices, numeric_names),
+        #   length_vars,
+        #   energy_vars
+        # ))
 
         # watervody
         waterbody_choices <- df |>
