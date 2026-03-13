@@ -299,7 +299,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         "x_var",
         choices = axis_choices(),
         server = TRUE,
-        # selected = "percent_water"
+        selected = "percent_water"
       )
 
       # make y_choices
@@ -309,7 +309,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         "y_var",
         choices = axis_choices(),
         server = TRUE,
-        # selected = "energy_units__Joules/g wet weight"
+        selected = "energy_units__Joules/g wet weight"
       )
     })
 
