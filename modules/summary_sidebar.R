@@ -9,6 +9,12 @@ summary_sidebar_ui <- function(id) {
       shiny::conditionalPanel(
         condition = "input.tabs == 'summary_info'",
         shiny::selectInput(
+          ns("themes"),
+          "Select a theme",
+          choices = NULL,
+          # multiple = TRUE
+        ),
+        shiny::selectInput(
           ns("summary_grouping_vars"),
           "Select Grouping Variables",
           choices = NULL,
