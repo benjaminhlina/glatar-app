@@ -286,6 +286,7 @@ get_summary_data <- function(
       # Select only requested columns (plus keys if needed)
       df <- df |>
         select(
+          data_type,
           waterbody,
           scientific_name,
           length_type,
@@ -296,6 +297,7 @@ get_summary_data <- function(
     } else {
       df <- df |>
         select(
+          data_type,
           waterbody,
           scientific_name,
           length_type,
