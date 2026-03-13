@@ -19,6 +19,12 @@ scatter_sidebar_ui <- function(id) {
         choices = NULL,
         multiple = TRUE
       ),
+      shiny::selectInput(
+        ns("scatter_data_types"),
+        "Select a data type",
+        choices = NULL,
+        multiple = TRUE
+      ),
 
       shiny::selectInput(
         ns("scatter_waterbody_filter"),
@@ -127,6 +133,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         # make input for filters to exclude all when it hits
         exclusive_all_observer(input, session, "scatter_waterbody_filter")
         exclusive_all_observer(input, session, "scatter_species_filter")
+        exclusive_all_observer(input, session, "scatter_data_types")
 
         # get use the reactive
         df <- sidebar_df()
@@ -219,7 +226,6 @@ scatter_sidebar_server <- function(id, con, main_input) {
         n_wb <- length(waterbody_choices)
         n_sp <- length(species_choices)
         grp <- paste(grouping_choices, collapse = ', ')
-        nc <- paste(axis_choices, collapse = ', ')
 
         # check_dropdowns()
         cli::cli_alert_success("Updating dropdowns")
@@ -242,6 +248,13 @@ scatter_sidebar_server <- function(id, con, main_input) {
           "scatter_grouping_vars",
           choices = grouping_choices,
         )
+        # ---- create data choices -----
+        updateSelectInput(
+          session,
+          "scatter_data_types",
+          choices = c("All", data_types_choices),
+          selected = c("All")
+        )
 
         # Waterbody Drop-down
         updateSelectInput(
@@ -259,25 +272,6 @@ scatter_sidebar_server <- function(id, con, main_input) {
           selected = "All"
         )
         # make x_choices
-
-        updateSelectizeInput(
-          session,
-          "x_var",
-          choices = axis_choices,
-          server = TRUE,
-          selected = "age"
-        )
-
-        # make y_choices
-
-        updateSelectizeInput(
-          session,
-          "y_var",
-          choices = axis_choices,
-          server = TRUE,
-          selected = "age"
-        )
-
         initialized_scatter(TRUE)
       },
       ignoreInit = FALSE
@@ -323,6 +317,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
     # we need grouping and hist variables we also need the function
 
     return(list(
+      data_types = reactive(input$scatter_data_types),
       grouping_vars = reactive(input$scatter_grouping_vars),
       waterbody_filter = reactive(input$scatter_waterbody_filter),
       species_filter = reactive(input$scatter_species_filter),
