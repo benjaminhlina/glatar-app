@@ -96,6 +96,26 @@ summary_sidebar_server <- function(id, con, main_input) {
 
     # ---- initalize ------
     initialized <- reactiveVal(FALSE)
+
+    # Store computed values so the reactive can access them
+    numeric_choices_r <- reactiveVal(NULL)
+    numeric_names_r <- reactiveVal(NULL)
+    length_vars_r <- reactiveVal(NULL)
+    energy_vars_r <- reactiveVal(NULL)
+
+    summary_choices <- reactive({
+      req(input$themes)
+      req(numeric_choices_r())
+      get_theme_choices(
+        theme = input$themes,
+        con = con,
+        numeric_choices = numeric_choices_r(),
+        numeric_names = numeric_names_r(),
+        length_vars = length_vars_r(),
+        energy_vars = energy_vars_r()
+      )
+    })
+
     # --- get sidebar info -----
     observeEvent(
       main_input$tabs,
