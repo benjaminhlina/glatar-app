@@ -83,6 +83,13 @@ docs_ui <- function(id) {
             ),
             tags$li(
               tags$a(
+                "Mercury and Methylmercury Documentation",
+                href = "documentation/mercury_and_methylmercury_documentation.pdf",
+                target = "_blank"
+              )
+            ),
+            tags$li(
+              tags$a(
                 "Polychlorinated Biphenyls (PCBs) Documentation",
                 href = "documentation/polychlorinated_biphenyls_documentation.pdf",
                 target = "_blank"
