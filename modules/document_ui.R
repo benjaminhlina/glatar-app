@@ -20,18 +20,18 @@ docs_ui <- function(id) {
             tags$ul(
               tags$li(
                 tags$a(
-                  "Basic Data Entry Template (v17)",
-                  href = "data-entry-template/GLATAR_data_entry_template_v17.xlsx",
-                  download = "GLATAR_data_entry_template_v17.xlsx",
+                  "Basic Data Entry Template (v18)",
+                  href = "data-entry-template/GLATAR_data_entry_template_v18.xlsx",
+                  download = "GLATAR_data_entry_template_v18.xlsx",
                   target = "_blank"
                 )
               ),
               # add more templates here
               tags$li(
                 tags$a(
-                  "Extended Data Entry Template (v17)",
-                  href = "data-entry-template/GLATAR_data_entry_template_v17_long.xlsx",
-                  download = "GLATAR_data_entry_template_v17_long.xlsx",
+                  "Extended Data Entry Template (v18)",
+                  href = "data-entry-template/GLATAR_data_entry_template_v18_long.xlsx",
+                  download = "GLATAR_data_entry_template_v18_long.xlsx",
                   target = "_blank"
                 )
               )
