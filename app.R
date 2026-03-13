@@ -75,7 +75,11 @@ ui <- dashboardPage(
       id = "tabs",
       menuItem("Home", tabName = "home", icon = icon("home")),
       menuItem("Map", tabName = "view_map", icon = icon("map")),
-      menuItem("Summmary", tabName = "summary_info", icon = icon("bar-chart")),
+      menuItem(
+        "Summary Tables",
+        tabName = "summary_info",
+        icon = icon("bar-chart")
+      ),
       menuItem(
         "Scatter Plot",
         tabName = "scatter_plot",
