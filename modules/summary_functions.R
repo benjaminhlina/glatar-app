@@ -15,10 +15,15 @@ create_filtered_data <- function(input_source, data, pane) {
     }
 
     # ----- create filters -----
+    data_type_f <- input_source$data_types()
     waterbody_f <- input_source$waterbody_filter()
     species_f <- input_source$species_filter()
 
     # ----- filters -----
+    if (!is.null(data_type_f) && !"All" %in% data_type_f) {
+      df <- df |>
+        filter(data_type %in% data_type_f)
+    }
     if (!is.null(waterbody_f) && !"All" %in% waterbody_f) {
       df <- df |>
         filter(waterbody %in% waterbody_f)
@@ -51,7 +56,7 @@ create_mean_data <- function(input_source, data) {
 
     # can create base_df
     base_df <- df |>
-      group_by(across(all_of(summary_grouping_vars))) |>
+      group_by(across(any_of(c("data_type", summary_grouping_vars)))) |>
       summarise(n = n()) |>
       ungroup()
 
@@ -61,7 +66,7 @@ create_mean_data <- function(input_source, data) {
       cli::cli_inform("No y_variable selected → returning grouped n only")
       grouped_summary_df <- base_df |>
         collect() |>
-        arrange(across(all_of(summary_grouping_vars)))
+        arrange(across(any_of(summary_grouping_vars)))
 
       cli::cli_ul(c(
         "collected class: {paste(class(grouped_summary_df), collapse = ', ')}",
