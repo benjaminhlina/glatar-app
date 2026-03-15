@@ -8,7 +8,8 @@ view_data_ui <- function(id) {
       style = "display:none;",
       shiny::h2("Raw Data"),
       shiny::p(
-        "This panel displays raw data."
+        "This panel displays user specific submitted raw data. Use the theme dropdown to select a theme of data of interest. 
+        Select the variables of interest and use the the other dropdowns to filter the raw data."
       ),
       shiny::fluidRow(
         shinydashboard::box(
