@@ -696,11 +696,40 @@ validate_tbl_samples <- function(df) {
     "c_n"
   )
 
+  # optional_fields <- c(
+  #   "percent_lipid_composition",
+  #   "lipid_percent_type",
+  #   "lipid_type",
+  #   "fatty_acid_measurement",
+  #   "fatty_acid_unit",
+  #   "fatty_acid_type",
+  #   "amino_acid_measurement",
+  #   "amino_acid_unit",
+  #   "amino_acid_type",
+  #   "thiamine_nmol_g",
+  #   "mercury_ppm",
+  #   "mercury_type",
+  #   "total_pcb_ng_g",
+  #   "pcb_congener_ng_g",
+  #   "pcb_congener_type"
+  # )
+
+  # Which optional columns were actually submitted
+  # present_optional <- optional_fields[optional_fields %in% colnames(df)]
+
   if (!all(required_fields %in% colnames(df))) {
     rules <- do.call(
       validate::validator,
       c(rule_column_names(required_fields))
     )
+    # } else if {
+    #   # Build rules for required fields + any optional fields that are present
+    #   all_fields_to_validate <- c(required_fields, present_optional)
+
+    #   rules <- do.call(
+    #     validate::validator,
+    #     c(rule_column_names(all_fields_to_validate))
+    #   )
   } else if (nrow(df) == 0) {
     rules <- validator(
       nrow(.) == 1
