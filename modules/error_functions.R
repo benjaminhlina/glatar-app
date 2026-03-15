@@ -75,7 +75,7 @@ check_mean_data <- function(df, summary_grouping_vars, y_vals) {
 # ---- check tab name -----
 
 check_tab_name <- function(tab) {
-  if (!(tab %in% c("summary_info", "scatter_plot"))) {
+  if (!(tab %in% c("summary_info", "scatter_plot", "view_data"))) {
     cli::cli_abort("Cannot execute function for {.val {tab}} tab")
   }
 }
