@@ -105,6 +105,10 @@ ui <- dashboardPage(
     conditionalPanel(
       "input.tabs == 'scatter_plot'",
       scatter_sidebar_ui("scatter_sidebar")
+    ),
+    conditionalPanel(
+      "input.tabs == 'view_data'",
+      raw_data_sidebar_ui("raw_sidebar")
     )
   ),
   # ---- create display panes ----
