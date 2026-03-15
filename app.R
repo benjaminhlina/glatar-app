@@ -246,7 +246,17 @@ server <- function(input, output, session) {
     scatter_sidebar_vals = scatter_sidebar_vals
   )
   # ----- get tables -----
-  view_data_server("view_data", con)
+  raw_sidebar_vals <- raw_data_sidebar_server(
+    "raw_sidebar",
+    con,
+    main_input = input
+  )
+  view_data_server(
+    "view_data",
+    con,
+    main_input = input,
+    raw_sidebar_vals = raw_sidebar_vals
+  )
 
   # ---- upload data -----
   upload_data_server("insert_data", con)
