@@ -34,7 +34,7 @@ raw_data_sidebar_ui <- function(id) {
         ),
         shiny::selectizeInput(
           ns("raw_y_variable"),
-          "Select Summary Columns of Interest",
+          "Select Data Columns of Interest",
           choices = NULL,
           multiple = TRUE,
           options = list(
