@@ -13,6 +13,9 @@ create_filtered_data <- function(input_source, data, pane) {
     if (pane == "summary_info") {
       req(df)
     }
+    if (pane == "view_data") {
+      req(df)
+    }
 
     # ----- create filters -----
     data_type_f <- input_source$data_types()
