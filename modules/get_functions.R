@@ -453,5 +453,5 @@ get_theme_choices <- function(
     if (theme %in% c("Energy Density")) energy_vars else NULL
   ))
 
-  return(summary_choices)
+  return(choices)
 }
