@@ -255,12 +255,14 @@ server <- function(input, output, session) {
     con,
     main_input = input
   )
-  view_data_server(
+  view_data <- view_data_server(
     "view_data",
     con,
     main_input = input,
     raw_sidebar_vals = raw_sidebar_vals
   )
+
+  raw_sidebar_vals$register_raw(view_data)
 
   # ---- upload data -----
   upload_data_server("insert_data", con)
