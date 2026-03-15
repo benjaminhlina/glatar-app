@@ -1,11 +1,28 @@
 view_data_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  shinydashboard::tabItem(
-    tabName = id,
-    shiny::h2("Viewing Selected Table"),
-    shiny::selectInput(ns("table_select"), "Select a Table", choices = NULL),
-    DT::DTOutput(ns("selected_table"))
+  shiny::tagList(
+    useShinyjs(),
+    div(
+      id = ns("raw_data_ui"),
+      style = "display:none;",
+      shiny::h2("Raw Data"),
+      shiny::p(
+        "This panel displays raw data."
+      ),
+      shiny::fluidRow(
+        shinydashboard::box(
+          title = "Raw Data Table",
+          status = "primary",
+          solidHeader = TRUE,
+          width = 12,
+          div(
+            style = "overflow-x: auto; width: 100%;",
+            DT::DTOutput(ns("raw_data_output"))
+          )
+        )
+      )
+    )
   )
 }
 
