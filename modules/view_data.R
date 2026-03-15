@@ -11,7 +11,7 @@ view_data_ui <- function(id) {
 
 
 # ---- server ----
-view_data_server <- function(id, con) {
+view_data_server <- function(id, con, main_input, raw_sidebar_vals) {
   moduleServer(id, function(input, output, session) {
     # Get all table names and update selectInput dynamically
     observe({
