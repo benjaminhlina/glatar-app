@@ -42,7 +42,13 @@ create_filtered_data <- function(input_source, data, pane) {
         filter(scientific_name %in% species_f)
     }
 
-    return(df)
+    if ((pane == "view_data")) {
+      df <- df |>
+        dplyr::collect()
+      return(df)
+    } else {
+      return(df)
+    }
   })
 }
 
