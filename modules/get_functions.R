@@ -205,10 +205,11 @@ get_raw_data <- function(
 
   # Always start from samples
   # --grab location
-  df <- get_data(con) |>
-    left_join(
-      tbl(con, "tbl_calorimetry")
-    )
+  df <- get_data(con)
+  # |>
+  #   left_join(
+  #     tbl(con, "tbl_calorimetry")
+  #   )
 
   # ----- grab seelected vars ----
 
@@ -237,21 +238,20 @@ get_raw_data <- function(
     )
 
     vars_for_select <- unique(vars_for_select)
-      # Select only requested columns (plus keys if needed)
-      df <- df |>
-        select(
-          data_type,
-          waterbody,
-          scientific_name,
-          length_type,
-          energy_units,
-          any_of(vars_for_select)
-        )
-
+    # Select only requested columns (plus keys if needed)
+    df <- df |>
+      select(
+        data_type,
+        waterbody,
+        scientific_name,
+        length_type,
+        # energy_units,
+        any_of(vars_for_select)
+      )
+  }
   if (debug_sql) {
     cli::cli_alert_info(dbplyr::sql_render(df))
   }
-
   cli::cli_alert_success("selected qery completed: df is {.val {class(df)}}")
   return(df)
 }
