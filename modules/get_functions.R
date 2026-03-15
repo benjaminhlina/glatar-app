@@ -185,7 +185,76 @@ get_numeric_vars <- function(con) {
     dplyr::arrange(field_name) |>
     dplyr::pull(field_name)
 }
+# ------ gret raw data ------ 
 
+get_raw_data <- function(
+  con,
+  selected_vars = NULL,
+  debug_sql = FALSE
+) {
+  req(con)
+
+  if (is.null(selected_vars)) {
+    selected_vars <- NULL
+  }
+
+  cli::cli_inform(c(
+    "v" = "Starting summary data query.",
+    "•" = "Variables selected: {.val {selected_vars}}"
+  ))
+
+  # Always start from samples
+  # --grab location
+  df <- get_data(con) |>
+    left_join(
+      tbl(con, "tbl_calorimetry")
+    )
+
+  # ----- grab seelected vars ----
+
+  if (!is.null(selected_vars) && length(selected_vars) > 0) {
+    needed_tables <- setdiff(
+      get_tables_needed(con = con, var = selected_vars),
+      "tbl_samples"
+    )
+
+    if (!is.null(needed_tables)) {
+      df <- needed_tables |>
+        reduce(.init = df, ~ get_join_table(.x, .y, con))
+    }
+
+    # --- get selected vars -----
+    vars_for_select <- as.character(selected_vars)
+
+    vars_for_select <- dplyr::case_when(
+      grepl(
+        "^length_mm__(fork|total|standard)$",
+        vars_for_select
+      ) ~ "length_mm",
+      grepl("^energy_units__", vars_for_select) ~ "energy_measurement",
+      # grepl("amino_acid_type__", vars_for_select) ~ "amino_acid_measurement",
+      .default = vars_for_select
+    )
+
+    vars_for_select <- unique(vars_for_select)
+      # Select only requested columns (plus keys if needed)
+      df <- df |>
+        select(
+          data_type,
+          waterbody,
+          scientific_name,
+          length_type,
+          energy_units,
+          any_of(vars_for_select)
+        )
+
+  if (debug_sql) {
+    cli::cli_alert_info(dbplyr::sql_render(df))
+  }
+
+  cli::cli_alert_success("selected qery completed: df is {.val {class(df)}}")
+  return(df)
+}
 # ---- Helper: determine which tab is selected ----
 get_selected_tab <- function(input) {
   current_tab <- input$tabs
