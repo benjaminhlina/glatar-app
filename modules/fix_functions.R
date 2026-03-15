@@ -32,30 +32,31 @@ fix_var_generic <- function(df, var_raw) {
     var <- "energy_measurement"
 
     cli::cli_alert_danger("var_label is: {.field {var_label}}")
-  } else if (grepl("amino_acid_type__", var_raw)) {
-    parts <- strsplit(var_raw, "__")[[1]]
-    # grab the second element of part
-    var_type <- parts[2]
-    cli::cli_alert_danger("var_type is: {.field {var_type}}")
-
-    df <- df |>
-      dplyr::filter(amino_acid_type == var_type)
-
-    eu <- df |>
-      distinct(amino_acid_type) |>
-      pull()
-
-    cli::cli_alert_danger("units is: {.field {eu}}")
-    # Dynamic label
-    var_label <- paste0(
-      stringr::str_to_sentence(var_types),
-      " (",
-      amino_acid_unit,
-      ")"
-    )
-    var <- "amino_acid_measurement"
-    cli::cli_alert_danger("var_label is: {.field {var_label}}")
   } else {
+    # else if (grepl("amino_acid_type__", var_raw)) {
+    #   parts <- strsplit(var_raw, "__")[[1]]
+    #   # grab the second element of part
+    #   var_type <- parts[2]
+    #   cli::cli_alert_danger("var_type is: {.field {var_type}}")
+
+    #   df <- df |>
+    #     dplyr::filter(amino_acid_type == var_type)
+
+    #   eu <- df |>
+    #     distinct(amino_acid_type) |>
+    #     pull()
+
+    #   cli::cli_alert_danger("units is: {.field {eu}}")
+    #   # Dynamic label
+    #   var_label <- paste0(
+    #     stringr::str_to_sentence(var_types)
+    #     # " (",
+    #     # amino_acid_unit,
+    #     # ")"
+    #   )
+    #   var <- "amino_acid_measurement"
+    #   cli::cli_alert_danger("var_label is: {.field {var_label}}")
+    # }
     cli::cli_alert_info("Checking for {.field {var_raw}} in columns...")
     cli::cli_inform("Available columns: {.val {colnames(df)}}")
     cli::cli_inform("var_raw %in% colnames(df): {var_raw %in% colnames(df)}")
