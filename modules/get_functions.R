@@ -185,7 +185,7 @@ get_numeric_vars <- function(con) {
     dplyr::arrange(field_name) |>
     dplyr::pull(field_name)
 }
-# ------ gret raw data ------ 
+# ------ gret raw data ------
 
 get_raw_data <- function(
   con,
