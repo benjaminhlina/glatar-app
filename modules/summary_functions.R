@@ -62,7 +62,7 @@ create_mean_data <- function(input_source, data) {
     # can create base_df
     base_df <- df |>
       dplyr::group_by(across(any_of(c("data_type", summary_grouping_vars)))) |>
-      dplyr::summarise(n = n()) |>
+      dplyr::summarise(n = dplyr::n()) |>
       dplyr::ungroup()
 
     # if selected_vars is null just produce base query -----
@@ -159,7 +159,7 @@ create_mean_data <- function(input_source, data) {
         .groups = "drop"
       ) |>
       dplyr::arrange(across(all_of(c("data_type", summary_grouping_vars)))) |>
-      dplyr::mutate(across(where(is.numeric), ~ round(.x, 2)))
+      dplyr::mutate(across(dplyr::where(is.numeric), ~ round(.x, 2)))
 
     return(grouped_summary_df)
   })
