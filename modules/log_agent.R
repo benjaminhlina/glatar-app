@@ -96,9 +96,9 @@ log_agent <- function(x, name, show = 10) {
   if (any(is.na(vals))) {
     cli::cli_alert_warning("{name} contains NA results")
 
-    df <- as.data.frame(x, add_columns = TRUE)
+    df <- base::as.data.frame(x, add_columns = TRUE)
 
-    rule_cols <- setdiff(names(df), names(df)[!grepl("^\\.", names(df))])
+    rule_cols <- dplyr::setdiff(names(df), names(df)[!grepl("^\\.", names(df))])
 
     # validator columns are logical
     rule_cols <- names(df)[sapply(df, is.logical)]
@@ -113,13 +113,16 @@ log_agent <- function(x, name, show = 10) {
       cli::cli_alert_info(
         "First rows with NA: {paste(head(rows_with_na, show), collapse = ', ')}"
       )
-      print(utils::head(df[rows_with_na, ], show))
+      cli::cli_verbatim({
+        utils::head(df[rows_with_na, ], show)
+      })
     }
 
     cols_with_na <- names(which(colSums(is.na(na_map)) > 0))
 
-    cli::cli_alert_warning("Rules producing NA:")
-    print(cols_with_na)
+    cli::cli_alert_warning(
+      "Rules producing NA: {cols_with_na}"
+    )
   }
 
   invisible(NULL)
