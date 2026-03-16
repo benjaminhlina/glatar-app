@@ -222,6 +222,7 @@ summary_sidebar_server <- function(id, con, main_input) {
         grp <- paste(grouping_choices, collapse = ', ')
         # check_dropdowns()
         cli::cli_alert_success("Updating dropdowns")
+        cli::cli_alert_danger("summarry_sidebar tiggered")
         cli::cli_ul(c(
           "Waterbody unique values: {.val {n_wb}}",
           "Species unique values: {.val {n_sp}}",
