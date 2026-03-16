@@ -45,4 +45,3 @@ app_version_label <- function(app_version, build_time = NULL) {
     shiny::tags$span(class = "build", paste0("Built: ", build_time))
   )
 }
-
