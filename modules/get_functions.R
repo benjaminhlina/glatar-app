@@ -22,7 +22,7 @@ get_data <- function(con, debug_sql = FALSE) {
       tbl_loc,
       by = "sample_id"
     ) |>
-   dplyr::left_join(
+    dplyr::left_join(
       tbl_length,
       by = "sample_id"
     )
@@ -68,7 +68,7 @@ get_good_groups <- function(df) {
   # get column names
   cols <- dplyr::tbl_vars(df) |>
     as.character()
-  
+
   # # Return only those that are in good_groups
   groups <- sort(dplyr::intersect(cols, good_groups))
 
@@ -89,7 +89,7 @@ get_groups <- function(df) {
   return(groups)
 }
 
-# ----- get max id ----- 
+# ----- get max id -----
 get_id_max <- function(table_name, id_col) {
   result <- DBI::dbGetQuery(
     con,
@@ -172,7 +172,7 @@ get_var_types <- function(df, var) {
   #   )
   # }
   # c("ug/mg sample weigh"t, "% total protein")
-  
+
   stats::setNames(vars, labels) # names = labels, values = synthetic variable codes
 }
 
@@ -184,9 +184,7 @@ convert_nice_name <- function(cols, lookup = nice_name_lookup) {
     } else {
       col
     }
-  }
-  )
-  )
+  }))
   return(converted_name)
 }
 
@@ -235,7 +233,7 @@ get_sidebar_df <- function(con) {
     ) |>
       dplyr::left_join(
         dplyr::tbl(con_db, "tbl_calorimetry") |>
-        dplyr::select(sample_id, energy_units)
+          dplyr::select(sample_id, energy_units)
       )
 
     cli::cli_alert_success("sidebar base tbl has completed")
@@ -294,7 +292,7 @@ get_summary_data <- function(
       # grepl("amino_acid_type__", vars_for_select) ~ "amino_acid_measurement",
       .default = vars_for_select
     )
-  
+
     vars_for_select <- unique(vars_for_select)
 
     if (is.null(grouping_vars)) {
