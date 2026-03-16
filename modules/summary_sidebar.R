@@ -2,8 +2,8 @@ summary_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    useShinyjs(),
-    div(
+    shinyjs::useShinyjs(),
+    shiny::div(
       id = ns("summary_ui"),
       style = "display:none;",
       shiny::conditionalPanel(
@@ -92,8 +92,8 @@ summary_sidebar_ui <- function(id) {
 
 
 summary_sidebar_server <- function(id, con, main_input) {
-  moduleServer(id, function(input, output, session) {
-    observe({
+  shiny::moduleServer(id, function(input, output, session) {
+    shiny::observe({
       shinyjs::toggle(
         id = "summary_ui",
         condition = main_input$tabs == "summary_info"
@@ -101,18 +101,18 @@ summary_sidebar_server <- function(id, con, main_input) {
     })
 
     # ---- initalize ------
-    initialized <- reactiveVal(FALSE)
+    initialized <- shiny::reactiveVal(FALSE)
 
     # Store computed values so the reactive can access them
-    numeric_choices_r <- reactiveVal(NULL)
-    numeric_names_r <- reactiveVal(NULL)
-    length_vars_r <- reactiveVal(NULL)
-    energy_vars_r <- reactiveVal(NULL)
+    numeric_choices_r <- shiny::reactiveVal(NULL)
+    numeric_names_r <- shiny::reactiveVal(NULL)
+    length_vars_r <- shiny::reactiveVal(NULL)
+    energy_vars_r <- shiny::reactiveVal(NULL)
 
-    summary_choices <- reactive({
-      req(input$themes)
-      req(numeric_choices_r())
-      get_theme_choices(
+    summary_choices <- shiny::reactive({
+      shiny::req(input$themes)
+      shiny::req(numeric_choices_r())
+      shiny::get_theme_choices(
         theme = input$themes,
         con = con,
         numeric_choices = numeric_choices_r(),
@@ -123,11 +123,11 @@ summary_sidebar_server <- function(id, con, main_input) {
     })
 
     # --- get sidebar info -----
-    observeEvent(
+    shiny::observeEvent(
       main_input$tabs,
       {
-        req(main_input$tabs == "summary_info")
-        req(!initialized())
+        shiny::req(main_input$tabs == "summary_info")
+        shiny::req(!initialized())
 
         sidebar_df <- get_sidebar_df(con)
 
@@ -137,7 +137,7 @@ summary_sidebar_server <- function(id, con, main_input) {
 
         # get df
         df <- sidebar_df()
-        req(df)
+        shiny::req(df)
 
         theme_choices <- c(
           "Energy Density",
@@ -162,7 +162,7 @@ summary_sidebar_server <- function(id, con, main_input) {
         grouping_choices <- get_groups(df) |>
           sort()
 
-        grouping_choices <- setNames(
+        grouping_choices <- stats::setNames(
           grouping_choices,
           convert_nice_name(grouping_choices)
         )
@@ -204,17 +204,17 @@ summary_sidebar_server <- function(id, con, main_input) {
 
         # watervody
         waterbody_choices <- df |>
-          distinct(waterbody) |>
+          dplyr::distinct(waterbody) |>
           # filter(!(is.na(waterbody))) |>
-          arrange(waterbody) |>
-          pull(waterbody)
+          dplyr::arrange(waterbody) |>
+          dplyr::pull(waterbody)
 
         # species
         species_choices <- df |>
-          distinct(scientific_name) |>
+          dplyr::distinct(scientific_name) |>
           # filter(!(is.na(scientific_name))) |>
-          arrange(scientific_name) |>
-          pull(scientific_name)
+          dplyr::arrange(scientific_name) |>
+          dplyr::pull(scientific_name)
 
         # get info to make pretty console info
         n_wb <- length(waterbody_choices)
@@ -230,28 +230,28 @@ summary_sidebar_server <- function(id, con, main_input) {
         ))
 
         # # ----- create themes -----
-        updateSelectInput(
+        shiny::updateSelectInput(
           session,
           "themes",
           choices = theme_choices
         )
 
         # grouping choices
-        updateSelectInput(
+        shiny::updateSelectInput(
           session,
           "summary_grouping_vars",
           choices = grouping_choices,
           selected = c("waterbody", "scientific_name")
         )
         # ---- create data choices -----
-        updateSelectInput(
+        shiny::updateSelectInput(
           session,
           "summary_data_types",
           choices = c("All", data_types_choices),
           selected = c("All")
         )
         # waterbody this needs to be reactive
-        updateSelectInput(
+        shiny::updateSelectInput(
           session,
           "summary_waterbody_filter",
           choices = c("All", waterbody_choices),
@@ -259,7 +259,7 @@ summary_sidebar_server <- function(id, con, main_input) {
         )
         # Species Drop-down
 
-        updateSelectInput(
+        shiny::updateSelectInput(
           session,
           "summary_species_filter",
           choices = c("All", species_choices),
@@ -274,13 +274,13 @@ summary_sidebar_server <- function(id, con, main_input) {
       ignoreInit = TRUE
     )
     # Update y summary  variable choices
-    observe({
-      req(summary_choices())
+    shiny::observe({
+      shiny::req(summary_choices())
       nc <- paste(summary_choices(), collapse = ', ')
       cli::cli_alert_info(
         "Numeric choices: {.val {nc}}"
       )
-      updateSelectizeInput(
+      shiny::updateSelectizeInput(
         session,
         "summary_y_variable",
         choices = summary_choices(),
@@ -288,7 +288,7 @@ summary_sidebar_server <- function(id, con, main_input) {
       )
 
       # Update histogram variable choices
-      updateSelectizeInput(
+      shiny::updateSelectizeInput(
         session,
         "hist_var",
         choices = summary_choices(),
@@ -297,21 +297,21 @@ summary_sidebar_server <- function(id, con, main_input) {
     })
     # make this into a function that sidebar exports out
     register_summary <- function(input_source) {
-      output$download_summary <- downloadHandler(
+      output$download_summary <- shiny::downloadHandler(
         filename = function() {
           paste0("glatar_summary_tbl_", Sys.Date(), ".xlsx")
         },
         content = function(file) {
-          req(input_source)
+          shiny::req(input_source)
           df <- input_source$summary_df()()
-          req(df)
+          shiny::req(df)
           writexl::write_xlsx(df, file)
         }
       )
 
       observe({
-        req(input$tabs == "summary_info")
-        req(input_source)
+        shiny::req(input$tabs == "summary_info")
+        shiny::req(input_source)
         df <- input_source$summary_df()()
 
         # toggle button
@@ -326,12 +326,12 @@ summary_sidebar_server <- function(id, con, main_input) {
     # we need grouping and hist variables we also need the function
 
     return(list(
-      data_types = reactive(input$summary_data_types),
-      grouping_vars = reactive(input$summary_grouping_vars),
-      waterbody_filter = reactive(input$summary_waterbody_filter),
-      species_filter = reactive(input$summary_species_filter),
-      y_variable = reactive(input$summary_y_variable),
-      hist_vars = reactive(input$hist_var),
+      data_types = shiny::reactive(input$summary_data_types),
+      grouping_vars = shiny::reactive(input$summary_grouping_vars),
+      waterbody_filter = shiny::reactive(input$summary_waterbody_filter),
+      species_filter = shiny::reactive(input$summary_species_filter),
+      y_variable = shiny::reactive(input$summary_y_variable),
+      hist_vars = shiny::reactive(input$hist_var),
       register_summary = register_summary
     ))
   })
