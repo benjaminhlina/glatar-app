@@ -10,7 +10,7 @@ view_map_ui <- function(id) {
 
 # ---- server -----
 view_map_server <- function(id, con) {
-  stats::moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     output$map <- leaflet::renderLeaflet({
       # Check if the table exists before proceeding
       if (!"tbl_location" %in% DBI::dbListTables(con)) {
