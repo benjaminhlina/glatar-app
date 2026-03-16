@@ -18,7 +18,7 @@ naming_conventions <- readr::read_csv(here::here(
 # print(naming_conventions, n = 50)
 
 # create named vectors
-nice_name_lookup <- setNames(
+nice_name_lookup <- stats::setNames(
   naming_conventions$nice_names,
   naming_conventions$raw_names
 )
