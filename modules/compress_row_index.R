@@ -2,7 +2,9 @@
 
 compress_row_index <- function(row_index_str, min_run = 5) {
   # Parse the numbers
-  nums <- as.integer(trimws(strsplit(row_index_str, ",")[[1]]))
+  nums <- strsplit(row_index_str, ",")[[1]] |> 
+      trimws() |> 
+      as.integer()
   nums <- sort(unique(nums))
 
   if (length(nums) == 0) {
@@ -37,5 +39,6 @@ compress_row_index <- function(row_index_str, min_run = 5) {
     }
   })
 
-  paste(parts, collapse = ", ")
+  out <- paste(parts, collapse = ", ")
+  return(out)
 }
