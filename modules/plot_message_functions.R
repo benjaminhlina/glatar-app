@@ -9,7 +9,7 @@ empty_plot <- function(msg) {
   ggplot2::ggplot() +
     ggplot2::theme_void() +
     # Outer box
-    ggplot2::tannotate(
+    ggplot2::annotate(
       "rect",
       xmin = 0.1,
       xmax = 0.9,
@@ -20,7 +20,7 @@ empty_plot <- function(msg) {
       linewidth = 2
     ) +
     # Blue left accent bar
-    ggplot2::tannotate(
+    ggplot2::annotate(
       "rect",
       xmin = 0.1,
       xmax = 0.13,
@@ -30,14 +30,14 @@ empty_plot <- function(msg) {
       color = NA
     ) +
     # "i" icon circle
-    ggplot2::tannotate(
+    ggplot2::annotate(
       "point",
       x = 0.17,
       y = 0.5,
       size = 12,
       color = "#2196F3"
     ) +
-    ggplot2::tannotate(
+    ggplot2::annotate(
       "text",
       x = 0.17,
       y = 0.5,
@@ -48,7 +48,7 @@ empty_plot <- function(msg) {
     ) +
     # ggtext textbox — wraps automatically to fit width
     ggtext::geom_textbox(
-      ggplot2::taes(x = 0.23, y = 0.5, label = styled_msg),
+      ggplot2::aes(x = 0.23, y = 0.5, label = styled_msg),
       width = grid::unit(0.62, "npc"),
       hjust = 0,
       vjust = 0.5,
@@ -58,7 +58,7 @@ empty_plot <- function(msg) {
       box.padding = ggplot2::margin(0, 4, 0, 4)
     ) +
     ggplot2::xlim(0, 1) +
-    ggplot2::tylim(0, 1)
+    ggplot2::ylim(0, 1)
 }
 
 # ----- if is iempty ------
