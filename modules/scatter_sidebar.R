@@ -170,7 +170,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         numeric_choices <- get_numeric_vars(con)
 
         # remove columns we don't want/need that are numerics
-        numeric_choices <- dplyr::setdiff(
+        numeric_choices <- setdiff(
           numeric_choices,
           c(
             "calorimeter_conversion_factor",

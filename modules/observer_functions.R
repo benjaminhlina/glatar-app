@@ -8,7 +8,7 @@ exclusive_all_observer <- function(input, session, id) {
         shiny::updateSelectInput(
           session,
           id,
-          selected = dplyr::setdiff(sel, "All")
+          selected = setdiff(sel, "All")
         )
       }
     },
