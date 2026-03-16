@@ -287,7 +287,7 @@ raw_data_sidebar_server <- function(id, con, main_input) {
       data_types = shiny::reactive(input$raw_data_types),
       waterbody_filter = shiny::reactive(input$raw_waterbody_filter),
       species_filter = shiny::reactive(input$raw_species_filter),
-      y_variable = shiny::reactive(input$raw_choices),
+      y_variable = shiny::reactive(input$raw_y_variable),
       register_raw = register_raw
     ))
   })
