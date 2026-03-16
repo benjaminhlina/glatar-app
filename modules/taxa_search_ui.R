@@ -18,13 +18,13 @@ taxa_search_ui <- function(id) {
   )
 }
 taxa_search_server <- function(id, con) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     filtered_taxa <- shiny::reactive({
       search_cols <- dplyr::tbl(con, "tbl_taxonomy") |>
         colnames()
 
       df <- dplyr::tbl(con, "tbl_taxonomy") |>
-        arrange(common_name)
+        dplyr::arrange(common_name)
 
       search_term <- input$search_bar
 
