@@ -11,7 +11,7 @@ about_ui <- function(id) {
         "This database and toolbox is funded by the Great Lakes Fishery Commission
       through grant number 2025_JOH_460024."
       )
-    ), 
+    ),
     shiny::h3("Contributors"),
     shiny::tags$ul(
       shiny::tags$li(
@@ -19,7 +19,7 @@ about_ui <- function(id) {
         the core group being: Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers, 
         Mark W. Kershner, Charles P. Madenjian, Brent W. Metcalfe, 
         Steven A. Pothoven, Michael D. Rennie, and Benjamin L. Hlina."
-      ), 
+      ),
       shiny::br(),
       shiny::tags$li(
         "The following individuals contributed to the database design and thoughts on 
@@ -42,7 +42,7 @@ about_ui <- function(id) {
         shiny::tags$a(
           href = "https://github.com/benjaminhlina/glatar-app",
           target = "_blank",
-          
+
           shiny::icon("github"),
           "View Repository"
         )
