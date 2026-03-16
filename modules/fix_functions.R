@@ -24,8 +24,8 @@ fix_var_generic <- function(df, var_raw) {
       dplyr::filter(energy_units == var_type)
 
     eu <- df |>
-      distinct(energy_units) |>
-      pull()
+      dplyr::distinct(energy_units) |>
+      dplyr::pull()
     cli::cli_alert_danger("units is: {.field {eu}}")
     # Dynamic label
     var_label <- paste0("Energy Density (", var_type, ")")
@@ -81,7 +81,7 @@ fix_title_label <- function(x, max = NULL) {
     paste(x, collapse = ", ")
   } else {
     paste0(
-      paste(head(x, max), collapse = ", "),
+      paste(utils::head(x, max), collapse = ", "),
       ", <br>… (",
       length(x) - max,
       " more)"
