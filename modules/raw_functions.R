@@ -45,7 +45,7 @@ create_raw_data <- function(
 
     # get groups
 
-    req(con_db)
+    shiny::req(con_db)
 
     # ----- if grouping_vars is null or length is 0 return a null object all
     # together
@@ -54,7 +54,12 @@ create_raw_data <- function(
     df <- get_raw_data(
       con = con_db,
       selected_vars = selected_vars
-    )
+    ) |>
+      dplyr::select(
+        -sample_id,
+        -loc_id,
+        -len_id
+      )
 
     return(df)
   })
