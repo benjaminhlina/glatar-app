@@ -6,7 +6,10 @@ assign_table_ids <- function(tables_split, tables_ids, max_ids) {
       dplyr::pull(column_name)
 
     # --- drop foreign keys you never want to generate
-    id_col <- dplyr::setdiff(id_col, c("sample_id", "source_id", "submission_id"))
+    id_col <- dplyr::setdiff(
+      id_col,
+      c("sample_id", "source_id", "submission_id")
+    )
 
     if (length(id_col) == 0) {
       cli::cli_alert_info("No primary ID to assign for {tbl_name}")
