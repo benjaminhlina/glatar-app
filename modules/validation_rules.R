@@ -1,6 +1,6 @@
 # --- not blank rules
 rule_blank <- function(required_fields) {
-  rule <- setNames(
+  rule <- stats::setNames(
     lapply(required_fields, function(x) {
       substitute(nchar(trimws(COL)) > 0, list(COL = as.name(x)))
     }),
@@ -11,7 +11,7 @@ rule_blank <- function(required_fields) {
 
 # --- chec column names -----
 rule_column_names <- function(required_fields) {
-  rule <- setNames(
+  rule <- stats::setNames(
     lapply(required_fields, function(x) {
       substitute(COL %in% colnames(.), list(COL = x))
     }),
@@ -28,7 +28,7 @@ rule_email <- list(
 
 # --- length == 1 rules
 rule_len <- function(required_fields) {
-  rule <- setNames(
+  rule <- stats::setNames(
     lapply(required_fields, function(x) {
       substitute(length(COL) == 1, list(COL = as.name(x)))
     }),
@@ -39,7 +39,7 @@ rule_len <- function(required_fields) {
 
 # --- not NA rules
 rule_na <- function(required_fields) {
-  rule <- setNames(
+  rule <- stats::setNames(
     lapply(required_fields, function(x) {
       substitute(!is.na(COL), list(COL = as.name(x)))
     }),
