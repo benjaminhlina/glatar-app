@@ -1,6 +1,6 @@
 app_version_head <- function() {
-  tags$head(
-    tags$style(HTML(
+  shiny::tags$head(
+    shiny::tags$style(shiny::HTML(
       "
         #app-version {
           position: fixed;
@@ -39,9 +39,9 @@ app_version_label <- function(app_version, build_time = NULL) {
     build_time <- format(Sys.time(), "%Y-%m-%d %H:%M %Z")
   }
 
-  tags$div(
+  shiny::tags$div(
     id = "app-version",
-    tags$span(class = "version", paste0("v", app_version)),
-    tags$span(class = "build", paste0("Built: ", build_time))
+    shiny::tags$span(class = "version", paste0("v", app_version)),
+    shiny::tags$span(class = "build", paste0("Built: ", build_time))
   )
 }

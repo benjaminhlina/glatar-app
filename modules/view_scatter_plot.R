@@ -2,11 +2,11 @@ view_scatter_plot_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shinydashboard::tabItem(
-    useShinyjs(),
-    div(
+    shinyjs::useShinyjs(),
+    shiny::div(
       id = ns("scatter_ui"),
       style = "display:none;",
-      h2("Scatter Plot"),
+      shiny::h2("Scatter Plot"),
       shiny::p(
         "This panel displays scatter plots for your selected data.
                   Use the dropdowns to filter your results by either clicking and select a choice 
@@ -28,12 +28,12 @@ view_scatter_plot_ui <- function(id) {
 
 
 scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     # ---- namespaces -----
     ns <- session$ns
 
     # ----- add in ui ------
-    observeEvent(
+    shiny::observeEvent(
       main_input$tabs,
       {
         shinyjs::toggle(
@@ -45,13 +45,13 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     )
 
     # add activation
-    scatter_activated <- reactiveVal(FALSE)
+    scatter_activated <- shiny::reactiveVal(FALSE)
 
     # summary activate only if scatter_plot
-    observeEvent(
+    shiny::observeEvent(
       main_input$tabs,
       {
-        req(main_input$tabs == "scatter_plot")
+        shiny::req(main_input$tabs == "scatter_plot")
         scatter_activated(TRUE)
       },
       ignoreInit = TRUE
@@ -77,10 +77,10 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     )
 
     # ---- check filtered scatter  -----
-    observeEvent(
+    shiny::observeEvent(
       filtered_scatter_data(),
       {
-        req(filtered_scatter_data())
+        shiny::req(filtered_scatter_data())
         check_summary_data(filtered_scatter_data())
       },
       ignoreInit = TRUE

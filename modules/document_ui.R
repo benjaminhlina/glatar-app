@@ -1,25 +1,27 @@
 docs_ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny::NS(id)
 
-  tagList(
-    fluidRow(
-      box(
+  shiny::tagList(
+    shiny::fluidRow(
+      shinydashboard::box(
         title = "Documentation & Templates",
         width = 12,
         status = "primary",
         solidHeader = TRUE,
 
-        tags$p("Download the data entry templates and documentation below:"),
+        shiny::tags$p(
+          "Download the data entry templates and documentation below:"
+        ),
 
-        fluidRow(
+        shiny::fluidRow(
           # ---- Templates column ----
-          column(
+          shiny::column(
             width = 6,
-            tags$h4("Templates"),
+            shiny::tags$h4("Templates"),
 
-            tags$ul(
-              tags$li(
-                tags$a(
+            shiny::tags$ul(
+              shiny::tags$li(
+                shiny::tags$a(
                   "Basic Data Entry Template (v18)",
                   href = "data-entry-template/GLATAR_data_entry_template_v18.xlsx",
                   download = "GLATAR_data_entry_template_v18.xlsx",
@@ -27,8 +29,8 @@ docs_ui <- function(id) {
                 )
               ),
               # add more templates here
-              tags$li(
-                tags$a(
+              shiny::tags$li(
+                shiny::tags$a(
                   "Extended Data Entry Template (v18)",
                   href = "data-entry-template/GLATAR_data_entry_template_v18_long.xlsx",
                   download = "GLATAR_data_entry_template_v18_long.xlsx",
@@ -41,9 +43,9 @@ docs_ui <- function(id) {
           ),
 
           # ---- Documentation column ----
-          column(
+          shiny::column(
             width = 6,
-            tags$h4("Documentation"),
+            shiny::tags$h4("Documentation"),
 
             # tags$ul(
             #   tags$li(
@@ -60,50 +62,50 @@ docs_ui <- function(id) {
             #     target = "_blank"
             #   )
             # )
-            tags$li(
-              tags$a(
+            shiny::tags$li(
+              shiny::tags$a(
                 "Rationale and Purpose of GLATAR",
                 href = "documentation/rationale_for_GLATAR.pdf",
                 target = "_blank"
               )
             ),
-            tags$li(
-              tags$a(
+            shiny::tags$li(
+              shiny::tags$a(
                 "Calorimetry Documentation",
                 href = "documentation/calorimetry_documentation.pdf",
                 target = "_blank"
               )
             ),
-            tags$li(
-              tags$a(
+            shiny::tags$li(
+              shiny::tags$a(
                 "Fatty Acid Documentation",
                 href = "documentation/fatty_acids_documentation.pdf",
                 target = "_blank"
               )
             ),
-            tags$li(
-              tags$a(
+            shiny::tags$li(
+              shiny::tags$a(
                 "Mercury and Methylmercury Documentation",
                 href = "documentation/mercury_and_methylmercury_documentation.pdf",
                 target = "_blank"
               )
             ),
-            tags$li(
-              tags$a(
+            shiny::tags$li(
+              shiny::tags$a(
                 "Polychlorinated Biphenyls (PCBs) Documentation",
                 href = "documentation/polychlorinated_biphenyls_documentation.pdf",
                 target = "_blank"
               )
             ),
-            tags$li(
-              tags$a(
+            shiny::tags$li(
+              shiny::tags$a(
                 "Stable Isotope Documentation",
                 href = "documentation/stable_isotope_documentation.pdf",
                 target = "_blank"
               )
             ),
-            tags$li(
-              tags$a(
+            shiny::tags$li(
+              shiny::tags$a(
                 "Thiamine and Thiaminase Documentation",
                 href = "documentation/thiamine_and_thiaminase_documentation.pdf",
                 target = "_blank"

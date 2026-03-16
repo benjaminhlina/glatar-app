@@ -40,7 +40,7 @@ upload_data_ui <- function(id) {
       disabled = TRUE
     ),
     shinyjs::hidden(
-      div(
+      shiny::div(
         id = ns("loading_indicator"),
         style = "display: flex; align-items: center; gap: 8px; margin-top: 10px; color: #555;",
         tags$i(class = "fa fa-spinner fa-spin fa-lg"),
@@ -54,22 +54,22 @@ upload_data_ui <- function(id) {
 
 
 upload_data_server <- function(id, con) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     options(shiny.maxRequestSize = 20 * 1024^2)
     ns <- session$ns
 
     # ---- reactive validate ------
-    validated_samples <- reactiveVal(NULL)
-    validated_source <- reactiveVal(NULL)
-    validated_submission <- reactiveVal(NULL)
-    tables_to_submit <- reactiveVal(NULL)
-    tables_split_full <- reactiveVal(NULL)
+    validated_samples <- shiny::reactiveVal(NULL)
+    validated_source <- shiny::reactiveVal(NULL)
+    validated_submission <- shiny::reactiveVal(NULL)
+    tables_to_submit <- shiny::reactiveVal(NULL)
+    tables_split_full <- shiny::reactiveVal(NULL)
 
-    observeEvent(input$upload_btn, {
+    shiny::observeEvent(input$upload_btn, {
       # ---- get file upload -----
-      req(input$file_upload)
+      shiny::req(input$file_upload)
       shinyjs::show("loading_indicator")
-      output$loading_msg <- renderText("Processing file, please wait...")
+      output$loading_msg <- shiny::renderText("Processing file, please wait...")
       shinyjs::disable("upload_btn")
 
       on.exit({
@@ -89,8 +89,8 @@ upload_data_server <- function(id, con) {
       missing_sheets <- setdiff(required_sheets, sheets)
 
       if (length(missing_sheets) > 0) {
-        output$upload_status <- renderUI({
-          p(
+        output$upload_status <- shiny::renderUI({
+          shiny::p(
             paste0(
               "✖ Error: Missing required sheet(s): ",
               paste(missing_sheets, collapse = ", ")
@@ -175,7 +175,7 @@ upload_data_server <- function(id, con) {
       )
 
       # ----- get species list -----
-      species_list <- tbl(con, "tbl_taxonomy")
+      species_list <- dplyr::tbl(con, "tbl_taxonomy")
 
       # ---- add valid taxoonmy -----
       tbl_samples_submitted <- add_valid_taxonomy(
@@ -185,18 +185,21 @@ upload_data_server <- function(id, con) {
 
       # ---- get numeric cols and make sure they are all numeric -----
       num_cols <- get_column_map(con) |>
-        filter(
+        dplyr::filter(
           field_class %in%
             c("integer", "numeric") &
             !(field_name %in%
               c("issue", "publication_year", "volume"))
         ) |>
-        select(field_name) |>
-        arrange(field_name) |>
-        pull()
+        dplyr::select(field_name) |>
+        dplyr::arrange(field_name) |>
+        dplyr::pull()
 
       tbl_samples_submitted <- tbl_samples_submitted |>
-        mutate(across(any_of(num_cols), ~ suppressWarnings(as.numeric(.))))
+        dplyr::mutate(dplyr::across(
+          dplyr::any_of(num_cols),
+          ~ suppressWarnings(as.numeric(.))
+        ))
 
       # ---- add validator cols -----
       tbl_samples_submitted <- add_valid_cols(tbl_samples_submitted)
@@ -209,9 +212,9 @@ upload_data_server <- function(id, con) {
       log_agent(agent_source, "agent_source")
       log_agent(agent_sample, "agent_sample")
 
-      ok_submission <- all(unlist(values(agent_submission)), na.rm = TRUE)
-      ok_source <- all(unlist(values(agent_source)), na.rm = TRUE)
-      ok_sample <- all(unlist(values(agent_sample)), na.rm = TRUE)
+      ok_submission <- all(unlist(validate::values(agent_submission)), na.rm = TRUE)
+      ok_source <- all(unlist(validate::values(agent_source)), na.rm = TRUE)
+      ok_sample <- all(unlist(validate::values(agent_sample)), na.rm = TRUE)
 
       cli::cli_alert_info(
         "Gate status to submission: {ok_submission},
@@ -238,13 +241,13 @@ upload_data_server <- function(id, con) {
 
         # ---- splap submisison id on to source and submission -----
         tbl_submission_submitted <- tbl_submission_submitted |>
-          mutate(submission_id = next_submission_id$next_id)
+          dplyr::mutate(submission_id = next_submission_id$next_id)
 
         tbl_source_submitted <- tbl_source_submitted |>
-          mutate(submission_id = next_submission_id$next_id)
+          dplyr::mutate(submission_id = next_submission_id$next_id)
 
         # ---- pull column names that are all have id
-        tables_ids <- dbGetQuery(
+        tables_ids <- DBI::dbGetQuery(
           con,
           "
         SELECT table_name, column_name
@@ -253,7 +256,7 @@ upload_data_server <- function(id, con) {
         AND column_name LIKE '%_id'
         AND table_name <> 'tbl_submission'"
         ) |>
-          filter(
+          dplyr::filter(
             !column_name %in%
               c("submission_id", "percent_lipid", "user_sample_id")
           )
@@ -263,9 +266,9 @@ upload_data_server <- function(id, con) {
         # ---- get max id for each -----
         max_ids <- purrr::pmap(
           tables_ids,
-          ~ id_max(..1, ..2)
+          ~ get_id_max(..1, ..2)
         ) |>
-          set_names(tables_ids$column_name)
+          rlang::set_names(tables_ids$column_name)
 
         max_ids_str <- paste(
           names(max_ids),
@@ -276,28 +279,28 @@ upload_data_server <- function(id, con) {
         cli::cli_alert_info("Next id for each starts here: {max_ids_str}")
         # ------ get tables to split -----
         tables_to_split <- get_column_map(con) |>
-          filter(!table_name %in% c("tbl_source", "tbl_submission")) |>
-          collect() |>
+          dplyr::filter(!table_name %in% c("tbl_source", "tbl_submission")) |>
+          dplyr::collect() |>
           (\(.) split(., .$table_name))()
 
         # ----- do the same for source id -----
         tbl_source_submitted <- tbl_source_submitted |>
-          mutate(
+          dplyr::mutate(
             .source_id = seq(
               from = max_ids[["source_id"]] + 1,
-              length.out = n()
+              length.out = dplyr::n()
             )
           )
 
         # ----- we need to do a couple things to tbl_submission before submitting
         tbl_samples_submitted <- tbl_samples_submitted |>
-          mutate(
+          dplyr::mutate(
             submission_id = next_submission_id$next_id,
             sample_id = seq(
               from = max_ids[["sample_id"]] + 1,
-              length.out = n()
+              length.out = dplyr::n()
             ),
-            across(common_name:family, ~ stringr::str_to_sentence(.x)),
+            dplyr::across(common_name:family, ~ stringr::str_to_sentence(.x)),
             length_type = tolower(length_type),
             amino_acid_type = stringr::str_to_sentence(amino_acid_type),
             waterbody = stringr::str_to_title(waterbody),
@@ -310,30 +313,30 @@ upload_data_server <- function(id, con) {
             calorimetry_method = stringr::str_to_sentence(calorimetry_method) |>
               stringr::str_replace("Gentry-weigert", "Gentry-Weigert")
           ) |>
-          select(-energy_units) |>
-          rename(
+          dplyr::select(-energy_units) |>
+          dplyr::rename(
             energy_units = .energy_units
           )
 
         # ---- add source id based on user supplied id ------
         tbl_samples_submitted <- tbl_samples_submitted |>
-          left_join(
+          dplyr::left_join(
             tbl_source_submitted |>
-              select(source_id, .source_id)
+              dplyr::select(source_id, .source_id)
           ) |>
-          select(-source_id) |>
-          rename(source_id = .source_id)
+          dplyr::select(-source_id) |>
+          dplyr::rename(source_id = .source_id)
 
         tbl_samples_submitted <- tbl_samples_submitted |>
-          left_join(
+          dplyr::left_join(
             species_list |>
-              collect()
+              dplyr::collect()
           )
 
         # doo the same to source -----
         tbl_source_submitted <- tbl_source_submitted |>
-          select(-source_id) |>
-          rename(source_id = .source_id)
+          dplyr::select(-source_id) |>
+          dplyr::rename(source_id = .source_id)
 
         # ----- split by table name ----
 
@@ -343,7 +346,7 @@ upload_data_server <- function(id, con) {
 
           # --- select only payload columns first
           payload <- tbl_samples_submitted |>
-            dplyr::select(any_of(cols))
+            dplyr::select(dplyr::any_of(cols))
 
           # --- does this table actually have data (ignore sample_id)?
           has_data <- nrow(payload) > 0 && any(!is.na(as.matrix(payload)))
@@ -360,7 +363,7 @@ upload_data_server <- function(id, con) {
             # --- attach IDs while preserving row order
             out <- dplyr::bind_cols(
               tbl_samples_submitted |>
-                dplyr::select(any_of(id_cols)),
+                dplyr::select(dplyr::any_of(id_cols)),
               payload
             )
 
@@ -371,7 +374,7 @@ upload_data_server <- function(id, con) {
             NULL
           }
         }) |>
-          set_names(names(tables_to_split)) |>
+          purrr::set_names(names(tables_to_split)) |>
           purrr::compact()
 
         # --- add in ids -----
@@ -413,20 +416,20 @@ upload_data_server <- function(id, con) {
 
         shinyjs::enable("submit_btn")
 
-        output$map <- renderLeaflet({
-          req(tables_split_full$tbl_location)
+        output$map <- leaflet::renderLeaflet({
+          shiny::req(tables_split_full$tbl_location)
 
           location_summary <- tables_split_full$tbl_location |>
-            left_join(
+            dplyr::left_join(
               tables_split_full$tbl_samples |>
-                select(sample_id, user_sample_id)
+                dplyr::select(sample_id, user_sample_id)
             ) |>
-            group_by(latitude, longitude) |>
-            summarise(
+            dplyr::group_by(latitude, longitude) |>
+            dplyr::summarise(
               sample_ids = paste(user_sample_id, collapse = ", "),
-              n_samples = n(),
+              n_samples = dplyr::n(),
             ) |>
-            ungroup()
+            dplyr::ungroup()
 
           # Show the actual coordinates for debugging
           cli::cli_alert_info(
@@ -454,9 +457,9 @@ upload_data_server <- function(id, con) {
             )
           }
 
-          leaflet(location_summary) |>
-            addTiles() |>
-            addCircleMarkers(
+          leaflet::leaflet(location_summary) |>
+            leaflet::addTiles() |>
+            leaflet::addCircleMarkers(
               lng = ~longitude,
               lat = ~latitude,
               radius = 8,
@@ -474,13 +477,13 @@ upload_data_server <- function(id, con) {
             )
         })
 
-        output$upload_status <- renderUI({
-          tagList(
-            p(
+        output$upload_status <- shiny::renderUI({
+          shiny::tagList(
+            shiny::p(
               "✔ All validations passed",
               style = "color:green; font-weight:600;"
             ),
-            p(
+            shiny::p(
               paste0(
                 "Ready to submit ",
                 nrow(tbl_samples_submitted),
@@ -491,14 +494,18 @@ upload_data_server <- function(id, con) {
           )
         })
 
-        output$location_map <- renderUI({
-          req(tables_split_full)
+        output$location_map <- shiny::renderUI({
+          shiny::req(tables_split_full)
 
-          req(validated_submission(), validated_source(), validated_samples())
+          shiny::req(
+            validated_submission(),
+            validated_source(),
+            validated_samples()
+          )
           tbl_loc <- tables_split_full$tbl_location
           if (all(is.na(tbl_loc$latitude)) & all(is.na(tbl_loc$longitude))) {
-            tagList(
-              h4(
+            shiny::tagList(
+              shiny::h4(
                 "No locations were detected in the longtiude and latitude
                   columns of your submitted data.
                   If this is correct, please proceed to submitting
@@ -507,15 +514,15 @@ upload_data_server <- function(id, con) {
               )
             )
           } else {
-            tagList(
-              h4(
+            shiny::tagList(
+              shiny::h4(
                 "Please check that your sample locations, the number of samples,
                   and their corresponding ids are correct prior to submitting to
                   the database. To check, click on each point
                   to view the number of samples and the user submitted sample ids.",
                 style = "margin-top: 20px; margin-bottom: 10px;"
               ),
-              leafletOutput(ns("map"), height = "500px")
+              leaflet::leafletOutput(ns("map"), height = "500px")
             )
           }
         })
@@ -532,9 +539,9 @@ upload_data_server <- function(id, con) {
           tbl_samples = agent_sample
         )
 
-        output$upload_status <- renderUI({
-          tagList(
-            p(
+        output$upload_status <- shiny::renderUI({
+          shiny::tagList(
+            shiny::p(
               "✖ Validation failed - please fix the following issues:",
               style = "color:red; font-weight:600;"
             ),
@@ -549,11 +556,11 @@ upload_data_server <- function(id, con) {
     })
 
     # ---- submit to database ----
-    observeEvent(input$submit_btn, {
-      req(validated_submission())
-      req(validated_source())
-      req(validated_samples())
-      req(tables_to_submit())
+    shiny::observeEvent(input$submit_btn, {
+      shiny::req(validated_submission())
+      shiny::req(validated_source())
+      shiny::req(validated_samples())
+      shiny::req(tables_to_submit())
 
       # --- assume tables_split_full is a named list ---
       tables_to_submit <- tables_to_submit()
@@ -597,7 +604,7 @@ upload_data_server <- function(id, con) {
           }
 
           DBI::dbCommit(con)
-          showNotification("Upload successful!", type = "message")
+          shiny::showNotification("Upload successful!", type = "message")
           TRUE
         },
         error = function(e) {
@@ -607,15 +614,18 @@ upload_data_server <- function(id, con) {
             "Upload failed due to inconsistances,
                               rolled back: {e$message}"
           )
-          showNotification("Upload failed. No data was saved.", type = "error")
+          shiny::showNotification(
+            "Upload failed. No data was saved.",
+            type = "error"
+          )
           FALSE
         }
       )
 
       # Create a message to display
-      output$upload_status <- renderUI({
+      output$upload_status <- shiny::renderUI({
         if (!upload_succeeded) {
-          HTML(
+          shiny::HTML(
             "<span style='color: red;'>
            ✘ Upload failed — no data was saved. Please check your data and try again.
          </span>"
@@ -637,7 +647,7 @@ upload_data_server <- function(id, con) {
             )
           })
 
-          HTML(
+          shiny::HTML(
             paste0(
               "<span style='color: green;'>",
               paste(msg, collapse = "<br>"),

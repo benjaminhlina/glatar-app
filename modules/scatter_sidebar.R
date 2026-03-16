@@ -3,8 +3,8 @@ scatter_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    useShinyjs(),
-    div(
+    shinyjs::useShinyjs(),
+    shiny::div(
       id = ns("scatter_ui"),
       style = "display:none;",
       shiny::selectInput(
@@ -25,7 +25,6 @@ scatter_sidebar_ui <- function(id) {
         choices = NULL,
         multiple = TRUE
       ),
-
       shiny::selectInput(
         ns("scatter_waterbody_filter"),
         "Select Waterbody",
@@ -38,6 +37,7 @@ scatter_sidebar_ui <- function(id) {
         choices = NULL,
         multiple = TRUE
       ),
+
       shiny::selectizeInput(
         ns("x_var"),
         "Select X Variable",
@@ -75,14 +75,14 @@ scatter_sidebar_ui <- function(id) {
           )
         )
       ),
-      div(
+      shiny::div(
         id = ns("grouping_message"),
         style = "padding: 10px;
                      margin: 10px 0;
                      background-color: #000000;
                      border-left: 4px solid #2196F3;
                      border-radius: 4px;",
-        icon("info-circle"),
+        shiny::icon("info-circle"),
         " Select one or more grouping variables to generate a plot"
       )
     )
@@ -90,8 +90,8 @@ scatter_sidebar_ui <- function(id) {
 }
 # ---- scatter_sidebar_server -----
 scatter_sidebar_server <- function(id, con, main_input) {
-  moduleServer(id, function(input, output, session) {
-    observe({
+  shiny::moduleServer(id, function(input, output, session) {
+    shiny::observe({
       shinyjs::toggle(
         id = "scatter_ui",
         condition = main_input$tabs == "scatter_plot"
@@ -99,16 +99,16 @@ scatter_sidebar_server <- function(id, con, main_input) {
     })
 
     # ---- intialize scatter plot -----
-    initialized_scatter <- reactiveVal(FALSE)
+    initialized_scatter <- shiny::reactiveVal(FALSE)
     # Store computed values so the reactive can access them
-    numeric_choices_r <- reactiveVal(NULL)
-    numeric_names_r <- reactiveVal(NULL)
-    length_vars_r <- reactiveVal(NULL)
-    energy_vars_r <- reactiveVal(NULL)
+    numeric_choices_r <- shiny::reactiveVal(NULL)
+    numeric_names_r <- shiny::reactiveVal(NULL)
+    length_vars_r <- shiny::reactiveVal(NULL)
+    energy_vars_r <- shiny::reactiveVal(NULL)
 
-    axis_choices <- reactive({
-      req(input$themes)
-      req(numeric_choices_r())
+    axis_choices <- shiny::reactive({
+      shiny::req(input$themes)
+      shiny::req(numeric_choices_r())
       get_theme_choices(
         theme = input$themes,
         con = con,
@@ -120,12 +120,12 @@ scatter_sidebar_server <- function(id, con, main_input) {
     })
 
     # ---- observe events -----
-    observeEvent(
+    shiny::observeEvent(
       main_input$tabs,
       {
         # require scatter tab and initalize scatter
-        req(main_input$tabs == "scatter_plot")
-        req(!initialized_scatter())
+        shiny::req(main_input$tabs == "scatter_plot")
+        shiny::req(!initialized_scatter())
 
         # get sidebar df
         sidebar_df <- get_sidebar_df(con)
@@ -137,7 +137,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
 
         # get use the reactive
         df <- sidebar_df()
-        req(df)
+        shiny::req(df)
         theme_choices <- c(
           "Energy Density",
           "Body Composition",
@@ -161,7 +161,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         grouping_choices <- get_groups(df) |>
           sort()
 
-        grouping_choices <- setNames(
+        grouping_choices <- stats::setNames(
           grouping_choices,
           convert_nice_name(grouping_choices)
         )
@@ -210,17 +210,17 @@ scatter_sidebar_server <- function(id, con, main_input) {
 
         # waterbody
         waterbody_choices <- df |>
-          distinct(waterbody) |>
+          dplyr::distinct(waterbody) |>
           # filter(!(is.na(waterbody))) |>
-          arrange(waterbody) |>
-          pull(waterbody)
+          dplyr::arrange(waterbody) |>
+          dplyr::pull(waterbody)
 
         # species
         species_choices <- df |>
-          distinct(scientific_name) |>
+          dplyr::distinct(scientific_name) |>
           # filter(!(is.na(scientific_name))) |>
-          arrange(scientific_name) |>
-          pull(scientific_name)
+          dplyr::arrange(scientific_name) |>
+          dplyr::pull(scientific_name)
 
         # get info for check dropdown
         n_wb <- length(waterbody_choices)
@@ -229,6 +229,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
 
         # check_dropdowns()
         cli::cli_alert_success("Updating dropdowns")
+        cli::cli_alert_danger("scatter_sidebar tiggered")
         cli::cli_ul(c(
           "Waterbody unique values: {.val {n_wb}}",
           "Species unique values: {.val {n_sp}}",
@@ -236,20 +237,20 @@ scatter_sidebar_server <- function(id, con, main_input) {
         ))
 
         # # ----- create themes -----
-        updateSelectInput(
+        shiny::updateSelectInput(
           session,
           "themes",
           choices = theme_choices
         )
 
         # grouping choices
-        updateSelectInput(
+        shiny::updateSelectInput(
           session,
           "scatter_grouping_vars",
           choices = grouping_choices,
         )
         # ---- create data choices -----
-        updateSelectInput(
+        shiny::updateSelectInput(
           session,
           "scatter_data_types",
           choices = c("All", data_types_choices),
@@ -257,7 +258,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         )
 
         # Waterbody Drop-down
-        updateSelectInput(
+        shiny::updateSelectInput(
           session,
           "scatter_waterbody_filter",
           choices = c("All", waterbody_choices),
@@ -265,7 +266,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         )
 
         # Species Drop-down
-        updateSelectInput(
+        shiny::updateSelectInput(
           session,
           "scatter_species_filter",
           choices = c("All", species_choices),
@@ -278,7 +279,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
     )
 
     # ----- add in toggle for grouping var on sidebar ------
-    observe({
+    shiny::observe({
       if (
         is.null(input$scatter_grouping_vars) ||
           length(input$scatter_grouping_vars) == 0
@@ -288,13 +289,13 @@ scatter_sidebar_server <- function(id, con, main_input) {
         shinyjs::hide("grouping_message")
       }
     })
-    observe({
-      req(axis_choices())
+    shiny::observe({
+      shiny::req(axis_choices())
       nc <- paste(axis_choices(), collapse = ', ')
       cli::cli_alert_info(
         "Numeric choices: {.val {nc}}"
       )
-      updateSelectizeInput(
+      shiny::updateSelectizeInput(
         session,
         "x_var",
         choices = axis_choices(),
@@ -304,7 +305,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
 
       # make y_choices
 
-      updateSelectizeInput(
+      shiny::updateSelectizeInput(
         session,
         "y_var",
         choices = axis_choices(),
@@ -317,12 +318,12 @@ scatter_sidebar_server <- function(id, con, main_input) {
     # we need grouping and hist variables we also need the function
 
     return(list(
-      data_types = reactive(input$scatter_data_types),
-      grouping_vars = reactive(input$scatter_grouping_vars),
-      waterbody_filter = reactive(input$scatter_waterbody_filter),
-      species_filter = reactive(input$scatter_species_filter),
-      y_choices = reactive(input$y_var),
-      x_choices = reactive(input$x_var)
+      data_types = shiny::reactive(input$scatter_data_types),
+      grouping_vars = shiny::reactive(input$scatter_grouping_vars),
+      waterbody_filter = shiny::reactive(input$scatter_waterbody_filter),
+      species_filter = shiny::reactive(input$scatter_species_filter),
+      y_choices = shiny::reactive(input$y_var),
+      x_choices = shiny::reactive(input$x_var)
     ))
   })
 }

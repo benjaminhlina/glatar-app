@@ -10,10 +10,10 @@ view_map_ui <- function(id) {
 
 # ---- server -----
 view_map_server <- function(id, con) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     output$map <- leaflet::renderLeaflet({
       # Check if the table exists before proceeding
-      if (!"tbl_location" %in% dbListTables(con)) {
+      if (!"tbl_location" %in% DBI::dbListTables(con)) {
         return(
           leaflet::leaflet() |>
             leaflet::addTiles() |>
@@ -22,7 +22,7 @@ view_map_server <- function(id, con) {
       }
 
       # Fetch location data
-      locs <- dbGetQuery(con, 'SELECT * FROM tbl_location')
+      locs <- DBI::dbGetQuery(con, 'SELECT * FROM tbl_location')
 
       # Ensure required columns exist
       missing_cols <- setdiff(

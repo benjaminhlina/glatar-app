@@ -1,5 +1,5 @@
 old_log_agent <- function(x, name) {
-  vals <- values(x)
+  vals <- validate::values(x)
   smry <- summary(x)
 
   cli::cli_h3(name)
@@ -19,7 +19,7 @@ old_log_agent <- function(x, name) {
 }
 
 old_2_log_agent <- function(x, name) {
-  raw_vals <- values(x)
+  raw_vals <- validate::values(x)
 
   # ---- flatten safely ----
   vals <- unlist(raw_vals, use.names = FALSE)
@@ -41,7 +41,7 @@ old_2_log_agent <- function(x, name) {
 }
 
 old_3_log_agent <- function(x, name, show = 10) {
-  raw_vals <- values(x)
+  raw_vals <- validate::values(x)
   vals <- unlist(raw_vals, use.names = FALSE)
 
   cli::cli_h3(name)
@@ -65,7 +65,7 @@ old_3_log_agent <- function(x, name, show = 10) {
     print(utils::head(na_rules, show))
 
     # ---- row-level view ----
-    df <- as.data.frame(x, add_columns = TRUE)
+    df <- validate::s.data.frame(x, add_columns = TRUE)
 
     if (".valid" %in% names(df)) {
       bad <- df[is.na(df$.valid), , drop = FALSE]
@@ -82,7 +82,7 @@ old_3_log_agent <- function(x, name, show = 10) {
 
 
 log_agent <- function(x, name, show = 10) {
-  raw_vals <- values(x)
+  raw_vals <- validate::values(x)
   vals <- unlist(raw_vals, use.names = FALSE)
 
   cli::cli_h3(name)
@@ -96,7 +96,7 @@ log_agent <- function(x, name, show = 10) {
   if (any(is.na(vals))) {
     cli::cli_alert_warning("{name} contains NA results")
 
-    df <- as.data.frame(x, add_columns = TRUE)
+    df <- validate::as.data.frame(x)
 
     rule_cols <- setdiff(names(df), names(df)[!grepl("^\\.", names(df))])
 
@@ -113,13 +113,16 @@ log_agent <- function(x, name, show = 10) {
       cli::cli_alert_info(
         "First rows with NA: {paste(head(rows_with_na, show), collapse = ', ')}"
       )
-      print(utils::head(df[rows_with_na, ], show))
+      cli::cli_verbatim({
+        utils::head(df[rows_with_na, ], show)
+      })
     }
 
     cols_with_na <- names(which(colSums(is.na(na_map)) > 0))
 
-    cli::cli_alert_warning("Rules producing NA:")
-    print(cols_with_na)
+    cli::cli_alert_warning(
+      "Rules producing NA: {cols_with_na}"
+    )
   }
 
   invisible(NULL)

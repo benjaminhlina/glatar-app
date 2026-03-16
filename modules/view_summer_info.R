@@ -2,8 +2,8 @@ view_summary_info_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    useShinyjs(),
-    div(
+    shinyjs::useShinyjs(),
+    shiny::div(
       id = ns("summary_ui"),
       style = "display:none;",
       shiny::h2("Summary Statistics"),
@@ -22,7 +22,7 @@ view_summary_info_ui <- function(id) {
           status = "primary",
           solidHeader = TRUE,
           width = 12,
-          div(
+          shiny::div(
             style = "overflow-x: auto; width: 100%;",
             DT::DTOutput(ns("summary_table_output"))
           )
@@ -41,8 +41,8 @@ view_summary_info_ui <- function(id) {
 
 # ----- summmary server --------
 summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
-  moduleServer(id, function(input, output, session) {
-    observeEvent(
+  shiny::moduleServer(id, function(input, output, session) {
+    shiny::observeEvent(
       main_input$tabs,
       {
         shinyjs::toggle(
@@ -57,17 +57,17 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     ns <- session$ns
 
     # reactive export df
-    summary_export_df <- reactiveVal(NULL)
+    summary_export_df <- shiny::reactiveVal(NULL)
 
     # reactive when summary is actived
-    summary_activated <- reactiveVal(FALSE)
+    summary_activated <- shiny::reactiveVal(FALSE)
 
     #  ----- first create summary data -----
     # summary actived_true only if summary_info
-    observeEvent(
+    shiny::observeEvent(
       main_input$tabs,
       {
-        req(main_input$tabs == "summary_info")
+        shiny::req(main_input$tabs == "summary_info")
         summary_activated(TRUE)
       },
       ignoreInit = TRUE
@@ -97,18 +97,18 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     )
 
     # ---- fix names ----
-    summary_mean_df_names <- reactive({
-      req(summary_mean_df())
+    summary_mean_df_names <- shiny::reactive({
+      shiny::req(summary_mean_df())
 
       df <- summary_mean_df() |>
         dplyr::rename_with(~ convert_nice_name(.x))
     })
 
     # ---- check summary_data
-    observeEvent(
+    shiny::observeEvent(
       summary_mean_df_names(),
       {
-        req(summary_mean_df_names())
+        shiny::req(summary_mean_df_names())
         check_summary_data(summary_mean_df_names())
       },
       ignoreInit = TRUE

@@ -4,11 +4,11 @@ display_hist <- function(
   output,
   output_id = "summary_histogram"
 ) {
-  output[[output_id]] <- renderPlot({
+  output[[output_id]] <- shiny::renderPlot({
     # Get raw data (not summarized)
     df <- data() |>
-      collect()
-    req(df, nrow(df) > 0)
+      dplyr::collect()
+    shiny::req(df, nrow(df) > 0)
     # Ensure the selected column exists in the raw data
     var <- input_source$hist_vars()
 
@@ -17,6 +17,7 @@ display_hist <- function(
     cli::cli_alert_info(
       "colnames is present: {.val {any(colnames(df) %in% var)}}"
     )
+
     # detect length-type UI choices
     is_length <- grepl("length_mm", var, ignore.case = TRUE) &&
       !var %in% colnames(df)
@@ -27,7 +28,7 @@ display_hist <- function(
     cli::cli_alert_info("colnames are: {.val {colnames(df)}}")
     if (is_length) {
       # Convert UI label to the length_type in the data
-      length_type_val <- case_when(
+      length_type_val <- dplyr::case_when(
         grepl("fork", var, ignore.case = TRUE) ~ "fork",
         grepl("total", var, ignore.case = TRUE) ~ "total",
         grepl("standard", var, ignore.case = TRUE) ~ "standard",
@@ -38,23 +39,23 @@ display_hist <- function(
       # check_hist_ui(df = df, var = var, type_val = length_type_val,
       #               col = "length_type")
 
-      req(!is.na(length_type_val))
-      req("length_mm" %in% colnames(df))
-      req("length_type" %in% colnames(df))
+      shiny::req(!is.na(length_type_val))
+      shiny::req("length_mm" %in% colnames(df))
+      shiny::req("length_type" %in% colnames(df))
 
       check_hist_vars(df, var = "length_mm", ba = "before")
 
       df <- df |>
-        filter(length_type == length_type_val) |>
-        mutate(length_mm = suppressWarnings(as.numeric(length_mm))) |>
-        filter(!is.na(length_mm))
+        dplyr::filter(length_type == length_type_val) |>
+        dplyr::mutate(length_mm = suppressWarnings(as.numeric(length_mm))) |>
+        dplyr::filter(!is.na(length_mm))
 
       check_hist_vars(df, var, ba = "after")
 
       var <- "length_mm"
     } else if (is_energy) {
       # Convert UI label to the length_type in the data
-      energy_type_val <- case_when(
+      energy_type_val <- dplyr::case_when(
         grepl(
           "Joules/g dry weight",
           var,
@@ -71,20 +72,21 @@ display_hist <- function(
 
       # check_hist_ui(df, var, type_val = energy_type_val)
 
-      req(!is.na(energy_type_val))
-      req("energy_measurement" %in% colnames(df))
-      req("energy_units" %in% colnames(df))
+      shiny::req(!is.na(energy_type_val))
+      shiny::req("energy_measurement" %in% colnames(df))
+      shiny::req("energy_units" %in% colnames(df))
 
       check_hist_vars(df, var = "energy_measurement", ba = "before")
 
       df <- df |>
-        filter(energy_units == energy_type_val) |>
-        mutate(
+        dplyr::filter(energy_units == energy_type_val) |>
+        dplyr::mutate(
           energy_measurement = suppressWarnings(
             as.numeric(energy_measurement)
           )
         ) |>
-        filter(!is.na(energy_measurement))
+        dplyr::filter(!is.na(energy_measurement))
+
       check_hist_vars(df, var, ba = "after")
 
       var <- "energy_measurement"
@@ -92,12 +94,15 @@ display_hist <- function(
       # ---- NON-LENGTH VARIABLES ----
       cli::cli_alert_success("entered else statement")
 
-      req(var %in% colnames(df))
+      shiny::req(var %in% colnames(df))
       check_hist_vars(df, var, ba = "before")
 
       df <- df |>
-        mutate(across(all_of(var), ~ suppressWarnings(as.numeric(.)))) |>
-        filter(!is.na(.data[[var]]))
+        dplyr::mutate(dplyr::across(
+          dplyr::all_of(var),
+          ~ suppressWarnings(as.numeric(.))
+        )) |>
+        dplyr::filter(!is.na(.data[[var]]))
 
       check_hist_vars(df, var, ba = "after")
     }
@@ -138,18 +143,18 @@ display_hist <- function(
     cli::cli_alert_info("selected var prior to plotting is: {.field {var}}")
 
     # Plot the histogram of the selected variable
-    p <- ggplot(data = df, aes(x = !!sym(var))) +
-      geom_histogram(fill = "#4DB6AC", color = "black") +
+    p <- ggplot2::ggplot(data = df, ggplot2::aes(x = !!rlang::sym(var))) +
+      ggplot2::geom_histogram(fill = "#4DB6AC", color = "black") +
       # facet_wrap(~ common_name) +
-      theme_bw(
+      ggplot2::theme_bw(
         base_size = 15
       ) +
-      theme(
-        panel.grid = element_blank(),
-        plot.title = element_markdown(hjust = 0.5),
-        axis.title.x = element_markdown()
+      ggplot2::theme(
+        panel.grid = ggplot2::element_blank(),
+        plot.title = ggtext::element_markdown(hjust = 0.5),
+        axis.title.x = ggtext::element_markdown()
       ) +
-      labs(
+      ggplot2::labs(
         x = nice_label,
         y = "Frequency",
         title = title_text
@@ -166,7 +171,7 @@ display_scatter_plot <- function(
   output_id = "scatter_plot"
 ) {
   # ----- display scatter plot -----
-  output[[output_id]] <- renderPlot({
+  output[[output_id]] <- shiny::renderPlot({
     #     # Get raw data (not summarized)
 
     df <- data()
@@ -236,7 +241,7 @@ display_scatter_plot <- function(
 
     # filter df by x and y vars
     df <- df |>
-      filter(!is.na(.data[[x_var]]), !is.na(.data[[y_var]]))
+      dplyr::filter(!is.na(.data[[x_var]]), !is.na(.data[[y_var]]))
 
     # ----- create nice title -----
     species_f <- input_source$species_filter()
@@ -271,31 +276,31 @@ display_scatter_plot <- function(
     y_label <- gsub('"', '', y_label)
 
     # ----- plot -----
-    p <- ggplot(
+    p <- ggplot2::ggplot(
       data = df,
-      aes(
-        x = !!sym(x_var),
-        y = !!sym(y_var)
+      ggplot2::aes(
+        x = !!rlang::sym(x_var),
+        y = !!rlang::sym(y_var)
       )
     ) +
-      scale_fill_viridis_d(
+      ggplot2::scale_fill_viridis_d(
         name = legend_title,
         option = "B",
         begin = 0.1,
         end = 0.9,
         alpha = 0.5
       ) +
-      theme_bw(base_size = 15) +
-      theme(
-        panel.grid = element_blank(),
-        plot.title = element_markdown(hjust = 0.5),
-        axis.title.x = element_markdown(),
-        axis.title.y = element_markdown(),
-        legend.title = element_markdown(),
-        legend.text = element_markdown(),
-        strip.background = element_blank()
+      ggplot2::theme_bw(base_size = 15) +
+      ggplot2::theme(
+        panel.grid = ggplot2::element_blank(),
+        plot.title = ggtext::element_markdown(hjust = 0.5),
+        axis.title.x = ggtext::element_markdown(),
+        axis.title.y = ggtext::element_markdown(),
+        legend.title = ggtext::element_markdown(),
+        legend.text = ggtext::element_markdown(),
+        strip.background = ggplot2::element_blank()
       ) +
-      labs(
+      ggplot2::labs(
         x = x_label,
         y = y_label,
         title = title_text
@@ -303,15 +308,15 @@ display_scatter_plot <- function(
 
     if (n_groups >= 1) {
       p <- p +
-        geom_point(
-          aes(fill = !!sym(scatter_grouping_vars[1])),
+        ggplot2::geom_point(
+          ggplot2::aes(fill = !!rlang::sym(scatter_grouping_vars[1])),
           alpha = 0.7,
           size = 5,
           shape = 21
         )
     } else {
       p <- p +
-        geom_point(
+        ggplot2::geom_point(
           alpha = 0.7,
           size = 3,
           shape = 21
@@ -321,17 +326,17 @@ display_scatter_plot <- function(
     if (n_groups %in% 2) {
       # Second variable facet_wrap
       p <- p +
-        facet_wrap(
-          vars(!!sym(scatter_grouping_vars[2]))
+        ggplot2::facet_wrap(
+          ggplot2::vars(!!rlang::sym(scatter_grouping_vars[2]))
         )
     }
 
     if (n_groups %in% 3) {
       # Second + third  facet_grid
       p <- p +
-        facet_grid(
-          rows = vars(!!sym(scatter_grouping_vars[2])),
-          cols = vars(!!sym(scatter_grouping_vars[3]))
+        ggplot2::facet_grid(
+          rows = ggplot2::vars(!!rlang::sym(scatter_grouping_vars[2])),
+          cols = ggplot2::vars(!!rlang::sym(scatter_grouping_vars[3]))
         )
     }
 
@@ -343,20 +348,19 @@ display_scatter_plot <- function(
 # ---- display summary_table -----
 
 display_table <- function(data, output, output_id = "summary_table_output") {
-  output[[output_id]] <- renderDT({
-    req(data())
+  output[[output_id]] <- DT::renderDT({
+    shiny::req(data())
     # get data
     df <- data()
 
     # validate data
-    validate(
-      need(is.data.frame(df), "Waiting for data…"),
-      need(nrow(df) > 0, "No data available")
+    shiny::validate(
+      shiny::need(is.data.frame(df), "Waiting for data…"),
+      shiny::need(nrow(df) > 0, "No data available")
     )
 
     # display data
-
-    datatable(
+    DT::datatable(
       df,
       options = list(
         pageLength = 10,

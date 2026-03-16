@@ -1,7 +1,7 @@
 add_valid_cols <- function(df) {
   df <- df |>
-    mutate(dplyr::across(
-      where(is.character) &
+    dplyr::mutate(dplyr::across(
+      dplyr::where(is.character) &
         !any_of(c(
           "fatty_acid_type",
           "thiamine_type",
@@ -11,7 +11,7 @@ add_valid_cols <- function(df) {
     )) |>
     dplyr::mutate(
       .date = is.na(date) | grepl("^\\d{4}-\\d{2}-\\d{2}$", date),
-      .ed = case_when(
+      .ed = dplyr::case_when(
         is.na(sample_weight_type) ~ NA,
         sample_weight_type == "wet" ~ energy_measurement >= 0 &
           energy_measurement <= 13000,
@@ -27,8 +27,8 @@ add_valid_cols <- function(df) {
       .sex = is.na(sex) | sex %in% c("male", "female", "unknown", "both"),
       .length_type = is.na(length_type) |
         length_type %in% c("total", "fork", "standard", "carapace"),
-      .composite = is.na(composite) |
-        composite %in%
+      .data_type = is.na(data_type) |
+        data_type %in%
           c(
             "individual",
             "composite",
@@ -180,13 +180,15 @@ add_valid_taxonomy <- function(df, species_list) {
   # ---- get tax from db ----
   valid_taxonomy <- valid_taxonomy(species_list)
 
-  valid_common_sentence <- str_to_sentence(valid_taxonomy$valid_common)
-  valid_sci_sentence <- str_to_sentence(valid_taxonomy$valid_scientific)
+  valid_common_sentence <- stringr::str_to_sentence(valid_taxonomy$valid_common)
+  valid_sci_sentence <- stringr::str_to_sentence(
+    valid_taxonomy$valid_scientific
+  )
 
   df <- df |>
-    mutate(
+    dplyr::mutate(
       common_name = stringr::str_to_sentence(common_name),
-      scientific_name = str_to_sentence(scientific_name)
+      scientific_name = stringr::str_to_sentence(scientific_name)
     )
 
   # Store validation results in df attributes for later use
@@ -200,7 +202,7 @@ add_valid_taxonomy <- function(df, species_list) {
   attr(df, "scientific_name_suggestions") <- sci_check$suggestions
 
   df <- df |>
-    mutate(
+    dplyr::mutate(
       .valid_common_name = common_check$valid,
       .valid_scientific_name = sci_check$valid
     )
@@ -253,7 +255,7 @@ check_taxonomy_match <- function(input_values, db_values) {
 
 # ----- pretty pointblank -----
 pretty_validate_report <- function(confrontation, table_name = NULL) {
-  df <- as.data.frame(confrontation, add_columns = TRUE)
+  df <- validate::as.data.frame(confrontation)
 
   original_data <- confrontation$._keys$keyset
 
@@ -279,13 +281,13 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
 
   # transfer forw number
   df <- df |>
-    group_by(name) |>
-    mutate(
-      data_row = row_number() # This cycles 1, 2, 3, 4... within each rule
+    dplyr::group_by(name) |>
+    dplyr::mutate(
+      data_row = dplyr::row_number() # This cycles 1, 2, 3, 4... within each rule
     ) |>
-    ungroup() |>
-    mutate(
-      col_name = case_when(
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      col_name = dplyr::case_when(
         grepl("%vin% colnames", expression) ~ gsub(
           '.*"([^"]+)".*',
           '\\1',
@@ -331,7 +333,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
 
   # ----- grab only bad columns -----
   bad <- df |>
-    filter(value %in% FALSE)
+    dplyr::filter(value %in% FALSE)
 
   # ----- if tehre are non-return NULL -----
   if (nrow(bad) == 0) {
@@ -407,8 +409,8 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
   # )
   # ----- create pretty names -----
   out <- bad |>
-    mutate(
-      Issue = case_when(
+    dplyr::mutate(
+      Issue = dplyr::case_when(
         grepl("nrow(.) == 1", expression) ~ "Sheet is empty - please enter in
         data and reupload",
 
@@ -449,9 +451,9 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
           expression
         ) ~ "Invalid length type - must be total, fork, standard, or carapace",
         grepl(
-          "\\.composite",
+          "\\.data_type",
           expression
-        ) ~ "Invalid composite - must be individual, composite, mean, or equation",
+        ) ~ "Invalid data_type - must be individual, composite, mean, or equation",
         grepl(
           "\\.tissue_type",
           expression
@@ -508,7 +510,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         # !!!validation_rules,
         .default = expression
       ),
-      col_name = case_when(
+      col_name = dplyr::case_when(
         grepl("\\.ed", expression) ~ "energy_measurment",
         grepl("\\.month", expression) ~ "month",
         grepl("\\.date", expression) ~ "date",
@@ -516,7 +518,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl("\\.sex", expression) ~ "sex",
         grepl("\\.lifestage", expression) ~ "lifestage",
         grepl("\\.length_type", expression) ~ "length_type",
-        grepl("\\.composite", expression) ~ "composite",
+        grepl("\\.data_type", expression) ~ "data_type",
         grepl("\\.tissue_type", expression) ~ "tissue_type",
         grepl("\\.sample_procedure", expression) ~ "sample_procedure",
         grepl("\\.calorimetry_method", expression) ~ "calorimetry_method",
@@ -529,7 +531,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         .default = col_name
       )
     ) |>
-    select(Row = data_row, Column = col_name, Issue)
+    dplyr::select(Row = data_row, Column = col_name, Issue)
 
   if (!is.character(common_name_suggestions)) {
     common_name_suggestions <- character(0)
@@ -548,8 +550,8 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
   }
 
   out <- out |>
-    mutate(
-      Suggestion = case_when(
+    dplyr::mutate(
+      Suggestion = dplyr::case_when(
         Column %in%
           "common_name" &
           !is.null(common_name_suggestions) &
@@ -574,17 +576,17 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
   )
   # ---- clean this up -----
   out <- out |>
-    group_by(Column, Issue) |>
-    summarise(
+    dplyr::group_by(Column, Issue) |>
+    dplyr::summarise(
       `Row Index` = compress_row_index(paste(
         sort(unique(Row)),
         collapse = ", "
       )),
       Suggestion = paste(unique(na.omit(Suggestion)), collapse = "; ")
     ) |>
-    ungroup() |>
-    mutate(
-      Suggestion = if_else(nzchar(Suggestion), Suggestion, "-")
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      Suggestion = dplyr::if_else(nzchar(Suggestion), Suggestion, "-")
     )
 
   return(out)
@@ -613,7 +615,7 @@ clean_all_validations <- function(...) {
   }
 
   reports_combo <- dplyr::bind_rows(reports) |>
-    select(Table, Column, Issue, `Row Index`, Suggestion) |>
+    dplyr::select(Table, Column, Issue, `Row Index`, Suggestion) |>
     dplyr::arrange(Table, Column, Issue)
 
   return(reports_combo)
@@ -622,12 +624,12 @@ clean_all_validations <- function(...) {
 # ---- get valid taxonomy ------
 valid_taxonomy <- function(x) {
   valid_common <- x |>
-    pull(common_name) |>
+    dplyr::pull(common_name) |>
     unique() |>
     na.omit()
 
   valid_scientific <- x |>
-    pull(scientific_name) |>
+    dplyr::pull(scientific_name) |>
     unique() |>
     na.omit()
 
@@ -661,8 +663,8 @@ validate_tbl_samples <- function(df) {
     "length_mm",
     "length_type",
     "weight_g",
-    "composite",
-    "composite_n",
+    "data_type",
+    "data_type_n",
     "tissue_type",
     "sample_procedure",
     "location",
@@ -731,11 +733,11 @@ validate_tbl_samples <- function(df) {
     #     c(rule_column_names(all_fields_to_validate))
     #   )
   } else if (nrow(df) == 0) {
-    rules <- validator(
+    rules <- validate::validator(
       nrow(.) == 1
     )
   } else {
-    rules <- validator(
+    rules <- validate::validator(
       # ---- structure ----
 
       # ---- not null ----
@@ -757,7 +759,7 @@ validate_tbl_samples <- function(df) {
       .lifestage == TRUE,
       .sex == TRUE,
       .length_type == TRUE,
-      .composite == TRUE,
+      .data_type == TRUE,
       .tissue_type == TRUE,
       .sample_procedure == TRUE,
       .calorimetry_method == TRUE,
@@ -767,7 +769,7 @@ validate_tbl_samples <- function(df) {
       is.numeric(length_mm),
       is.numeric(weight_g),
       is.numeric(age_year),
-      is.numeric(composite_n),
+      is.numeric(data_type_n),
       is.numeric(latitude),
       is.numeric(longitude),
       is.numeric(calorimeter_conversion_factor),
@@ -807,7 +809,7 @@ validate_tbl_samples <- function(df) {
     )
   }
 
-  out <- confront(df, rules)
+  out <- validate::confront(df, rules)
 
   return(out)
 }
@@ -838,11 +840,11 @@ validate_tbl_source <- function(df) {
       c(rule_column_names(required_fields))
     )
   } else if (nrow(df) == 0) {
-    rules <- validator(
+    rules <- validate::validator(
       nrow(.) == 1
     )
   } else {
-    rules <- validator(
+    rules <- validate::validator(
       # ---- required fields
       !is.na(source_id),
       !is.na(publication_type),
@@ -857,7 +859,7 @@ validate_tbl_source <- function(df) {
     )
   }
 
-  out <- confront(df, rules)
+  out <- validate::confront(df, rules)
 
   return(out)
 }
@@ -875,7 +877,7 @@ validate_tbl_submission <- function(df) {
       c(rule_column_names(required_fields))
     )
   } else if (nrow(df) == 0) {
-    rules <- validator(
+    rules <- validate::validator(
       nrow(.) == 1
     )
   } else {
@@ -889,7 +891,7 @@ validate_tbl_submission <- function(df) {
       )
     )
   }
-  out <- confront(df, rules)
+  out <- validate::confront(df, rules)
 
   return(out)
 }

@@ -1,27 +1,28 @@
 # ----- get COLUMN_MPA ------
 
 get_column_map <- function(con) {
-  tbl(con, "tbl_data_dictionary")
+  df <- dplyr::tbl(con, "tbl_data_dictionary")
+  return(df)
 }
 
 get_data <- function(con, debug_sql = FALSE) {
-  req(con)
+  shiny::req(con)
 
   # Always start from samples
   # --grab location
-  tbl_loc <- tbl(con, "tbl_location")
+  tbl_loc <- dplyr::tbl(con, "tbl_location")
   # ---- grab sampels
-  df <- tbl(con, "tbl_samples")
+  df <- dplyr::tbl(con, "tbl_samples")
 
   # grab_+length
-  tbl_length <- tbl(con, "tbl_length")
+  tbl_length <- dplyr::tbl(con, "tbl_length")
 
   df <- df |>
-    left_join(
+    dplyr::left_join(
       tbl_loc,
       by = "sample_id"
     ) |>
-    left_join(
+    dplyr::left_join(
       tbl_length,
       by = "sample_id"
     )
@@ -77,7 +78,7 @@ get_good_groups <- function(df) {
 
 
 get_groups <- function(df) {
-  req(df)
+  shiny::req(df)
 
   groups <- get_good_groups(df)
 
@@ -88,26 +89,37 @@ get_groups <- function(df) {
   return(groups)
 }
 
+# ----- get max id -----
+get_id_max <- function(table_name, id_col) {
+  result <- DBI::dbGetQuery(
+    con,
+    glue::glue("SELECT COALESCE(MAX({id_col}), 0) AS max_id FROM {table_name}")
+  )
+  selected_id_max <- result$max_id
+  return(selected_id_max)
+}
 
 # ----- simple function to get a tb use dbplyr -----
 #
 get_join_table <- function(df, table, con) {
-  df |>
-    left_join(tbl(con, table))
+  jt <- df |>
+    dplyr::left_join(dplyr::tbl(con, table))
+
+  return(jt)
 }
 
 # ---- get vart types ----
 
 get_var_types <- function(df, var) {
   var_types <- df |>
-    distinct(.data[[var]]) |>
-    arrange(.data[[var]]) |>
+    dplyr::distinct(.data[[var]]) |>
+    dplyr::arrange(.data[[var]]) |>
     dplyr::pull(.data[[var]])
   # Only keep non-NA length types
   var_types <- var_types[!is.na(var_types)]
 
   # Create synthetic variable names and labels
-  if (any(var_types %in% c("fork", "standard", "total"))) {
+  if (any(var_types %in% c("fork", "standard", "total", "carapace"))) {
     vars <- paste0("length_mm__", var_types)
     labels <- paste0(stringr::str_to_title(var_types), " Length (mm)")
   }
@@ -161,18 +173,19 @@ get_var_types <- function(df, var) {
   # }
   # c("ug/mg sample weigh"t, "% total protein")
 
-  setNames(vars, labels) # names = labels, values = synthetic variable codes
+  stats::setNames(vars, labels) # names = labels, values = synthetic variable codes
 }
 
 # ----- get nice names -----
 convert_nice_name <- function(cols, lookup = nice_name_lookup) {
-  unname(sapply(cols, function(col) {
+  converted_name <- unname(sapply(cols, function(col) {
     if (col %in% names(lookup)) {
       lookup[[col]]
     } else {
       col
     }
   }))
+  return(converted_name)
 }
 
 # ---- get numeric vars -----
@@ -273,23 +286,23 @@ get_selected_tab <- function(input) {
   if (is.null(out) || is.na(out) || out == "") {
     return(NULL)
   }
-  out
+  return(out)
 }
 
 # ----- get sidebr df -----
 get_sidebar_df <- function(con) {
-  reactive({
+  shiny::reactive({
     # create connection reactively
     con_db <- if (inherits(con, "reactive")) con() else con
-    req(con_db)
+    shiny::req(con_db)
 
     # get sample_ids and locatiosn
     df <- get_data(
       con = con_db
     ) |>
-      left_join(
-        tbl(con_db, "tbl_calorimetry") |>
-          select(sample_id, energy_units)
+      dplyr::left_join(
+        dplyr::tbl(con_db, "tbl_calorimetry") |>
+          dplyr::select(sample_id, energy_units)
       )
 
     cli::cli_alert_success("sidebar base tbl has completed")
@@ -319,8 +332,8 @@ get_summary_data <- function(
   # Always start from samples
   # --grab location
   df <- get_data(con) |>
-    left_join(
-      tbl(con, "tbl_calorimetry")
+    dplyr::left_join(
+      dplyr::tbl(con, "tbl_calorimetry")
     )
 
   # ----- grab seelected vars ----
@@ -333,7 +346,7 @@ get_summary_data <- function(
 
     if (!is.null(needed_tables)) {
       df <- needed_tables |>
-        reduce(.init = df, ~ get_join_table(.x, .y, con))
+        purrr::reduce(.init = df, ~ get_join_table(.x, .y, con))
     }
 
     # --- get selected vars -----
@@ -354,25 +367,25 @@ get_summary_data <- function(
     if (is.null(grouping_vars)) {
       # Select only requested columns (plus keys if needed)
       df <- df |>
-        select(
+        dplyr::select(
           data_type,
           waterbody,
           scientific_name,
           length_type,
           energy_units,
-          any_of(vars_for_select)
+          dplyr::any_of(vars_for_select)
         )
       # }
     } else {
       df <- df |>
-        select(
+        dplyr::select(
           data_type,
           waterbody,
           scientific_name,
           length_type,
           energy_units,
-          any_of(grouping_vars),
-          any_of(vars_for_select)
+          dplyr::any_of(grouping_vars),
+          dplyr::any_of(vars_for_select)
         )
     }
   } else {
@@ -389,16 +402,16 @@ get_summary_data <- function(
 
 # ---- get teh tables we need to filter by based on what the user selects -----
 get_tables_needed <- function(con, var) {
-  req(con)
+  shiny::req(con)
 
   if (is.null(var) || length(var) == 0) {
     return(character(0))
   }
 
   get_column_map(con) |>
-    filter(field_name %in% var) |>
-    distinct(table_name) |>
-    pull(table_name)
+    dplyr::filter(field_name %in% var) |>
+    dplyr::distinct(table_name) |>
+    dplyr::pull(table_name)
 }
 
 # ---- get theme selection -----
@@ -424,17 +437,17 @@ get_theme_choices <- function(
       "percent_water",
       "percent_ash"
     ),
-    "Body Composition" = tbl(con, "tbl_proxcomp") |>
+    "Body Composition" = dplyr::tbl(con, "tbl_proxcomp") |>
       colnames(),
-    "Stable Isotopes" = tbl(con, "tbl_isotope") |>
+    "Stable Isotopes" = dplyr::tbl(con, "tbl_isotope") |>
       colnames(),
-    "Amino Acids" = tbl(con, "tbl_amino_acid") |>
+    "Amino Acids" = dplyr::tbl(con, "tbl_amino_acid") |>
       colnames(),
-    "Fatty Acids" = tbl(con, "tbl_fatty_acid") |>
+    "Fatty Acids" = dplyr::tbl(con, "tbl_fatty_acid") |>
       colnames(),
-    "Contaminates" = tbl(con, "tbl_contaminants") |>
+    "Contaminates" = dplyr::tbl(con, "tbl_contaminants") |>
       colnames(),
-    "Thiamine" = tbl(con, "tbl_thiamine") |>
+    "Thiamine" = dplyr::tbl(con, "tbl_thiamine") |>
       colnames(),
     character(0)
   )
@@ -447,8 +460,8 @@ get_theme_choices <- function(
   valid_names <- numeric_names[numeric_choices %in% relevant_vars]
   cli::cli_alert_info("Relevant vars matched: {.val {relevant_vars}}")
 
-  choices <- sort(c(
-    setNames(valid_numeric, valid_names),
+  summary_choices <- sort(c(
+    stats::setNames(valid_numeric, valid_names),
     length_vars,
     if (theme %in% c("Energy Density")) energy_vars else NULL
   ))

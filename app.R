@@ -1,28 +1,28 @@
 # ---- load packages ----
-{
-  library(dplyr)
-  library(dbplyr)
-  library(DT)
-  library(ggplot2)
-  library(ggtext)
-  library(glue)
-  library(grid)
-  library(janitor)
-  library(leaflet)
-  library(mapview)
-  library(plotly)
-  library(purrr)
-  library(readr)
-  library(sf)
-  library(shiny)
-  library(shinydashboard)
-  library(shinyjs)
-  library(shinymanager)
-  library(stringr)
-  library(stringdist)
-  library(tidyr)
-  library(validate)
-}
+# {
+#   library(dplyr)
+#   library(dbplyr)
+#   library(DT)
+#   library(ggplot2)
+#   library(ggtext)
+#   library(glue)
+#   library(grid)
+#   library(janitor)
+#   library(leaflet)
+#   library(mapview)
+#   library(plotly)
+#   library(purrr)
+#   library(readr)
+#   library(sf)
+#   library(shiny)
+#   library(shinydashboard)
+#   library(shinyjs)
+#   library(shinymanager)
+#   library(stringr)
+#   library(stringdist)
+#   library(tidyr)
+#   library(validate)
+# }
 
 cli::cli_alert_info("Starting the loading of modules....")
 cli::cli_ul(list.files('modules', full.names = TRUE))
@@ -52,57 +52,85 @@ credentials <- data.frame(
 )
 # ---- create ui ----
 cli::cli_alert_info("Starting the App")
-ui <- dashboardPage(
+ui <- shinydashboard::dashboardPage(
   # ----- title -----
-  dashboardHeader(
+  shinydashboard::dashboardHeader(
     title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
     titleWidth = 500,
-    tags$li(
+    shiny::tags$li(
       class = "dropdown",
-      tags$a(
+      shiny::tags$a(
         href = "https://github.com/benjaminhlina/glatar-app",
         target = "_blank",
-        icon("github", class = "fa-2x"),
+        shiny::icon("github", class = "fa-2x"),
         style = "padding-top: 10px; padding-bottom: 10px;"
       )
     )
   ),
 
   # ---- sidebar -----
-  dashboardSidebar(
+  shinydashboard::dashboardSidebar(
     width = 275,
-    sidebarMenu(
+    shinydashboard::sidebarMenu(
       id = "tabs",
-      menuItem("Home", tabName = "home", icon = icon("home")),
-      menuItem("Map", tabName = "view_map", icon = icon("map")),
-      menuItem(
+      shinydashboard::menuItem(
+        "Home",
+        tabName = "home",
+        icon = shiny::icon("home")
+      ),
+      shinydashboard::menuItem(
+        "Map",
+        tabName = "view_map",
+        icon = shiny::icon("map")
+      ),
+      shinydashboard::menuItem(
         "Summary Tables",
         tabName = "summary_info",
-        icon = icon("bar-chart")
+        icon = shiny::icon("bar-chart")
       ),
-      menuItem(
+      shinydashboard::menuItem(
         "Scatter Plot",
         tabName = "scatter_plot",
-        icon = icon("chart-line")
+        icon = shiny::icon("chart-line")
       ),
-      menuItem("View Data", tabName = "view_data", icon = icon("table")),
-      menuItem("Upload Data", tabName = "insert_data", icon = icon("plus")),
-      menuItem(
+      shinydashboard::menuItem(
+        "View Data",
+        tabName = "view_data",
+        icon = shiny::icon("table")
+      ),
+      shinydashboard::menuItem(
+        "Upload Data",
+        tabName = "insert_data",
+        icon = shiny::icon("plus")
+      ),
+      shinydashboard::menuItem(
         "Taxonomic Search",
         tabName = "taxa_search",
-        icon = icon("fish")
+        icon = shiny::icon("fish")
       ),
-      menuItem("Documentation", tabName = "docs", icon = icon("book")),
-      menuItem("About", tabName = "about", icon = icon("circle-info")),
-      menuItem("Logout", tabName = "logout", icon = icon("sign-out-alt"))
+      shinydashboard::menuItem(
+        "Documentation",
+        tabName = "docs",
+        icon = shiny::icon("book")
+      ),
+      shinydashboard::menuItem(
+        "About",
+        tabName = "about",
+        icon = shiny::icon("circle-info")
+      ),
+      shinydashboard::menuItem(
+        "Logout",
+        tabName = "logout",
+        icon = shiny::icon("sign-out-alt")
+      )
     ),
-    useShinyjs(),
+    shinyjs::useShinyjs(),
     # Modularized panels
-    conditionalPanel(
+    shiny::conditionalPanel(
       "input.tabs == 'summary_info'",
       summary_sidebar_ui("summary_sidebar")
     ),
-    conditionalPanel(
+    shiny::conditionalPanel(
       "input.tabs == 'scatter_plot'",
       scatter_sidebar_ui("scatter_sidebar")
     ),
@@ -112,13 +140,13 @@ ui <- dashboardPage(
     )
   ),
   # ---- create display panes ----
-  dashboardBody(
+  shinydashboard::dashboardBody(
     # add  analytics
-    tags$head(
+    shiny::tags$head(
       # ----- add google analytics -----
-      tags$script(src = "gtag.js"),
+      shiny::tags$script(src = "gtag.js"),
       # ---- shiny.tictoc ----
-      tags$script(
+      shiny::tags$script(
         src = "https://cdn.jsdelivr.net/gh/Appsilon/shiny.tictoc@v0.2.0/shiny-tic-toc.min.js"
       )
     ),
@@ -126,22 +154,34 @@ ui <- dashboardPage(
     app_version_head(),
     app_version_label(app_version),
     # tab itimes
-    tabItems(
-      tabItem(tabName = "home", home_tab_ui("home")),
-      tabItem(tabName = "view_map", view_map_ui("view_map")),
-      tabItem(tabName = "summary_info", view_summary_info_ui("summary_info")),
-      tabItem(tabName = "scatter_plot", view_scatter_plot_ui("scatter_plot")),
-      tabItem(tabName = "view_data", view_data_ui("view_data")),
-      tabItem(tabName = "insert_data", upload_data_ui("insert_data")),
-      tabItem(tabName = "taxa_search", taxa_search_ui("taxa_search")),
-      tabItem(tabName = "docs", docs_ui("docs")),
-      tabItem(tabName = "about", about_ui("about"))
+    shinydashboard::tabItems(
+      shinydashboard::tabItem(tabName = "home", home_tab_ui("home")),
+      shinydashboard::tabItem(tabName = "view_map", view_map_ui("view_map")),
+      shinydashboard::tabItem(
+        tabName = "summary_info",
+        view_summary_info_ui("summary_info")
+      ),
+      shinydashboard::tabItem(
+        tabName = "scatter_plot",
+        view_scatter_plot_ui("scatter_plot")
+      ),
+      shinydashboard::tabItem(tabName = "view_data", view_data_ui("view_data")),
+      shinydashboard::tabItem(
+        tabName = "insert_data",
+        upload_data_ui("insert_data")
+      ),
+      shinydashboard::tabItem(
+        tabName = "taxa_search",
+        taxa_search_ui("taxa_search")
+      ),
+      shinydashboard::tabItem(tabName = "docs", docs_ui("docs")),
+      shinydashboard::tabItem(tabName = "about", about_ui("about"))
     )
   )
 )
 
 # ---- make this look nicer -----
-ui <- secure_app(
+ui <- shinymanager::secure_app(
   ui,
   enable_admin = FALSE,
   # Bootstrap flatly, cerulean, cosmo,
@@ -150,20 +190,20 @@ ui <- secure_app(
   timeout = 15.0,
   fab_position = "none",
   # Customize the login page appearance
-  tags_top = tags$div(
-    tags$h2(
+  tags_top = shiny::tags$div(
+    shiny::tags$h2(
       "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
       style = "text-align: center; color: #2c3e50; margin-bottom: 20px;"
     ),
-    tags$img(
+    shiny::tags$img(
       src = "logo/glfc-logo.png",
       width = 150,
       style = "display: block; margin: 0 auto 20px auto;"
     )
   ),
 
-  tags_bottom = tags$div(
-    tags$p(
+  tags_bottom = shiny::tags$div(
+    shiny::tags$p(
       "Please login to access the application",
       style = "text-align: center; color: #7f8c8d;"
     )
@@ -186,32 +226,36 @@ server <- function(input, output, session) {
   ram_tracker()
   session$allowReconnect("force")
 
-  res_auth <- secure_server(
-    check_credentials = check_credentials(credentials),
+  res_auth <- shinymanager::secure_server(
+    check_credentials = shinymanager::check_credentials(credentials),
   )
 
   # ---- add in logout tab -----
-  observeEvent(input$tabs, {
+  shiny::observeEvent(input$tabs, {
     if (input$tabs == "logout") {
-      updateTabItems(session, "tabs", "home")
-      showModal(modalDialog(
+      shinydashboard::updateTabItems(session, "tabs", "home")
+      shiny::showModal(shiny::modalDialog(
         title = "Confirm Logout",
         "Are you sure you want to log out?",
-        footer = tagList(
-          modalButton("Cancel"),
-          actionButton("confirm_logout", "Logout", class = "btn btn-danger")
+        footer = shiny::tagList(
+          shiny::modalButton("Cancel"),
+          shiny::actionButton(
+            "confirm_logout",
+            "Logout",
+            class = "btn btn-danger"
+          )
         )
       ))
     }
-    observeEvent(input$confirm_logout, {
-      removeModal()
+    shiny::observeEvent(input$confirm_logout, {
+      shiny::removeModal()
       session$reload()
     })
   })
 
   # ----- link to docs -----
-  observeEvent(input$go_docs, {
-    updateTabItems(session, "tabs", "docs")
+  shiny::observeEvent(input$go_docs, {
+    shinydashboard::updateTabItems(session, "tabs", "docs")
   })
 
   # ---- get map -----
@@ -274,4 +318,4 @@ server <- function(input, output, session) {
 }
 
 # render ui and serve together to create dashboard
-shinyApp(ui = ui, server = server)
+shiny::shinyApp(ui = ui, server = server)
