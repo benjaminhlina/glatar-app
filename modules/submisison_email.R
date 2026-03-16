@@ -1,6 +1,6 @@
 send_submission_email <- function(to_user, submission_id) {
-  email <- compose_email(
-    body = md(glue::glue(
+  email <- blastula::compose_email(
+    body = blastula::md(glue::glue(
       "
 ### ✅ Submission Received
 
@@ -18,7 +18,7 @@ benjamin.hlina@gmail.com to this email.
     ))
   )
 
-  smtp_send(
+  blastula::smtp_send(
     email,
     to = c(to_user, "your_email@domain.com"),
     from = "your_email@domain.com",
