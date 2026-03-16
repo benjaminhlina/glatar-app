@@ -103,7 +103,7 @@ get_id_max <- function(table_name, id_col) {
 #
 get_join_table <- function(df, table, con) {
   jt <- df |>
-    left_join(tbl(con, table))
+    dplyr::left_join(dplyr::tbl(con, table))
 
   return(jt)
 }
