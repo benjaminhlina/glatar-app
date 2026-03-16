@@ -87,7 +87,7 @@ create_mean_data <- function(input_source, data) {
       var_to_summarise <- mapped_var$var
       var_label <- mapped_var$var_label
 
-      cli::cli_inform("var_to_summarise: {.feild {var_to_summarise}}")
+      cli::cli_inform("var_to_summarise: {.field {var_to_summarise}}")
       cli::cli_inform("Available columns: {.val {colnames(df_filtered)}}")
 
       # Check if variable exists after filtering
