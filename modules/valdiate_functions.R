@@ -27,8 +27,8 @@ add_valid_cols <- function(df) {
       .sex = is.na(sex) | sex %in% c("male", "female", "unknown", "both"),
       .length_type = is.na(length_type) |
         length_type %in% c("total", "fork", "standard", "carapace"),
-      .composite = is.na(composite) |
-        composite %in%
+      .data_type = is.na(data_type) |
+        data_type %in%
           c(
             "individual",
             "composite",
@@ -451,9 +451,9 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
           expression
         ) ~ "Invalid length type - must be total, fork, standard, or carapace",
         grepl(
-          "\\.composite",
+          "\\.data_type",
           expression
-        ) ~ "Invalid composite - must be individual, composite, mean, or equation",
+        ) ~ "Invalid data_type - must be individual, composite, mean, or equation",
         grepl(
           "\\.tissue_type",
           expression
@@ -518,7 +518,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl("\\.sex", expression) ~ "sex",
         grepl("\\.lifestage", expression) ~ "lifestage",
         grepl("\\.length_type", expression) ~ "length_type",
-        grepl("\\.composite", expression) ~ "composite",
+        grepl("\\.data_type", expression) ~ "data_type",
         grepl("\\.tissue_type", expression) ~ "tissue_type",
         grepl("\\.sample_procedure", expression) ~ "sample_procedure",
         grepl("\\.calorimetry_method", expression) ~ "calorimetry_method",
@@ -663,8 +663,8 @@ validate_tbl_samples <- function(df) {
     "length_mm",
     "length_type",
     "weight_g",
-    "composite",
-    "composite_n",
+    "data_type",
+    "data_type_n",
     "tissue_type",
     "sample_procedure",
     "location",
