@@ -12,14 +12,14 @@ view_data_ui <- function(id) {
 
 # ---- server ----
 view_data_server <- function(id, con) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     # Get all table names and update selectInput dynamically
-    observe({
+    shiny::observe({
       table_names <- DBI::dbListTables(con)
 
       table_names <- setdiff(table_names, "tbl_submission")
 
-      updateSelectInput(session, "table_select", choices = table_names)
+      shiny::updateSelectInput(session, "table_select", choices = table_names)
     })
 
     # Render the selected table
@@ -42,7 +42,7 @@ view_data_server <- function(id, con) {
           "tbl_thiamine"
         )
 
-        req(input$table_select %in% allowed_tables)
+        shiny::req(input$table_select %in% allowed_tables)
 
         safe_name <- DBI::dbQuoteIdentifier(con, input$table_select)
 
