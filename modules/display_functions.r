@@ -17,7 +17,7 @@ display_hist <- function(
     cli::cli_alert_info(
       "colnames is present: {.val {any(colnames(df) %in% var)}}"
     )
-  
+
     # detect length-type UI choices
     is_length <- grepl("length_mm", var, ignore.case = TRUE) &&
       !var %in% colnames(df)
@@ -85,7 +85,7 @@ display_hist <- function(
             as.numeric(energy_measurement)
           )
         ) |>
-       dplyr::filter(!is.na(energy_measurement))
+        dplyr::filter(!is.na(energy_measurement))
 
       check_hist_vars(df, var, ba = "after")
 
@@ -98,7 +98,10 @@ display_hist <- function(
       check_hist_vars(df, var, ba = "before")
 
       df <- df |>
-        dplyr::mutate(dplyr::across(dplyr::all_of(var), ~ suppressWarnings(as.numeric(.)))) |>
+        dplyr::mutate(dplyr::across(
+          dplyr::all_of(var),
+          ~ suppressWarnings(as.numeric(.))
+        )) |>
         dplyr::filter(!is.na(.data[[var]]))
 
       check_hist_vars(df, var, ba = "after")
