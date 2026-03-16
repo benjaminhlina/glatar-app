@@ -460,7 +460,7 @@ get_theme_choices <- function(
   valid_names <- numeric_names[numeric_choices %in% relevant_vars]
   cli::cli_alert_info("Relevant vars matched: {.val {relevant_vars}}")
 
-  summary_choices <- sort(c(
+  choices <- sort(c(
     stats::setNames(valid_numeric, valid_names),
     length_vars,
     if (theme %in% c("Energy Density")) energy_vars else NULL
