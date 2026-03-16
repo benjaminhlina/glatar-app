@@ -247,7 +247,7 @@ get_raw_data <- function(
         length_type,
         # energy_units,
         dplyr::any_of(vars_for_select)
-      ) |> 
+      )
   }
   if (debug_sql) {
     cli::cli_alert_info(dbplyr::sql_render(df))
