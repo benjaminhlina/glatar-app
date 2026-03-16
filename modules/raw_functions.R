@@ -54,12 +54,7 @@ create_raw_data <- function(
     df <- get_raw_data(
       con = con_db,
       selected_vars = selected_vars
-    ) |>
-      dplyr::select(
-        -sample_id,
-        -loc_id,
-        -len_id
-      )
+    )
 
     return(df)
   })
