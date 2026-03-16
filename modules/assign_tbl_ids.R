@@ -6,7 +6,7 @@ assign_table_ids <- function(tables_split, tables_ids, max_ids) {
       dplyr::pull(column_name)
 
     # --- drop foreign keys you never want to generate
-    id_col <- dplyr::setdiff(
+    id_col <- setdiff(
       id_col,
       c("sample_id", "source_id", "submission_id")
     )

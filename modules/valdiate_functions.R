@@ -181,7 +181,9 @@ add_valid_taxonomy <- function(df, species_list) {
   valid_taxonomy <- valid_taxonomy(species_list)
 
   valid_common_sentence <- stringr::str_to_sentence(valid_taxonomy$valid_common)
-  valid_sci_sentence <- stringr::str_to_sentence(valid_taxonomy$valid_scientific)
+  valid_sci_sentence <- stringr::str_to_sentence(
+    valid_taxonomy$valid_scientific
+  )
 
   df <- df |>
     dplyr::mutate(

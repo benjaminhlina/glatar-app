@@ -140,7 +140,6 @@ upload_data_server <- function(id, con) {
         "date",
         rep("guess", col_count - 4)
       )
-      
 
       # ---- get tbl sample -----
       tbl_samples_submitted <- tryCatch(
@@ -197,7 +196,10 @@ upload_data_server <- function(id, con) {
         dplyr::pull()
 
       tbl_samples_submitted <- tbl_samples_submitted |>
-        dplyr::mutate(dplyr::across(dplyr::any_of(num_cols), ~ suppressWarnings(as.numeric(.))))
+        dplyr::mutate(dplyr::across(
+          dplyr::any_of(num_cols),
+          ~ suppressWarnings(as.numeric(.))
+        ))
 
       # ---- add validator cols -----
       tbl_samples_submitted <- add_valid_cols(tbl_samples_submitted)
@@ -281,7 +283,6 @@ upload_data_server <- function(id, con) {
           dplyr::collect() |>
           (\(.) split(., .$table_name))()
 
-        
         # ----- do the same for source id -----
         tbl_source_submitted <- tbl_source_submitted |>
           dplyr::mutate(
@@ -395,7 +396,7 @@ upload_data_server <- function(id, con) {
           priority_tables,
           names(tables_split_full)
         )
-     
+
         # Get remaining tables
         other_tables <- setdiff(names(tables_split_full), existing_priority)
 
@@ -496,7 +497,11 @@ upload_data_server <- function(id, con) {
         output$location_map <- shiny::renderUI({
           shiny::req(tables_split_full)
 
-          shiny::req(validated_submission(), validated_source(), validated_samples())
+          shiny::req(
+            validated_submission(),
+            validated_source(),
+            validated_samples()
+          )
           tbl_loc <- tables_split_full$tbl_location
           if (all(is.na(tbl_loc$latitude)) & all(is.na(tbl_loc$longitude))) {
             shiny::tagList(
@@ -609,7 +614,10 @@ upload_data_server <- function(id, con) {
             "Upload failed due to inconsistances,
                               rolled back: {e$message}"
           )
-          shiny::showNotification("Upload failed. No data was saved.", type = "error")
+          shiny::showNotification(
+            "Upload failed. No data was saved.",
+            type = "error"
+          )
           FALSE
         }
       )

@@ -9,4 +9,3 @@ ram_tracker <- function() {
     shiny::invalidateLater(5000) # Print every 5 seconds
   })
 }
-
