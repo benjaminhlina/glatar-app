@@ -348,7 +348,7 @@ display_scatter_plot <- function(
 # ---- display summary_table -----
 
 display_table <- function(data, output, output_id = "summary_table_output") {
-  output[[output_id]] <- renderDT({
+  output[[output_id]] <- DT::renderDT({
     shiny::req(data())
     # get data
     df <- data()
