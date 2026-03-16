@@ -70,7 +70,7 @@ get_good_groups <- function(df) {
     as.character()
 
   # # Return only those that are in good_groups
-  groups <- sort(dplyr::intersect(cols, good_groups))
+  groups <- sort(intersect(cols, good_groups))
 
   cli::cli_alert_info("Converted names: {.val {cols}}")
   return(groups)
@@ -270,7 +270,7 @@ get_summary_data <- function(
   # ----- grab seelected vars ----
 
   if (!is.null(selected_vars) && length(selected_vars) > 0) {
-    needed_tables <- dplyr::setdiff(
+    needed_tables <- setdiff(
       get_tables_needed(con = con, var = selected_vars),
       "tbl_samples"
     )
