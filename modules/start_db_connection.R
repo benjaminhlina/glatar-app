@@ -1,8 +1,3 @@
-{
-  library(DBI)
-  library(RPostgres)
-}
-
 # ----- create connection to database -----
 cli::cli_alert_info("The SSL mode is {.val {Sys.getenv('POSTGRES_SSLMODE')}}")
 ssl_mode <- Sys.getenv("POSTGRES_SSLMODE", unset = "disable")
