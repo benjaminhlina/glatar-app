@@ -1,6 +1,6 @@
 docs_ui <- function(id) {
   ns <- shiny::NS(id)
-  
+
   shiny::tagList(
     shiny::fluidRow(
       shinydashboard::box(
@@ -9,7 +9,9 @@ docs_ui <- function(id) {
         status = "primary",
         solidHeader = TRUE,
 
-        shiny::tags$p("Download the data entry templates and documentation below:"),
+        shiny::tags$p(
+          "Download the data entry templates and documentation below:"
+        ),
 
         shiny::fluidRow(
           # ---- Templates column ----
