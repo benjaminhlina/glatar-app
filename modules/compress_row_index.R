@@ -2,9 +2,9 @@
 
 compress_row_index <- function(row_index_str, min_run = 5) {
   # Parse the numbers
-  nums <- strsplit(row_index_str, ",")[[1]] |> 
-      trimws() |> 
-      as.integer()
+  nums <- strsplit(row_index_str, ",")[[1]] |>
+    trimws() |>
+    as.integer()
   nums <- sort(unique(nums))
 
   if (length(nums) == 0) {
