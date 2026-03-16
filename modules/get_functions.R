@@ -192,7 +192,7 @@ get_raw_data <- function(
   selected_vars = NULL,
   debug_sql = FALSE
 ) {
-  req(con)
+  shiny::req(con)
 
   if (is.null(selected_vars)) {
     selected_vars <- NULL
@@ -221,7 +221,7 @@ get_raw_data <- function(
 
     if (!is.null(needed_tables)) {
       df <- needed_tables |>
-        reduce(.init = df, ~ get_join_table(.x, .y, con))
+        purrr::reduce(.init = df, ~ get_join_table(.x, .y, con))
     }
 
     # --- get selected vars -----
@@ -240,14 +240,14 @@ get_raw_data <- function(
     vars_for_select <- unique(vars_for_select)
     # Select only requested columns (plus keys if needed)
     df <- df |>
-      select(
+      dplyr::select(
         data_type,
         waterbody,
         scientific_name,
         length_type,
         # energy_units,
-        any_of(vars_for_select)
-      )
+        dplyr::any_of(vars_for_select)
+      ) |> 
   }
   if (debug_sql) {
     cli::cli_alert_info(dbplyr::sql_render(df))
