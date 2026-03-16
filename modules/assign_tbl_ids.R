@@ -43,5 +43,3 @@ assign_table_ids <- function(tables_split, tables_ids, max_ids) {
     df
   })
 }
-
-setdiff()
