@@ -318,7 +318,7 @@ get_summary_data <- function(
   grouping_vars = NULL,
   debug_sql = FALSE
 ) {
-  req(con)
+  shiny::req(con)
 
   if (is.null(selected_vars)) {
     selected_vars <- NULL
