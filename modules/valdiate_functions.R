@@ -255,7 +255,7 @@ check_taxonomy_match <- function(input_values, db_values) {
 
 # ----- pretty pointblank -----
 pretty_validate_report <- function(confrontation, table_name = NULL) {
-  df <- base::as.data.frame(confrontation, add_columns = TRUE)
+  df <- validate::as.data.frame(confrontation)
 
   original_data <- confrontation$._keys$keyset
 
@@ -759,7 +759,7 @@ validate_tbl_samples <- function(df) {
       .lifestage == TRUE,
       .sex == TRUE,
       .length_type == TRUE,
-      .composite == TRUE,
+      .data_type == TRUE,
       .tissue_type == TRUE,
       .sample_procedure == TRUE,
       .calorimetry_method == TRUE,
@@ -769,7 +769,7 @@ validate_tbl_samples <- function(df) {
       is.numeric(length_mm),
       is.numeric(weight_g),
       is.numeric(age_year),
-      is.numeric(composite_n),
+      is.numeric(data_type_n),
       is.numeric(latitude),
       is.numeric(longitude),
       is.numeric(calorimeter_conversion_factor),
