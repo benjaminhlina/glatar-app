@@ -1,7 +1,7 @@
 glatar_diagram_ui <- function() {
   htmltools::tags$div(
     style = "width:100%; padding: 10px 0;",
-    htmltools::tags$style(HTML(
+    htmltools::tags$style(htmltools::HTML(
       "
       /* ── GLATAR Bubble Diagram ── */
       .glatar-diagram-wrap {
@@ -253,7 +253,7 @@ glatar_diagram_ui <- function() {
     ),
 
     # Build the SVG with JS
-    htmltools::tags$script(HTML(
+    htmltools::tags$script(htmltools::HTML(
       '
 (function() {
 
