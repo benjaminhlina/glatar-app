@@ -37,7 +37,7 @@ scatter_sidebar_ui <- function(id) {
         choices = NULL,
         multiple = TRUE
       ),
-      
+
       shiny::selectizeInput(
         ns("x_var"),
         "Select X Variable",
@@ -97,7 +97,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         condition = main_input$tabs == "scatter_plot"
       )
     })
-    
+
     # ---- intialize scatter plot -----
     initialized_scatter <- shiny::reactiveVal(FALSE)
     # Store computed values so the reactive can access them
@@ -108,7 +108,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
 
     axis_choices <- shiny::reactive({
       shiny::req(input$themes)
-     shiny::req(numeric_choices_r())
+      shiny::req(numeric_choices_r())
       get_theme_choices(
         theme = input$themes,
         con = con,
@@ -125,7 +125,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
       {
         # require scatter tab and initalize scatter
         shiny::req(main_input$tabs == "scatter_plot")
-       shiny::req(!initialized_scatter())
+        shiny::req(!initialized_scatter())
 
         # get sidebar df
         sidebar_df <- get_sidebar_df(con)
