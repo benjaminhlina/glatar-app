@@ -73,8 +73,16 @@ ui <- shinydashboard::dashboardPage(
     width = 275,
     shinydashboard::sidebarMenu(
       id = "tabs",
-      shinydashboard::menuItem("Home", tabName = "home", icon = shiny::icon("home")),
-      shinydashboard::menuItem("Map", tabName = "view_map", icon = shiny::icon("map")),
+      shinydashboard::menuItem(
+        "Home",
+        tabName = "home",
+        icon = shiny::icon("home")
+      ),
+      shinydashboard::menuItem(
+        "Map",
+        tabName = "view_map",
+        icon = shiny::icon("map")
+      ),
       shinydashboard::menuItem(
         "Summary Tables",
         tabName = "summary_info",
@@ -85,16 +93,36 @@ ui <- shinydashboard::dashboardPage(
         tabName = "scatter_plot",
         icon = shiny::icon("chart-line")
       ),
-     shinydashboard::menuItem("View Data", tabName = "view_data", icon = shiny::icon("table")),
-     shinydashboard::menuItem("Upload Data", tabName = "insert_data", icon = shiny::icon("plus")),
-     shinydashboard::menuItem(
+      shinydashboard::menuItem(
+        "View Data",
+        tabName = "view_data",
+        icon = shiny::icon("table")
+      ),
+      shinydashboard::menuItem(
+        "Upload Data",
+        tabName = "insert_data",
+        icon = shiny::icon("plus")
+      ),
+      shinydashboard::menuItem(
         "Taxonomic Search",
         tabName = "taxa_search",
         icon = shiny::icon("fish")
       ),
-      shinydashboard::menuItem("Documentation", tabName = "docs", icon = shiny::icon("book")),
-      shinydashboard::menuItem("About", tabName = "about", icon = shiny::icon("circle-info")),
-      shinydashboard::menuItem("Logout", tabName = "logout", icon = shiny::icon("sign-out-alt"))
+      shinydashboard::menuItem(
+        "Documentation",
+        tabName = "docs",
+        icon = shiny::icon("book")
+      ),
+      shinydashboard::menuItem(
+        "About",
+        tabName = "about",
+        icon = shiny::icon("circle-info")
+      ),
+      shinydashboard::menuItem(
+        "Logout",
+        tabName = "logout",
+        icon = shiny::icon("sign-out-alt")
+      )
     ),
     shinyjs::useShinyjs(),
     # Modularized panels
@@ -108,7 +136,7 @@ ui <- shinydashboard::dashboardPage(
     )
   ),
   # ---- create display panes ----
-   shinydashboard::dashboardBody(
+  shinydashboard::dashboardBody(
     # add  analytics
     shiny::tags$head(
       # ----- add google analytics -----
@@ -122,16 +150,28 @@ ui <- shinydashboard::dashboardPage(
     app_version_head(),
     app_version_label(app_version),
     # tab itimes
-     shinydashboard::tabItems(
-       shinydashboard::tabItem(tabName = "home", home_tab_ui("home")),
-       shinydashboard::tabItem(tabName = "view_map", view_map_ui("view_map")),
-       shinydashboard::tabItem(tabName = "summary_info", view_summary_info_ui("summary_info")),
-       shinydashboard::tabItem(tabName = "scatter_plot", view_scatter_plot_ui("scatter_plot")),
-       shinydashboard::tabItem(tabName = "view_data", view_data_ui("view_data")),
-       shinydashboard::tabItem(tabName = "insert_data", upload_data_ui("insert_data")),
-       shinydashboard::tabItem(tabName = "taxa_search", taxa_search_ui("taxa_search")),
-       shinydashboard::tabItem(tabName = "docs", docs_ui("docs")),
-       shinydashboard::tabItem(tabName = "about", about_ui("about"))
+    shinydashboard::tabItems(
+      shinydashboard::tabItem(tabName = "home", home_tab_ui("home")),
+      shinydashboard::tabItem(tabName = "view_map", view_map_ui("view_map")),
+      shinydashboard::tabItem(
+        tabName = "summary_info",
+        view_summary_info_ui("summary_info")
+      ),
+      shinydashboard::tabItem(
+        tabName = "scatter_plot",
+        view_scatter_plot_ui("scatter_plot")
+      ),
+      shinydashboard::tabItem(tabName = "view_data", view_data_ui("view_data")),
+      shinydashboard::tabItem(
+        tabName = "insert_data",
+        upload_data_ui("insert_data")
+      ),
+      shinydashboard::tabItem(
+        tabName = "taxa_search",
+        taxa_search_ui("taxa_search")
+      ),
+      shinydashboard::tabItem(tabName = "docs", docs_ui("docs")),
+      shinydashboard::tabItem(tabName = "about", about_ui("about"))
     )
   )
 )
@@ -195,7 +235,11 @@ server <- function(input, output, session) {
         "Are you sure you want to log out?",
         footer = shiny::tagList(
           shiny::modalButton("Cancel"),
-          shiny::actionButton("confirm_logout", "Logout", class = "btn btn-danger")
+          shiny::actionButton(
+            "confirm_logout",
+            "Logout",
+            class = "btn btn-danger"
+          )
         )
       ))
     }
