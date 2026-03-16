@@ -2,8 +2,8 @@ view_data_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    useShinyjs(),
-    div(
+    shinyjs::useShinyjs(),
+    shiny::div(
       id = ns("raw_data_ui"),
       style = "display:none;",
       shiny::h2("Raw Data"),
@@ -30,8 +30,8 @@ view_data_ui <- function(id) {
 
 # ---- server ----
 view_data_server <- function(id, con, main_input, raw_sidebar_vals) {
-  moduleServer(id, function(input, output, session) {
-    observeEvent(
+  shiny::moduleServer(id, function(input, output, session) {
+    shiny::observeEvent(
       main_input$tabs,
       {
         shinyjs::toggle(
@@ -46,17 +46,17 @@ view_data_server <- function(id, con, main_input, raw_sidebar_vals) {
     ns <- session$ns
 
     # reactive export df
-    raw_export_df <- reactiveVal(NULL)
+    raw_export_df <- shiny::reactiveVal(NULL)
 
     # reactive when raw is actived
-    raw_activated <- reactiveVal(FALSE)
+    raw_activated <- shiny::reactiveVal(FALSE)
 
     #  ----- first create raw data -----
     # raw actived_true only if
-    observeEvent(
+    shiny::observeEvent(
       main_input$tabs,
       {
-        req(main_input$tabs == "view_data")
+        shiny::req(main_input$tabs == "view_data")
         raw_activated(TRUE)
       },
       ignoreInit = TRUE
@@ -79,8 +79,8 @@ view_data_server <- function(id, con, main_input, raw_sidebar_vals) {
       pane = "view_data"
     )
 
-    filtered_raw_data_df_names <- reactive({
-      req(filtered_raw_data())
+    filtered_raw_data_df_names <- shiny::reactive({
+      shiny::req(filtered_raw_data())
 
       filtered_raw_data() |>
         dplyr::rename_with(~ convert_nice_name(.x))
@@ -93,7 +93,7 @@ view_data_server <- function(id, con, main_input, raw_sidebar_vals) {
     )
 
     # ---- run exporte -----
-    observe({
+    shiny::observe({
       raw_export_df(filtered_raw_data_df_names())
     })
 
