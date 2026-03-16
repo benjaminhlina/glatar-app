@@ -4,8 +4,8 @@ naming_conventions <- readr::read_csv(here::here(
   "data",
   "app_naming_conventions.csv"
 )) |>
-  mutate(
-    nice_names = case_when(
+  dplyr::mutate(
+    nice_names = dplyr::case_when(
       raw_names %in% "d13c" ~ "\U03B4<sup>13</sup>C",
       raw_names %in% "d15n" ~ "\U03B4<sup>15</sup>N",
       raw_names %in% "d34s" ~ "\U03B4<sup>34</sup>S",
