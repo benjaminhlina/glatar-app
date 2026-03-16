@@ -240,7 +240,7 @@ raw_data_sidebar_server <- function(id, con, main_input) {
       ignoreInit = TRUE
     )
     # Update y summary  variable choices
-    observe({
+    shiny::observe({
       shiny::req(raw_choices())
       nc <- paste(raw_choices(), collapse = ', ')
       cli::cli_alert_info(
