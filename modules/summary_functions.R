@@ -124,33 +124,40 @@ create_mean_data <- function(input_source, data) {
       },
       summary_list
       # init = base_df
-    ) 
+    )
     # run query x
     grouped_summary_df <- grouped_summary_df |>
-      dplyr::left_join(base_df, by = summary_grouping_vars, na_matches = "na") |>
+      dplyr::left_join(
+        base_df,
+        by = summary_grouping_vars,
+        na_matches = "na"
+      ) |>
       dplyr::relocate(
         "data_type",
         .before = dplyr::everything()
       ) |>
       dplyr::relocate(
         n,
-        .after = dplyr::all_of(tail(summary_grouping_vars, 1))
+        .after = dplyr::all_of(utils::tail(summary_grouping_vars, 1))
       ) |>
       dplyr::filter(
         dplyr::if_any(contains("(mean)"), ~ !is.na(.x))
       ) |>
       dplyr::collect() |>
-      dplyr::group_by(dplyr::across(dplyr::any_of(c("data_type", summary_grouping_vars)))) |>
+      dplyr::group_by(dplyr::across(dplyr::any_of(c(
+        "data_type",
+        summary_grouping_vars
+      )))) |>
       dplyr::summarise(
         dplyr::across(
           dplyr::everything(),
           \(x) {
             vals <- x[!is.na(x)]
-        if (length(vals) == 0L) NA else vals[[1L]]
+            if (length(vals) == 0L) NA else vals[[1L]]
           }
         ),
         .groups = "drop"
-      ) |> 
+      ) |>
       dplyr::arrange(across(all_of(c("data_type", summary_grouping_vars)))) |>
       dplyr::mutate(across(where(is.numeric), ~ round(.x, 2)))
 
@@ -173,7 +180,7 @@ create_summary_data <- function(
     # use for other tabs ---
     if (!is.null(tab)) {
       check_tab_name(tab)
-      
+
       shiny::req(main_input$tabs == tab)
     }
 
