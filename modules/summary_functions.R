@@ -139,9 +139,20 @@ create_mean_data <- function(input_source, data) {
       dplyr::filter(
         if_any(contains("(mean)"), ~ !is.na(.x))
       ) |>
-      collect() |>
-      arrange(across(all_of(c("data_type", summary_grouping_vars)))) |>
-      mutate(across(where(is.numeric), ~ round(.x, 2)))
+      dplyr::collect() |>
+      dplyr::group_by(across(any_of(c("data_type", summary_grouping_vars)))) |>
+      dplyr::summarise(
+        dplyr::across(
+          dplyr::everything(),
+          \(x) {
+            vals <- x[!is.na(x)]
+        if (length(vals) == 0L) NA else vals[[1L]]
+          }
+        ),
+        .groups = "drop"
+      ) |> 
+      dplyr::arrange(across(all_of(c("data_type", summary_grouping_vars)))) |>
+      dplyr::mutate(across(where(is.numeric), ~ round(.x, 2)))
 
     return(grouped_summary_df)
   })
