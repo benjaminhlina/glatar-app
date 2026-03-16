@@ -112,7 +112,7 @@ summary_sidebar_server <- function(id, con, main_input) {
     summary_choices <- shiny::reactive({
       shiny::req(input$themes)
       shiny::req(numeric_choices_r())
-      shiny::get_theme_choices(
+      get_theme_choices(
         theme = input$themes,
         con = con,
         numeric_choices = numeric_choices_r(),
