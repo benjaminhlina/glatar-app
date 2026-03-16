@@ -1,6 +1,6 @@
 # ---- create fileted summary ----
 create_filtered_data <- function(input_source, data, pane) {
-  reactive({
+  shiny::reactive({
     df <- data()
 
     # add pane to have this switch from req to null depending on pane
@@ -11,7 +11,7 @@ create_filtered_data <- function(input_source, data, pane) {
     }
 
     if (pane == "summary_info") {
-      req(df)
+      shiny::req(df)
     }
 
     # ----- create filters -----
@@ -27,16 +27,16 @@ create_filtered_data <- function(input_source, data, pane) {
     # ----- filters -----
     if (!is.null(data_type_f) && !"All" %in% data_type_f) {
       df <- df |>
-        filter(data_type %in% data_type_f)
+        dplyr::filter(data_type %in% data_type_f)
     }
     if (!is.null(waterbody_f) && !"All" %in% waterbody_f) {
       df <- df |>
-        filter(waterbody %in% waterbody_f)
+        dplyr::filter(waterbody %in% waterbody_f)
     }
 
     if (!is.null(species_f) && !"All" %in% species_f) {
       df <- df |>
-        filter(scientific_name %in% species_f)
+        dplyr::filter(scientific_name %in% species_f)
     }
 
     return(df)
@@ -46,7 +46,7 @@ create_filtered_data <- function(input_source, data, pane) {
 
 # ----- mean summarized table -----
 create_mean_data <- function(input_source, data) {
-  reactive({
+  shiny::reactive({
     df <- data()
 
     summary_grouping_vars <- input_source$grouping_vars()
@@ -61,17 +61,17 @@ create_mean_data <- function(input_source, data) {
 
     # can create base_df
     base_df <- df |>
-      group_by(across(any_of(c("data_type", summary_grouping_vars)))) |>
-      summarise(n = n()) |>
-      ungroup()
+      dplyr::group_by(across(any_of(c("data_type", summary_grouping_vars)))) |>
+      dplyr::summarise(n = n()) |>
+      dplyr::ungroup()
 
     # if selected_vars is null just produce base query -----
     if (is.null(y_vals) || length(y_vals) == 0) {
       # Return just the grouped counts
       cli::cli_inform("No y_variable selected → returning grouped n only")
       grouped_summary_df <- base_df |>
-        collect() |>
-        arrange(across(any_of(summary_grouping_vars)))
+        dplyr::collect() |>
+        dplyr::arrange(dplyr::across(dplyr::any_of(summary_grouping_vars)))
 
       cli::cli_ul(c(
         "collected class: {paste(class(grouped_summary_df), collapse = ', ')}",
@@ -99,8 +99,8 @@ create_mean_data <- function(input_source, data) {
       }
 
       grouped_summary_df <- df_filtered |>
-        group_by(across(all_of(summary_grouping_vars))) |>
-        summarise(
+        dplyr::group_by(dplyr::across(dplyr::all_of(summary_grouping_vars))) |>
+        dplyr::summarise(
           !!paste0(var_label, " (mean)") := mean(
             .data[[var_to_summarise]],
             na.rm = TRUE
@@ -110,17 +110,17 @@ create_mean_data <- function(input_source, data) {
             na.rm = TRUE
           ),
         ) |>
-        ungroup()
+        dplyr::ungroup()
     })
     # Remove NULL results
     summary_list <- summary_list[!sapply(summary_list, is.null)]
-    req(length(summary_list) > 0)
+    shiny::req(length(summary_list) > 0)
 
     # Combine all summaries by joining on grouping vars
     #  # can use  init = base_df
     grouped_summary_df <- Reduce(
       function(x, y) {
-        full_join(x, y, by = summary_grouping_vars)
+        dplyr::full_join(x, y, by = summary_grouping_vars)
       },
       summary_list
       # init = base_df
@@ -130,17 +130,17 @@ create_mean_data <- function(input_source, data) {
       dplyr::left_join(base_df, by = summary_grouping_vars, na_matches = "na") |>
       dplyr::relocate(
         "data_type",
-        .before = everything()
+        .before = dplyr::everything()
       ) |>
       dplyr::relocate(
         n,
-        .after = all_of(tail(summary_grouping_vars, 1))
+        .after = dplyr::all_of(tail(summary_grouping_vars, 1))
       ) |>
       dplyr::filter(
-        if_any(contains("(mean)"), ~ !is.na(.x))
+        dplyr::if_any(contains("(mean)"), ~ !is.na(.x))
       ) |>
       dplyr::collect() |>
-      dplyr::group_by(across(any_of(c("data_type", summary_grouping_vars)))) |>
+      dplyr::group_by(dplyr::across(dplyr::any_of(c("data_type", summary_grouping_vars)))) |>
       dplyr::summarise(
         dplyr::across(
           dplyr::everything(),
@@ -169,16 +169,16 @@ create_summary_data <- function(
   tab = NULL,
   activated = NULL
 ) {
-  reactive({
+  shiny::reactive({
     # use for other tabs ---
     if (!is.null(tab)) {
       check_tab_name(tab)
-
-      req(main_input$tabs == tab)
+      
+      shiny::req(main_input$tabs == tab)
     }
 
     if (!is.null(activated)) {
-      req(activated)
+      shiny::req(activated)
     }
 
     # get connection
@@ -212,7 +212,7 @@ create_summary_data <- function(
 
     group_vars <- if (inherits(gv, "reactive")) gv() else gv
 
-    req(con_db)
+    shiny::req(con_db)
 
     # ----- if grouping_vars is null or length is 0 return a null object all
     # together
