@@ -6,16 +6,16 @@ create_raw_data <- function(
   tab = NULL,
   activated = NULL
 ) {
-  reactive({
+  shiny::reactive({
     # use for other tabs ---
     if (!is.null(tab)) {
       check_tab_name(tab)
 
-      req(main_input$tabs == tab)
+      shiny::req(main_input$tabs == tab)
     }
 
     if (!is.null(activated)) {
-      req(activated)
+      shiny::req(activated)
     }
 
     # get connection
