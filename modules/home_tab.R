@@ -3,10 +3,10 @@ home_tab_ui <- function(id) {
 
   shinydashboard::tabItem(
     tabName = "home",
-    h2(
+    shiny::h2(
       "Welcome to the Great Lakes Aquatic Tissue Analysis Repository (GLATAR)"
     ),
-    p(
+    shiny::p(
       "This toolbox allows you to explore, visualize, and manage
     energy density, proximate composition, stable isotope, thiamine, fatty acid,
     mercury and PCB  data
@@ -28,19 +28,19 @@ home_tab_ui <- function(id) {
         status = "primary",
         solidHeader = TRUE,
         shiny::p("Use the sidebar to:"),
-        tags$ul(
-          tags$li("Visualize sampling locations on a map."),
-          tags$li("View and download summary statistic tables."),
-          tags$li(
+        shiny::tags$ul(
+          shiny::tags$li("Visualize sampling locations on a map."),
+          shiny::tags$li("View and download summary statistic tables."),
+          shiny::tags$li(
             "View visualizations of energy density,
                    proximate composition, stable isotope, thiamine,
                   fatty acid, mercury and PCB data."
           ),
-          tags$li(
+          shiny::tags$li(
             "Upload new data into the database (i.e.,
                   if you're a contributing member)."
           ),
-          tags$li(
+          shiny::tags$li(
             "View and filter your uploaded raw data (i.e.,
                   if you're a contributing member)."
           )
@@ -60,35 +60,35 @@ home_tab_ui <- function(id) {
           ecosystem health, bioenergetics, energy transfer, and food web
                  dynamics."
         ),
-        tags$ul(
-          tags$li(
+        shiny::tags$ul(
+          shiny::tags$li(
             "The basic data entry template has fields to collect
                       energy density, proximate composition, and stable isotope data."
           ),
-          tags$li(
+          shiny::tags$li(
             "The extended data entry template has additional fields to collect
                       thiamine, fatty acid, mercury, and PCB data."
           ),
-          tags$li(
-            tags$span("Both data entry templates can be found in the "),
+          shiny::tags$li(
+            shiny::tags$span("Both data entry templates can be found in the "),
             # tags$a(
             #   "clicking here",
             #   href = "data-entry-template/GLATAR_data_entry_template_v15.xlsx",
             #   download = "GLATAR_data_entry_template_v15.xlsx"
             # ),
-            actionLink("go_docs", "documentation pane", ),
-            tags$span(".")
+            shiny::actionLink("go_docs", "documentation pane", ),
+            shiny::tags$span(".")
           ),
 
-          tags$li(
+          shiny::tags$li(
             "If you would like to contribute to this database,
           please create a username using your email address on the data upload
                   pane and wait for registration code to be sent to you."
           ),
-          tags$li(
+          shiny::tags$li(
             "Any questions can be directed to the GLATAR
                   manager at:",
-            tags$a(
+            shiny::tags$a(
               href = "mailto:benjamin.hlina@gmail.com",
               "benjamin.hlina@gmail.com"
             )
@@ -96,15 +96,5 @@ home_tab_ui <- function(id) {
         )
       )
     )
-    # # ---- Interactive database component diagram -----
-    # shiny::fluidRow(
-    #   shinydashboard::box(
-    #     title = "Explore Database Components",
-    #     width = 12,
-    #     status = "primary",
-    #     solidHeader = TRUE,
-    #     glatar_diagram_ui()
-    #   )
-    # )
   )
 }
