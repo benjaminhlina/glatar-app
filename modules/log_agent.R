@@ -98,7 +98,7 @@ log_agent <- function(x, name, show = 10) {
 
     df <- base::as.data.frame(x, add_columns = TRUE)
 
-    rule_cols <- dplyr::setdiff(names(df), names(df)[!grepl("^\\.", names(df))])
+    rule_cols <- setdiff(names(df), names(df)[!grepl("^\\.", names(df))])
 
     # validator columns are logical
     rule_cols <- names(df)[sapply(df, is.logical)]
