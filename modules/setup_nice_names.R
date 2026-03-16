@@ -1,6 +1,6 @@
 # ---- create renaming table ----
 
-naming_conventions <- read_csv(here::here(
+naming_conventions <- readr::read_csv(here::here(
   "data",
   "app_naming_conventions.csv"
 )) |>
