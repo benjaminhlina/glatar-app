@@ -215,7 +215,10 @@ upload_data_server <- function(id, con) {
       log_agent(agent_source, "agent_source")
       log_agent(agent_sample, "agent_sample")
 
-      ok_submission <- all(unlist(validate::values(agent_submission)), na.rm = TRUE)
+      ok_submission <- all(
+        unlist(validate::values(agent_submission)),
+        na.rm = TRUE
+      )
       ok_source <- all(unlist(validate::values(agent_source)), na.rm = TRUE)
       ok_sample <- all(unlist(validate::values(agent_sample)), na.rm = TRUE)
 
