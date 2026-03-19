@@ -6,7 +6,7 @@ load_modules()
 
 # ---- startup the app -----
 
-source("start-up/startup.R")
+source("startup/startup.R")
 
 
 credentials <- data.frame(
