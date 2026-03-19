@@ -190,7 +190,7 @@ display_scatter_plot <- function(
 
       return(p)
     }
-    if (is_empty(x_var_raw) | is_empty(y_var_raw)) {
+    if (check_empty_character(x_var_raw) | check_empty_character(y_var_raw)) {
       p <- empty_plot(
         "Grouping variables selected ✓\n\nNow 
       choose your **x** and **y** variables of interest."
