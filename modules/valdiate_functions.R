@@ -91,6 +91,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
   # ----- create pretty names -----
   out <- bad |>
     dplyr::mutate(
+      col_name = dplyr::coalesce(rule_col, col_name),
       Issue = dplyr::case_when(
         grepl("nrow(.) == 1", expression) ~ "Sheet is empty - please enter in
         data and reupload",
@@ -114,103 +115,10 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl("common_name", expression) ~ "Common name not found in database",
         grepl("scientific_name", expression) ~ "Scientific name not found in
         database",
-        grepl("\\.month", expression) ~ "Month must be between 1 and 12",
-        grepl(
-          "\\.season",
-          expression
-        ) ~ "Invalid season - must be spring, summer, fall, or winter",
-        grepl(
-          "\\.sex",
-          expression
-        ) ~ "Invalid sex - must be female, male, unknown, or both",
-        grepl(
-          "\\.lifestage",
-          expression
-        ) ~ "Invalid lifestage - must be fry, larva, nymph, pupa, juvenile, or adult",
-        grepl(
-          "\\.length_type",
-          expression
-        ) ~ "Invalid length type - must be total, fork, standard, or carapace",
-        grepl(
-          "\\.data_type",
-          expression
-        ) ~ "Invalid data_type - must be individual, composite, mean, or equation",
-        grepl(
-          "\\.tissue_type",
-          expression
-        ) ~ "Invalid tissue type - must be a recognised tissue type see data dictionary if unfamiliar",
-        grepl(
-          "\\.sample_procedure",
-          expression
-        ) ~ "Invalid sample procedure - must be wet or dried",
-        grepl(
-          "\\.calorimetry_method",
-          expression
-        ) ~ "Invalid calorimetry method - must be a recognised calorimetry method",
-        grepl(
-          "\\.sample_weight_type",
-          expression
-        ) ~ "Invalid sample weight type - must be wet or dry",
-        grepl(
-          "\\.lipid_percent_type",
-          expression
-        ) ~ "Invalid lipid percent type - must be % sample weight or % total lipids",
-        grepl(
-          "\\.lipid_type",
-          expression
-        ) ~ "Invalid lipid type - must be fatty acids, phospholipids, sterols, or triacylglycerides",
-        grepl(
-          "\\.fatty_acid_unit",
-          expression
-        ) ~ "Invalid fatty acid unit - must be ug/mg sample weight or % total fatty acid",
-        grepl(
-          "\\.fatty_acid_type",
-          expression
-        ) ~ "Invalid fatty acid type - must be a recognized fatty acid (e.g. 20:5n-3 (EPA), 22:6n-3 (DHA), ∑PUFA, etc.)",
-        grepl(
-          "\\.amino_acid_unit",
-          expression
-        ) ~ "Invalid amino acid unit - must be ug/mg sample weight or % total protein",
-        grepl(
-          "\\.amino_acid_type",
-          expression
-        ) ~ "Invalid amino acid type - must be a recognized amino acid (e.g. Alanine, Lysine, Glycine, etc.)",
-        grepl(
-          "\\.mercury_type",
-          expression
-        ) ~ "Invalid mercury type type - must be total mercury or methyl mercury",
-        grepl(
-          "\\.thiamine_type ",
-          expression
-        ) ~ "Invalid thiamine type type - must be the correct Vitamer",
-        grepl(
-          "\\.ed",
-          expression
-        ) ~ "Invalid energy measurement - must be within appropriate ranges for Joules/g wet or dry weight",
 
         # !!!validation_rules,
         .default = expression
       ),
-      col_name = dplyr::case_when(
-        grepl("\\.ed", expression) ~ "energy_measurment",
-        grepl("\\.month", expression) ~ "month",
-        grepl("\\.date", expression) ~ "date",
-        grepl("\\.season", expression) ~ "season",
-        grepl("\\.sex", expression) ~ "sex",
-        grepl("\\.lifestage", expression) ~ "lifestage",
-        grepl("\\.length_type", expression) ~ "length_type",
-        grepl("\\.data_type", expression) ~ "data_type",
-        grepl("\\.tissue_type", expression) ~ "tissue_type",
-        grepl("\\.sample_procedure", expression) ~ "sample_procedure",
-        grepl("\\.calorimetry_method", expression) ~ "calorimetry_method",
-        grepl("\\.sample_weight_type", expression) ~ "sample_weight_type",
-        grepl("\\.amino_acid_type", expression) ~ "amino_acid_type",
-        grepl("\\.amino_acid_unit", expression) ~ "amino_acid_unit",
-        grepl("\\.lipid_type", expression) ~ "lipid_type",
-        grepl("\\.mercury_type", expression) ~ "mercury_type",
-        grepl("\\.thiamine_type ", expression) ~ "thiamine_type",
-        .default = col_name
-      )
     ) |>
     dplyr::select(Row = data_row, Column = col_name, Issue)
 
