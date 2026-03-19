@@ -90,6 +90,8 @@ COPY app.R app.R
 COPY www/ www/
 COPY data/ data/
 COPY modules/ modules/
+COPY startup/ startup/
+COPY load-modules/ load-modules/
 # copy shiny-server config file
 COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 
