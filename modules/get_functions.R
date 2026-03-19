@@ -399,3 +399,35 @@ get_theme_choices <- function(
 
   return(summary_choices)
 }
+
+
+# ---- get valid values
+get_valid_values <- function(con) {
+  raw_constraints <- DBI::dbGetQuery(
+    con,
+    "
+    SELECT cc.table_name, cc.column_name, chk.check_clause
+    FROM information_schema.table_constraints tc
+    JOIN information_schema.check_constraints chk
+      ON tc.constraint_name = chk.constraint_name
+     AND tc.constraint_schema = chk.constraint_schema
+    JOIN information_schema.constraint_column_usage cc
+      ON tc.constraint_name = cc.constraint_name
+     AND tc.table_schema = cc.table_schema
+    WHERE tc.constraint_type = 'CHECK'
+      AND tc.table_schema = 'public'
+      AND cc.table_name LIKE 'tbl_%'
+    ORDER BY cc.table_name, cc.column_name
+  "
+  )
+
+  cleaned_constrants <- raw_constraints |>
+    dplyr::rowwise() |>
+    dplyr::mutate(values = list(clean_db_constraints(check_clause))) |>
+    dplyr::filter(!is.null(values)) |>
+    dplyr::ungroup() |>
+    dplyr::select(column_name, values) |>
+    tibble::deframe()
+
+  return(cleaned_constrants)
+}
