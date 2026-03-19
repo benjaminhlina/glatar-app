@@ -1,49 +1,14 @@
-# ---- load packages ----
-# {
-#   library(dplyr)
-#   library(dbplyr)
-#   library(DT)
-#   library(ggplot2)
-#   library(ggtext)
-#   library(glue)
-#   library(grid)
-#   library(janitor)
-#   library(leaflet)
-#   library(mapview)
-#   library(plotly)
-#   library(purrr)
-#   library(readr)
-#   library(sf)
-#   library(shiny)
-#   library(shinydashboard)
-#   library(shinyjs)
-#   library(shinymanager)
-#   library(stringr)
-#   library(stringdist)
-#   library(tidyr)
-#   library(validate)
-# }
+# ---- load modules ------
+source("load/load_functions.R")
 
-cli::cli_alert_info("Starting the loading of modules....")
-cli::cli_ul(list.files('modules', full.names = TRUE))
-
-module_files <- list.files("modules", full.names = TRUE)
-
-lapply(module_files, function(f) {
-  tryCatch(
-    source(f, local = FALSE),
-    error = function(e) {
-      cli::cli_alert_danger("Failed to load {.file {f}}: {e$message}")
-    }
-  )
-})
-
-cli::cli_alert_success(
-  "All {length(module_files)} modules successfully loaded!"
-)
+load_scripts(folder = "modules", type = "modules")
+load_scripts(folder = "R", type = "functions")
 
 
-app_version <- "0.1.0"
+# ---- startup the app -----
+
+source("startup/startup.R")
+
 
 credentials <- data.frame(
   user = Sys.getenv("SHINY_USER"),

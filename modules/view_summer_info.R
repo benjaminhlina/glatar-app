@@ -109,7 +109,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       summary_mean_df_names(),
       {
         shiny::req(summary_mean_df_names())
-        check_summary_data(summary_mean_df_names())
+        error_summary_data(summary_mean_df_names())
       },
       ignoreInit = TRUE
     )

@@ -60,8 +60,3 @@ empty_plot <- function(msg) {
     ggplot2::xlim(0, 1) +
     ggplot2::ylim(0, 1)
 }
-
-# ----- if is iempty ------
-is_empty <- function(x) {
-  is.null(x) || length(x) == 0 || all(x == "")
-}

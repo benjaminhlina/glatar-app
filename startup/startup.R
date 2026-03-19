@@ -1,5 +1,12 @@
-# ---- create renaming table ----
+# ----- startup -----
+# ----- start db conections
+con <- start_db_con()
+# ---- get _valid_values from db -------
+valid_values <- get_valid_values(con)
 
+app_version <- "0.1.0"
+
+# ----- bring in naming convetions ------
 naming_conventions <- readr::read_csv(here::here(
   "data",
   "app_naming_conventions.csv"
@@ -22,3 +29,9 @@ nice_name_lookup <- stats::setNames(
   naming_conventions$nice_names,
   naming_conventions$raw_names
 )
+
+# ----- bring in rule map ----
+rule_map <- readr::read_csv(here::here(
+  "data",
+  "validation_rule_mapping.csv"
+))

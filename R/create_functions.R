@@ -53,7 +53,7 @@ create_mean_data <- function(input_source, data) {
     y_vals <- input_source$y_variable()
 
     # cli check
-    check_mean_data(
+    error_mean_data(
       df = df,
       summary_grouping_vars = summary_grouping_vars,
       y_vals = y_vals
@@ -61,7 +61,10 @@ create_mean_data <- function(input_source, data) {
 
     # can create base_df
     base_df <- df |>
-      dplyr::group_by(dplyr::across(dplyr::any_of(c("data_type", summary_grouping_vars)))) |>
+      dplyr::group_by(dplyr::across(dplyr::any_of(c(
+        "data_type",
+        summary_grouping_vars
+      )))) |>
       dplyr::summarise(n = dplyr::n()) |>
       dplyr::ungroup()
 
@@ -158,7 +161,10 @@ create_mean_data <- function(input_source, data) {
         ),
         .groups = "drop"
       ) |>
-      dplyr::arrange(dplyr::across(dplyr::all_of(c("data_type", summary_grouping_vars)))) |>
+      dplyr::arrange(dplyr::across(dplyr::all_of(c(
+        "data_type",
+        summary_grouping_vars
+      )))) |>
       dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~ round(.x, 2)))
 
     return(grouped_summary_df)
@@ -179,7 +185,7 @@ create_summary_data <- function(
   shiny::reactive({
     # use for other tabs ---
     if (!is.null(tab)) {
-      check_tab_name(tab)
+      error_tab_name(tab)
 
       shiny::req(main_input$tabs == tab)
     }
@@ -211,7 +217,7 @@ create_summary_data <- function(
     cli::cli_alert("selected vars is: {.var {selected_vars}}")
 
     # check slected _vars
-    check_selected_vars(selected_vars = selected_vars)
+    error_selected_vars(selected_vars = selected_vars)
 
     # get groups
 

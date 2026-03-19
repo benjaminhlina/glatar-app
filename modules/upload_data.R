@@ -183,28 +183,13 @@ upload_data_server <- function(id, con) {
         species_list
       )
 
-      # ---- get numeric cols and make sure they are all numeric -----
-      num_cols <- get_column_map(con) |>
-        dplyr::filter(
-          field_class %in%
-            c("integer", "numeric") &
-            !(field_name %in%
-              c("issue", "publication_year", "volume"))
-        ) |>
-        dplyr::select(field_name) |>
-        dplyr::arrange(field_name) |>
-        dplyr::pull()
-
-      tbl_samples_submitted <- tbl_samples_submitted |>
-        dplyr::mutate(dplyr::across(
-          dplyr::any_of(num_cols),
-          ~ suppressWarnings(as.numeric(.))
-        ))
-
       # ---- add validator cols -----
-      tbl_samples_submitted <- add_valid_cols(tbl_samples_submitted)
+      tbl_samples_submitted <- add_valid_cols(
+        df = tbl_samples_submitted,
+        valid_values = valid_values
+      )
       # ---- run validtor validation ----
-      agent_sample <- validate_tbl_samples(tbl_samples_submitted)
+      agent_sample <- the_golden_lance(tbl_samples_submitted)
 
       cli::cli_h2("Agent validation checks")
 
@@ -212,7 +197,10 @@ upload_data_server <- function(id, con) {
       log_agent(agent_source, "agent_source")
       log_agent(agent_sample, "agent_sample")
 
-      ok_submission <- all(unlist(validate::values(agent_submission)), na.rm = TRUE)
+      ok_submission <- all(
+        unlist(validate::values(agent_submission)),
+        na.rm = TRUE
+      )
       ok_source <- all(unlist(validate::values(agent_source)), na.rm = TRUE)
       ok_sample <- all(unlist(validate::values(agent_sample)), na.rm = TRUE)
 
