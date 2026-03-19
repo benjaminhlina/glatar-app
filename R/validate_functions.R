@@ -345,9 +345,7 @@ the_golden_lance <- function(df) {
       "fatty_acid_measurement",
       "amino_acid_measurement",
       "thiamine_nmol_g",
-      "thiamine_nmol_g_sd",
       "thiaminase_activity",
-      "thiaminase_activity_sd",
       "mercury_ppm",
       "total_pcb_ng_g",
       "pcb_congener_ng_g"
