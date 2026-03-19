@@ -1,6 +1,6 @@
 # ---- add_valid_col
 
-add_valid_cols <- function(df) {
+add_valid_cols <- function(df, valid_values) {
   df <- df |>
     dplyr::mutate(dplyr::across(
       dplyr::where(is.character) &
