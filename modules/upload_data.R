@@ -202,7 +202,10 @@ upload_data_server <- function(id, con) {
         ))
 
       # ---- add validator cols -----
-      tbl_samples_submitted <- add_valid_cols(tbl_samples_submitted)
+      tbl_samples_submitted <- add_valid_cols(
+        df = tbl_samples_submitted,
+        valid_values = valid_values
+      )
       # ---- run validtor validation ----
       agent_sample <- validate_tbl_samples(tbl_samples_submitted)
 
