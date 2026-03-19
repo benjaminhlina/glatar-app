@@ -210,8 +210,9 @@ valid_taxonomy <- function(x) {
 }
 
 
-# ----- validate tbl_samples ------
-validate_tbl_samples <- function(df) {
+# -----the_golden_lance is validate_tbl_samples ------
+# galtar and the golden lance
+the_golden_lance <- function(df) {
   required_fields <- c(
     "pi_name",
     "source_id",
