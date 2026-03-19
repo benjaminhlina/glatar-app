@@ -1,7 +1,8 @@
 # ---- load modules ------
-source("load-modules/load_modules.R")
+source("load/load_functions.R")
 
-load_modules()
+load_scripts(folder = "modules", type = "modules")
+load_scripts(folder = "R", type = "functions")
 
 
 # ---- startup the app -----
