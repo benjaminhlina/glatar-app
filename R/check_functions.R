@@ -4,11 +4,6 @@ check_empty_character <- function(x) {
   is.null(x) || length(x) == 0 || all(x == "")
 }
 
-# ----- check numeic ----
-check_empty_numeric <- function(x) {
-  is.numeric(x) | all(is.na(x))
-}
-
 # ----- check tax  -----
 check_taxonomy_match <- function(input_values, db_values) {
   # Normalize input value
