@@ -51,6 +51,3 @@ check_taxonomy_match <- function(input_values, db_values) {
 
   return(result)
 }
-check_empty_character <- function(x) {
-  is.null(x) || length(x) == 0 || all(x == "")
-}

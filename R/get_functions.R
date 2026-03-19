@@ -220,7 +220,7 @@ get_selected_tab <- function(input) {
   return(out)
 }
 
-# ----- get sidebr df -----
+# ----- get sidebr df ----- ---- this is reactive move?
 get_sidebar_df <- function(con) {
   shiny::reactive({
     # create connection reactively
@@ -249,7 +249,7 @@ get_summary_data <- function(
   grouping_vars = NULL,
   debug_sql = FALSE
 ) {
-  req(con)
+  shiny::req(con)
 
   if (is.null(selected_vars)) {
     selected_vars <- NULL

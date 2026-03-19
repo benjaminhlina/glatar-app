@@ -53,18 +53,3 @@ clean_db_constraints <- function(clause) {
 
   NULL
 }
-
-# server.R / server function
-
-# Option A: static — constraints won't change during the session
-# valid_values <- get_valid_values(con) # your query + clean_db_constraints pipeline
-
-# # Option B: reactive — if you want refresh capability
-# valid_values <- reactive({
-#   get_valid_values(con)
-# }) |>
-#   bindCache("constraints") # cache so it doesn't re-query on every use
-
-# # Then wherever you validate uploaded/edited data:
-# validated_df <- add_valid_cols(raw_df, valid_values) # Option A
-# validated_df <- add_valid_cols(raw_df, valid_values()) # Option B (unwrap reactive)
