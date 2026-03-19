@@ -22,3 +22,9 @@ nice_name_lookup <- stats::setNames(
   naming_conventions$nice_names,
   naming_conventions$raw_names
 )
+
+# ----- bring in rule map ----
+rule_map <- readr::read_csv(here::here(
+  "data",
+  "validation_rule_mapping.csv"
+))
