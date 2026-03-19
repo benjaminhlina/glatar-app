@@ -37,6 +37,19 @@ rule_len <- function(required_fields) {
   return(rule)
 }
 
+# ----- rule match -----
+rule_match <- function(exprs, field) {
+  matched_rule <- vapply(
+    exprs,
+    function(expr) {
+      i <- which(vapply(rule_map$pat, grepl, logical(1), x = expr))
+      if (length(i)) rule_map[[field]][i[1]] else NA_character_
+    },
+    character(1)
+  )
+  return(matched_rule)
+}
+
 # --- not NA rules
 rule_na <- function(required_fields) {
   rule <- stats::setNames(
