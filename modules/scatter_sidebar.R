@@ -227,7 +227,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         n_sp <- length(species_choices)
         grp <- paste(grouping_choices, collapse = ', ')
 
-        # check_dropdowns()
+        # error_dropdowns()
         cli::cli_alert_success("Updating dropdowns")
         cli::cli_alert_danger("scatter_sidebar tiggered")
         cli::cli_ul(c(
