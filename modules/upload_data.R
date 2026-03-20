@@ -131,20 +131,20 @@ upload_data_server <- function(id, con) {
         valid_values = valid_values
       )
       # ---- run validtor validation ----
-      agent_sample <- the_golden_lance(tbl_samples_submitted)
+      agent_samples <- the_golden_lance(tbl_samples_submitted)
 
       cli::cli_h2("Agent validation checks")
 
       log_agent(agent_submission, "agent_submission")
-      log_agent(agent_source, "agent_source")
-      log_agent(agent_sample, "agent_sample")
+      log_agent(agent_sources, "agent_sources")
+      log_agent(agent_samples, "agent_samples")
 
       ok_submission <- all(
         unlist(validate::values(agent_submission)),
         na.rm = TRUE
       )
-      ok_source <- all(unlist(validate::values(agent_source)), na.rm = TRUE)
-      ok_sample <- all(unlist(validate::values(agent_sample)), na.rm = TRUE)
+      ok_source <- all(unlist(validate::values(agent_sources)), na.rm = TRUE)
+      ok_sample <- all(unlist(validate::values(agent_samples)), na.rm = TRUE)
 
       cli::cli_alert_info(
         "Gate status to submission: {ok_submission},
@@ -315,7 +315,7 @@ upload_data_server <- function(id, con) {
           max_ids
         )
 
-        tables_split_full$tbl_source <- tbl_source_submitted
+        tables_split_full$tbl_sources <- tbl_sources_submitted
         tables_split_full$tbl_submission <- tbl_submission_submitted
 
         # Define the "priority" tables to go first
@@ -429,7 +429,7 @@ upload_data_server <- function(id, con) {
 
           shiny::req(
             validated_submission(),
-            validated_source(),
+            validated_sources(),
             validated_samples()
           )
           tbl_loc <- tables_split_full$tbl_location
@@ -458,15 +458,15 @@ upload_data_server <- function(id, con) {
         })
       } else {
         validated_submission(NULL)
-        validated_source(NULL)
+        validated_sources(NULL)
         validated_samples(NULL)
         tables_to_submit(NULL)
         tables_split_full(NULL)
 
         error_report <- clean_all_validations(
           tbl_submssion = agent_submission,
-          tbl_source = agent_source,
-          tbl_samples = agent_sample
+          tbl_sources = agent_sources,
+          tbl_samples = agent_samples
         )
 
         output$upload_status <- shiny::renderUI({
@@ -488,7 +488,7 @@ upload_data_server <- function(id, con) {
     # ---- submit to database ----
     shiny::observeEvent(input$submit_btn, {
       shiny::req(validated_submission())
-      shiny::req(validated_source())
+      shiny::req(validated_sources())
       shiny::req(validated_samples())
       shiny::req(tables_to_submit())
 
