@@ -70,8 +70,6 @@ upload_data_server <- function(id, con) {
       load_indicator(input, output)
 
       shinyjs::disable("submit_btn")
-
-      # get path
       file_path <- input$file_upload$datapath
       # get sheets
       sheets <- readxl::excel_sheets(file_path)

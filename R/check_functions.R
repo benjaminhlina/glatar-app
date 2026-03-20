@@ -46,3 +46,27 @@ check_taxonomy_match <- function(input_values, db_values) {
 
   return(result)
 }
+
+# ---- check sheets ----
+check_sheets <- function(file_path, output) {
+  # get sheets
+  sheets <- readxl::excel_sheets(file_path)
+
+  # check if all sheets are there
+  required_sheets <- c("tbl_submission", "tbl_sources", "tbl_samples")
+  missing_sheets <- setdiff(required_sheets, sheets)
+
+  if (length(missing_sheets) > 0) {
+    output$upload_status <- shiny::renderUI({
+      shiny::p(
+        paste0(
+          "✖ Error: Missing required sheet(s): ",
+          paste(missing_sheets, collapse = ", ")
+        ),
+        style = "color:red; font-weight:600;"
+      )
+    })
+
+    return()
+  }
+}
