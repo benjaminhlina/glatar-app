@@ -60,7 +60,7 @@ upload_data_server <- function(id, con) {
 
     # ---- reactive validate ------
     validated_samples <- shiny::reactiveVal(NULL)
-    validated_source <- shiny::reactiveVal(NULL)
+    validated_sources <- shiny::reactiveVal(NULL)
     validated_submission <- shiny::reactiveVal(NULL)
     tables_to_submit <- shiny::reactiveVal(NULL)
     tables_split_full <- shiny::reactiveVal(NULL)
