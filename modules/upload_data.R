@@ -74,77 +74,48 @@ upload_data_server <- function(id, con) {
       check_sheets(file_path, output)
       # ----- start validation processes ------
 
-      # ----- validate tbl_submission ------
+      # -----  read submission  ------
 
-      tbl_submission_submitted <- readxl::read_excel(
+      tbl_submission_submitted <- read_xl(
         file_path,
-        sheet = "tbl_submission",
+        tbl_name = "tbl_submission",
         skip = 3,
-      ) |>
-        janitor::clean_names()
+        rename = FALSE
+      )
+      # ---- validate tbl_submission -----
       agent_submission <- validate_tbl_submission(tbl_submission_submitted)
 
-      # ----- validate tbl_soruce -----
-      tbl_source_submitted <- readxl::read_excel(
+      # ----- read_table source  -----
+      tbl_source_submitted <- read_xl(
         file_path,
-        sheet = "tbl_sources",
-        skip = 3
-      ) |>
-        janitor::clean_names() |>
-        rename_to_db_col(con, "tbl_source")
-
-      agent_source <- validate_tbl_source(tbl_source_submitted)
+        tbl_name = "tbl_sources",
+        skip = 3,
+        con = con,
+        rename = TRUE
+      )
+      # ------ validate tabale soruce ------
+      agent_sources <- validate_tbl_sources(tbl_source_submitted)
 
       # ----- validate tbl sample ----
 
       # ----- first get the number of columns -----
-      col_count <- ncol(readxl::read_excel(
+      col_types <- read_col_types(
         file_path,
-        sheet = "tbl_samples",
+        tbl_name = "tbl_samples",
         skip = 4,
         n_max = 1
-      ))
-
-      # ---- then dynamically create col_types
-      col_types <- c(
-        rep("guess", 3),
-        "date",
-        rep("guess", col_count - 4)
       )
 
       # ---- get tbl sample -----
-      tbl_samples_submitted <- tryCatch(
-        {
-          readxl::read_excel(
-            file_path,
-            sheet = "tbl_samples",
-            col_types = col_types,
-            skip = 4
-          ) |>
-            janitor::clean_names() |>
-            rename_to_db_col(con, "tbl_samples") |>
-            rename_to_db_col(con, "tbl_location")
-        },
-        error = function(e) {
-          msg <- conditionMessage(e)
-
-          # Friendlier message for the col_types mismatch specifically
-          if (grepl("col_types", msg, fixed = TRUE)) {
-            stop(
-              paste0(
-                "Could not read 'tbl_samples': the sheet has more columns than expected. ",
-                "Please check that the template has not been modified (extra columns may have been added). ",
-                "Detail: ",
-                msg
-              ),
-              call. = FALSE
-            )
-          }
-
-          stop(paste0("Could not read 'tbl_samples': ", msg), call. = FALSE)
-        }
+      tbl_samples_submitted <- read_xl(
+        file_path,
+        tbl_name = "tbl_samples",
+        con = con,
+        col_types = col_types,
+        skip = 4,
+        rename = TRUE,
+        rename_twice = "tbl_location"
       )
-
       # ----- get species list -----
       species_list <- dplyr::tbl(con, "tbl_taxonomy")
 
