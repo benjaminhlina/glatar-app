@@ -67,15 +67,7 @@ upload_data_server <- function(id, con) {
 
     shiny::observeEvent(input$upload_btn, {
       # ---- get file upload -----
-      shiny::req(input$file_upload)
-      shinyjs::show("loading_indicator")
-      output$loading_msg <- shiny::renderText("Processing file, please wait...")
-      shinyjs::disable("upload_btn")
-
-      on.exit({
-        shinyjs::hide("loading_indicator")
-        shinyjs::enable("upload_btn")
-      })
+      load_indicator(input, output)
 
       shinyjs::disable("submit_btn")
 
