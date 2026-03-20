@@ -10,13 +10,7 @@ load_scripts(folder = "R", type = "functions")
 source("startup/startup.R")
 
 
-credentials <- data.frame(
-  user = Sys.getenv("SHINY_USER"),
-  password = Sys.getenv("SHINY_PASSWORD"),
-  stringsAsFactors = FALSE
-)
-# ---- create ui ----
-cli::cli_alert_info("Starting the App")
+# ---- ui ------
 ui <- shinydashboard::dashboardPage(
   # ----- title -----
   shinydashboard::dashboardHeader(
