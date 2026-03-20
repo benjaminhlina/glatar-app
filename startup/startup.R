@@ -7,10 +7,12 @@ valid_values <- get_valid_values(con)
 app_version <- "0.1.0"
 
 # ----- bring in naming convetions ------
-naming_conventions <- readr::read_csv(here::here(
-  "data",
-  "app_naming_conventions.csv"
-)) |>
+naming_conventions <- readr::read_csv(
+  here::here(
+    "data",
+    "app_naming_conventions.csv"
+  ),
+) |>
   dplyr::mutate(
     nice_names = dplyr::case_when(
       raw_names %in% "d13c" ~ "\U03B4<sup>13</sup>C",
@@ -35,3 +37,11 @@ rule_map <- readr::read_csv(here::here(
   "data",
   "validation_rule_mapping.csv"
 ))
+
+credentials <- data.frame(
+  user = Sys.getenv("SHINY_USER"),
+  password = Sys.getenv("SHINY_PASSWORD"),
+  stringsAsFactors = FALSE
+)
+# ---- create ui ----
+cli::cli_alert_info("Starting the App")
