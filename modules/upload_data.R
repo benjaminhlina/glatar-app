@@ -71,26 +71,7 @@ upload_data_server <- function(id, con) {
 
       shinyjs::disable("submit_btn")
       file_path <- input$file_upload$datapath
-      # get sheets
-      sheets <- readxl::excel_sheets(file_path)
-
-      # check if all sheets are there
-      required_sheets <- c("tbl_submission", "tbl_sources", "tbl_samples")
-      missing_sheets <- setdiff(required_sheets, sheets)
-
-      if (length(missing_sheets) > 0) {
-        output$upload_status <- shiny::renderUI({
-          shiny::p(
-            paste0(
-              "✖ Error: Missing required sheet(s): ",
-              paste(missing_sheets, collapse = ", ")
-            ),
-            style = "color:red; font-weight:600;"
-          )
-        })
-
-        return()
-      }
+      check_sheets(file_path, output)
       # ----- start validation processes ------
 
       # ----- validate tbl_submission ------
