@@ -276,6 +276,16 @@ upload_data_server <- function(id, con) {
         # etc for other tables
         tables_to_submit(tables_split_full)
 
+        cli::cli_alert_danger(
+          "Colnmn names are the following: {.field {tables_split_full |> 
+            purrr::map(~ colnames(.x))}}"
+        )
+
+        purrr::iwalk(
+          tables_split_full,
+          ~ cli::cli_alert_info("Table {.field {.y}}: {.val {nrow(.x)}} rows")
+        )
+
         shinyjs::enable("submit_btn")
 
         output$map <- leaflet::renderLeaflet({
