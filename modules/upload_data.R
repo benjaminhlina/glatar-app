@@ -218,39 +218,21 @@ upload_data_server <- function(id, con) {
           (\(.) split(., .$table_name))()
 
         # ----- do the same for source id -----
-        tbl_source_submitted <- tbl_source_submitted |>
-          dplyr::mutate(
-            .source_id = seq(
-              from = max_ids[["source_id"]] + 1,
-              length.out = dplyr::n()
-            )
-          )
+        tbl_source_submitted <- add_new_id(
+          df = tbl_source_submitted,
+          id_name = "source_id",
+          max_ids = max_ids
+        )
 
         # ----- we need to do a couple things to tbl_submission before submitting
-        tbl_samples_submitted <- tbl_samples_submitted |>
-          dplyr::mutate(
-            submission_id = next_submission_id$next_id,
-            sample_id = seq(
-              from = max_ids[["sample_id"]] + 1,
-              length.out = dplyr::n()
-            ),
-            dplyr::across(common_name:family, ~ stringr::str_to_sentence(.x)),
-            length_type = tolower(length_type),
-            amino_acid_type = stringr::str_to_sentence(amino_acid_type),
-            waterbody = stringr::str_to_title(waterbody),
-            .energy_units = paste(
-              energy_units,
-              sample_weight_type,
-              "weight",
-              sep = " "
-            ),
-            calorimetry_method = stringr::str_to_sentence(calorimetry_method) |>
-              stringr::str_replace("Gentry-weigert", "Gentry-Weigert")
-          ) |>
-          dplyr::select(-energy_units) |>
-          dplyr::rename(
-            energy_units = .energy_units
-          )
+        tbl_samples_submitted <- add_new_id(
+          df = tbl_samples_submitted,
+          id_name = "sample_id",
+          max_ids = max_ids
+        )
+
+        # ---- fix case types -----
+        tbl_samples_submitted <- fix_case_types(tbl_samples_submitted)
 
         # ---- add source id based on user supplied id ------
         tbl_samples_submitted <- tbl_samples_submitted |>
