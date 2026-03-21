@@ -288,116 +288,60 @@ upload_data_server <- function(id, con) {
 
         shinyjs::enable("submit_btn")
 
-        output$map <- leaflet::renderLeaflet({
-          shiny::req(tables_split_full$tbl_location)
+        display_submission_map(
+          output = output,
+          output_id = "map",
+          split_tables = tables_split_full
+        )
 
-          location_summary <- tables_split_full$tbl_location |>
-            dplyr::left_join(
-              tables_split_full$tbl_samples |>
-                dplyr::select(sample_id, user_sample_id)
-            ) |>
-            dplyr::group_by(latitude, longitude) |>
-            dplyr::summarise(
-              sample_ids = paste(user_sample_id, collapse = ", "),
-              n_samples = dplyr::n(),
-            ) |>
-            dplyr::ungroup()
+        display_upload_status(
+          output = output,
+          output_id = "upload_status",
+          split_tables = tables_split_full
+        )
 
-          # Show the actual coordinates for debugging
-          cli::cli_alert_info(
-            "Locations validated: {nrow(location_summary)} location{?s} ({min(location_summary$n_samples)}-{max(location_summary$n_samples)} samples per location)"
-          )
-          cli::cli_alert_info(
-            "Coordinates: lat range [{min(location_summary$latitude, na.rm=TRUE)}, {max(location_summary$latitude, na.rm=TRUE)}], lon range [{min(location_summary$longitude, na.rm=TRUE)}, {max(location_summary$longitude, na.rm=TRUE)}]"
-          )
+        display_sub_map_msg(
+          output = output,
+          ns = ns,
+          output_id = "location_map",
+          split_tables = tables_split_full,
+          validated_submission = validated_submission,
+          validated_sources = validated_sources,
+          validated_samples = validated_samples
+        )
 
-          # Check for issues
-          if (
-            any(is.na(location_summary$latitude)) ||
-              any(is.na(location_summary$longitude))
-          ) {
-            cli::cli_alert_warning("Some coordinates are NA!")
-          }
-          if (any(abs(location_summary$latitude) > 90, na.rm = TRUE)) {
-            cli::cli_alert_warning(
-              "Some latitudes are out of range (-90 to 90)!"
-            )
-          }
-          if (any(abs(location_summary$longitude) > 180, na.rm = TRUE)) {
-            cli::cli_alert_warning(
-              "Some longitudes are out of range (-180 to 180)!"
-            )
-          }
+        # output$location_map <- shiny::renderUI({
+        #   shiny::req(tables_split_full)
 
-          leaflet::leaflet(location_summary) |>
-            leaflet::addTiles() |>
-            leaflet::addCircleMarkers(
-              lng = ~longitude,
-              lat = ~latitude,
-              radius = 8,
-              color = "#0066cc",
-              fillColor = "#3399ff",
-              fillOpacity = 0.7,
-              popup = ~ paste0(
-                "<b>Number of samples:</b> ",
-                n_samples,
-                "<br>",
-                "<b>Sample ID(s):</b> ",
-                sample_ids
-              ),
-              label = ~ paste0(n_samples, " sample(s)")
-            )
-        })
-
-        output$upload_status <- shiny::renderUI({
-          shiny::tagList(
-            shiny::p(
-              "✔ All validations passed",
-              style = "color:green; font-weight:600;"
-            ),
-            shiny::p(
-              paste0(
-                "Ready to submit ",
-                nrow(tbl_samples_submitted),
-                " rows to database."
-              ),
-              style = "color:green;"
-            )
-          )
-        })
-
-        output$location_map <- shiny::renderUI({
-          shiny::req(tables_split_full)
-
-          shiny::req(
-            validated_submission(),
-            validated_sources(),
-            validated_samples()
-          )
-          tbl_loc <- tables_split_full$tbl_location
-          if (all(is.na(tbl_loc$latitude)) & all(is.na(tbl_loc$longitude))) {
-            shiny::tagList(
-              shiny::h4(
-                "No locations were detected in the longtiude and latitude
-                  columns of your submitted data.
-                  If this is correct, please proceed to submitting
-                  the data to the database",
-                style = "margin-top: 20px; margin-bottom: 10px;"
-              )
-            )
-          } else {
-            shiny::tagList(
-              shiny::h4(
-                "Please check that your sample locations, the number of samples,
-                  and their corresponding ids are correct prior to submitting to
-                  the database. To check, click on each point
-                  to view the number of samples and the user submitted sample ids.",
-                style = "margin-top: 20px; margin-bottom: 10px;"
-              ),
-              leaflet::leafletOutput(ns("map"), height = "500px")
-            )
-          }
-        })
+        #   shiny::req(
+        #     validated_submission(),
+        #     validated_sources(),
+        #     validated_samples()
+        #   )
+        #   tbl_loc <- tables_split_full$tbl_location
+        #   if (all(is.na(tbl_loc$latitude)) & all(is.na(tbl_loc$longitude))) {
+        #     shiny::tagList(
+        #       shiny::h4(
+        #         "No locations were detected in the longtiude and latitude
+        #           columns of your submitted data.
+        #           If this is correct, please proceed to submitting
+        #           the data to the database",
+        #         style = "margin-top: 20px; margin-bottom: 10px;"
+        #       )
+        #     )
+        #   } else {
+        #     shiny::tagList(
+        #       shiny::h4(
+        #         "Please check that your sample locations, the number of samples,
+        #           and their corresponding ids are correct prior to submitting to
+        #           the database. To check, click on each point
+        #           to view the number of samples and the user submitted sample ids.",
+        #         style = "margin-top: 20px; margin-bottom: 10px;"
+        #       ),
+        #       leaflet::leafletOutput(ns("map"), height = "500px")
+        #     )
+        #   }
+        # })
       } else {
         validated_submission(NULL)
         validated_sources(NULL)
