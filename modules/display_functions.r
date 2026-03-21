@@ -488,3 +488,29 @@ display_table <- function(data, output, output_id = "summary_table_output") {
     )
   })
 }
+
+# ----- display upload status ------
+display_upload_status <- function(
+  output,
+  output_id = "upload_status",
+  split_tables
+) {
+  output[[output_id]] <- shiny::renderUI({
+    tbl_samp <- split_tables$tbl_samples
+
+    shiny::tagList(
+      shiny::p(
+        "✔ All validations passed",
+        style = "color:green; font-weight:600;"
+      ),
+      shiny::p(
+        paste0(
+          "Ready to submit ",
+          nrow(tbl_samp),
+          " rows to database."
+        ),
+        style = "color:green;"
+      )
+    )
+  })
+}
