@@ -74,6 +74,13 @@ add_valid_cols <- function(df, valid_values) {
 
   return(df)
 }
+# ---- source and submission tables once split samples -----
+add_sub_sor_tbl <- function(split_tables, sub_tbl, sor_tbl) {
+  # addd --- source and submsision
+  split_tables$tbl_submission <- sub_tbl
+  split_tables$tbl_sources <- sor_tbl
+  return(split_tables)
+}
 
 # ----- add valid txaomnmy ------
 
