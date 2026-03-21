@@ -211,11 +211,6 @@ upload_data_server <- function(id, con) {
           collapse = ", "
         )
         cli::cli_alert_info("Next id for each starts here: {max_ids_str}")
-        # ------ get tables to split -----
-        tables_to_split <- get_column_map(con) |>
-          dplyr::filter(!table_name %in% c("tbl_source", "tbl_submission")) |>
-          dplyr::collect() |>
-          (\(.) split(., .$table_name))()
 
         # ----- do the same for source id -----
         tbl_source_submitted <- add_new_id(
@@ -251,6 +246,11 @@ upload_data_server <- function(id, con) {
           dplyr::select(-source_id) |>
           dplyr::rename(source_id = .source_id)
 
+        # ------ get tables to split -----
+        tables_to_split <- get_column_map(con) |>
+          dplyr::filter(!table_name %in% c("tbl_sources", "tbl_submission")) |>
+          dplyr::collect() |>
+          (\(.) split(., .$table_name))()
         # ----- split by table name ----
 
         tables_split <- lapply(names(tables_to_split), function(tbl_name) {
