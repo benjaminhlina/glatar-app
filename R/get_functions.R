@@ -88,6 +88,27 @@ get_groups <- function(df) {
   ))
   return(groups)
 }
+# ---- get table ids -----
+
+get_id_col <- function(con) {
+  tables_ids <- DBI::dbGetQuery(
+    con,
+    "
+        SELECT table_name, column_name
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+        AND column_name LIKE '%_id'
+        AND table_name <> 'tbl_submission'"
+  ) |>
+    dplyr::filter(
+      !column_name %in%
+        c("submission_id", "percent_lipid", "user_sample_id") &
+        !(column_name %in% "sample_id" & table_name != "tbl_samples"),
+      !(column_name %in% "source_id" & table_name != "tbl_sources")
+    )
+
+  return(tables_ids)
+}
 
 # ----- get max id -----
 get_id_max <- function(table_name, id_col) {
@@ -96,8 +117,10 @@ get_id_max <- function(table_name, id_col) {
     glue::glue("SELECT COALESCE(MAX({id_col}), 0) AS max_id FROM {table_name}")
   )
   selected_id_max <- result$max_id
+
   return(selected_id_max)
 }
+
 
 # ----- simple function to get a tb use dbplyr -----
 #
@@ -330,6 +353,16 @@ get_summary_data <- function(
   cli::cli_alert_success("selected qery completed: df is {.val {class(df)}}")
   return(df)
 }
+# ----- get submision id ------
+
+get_submission_id <- function(con) {
+  sub_id <- DBI::dbGetQuery(
+    con,
+    glue::glue("SELECT gen_random_uuid() AS next_id")
+  )
+  return(sub_id)
+}
+
 
 # ---- get teh tables we need to filter by based on what the user selects -----
 get_tables_needed <- function(con, var) {

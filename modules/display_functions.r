@@ -343,7 +343,124 @@ display_scatter_plot <- function(
     return(p)
   })
 }
+# ----- dsplay_submsiion_id -----
+display_submission_map <- function(output, output_id = "map", split_tables) {
+  output[[output_id]] <- leaflet::renderLeaflet({
+    tbl_locs <- split_tables$tbl_location
+    tbl_samp <- split_tables$tbl_samples |>
+      dplyr::select(sample_id, user_sample_id)
 
+    shiny::req(tbl_locs)
+    shiny::req(tbl_samp)
+
+    location_summary <- tbl_locs |>
+      dplyr::left_join(
+        tbl_samp
+      ) |>
+      dplyr::group_by(latitude, longitude) |>
+      dplyr::summarise(
+        sample_ids = paste(user_sample_id, collapse = ", "),
+        n_samples = dplyr::n(),
+      ) |>
+      dplyr::ungroup()
+
+    # Show the actual coordinates for debugging
+    cli::cli_alert_info(
+      "Locations validated: {nrow(location_summary)} location{?s} 
+      ({min(location_summary$n_samples)}-{max(location_summary$n_samples)} 
+      samples per location)"
+    )
+    cli::cli_alert_info(
+      "Coordinates: lat range [{min(location_summary$latitude, na.rm=TRUE)}, 
+      {max(location_summary$latitude, na.rm=TRUE)}], 
+      lon range [{min(location_summary$longitude, na.rm=TRUE)}, 
+      {max(location_summary$longitude, na.rm=TRUE)}]"
+    )
+
+    # Check for issues
+    if (
+      any(is.na(location_summary$latitude)) ||
+        any(is.na(location_summary$longitude))
+    ) {
+      cli::cli_alert_warning("Some coordinates are NA!")
+    }
+    if (any(abs(location_summary$latitude) > 90, na.rm = TRUE)) {
+      cli::cli_alert_warning(
+        "Some latitudes are out of range (-90 to 90)!"
+      )
+    }
+    if (any(abs(location_summary$longitude) > 180, na.rm = TRUE)) {
+      cli::cli_alert_warning(
+        "Some longitudes are out of range (-180 to 180)!"
+      )
+    }
+
+    leaflet::leaflet(location_summary) |>
+      leaflet::addTiles() |>
+      leaflet::addCircleMarkers(
+        lng = ~longitude,
+        lat = ~latitude,
+        radius = 8,
+        color = "#0066cc",
+        fillColor = "#3399ff",
+        fillOpacity = 0.7,
+        popup = ~ paste0(
+          "<b>Number of samples:</b> ",
+          n_samples,
+          "<br>",
+          "<b>Sample ID(s):</b> ",
+          sample_ids
+        ),
+        label = ~ paste0(n_samples, " sample(s)")
+      )
+  })
+}
+
+
+# ----- dsiplay submssion map info ------
+display_sub_map_msg <- function(
+  output,
+  ns,
+  output_id = "location_map",
+  split_tables,
+  validated_submission,
+  validated_sources,
+  validated_samples
+) {
+  output[[output_id]] <- shiny::renderUI({
+    shiny::req(split_tables)
+
+    shiny::req(
+      validated_submission(),
+      validated_sources(),
+      validated_samples()
+    )
+    tbl_loc <- split_tables$tbl_location
+
+    if (all(is.na(tbl_loc$latitude)) & all(is.na(tbl_loc$longitude))) {
+      shiny::tagList(
+        shiny::h4(
+          "No locations were detected in the longtiude and latitude
+                  columns of your submitted data.
+                  If this is correct, please proceed to submitting
+                  the data to the database",
+          style = "margin-top: 20px; margin-bottom: 10px;"
+        )
+      )
+    } else {
+      shiny::tagList(
+        shiny::h4(
+          "Please check that your sample locations, the number of samples,
+                  and their corresponding ids are correct prior to submitting to
+                  the database. To check, click on each point
+                  to view the number of samples and the user submitted sample ids.",
+          style = "margin-top: 20px; margin-bottom: 10px;"
+        ),
+        leaflet::leafletOutput(ns("map"), height = "500px")
+      )
+    }
+  })
+}
 
 # ---- display summary_table -----
 
@@ -369,5 +486,86 @@ display_table <- function(data, output, output_id = "summary_table_output") {
       ),
       escape = FALSE
     )
+  })
+}
+
+# ----- display upload status ------
+display_validation_status <- function(
+  output,
+  ns,
+  output_id = "upload_status",
+  split_tables = NULL,
+  validated = TRUE
+) {
+  output[[output_id]] <- shiny::renderUI({
+    if (validated) {
+      tbl_samp <- split_tables$tbl_samples
+
+      shiny::tagList(
+        shiny::p(
+          "✔ All validations passed",
+          style = "color:green; font-weight:600;"
+        ),
+        shiny::p(
+          paste0(
+            "Ready to submit ",
+            nrow(tbl_samp),
+            " rows to database."
+          ),
+          style = "color:green;"
+        )
+      )
+    } else {
+      shiny::tagList(
+        shiny::p(
+          "✖ Validation failed - please fix the following issues:",
+          style = "color:red; font-weight:600;"
+        ),
+        shiny::tableOutput(ns("error_table"))
+      )
+    }
+  })
+}
+
+# ---- dispaly upload status ------
+display_upload_status <- function(
+  output,
+  ns,
+  output_id = "upload_status",
+  upload_succeeded = NULL,
+  submission_results = NULL
+) {
+  output[[output_id]] <- shiny::renderUI({
+    if (!upload_succeeded) {
+      shiny::HTML(
+        "<span style='color: red;'>
+           ✘ Upload failed — no data was saved. Please check your data and try again.
+         </span>"
+      )
+    } else {
+      msg <- lapply(names(submission_results), function(tbl_name) {
+        res <- submission_results[[tbl_name]]
+        paste0(
+          "✔ ",
+          tbl_name,
+          ": ",
+          res$rows_submitted,
+          " rows submitted",
+          if (!is.na(res$submission_id)) {
+            paste0(", submission_id = ", res$submission_id)
+          } else {
+            ""
+          }
+        )
+      })
+
+      shiny::HTML(
+        paste0(
+          "<span style='color: green;'>",
+          paste(msg, collapse = "<br>"),
+          "</span>"
+        )
+      )
+    }
   })
 }

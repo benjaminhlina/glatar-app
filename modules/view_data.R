@@ -37,7 +37,7 @@ view_data_server <- function(id, con) {
           "tbl_location",
           "tbl_proxcomp",
           "tbl_samples",
-          "tbl_source",
+          "tbl_sources",
           "tbl_taxonomy",
           "tbl_thiamine"
         )

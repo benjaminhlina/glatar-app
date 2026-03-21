@@ -136,7 +136,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
     scientific_name_suggestions <- character(0)
   }
 
-  row_offset <- if (table_name %in% c("tbl_source", "tbl_submission")) {
+  row_offset <- if (table_name %in% c("tbl_sources", "tbl_submission")) {
     4
   } else if (table_name %in% c("tbl_samples")) {
     5
@@ -409,7 +409,7 @@ the_golden_lance <- function(df) {
 }
 
 # ----- validate source ------
-validate_tbl_source <- function(df) {
+validate_tbl_sources <- function(df) {
   required_fields <- c(
     "source_id",
     "publication_type",

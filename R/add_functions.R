@@ -1,4 +1,32 @@
 # ---- add_valid_col
+# ----- ad_new_id
+add_new_id <- function(df, id_name, max_ids) {
+  col_name <- paste0(".", id_name)
+
+  df <- df |>
+    dplyr::mutate(
+      !!col_name := seq(
+        from = max_ids[[id_name]] + 1,
+        length.out = dplyr::n()
+      )
+    )
+}
+
+
+# ----- add source id ----
+add_source_id <- function(tbl_samples, tbl_sources) {
+  source_select <- tbl_sources |>
+    dplyr::select(source_id, .source_id)
+
+  tbl_samples <- tbl_samples |>
+    dplyr::left_join(
+      source_select
+    ) |>
+    dplyr::select(-source_id) |>
+    dplyr::rename(source_id = .source_id)
+
+  return(tbl_samples)
+}
 
 add_valid_cols <- function(df, valid_values) {
   df <- df |>
@@ -45,6 +73,13 @@ add_valid_cols <- function(df, valid_values) {
     )
 
   return(df)
+}
+# ---- source and submission tables once split samples -----
+add_sub_sor_tbl <- function(split_tables, sub_tbl, sor_tbl) {
+  # addd --- source and submsision
+  split_tables$tbl_submission <- sub_tbl
+  split_tables$tbl_sources <- sor_tbl
+  return(split_tables)
 }
 
 # ----- add valid txaomnmy ------
