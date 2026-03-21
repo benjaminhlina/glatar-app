@@ -192,19 +192,8 @@ upload_data_server <- function(id, con) {
           dplyr::mutate(submission_id = new_id)
 
         # ---- pull column names that are all have id
-        tables_ids <- DBI::dbGetQuery(
-          con,
-          "
-        SELECT table_name, column_name
-        FROM information_schema.columns
-        WHERE table_schema = 'public'
-        AND column_name LIKE '%_id'
-        AND table_name <> 'tbl_submission'"
-        ) |>
-          dplyr::filter(
-            !column_name %in%
-              c("submission_id", "percent_lipid", "user_sample_id")
-          )
+        tables_ids <- get_id_col(con)
+        col_names_id <- tables_ids$column_name
 
         cli::cli_alert_info("Columns that have id are: {.val {tables_ids}}")
 
@@ -213,7 +202,7 @@ upload_data_server <- function(id, con) {
           tables_ids,
           ~ get_id_max(..1, ..2)
         ) |>
-          rlang::set_names(tables_ids$column_name)
+          rlang::set_names(col_names_id)
 
         max_ids_str <- paste(
           names(max_ids),
