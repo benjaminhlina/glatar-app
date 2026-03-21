@@ -266,32 +266,13 @@ upload_data_server <- function(id, con) {
           max_ids
         )
 
-        tables_split_full$tbl_sources <- tbl_sources_submitted
-        tables_split_full$tbl_submission <- tbl_submission_submitted
-
-        # Define the "priority" tables to go first
-        priority_tables <- c("tbl_submission", "tbl_source", "tbl_samples")
-
-        # Find which priority tables exist in your list
-        existing_priority <- intersect(
-          priority_tables,
-          names(tables_split_full)
+        tables_split_full <- add_sub_sor_tbl(
+          split_tables = tables_split_full,
+          sub_tbl = tbl_submission_submitted,
+          sor_tbl = tbl_source_submitted
         )
 
-        # Get remaining tables
-        other_tables <- setdiff(names(tables_split_full), existing_priority)
-
-        # Combine: priority first, then the rest
-        tables_ordered <- c(existing_priority, other_tables)
-
-        # Reorder your list
-        tables_split_full <- tables_split_full[tables_ordered]
-
-        # Optional: check order
-        cli::cli_alert_info(
-          "Tables will be submitted in this order:
-                            {paste(names(tables_split_full), collapse = ' -> ')}"
-        )
+        tables_split_full <- fix_table_order(split_tables = tables_split_full)
         # etc for other tables
         tables_to_submit(tables_split_full)
 
