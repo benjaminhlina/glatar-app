@@ -294,7 +294,7 @@ upload_data_server <- function(id, con) {
           split_tables = tables_split_full
         )
 
-        display_upload_status(
+        display_validation_status(
           output = output,
           output_id = "upload_status",
           split_tables = tables_split_full
@@ -355,15 +355,12 @@ upload_data_server <- function(id, con) {
           tbl_samples = agent_samples
         )
 
-        output$upload_status <- shiny::renderUI({
-          shiny::tagList(
-            shiny::p(
-              "✖ Validation failed - please fix the following issues:",
-              style = "color:red; font-weight:600;"
-            ),
-            shiny::tableOutput(ns("error_table"))
-          )
-        })
+        display_validation_status(
+          output = output,
+          ns = ns,
+          output_id = "upload_status",
+          validate = FALSE
+        )
 
         output$error_table <- shiny::renderTable({
           error_report
