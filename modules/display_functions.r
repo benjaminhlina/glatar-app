@@ -416,6 +416,52 @@ display_submission_map <- function(output, output_id = "map", split_tables) {
   })
 }
 
+
+# ----- dsiplay submssion map info ------
+display_sub_map_msg <- function(
+  output,
+  ns,
+  output_id = "location_map",
+  split_tables,
+  validated_submission,
+  validated_sources,
+  validated_samples
+) {
+  output[[output_id]] <- shiny::renderUI({
+    shiny::req(split_tables)
+
+    shiny::req(
+      validated_submission(),
+      validated_sources(),
+      validated_samples()
+    )
+    tbl_loc <- split_tables$tbl_location
+
+    if (all(is.na(tbl_loc$latitude)) & all(is.na(tbl_loc$longitude))) {
+      shiny::tagList(
+        shiny::h4(
+          "No locations were detected in the longtiude and latitude
+                  columns of your submitted data.
+                  If this is correct, please proceed to submitting
+                  the data to the database",
+          style = "margin-top: 20px; margin-bottom: 10px;"
+        )
+      )
+    } else {
+      shiny::tagList(
+        shiny::h4(
+          "Please check that your sample locations, the number of samples,
+                  and their corresponding ids are correct prior to submitting to
+                  the database. To check, click on each point
+                  to view the number of samples and the user submitted sample ids.",
+          style = "margin-top: 20px; margin-bottom: 10px;"
+        ),
+        leaflet::leafletOutput(ns("map"), height = "500px")
+      )
+    }
+  })
+}
+
 # ---- display summary_table -----
 
 display_table <- function(data, output, output_id = "summary_table_output") {
