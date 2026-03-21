@@ -490,13 +490,16 @@ display_table <- function(data, output, output_id = "summary_table_output") {
 }
 
 # ----- display upload status ------
-display_upload_status <- function(
+display_validation_status <- function(
   output,
+  ns,
   output_id = "upload_status",
-  split_tables
+  split_tables = NULL,
+  validated = TRUE
 ) {
   output[[output_id]] <- shiny::renderUI({
-    tbl_samp <- split_tables$tbl_samples
+    if (validated) {
+      tbl_samp <- split_tables$tbl_samples
 
     shiny::tagList(
       shiny::p(
