@@ -135,20 +135,29 @@ upload_data_server <- function(id, con) {
 
       cli::cli_h2("Agent validation checks")
 
-      log_agent(agent_submission, "agent_submission")
-      log_agent(agent_sources, "agent_sources")
-      log_agent(agent_samples, "agent_samples")
+      # ----  log all agents lets put them into a list an itterate ------
 
-      ok_submission <- all(
-        unlist(validate::values(agent_submission)),
-        na.rm = TRUE
+      all_agents <- list(
+        agent_submission = agent_submission,
+        agent_sources = agent_sources,
+        agent_samples = agent_samples
       )
-      ok_source <- all(unlist(validate::values(agent_sources)), na.rm = TRUE)
-      ok_sample <- all(unlist(validate::values(agent_samples)), na.rm = TRUE)
+
+      all_agents |>
+        purrr::imap(
+          ~ .x |>
+            log_agent(.x, .y)
+        )
+
+      # ----- unlist them alll to see if they're okay to enter if statment ------
+      ok <- purrr::imap_lgl(
+        all_agents,
+        ~ all(unlist(validate::values(.x)), na.rm = TRUE)
+      )
 
       cli::cli_alert_info(
-        "Gate status to submission: {ok_submission},
-        source: {ok_source}, sample: {ok_sample}"
+        "Gate status — submission: {ok['agent_submission']}, 
+        sources: {ok['agent_sources']}, samples: {ok['agent_samples']}"
       )
 
       # if all agents are good process and get ready to submitt
