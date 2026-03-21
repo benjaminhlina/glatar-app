@@ -501,19 +501,71 @@ display_validation_status <- function(
     if (validated) {
       tbl_samp <- split_tables$tbl_samples
 
-    shiny::tagList(
-      shiny::p(
-        "✔ All validations passed",
-        style = "color:green; font-weight:600;"
-      ),
-      shiny::p(
-        paste0(
-          "Ready to submit ",
-          nrow(tbl_samp),
-          " rows to database."
+      shiny::tagList(
+        shiny::p(
+          "✔ All validations passed",
+          style = "color:green; font-weight:600;"
         ),
-        style = "color:green;"
+        shiny::p(
+          paste0(
+            "Ready to submit ",
+            nrow(tbl_samp),
+            " rows to database."
+          ),
+          style = "color:green;"
+        )
       )
-    )
+    } else {
+      shiny::tagList(
+        shiny::p(
+          "✖ Validation failed - please fix the following issues:",
+          style = "color:red; font-weight:600;"
+        ),
+        shiny::tableOutput(ns("error_table"))
+      )
+    }
+  })
+}
+
+# ---- dispaly upload status ------
+display_upload_status <- function(
+  output,
+  ns,
+  output_id = "upload_status",
+  upload_succeeded = NULL,
+  submission_results = NULL
+) {
+  output[[output_id]] <- shiny::renderUI({
+    if (!upload_succeeded) {
+      shiny::HTML(
+        "<span style='color: red;'>
+           ✘ Upload failed — no data was saved. Please check your data and try again.
+         </span>"
+      )
+    } else {
+      msg <- lapply(names(submission_results), function(tbl_name) {
+        res <- submission_results[[tbl_name]]
+        paste0(
+          "✔ ",
+          tbl_name,
+          ": ",
+          res$rows_submitted,
+          " rows submitted",
+          if (!is.na(res$submission_id)) {
+            paste0(", submission_id = ", res$submission_id)
+          } else {
+            ""
+          }
+        )
+      })
+
+      shiny::HTML(
+        paste0(
+          "<span style='color: green;'>",
+          paste(msg, collapse = "<br>"),
+          "</span>"
+        )
+      )
+    }
   })
 }
