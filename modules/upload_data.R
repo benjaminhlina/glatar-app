@@ -161,7 +161,11 @@ upload_data_server <- function(id, con) {
       )
 
       # if all agents are good process and get ready to submitt
-      if (isTRUE(ok_submission) && isTRUE(ok_source) && isTRUE(ok_sample)) {
+      if (
+        isTRUE(ok['agent_submission']) &&
+          isTRUE(ok['agent_sources']) &&
+          isTRUE(ok['agent_samples'])
+      ) {
         # ---- make all of them reactive vals -----
         validated_submission(tbl_samples_submitted)
         validated_source(tbl_source_submitted)
