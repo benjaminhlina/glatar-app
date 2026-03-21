@@ -235,13 +235,10 @@ upload_data_server <- function(id, con) {
         tbl_samples_submitted <- fix_case_types(tbl_samples_submitted)
 
         # ---- add source id based on user supplied id ------
-        tbl_samples_submitted <- tbl_samples_submitted |>
-          dplyr::left_join(
-            tbl_source_submitted |>
-              dplyr::select(source_id, .source_id)
-          ) |>
-          dplyr::select(-source_id) |>
-          dplyr::rename(source_id = .source_id)
+        tbl_samples_submitted <- add_source_id(
+          tbl_samples = tbl_samples_submitted,
+          tbl_sources = tbl_source_submitted
+        )
 
         tbl_samples_submitted <- tbl_samples_submitted |>
           dplyr::left_join(
