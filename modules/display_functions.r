@@ -344,14 +344,18 @@ display_scatter_plot <- function(
   })
 }
 # ----- dsplay_submsiion_id -----
-display_submission_map <- function(output) {
-  output$map <- leaflet::renderLeaflet({
-    shiny::req(tables_split_full$tbl_location)
+display_submission_map <- function(output, output_id = "map", split_tables) {
+  output[[output_id]] <- leaflet::renderLeaflet({
+    tbl_locs <- split_tables$tbl_location
+    tbl_samp <- split_tables$tbl_samples |>
+      dplyr::select(sample_id, user_sample_id)
 
-    location_summary <- tables_split_full$tbl_location |>
+    shiny::req(tbl_locs)
+    shiny::req(tbl_samp)
+
+    location_summary <- tbl_locs |>
       dplyr::left_join(
-        tables_split_full$tbl_samples |>
-          dplyr::select(sample_id, user_sample_id)
+        tbl_samp
       ) |>
       dplyr::group_by(latitude, longitude) |>
       dplyr::summarise(
@@ -362,10 +366,15 @@ display_submission_map <- function(output) {
 
     # Show the actual coordinates for debugging
     cli::cli_alert_info(
-      "Locations validated: {nrow(location_summary)} location{?s} ({min(location_summary$n_samples)}-{max(location_summary$n_samples)} samples per location)"
+      "Locations validated: {nrow(location_summary)} location{?s} 
+      ({min(location_summary$n_samples)}-{max(location_summary$n_samples)} 
+      samples per location)"
     )
     cli::cli_alert_info(
-      "Coordinates: lat range [{min(location_summary$latitude, na.rm=TRUE)}, {max(location_summary$latitude, na.rm=TRUE)}], lon range [{min(location_summary$longitude, na.rm=TRUE)}, {max(location_summary$longitude, na.rm=TRUE)}]"
+      "Coordinates: lat range [{min(location_summary$latitude, na.rm=TRUE)}, 
+      {max(location_summary$latitude, na.rm=TRUE)}], 
+      lon range [{min(location_summary$longitude, na.rm=TRUE)}, 
+      {max(location_summary$longitude, na.rm=TRUE)}]"
     )
 
     # Check for issues
