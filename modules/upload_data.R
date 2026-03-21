@@ -172,22 +172,24 @@ upload_data_server <- function(id, con) {
         validated_samples(tbl_samples_submitted)
 
         # ----- get the next submission id ------
-        next_submission_id <- DBI::dbGetQuery(
-          con,
-          glue::glue("SELECT gen_random_uuid() AS next_id")
-        )
+        next_submission_id <- get_submission_id(con)
+
+        new_id <- next_submission_id$next_id
 
         cli::cli_alert_info(
-          "Submission id is: \
-                            {.val {next_submission_id$next_id}}"
+          "Submission id is: {.val {new_id}}"
         )
 
         # ---- splap submisison id on to source and submission -----
+
         tbl_submission_submitted <- tbl_submission_submitted |>
-          dplyr::mutate(submission_id = next_submission_id$next_id)
+          dplyr::mutate(submission_id = new_id)
 
         tbl_source_submitted <- tbl_source_submitted |>
-          dplyr::mutate(submission_id = next_submission_id$next_id)
+          dplyr::mutate(submission_id = new_id)
+
+        tbl_samples_submitted <- tbl_samples_submitted |>
+          dplyr::mutate(submission_id = new_id)
 
         # ---- pull column names that are all have id
         tables_ids <- DBI::dbGetQuery(
