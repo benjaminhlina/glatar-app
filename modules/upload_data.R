@@ -150,9 +150,9 @@ upload_data_server <- function(id, con) {
         )
 
       # ----- unlist them alll to see if they're okay to enter if statment ------
-      ok <- purrr::imap_lgl(
+      ok <- purrr::imap(
         all_agents,
-        ~ all(unlist(validate::as.data.frame(.x)$passes, na.rm = TRUE)
+        ~ all(unlist(validate::values(.x)), na.rm = TRUE)
       )
 
       cli::cli_alert_info(
