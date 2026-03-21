@@ -343,7 +343,7 @@ display_scatter_plot <- function(
     return(p)
   })
 }
-
+# ----- dsplay_submsiion_id -----
 display_submission_map <- function(output) {
   output$map <- leaflet::renderLeaflet({
     shiny::req(tables_split_full$tbl_location)
