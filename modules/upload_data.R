@@ -253,42 +253,10 @@ upload_data_server <- function(id, con) {
           (\(.) split(., .$table_name))()
         # ----- split by table name ----
 
-        tables_split <- lapply(names(tables_to_split), function(tbl_name) {
-          map <- tables_to_split[[tbl_name]]
-          cols <- map$field_name
-
-          # --- select only payload columns first
-          payload <- tbl_samples_submitted |>
-            dplyr::select(dplyr::any_of(cols))
-
-          # --- does this table actually have data (ignore sample_id)?
-          has_data <- nrow(payload) > 0 && any(!is.na(as.matrix(payload)))
-
-          if (has_data) {
-            # --- always include sample_id
-            id_cols <- c("sample_id")
-
-            # --- add submission_id only for tbl_samples
-            if (tbl_name == "tbl_samples") {
-              id_cols <- c(id_cols, "submission_id")
-            }
-
-            # --- attach IDs while preserving row order
-            out <- dplyr::bind_cols(
-              tbl_samples_submitted |>
-                dplyr::select(dplyr::any_of(id_cols)),
-              payload
-            )
-
-            cli::cli_alert_success("Using data for table: {tbl_name}")
-            out
-          } else {
-            cli::cli_alert_info("Skipping empty table: {tbl_name}")
-            NULL
-          }
-        }) |>
-          purrr::set_names(names(tables_to_split)) |>
-          purrr::compact()
+        tables_split <- split_tables(
+          df = tbl_samples_submitted,
+          tables_to_split = tables_to_split
+        )
 
         # --- add in ids -----
 
