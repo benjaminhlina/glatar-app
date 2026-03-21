@@ -309,39 +309,6 @@ upload_data_server <- function(id, con) {
           validated_sources = validated_sources,
           validated_samples = validated_samples
         )
-
-        # output$location_map <- shiny::renderUI({
-        #   shiny::req(tables_split_full)
-
-        #   shiny::req(
-        #     validated_submission(),
-        #     validated_sources(),
-        #     validated_samples()
-        #   )
-        #   tbl_loc <- tables_split_full$tbl_location
-        #   if (all(is.na(tbl_loc$latitude)) & all(is.na(tbl_loc$longitude))) {
-        #     shiny::tagList(
-        #       shiny::h4(
-        #         "No locations were detected in the longtiude and latitude
-        #           columns of your submitted data.
-        #           If this is correct, please proceed to submitting
-        #           the data to the database",
-        #         style = "margin-top: 20px; margin-bottom: 10px;"
-        #       )
-        #     )
-        #   } else {
-        #     shiny::tagList(
-        #       shiny::h4(
-        #         "Please check that your sample locations, the number of samples,
-        #           and their corresponding ids are correct prior to submitting to
-        #           the database. To check, click on each point
-        #           to view the number of samples and the user submitted sample ids.",
-        #         style = "margin-top: 20px; margin-bottom: 10px;"
-        #       ),
-        #       leaflet::leafletOutput(ns("map"), height = "500px")
-        #     )
-        #   }
-        # })
       } else {
         validated_submission(NULL)
         validated_sources(NULL)
