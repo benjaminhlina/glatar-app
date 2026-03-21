@@ -168,7 +168,7 @@ upload_data_server <- function(id, con) {
       ) {
         # ---- make all of them reactive vals -----
         validated_submission(tbl_samples_submitted)
-        validated_source(tbl_source_submitted)
+        validated_sources(tbl_source_submitted)
         validated_samples(tbl_samples_submitted)
 
         # ----- get the next submission id ------
