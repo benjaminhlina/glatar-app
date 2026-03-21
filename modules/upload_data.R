@@ -310,6 +310,8 @@ upload_data_server <- function(id, con) {
           validated_samples = validated_samples
         )
       } else {
+        # ---- this else statment is if validations fails then do this
+
         validated_submission(NULL)
         validated_sources(NULL)
         validated_samples(NULL)
@@ -351,39 +353,12 @@ upload_data_server <- function(id, con) {
       submission_results <- upload_result$results
 
       # Create a message to display
-      output$upload_status <- shiny::renderUI({
-        if (!upload_succeeded) {
-          shiny::HTML(
-            "<span style='color: red;'>
-           ✘ Upload failed — no data was saved. Please check your data and try again.
-         </span>"
-          )
-        } else {
-          msg <- lapply(names(submission_results), function(tbl_name) {
-            res <- submission_results[[tbl_name]]
-            paste0(
-              "✔ ",
-              tbl_name,
-              ": ",
-              res$rows_submitted,
-              " rows submitted",
-              if (!is.na(res$submission_id)) {
-                paste0(", submission_id = ", res$submission_id)
-              } else {
-                ""
-              }
-            )
-          })
-
-          shiny::HTML(
-            paste0(
-              "<span style='color: green;'>",
-              paste(msg, collapse = "<br>"),
-              "</span>"
-            )
-          )
-        }
-      })
+      display_upload_status(
+        output = output,
+        output_id = "upload_status",
+        upload_succeeded = upload_succeeded,
+        submission_results = submission_results
+      )
 
       shinyjs::disable("submit_btn")
     })
