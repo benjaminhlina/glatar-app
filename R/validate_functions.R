@@ -121,6 +121,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl("common_name", expression) ~ "Common name not found in database",
         grepl("scientific_name", expression) ~ "Scientific name not found in
         database",
+        !is.na(rule_issue) ~ rule_issue,
 
         # !!!validation_rules,
         .default = expression
