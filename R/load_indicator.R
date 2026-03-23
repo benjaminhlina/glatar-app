@@ -3,6 +3,7 @@ load_indicator <- function(input, output) {
   shinyjs::show("loading_indicator")
   output$loading_msg <- shiny::renderText("Processing file, please wait...")
   shinyjs::disable("upload_btn")
+}
 
   on.exit({
     shinyjs::hide("loading_indicator")
