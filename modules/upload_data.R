@@ -334,6 +334,7 @@ upload_data_server <- function(id, con) {
           error_report
         })
       }
+      load_indicator_hide(input, output)
     })
 
     # ---- submit to database ----
