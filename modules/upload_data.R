@@ -145,8 +145,7 @@ upload_data_server <- function(id, con) {
 
       all_agents |>
         purrr::imap(
-          ~ .x |>
-            log_agent(.x, .y)
+          ~ log_agent(.x, .y)
         )
 
       # ----- unlist them alll to see if they're okay to enter if statment ------
