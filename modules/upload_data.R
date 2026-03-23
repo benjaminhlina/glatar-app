@@ -44,7 +44,7 @@ upload_data_ui <- function(id) {
         id = ns("loading_indicator"),
         style = "display: flex; align-items: center; gap: 8px; margin-top: 10px; color: #555;",
         tags$i(class = "fa fa-spinner fa-spin fa-lg"),
-        shiny::textOutput(ns("loading_msg"), inline = TRUE)
+        tags$span(id = ns("loading_msg"))
       )
     ),
     shiny::uiOutput(ns("upload_status")),
