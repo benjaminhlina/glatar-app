@@ -4,7 +4,8 @@ read_col_types <- function(file_path, tbl_name, skip, n_max) {
     file_path,
     sheet = tbl_name,
     skip = skip,
-    n_max = n_max
+    n_max = n_max,
+    guess_max = 100000
   ) |>
     ncol()
 
@@ -35,6 +36,7 @@ read_xl <- function(
         sheet = tbl_name,
         col_types = col_types,
         skip = skip,
+        guess_max = 100000
       ) |>
         janitor::clean_names() |>
         (\(x) {
