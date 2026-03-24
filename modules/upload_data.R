@@ -315,6 +315,18 @@ upload_data_server <- function(id, con) {
               validated_sources = validated_sources,
               validated_samples = validated_samples
             )
+
+            success <- TRUE
+          },
+          error = function(e) {
+            cli::cli_alert_danger("Processing failed: {conditionMessage(e)}")
+          }
+        )
+        if (isTRUE(success)) {
+          shinyjs::enable("submit_btn")
+        } else {
+          shinyjs::disable("submit_btn")
+        }
       } else {
         # ---- this else statment is if validations fails then do this
 
