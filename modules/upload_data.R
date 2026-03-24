@@ -154,15 +154,15 @@ upload_data_server <- function(id, con) {
       )
 
       cli::cli_alert_info(
-        "Gate status — submission: {ok['agent_submission']}, 
-        sources: {ok['agent_sources']}, samples: {ok['agent_samples']}"
+        "Gate status — submission: {ok[['agent_submission']]}, 
+        sources: {ok[['agent_sources']]}, samples: {ok[['agent_samples']]}"
       )
 
       # if all agents are good process and get ready to submitt
       if (
-        isTRUE(ok['agent_submission']) &&
-          isTRUE(ok['agent_sources']) &&
-          isTRUE(ok['agent_samples'])
+        isTRUE(ok[['agent_submission']]) &&
+          isTRUE(ok[['agent_sources']]) &&
+          isTRUE(ok[['agent_samples']])
       ) {
         # ---- make all of them reactive vals -----
         validated_submission(tbl_samples_submitted)
