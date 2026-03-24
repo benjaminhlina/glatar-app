@@ -306,15 +306,15 @@ upload_data_server <- function(id, con) {
               split_tables = tables_split_full()
             )
 
-        display_sub_map_msg(
-          output = output,
-          ns = ns,
-          output_id = "location_map",
-          split_tables = tables_split_full,
-          validated_submission = validated_submission,
-          validated_sources = validated_sources,
-          validated_samples = validated_samples
-        )
+            display_sub_map_msg(
+              output = output,
+              ns = ns,
+              output_id = "location_map",
+              split_tables = tables_split_full(),
+              validated_submission = validated_submission,
+              validated_sources = validated_sources,
+              validated_samples = validated_samples
+            )
       } else {
         # ---- this else statment is if validations fails then do this
 
