@@ -171,94 +171,96 @@ upload_data_server <- function(id, con) {
             validated_sources(tbl_source_submitted)
             validated_samples(tbl_samples_submitted)
 
-        # ----- get the next submission id ------
-        next_submission_id <- get_submission_id(con)
+            # ----- get the next submission id ------
+            next_submission_id <- get_submission_id(con)
 
-        new_id <- next_submission_id$next_id
+            new_id <- next_submission_id$next_id
 
-        cli::cli_alert_info(
-          "Submission id is: {.val {new_id}}"
-        )
+            cli::cli_alert_info(
+              "Submission id is: {.val {new_id}}"
+            )
 
-        # ---- splap submisison id on to source and submission -----
+            # ---- splap submisison id on to source and submission -----
 
-        tbl_submission_submitted <- tbl_submission_submitted |>
-          dplyr::mutate(submission_id = new_id)
+            tbl_submission_submitted <- tbl_submission_submitted |>
+              dplyr::mutate(submission_id = new_id)
 
-        tbl_source_submitted <- tbl_source_submitted |>
-          dplyr::mutate(submission_id = new_id)
+            tbl_source_submitted <- tbl_source_submitted |>
+              dplyr::mutate(submission_id = new_id)
 
-        tbl_samples_submitted <- tbl_samples_submitted |>
-          dplyr::mutate(submission_id = new_id)
+            tbl_samples_submitted <- tbl_samples_submitted |>
+              dplyr::mutate(submission_id = new_id)
 
-        # ---- pull column names that are all have id
-        tables_ids <- get_id_col(con)
-        col_names_id <- tables_ids$column_name
+            # ---- pull column names that are all have id
+            tables_ids <- get_id_col(con)
+            col_names_id <- tables_ids$column_name
 
-        cli::cli_alert_info("Columns that have id are: {.val {tables_ids}}")
+            cli::cli_alert_info("Columns that have id are: {.val {tables_ids}}")
 
-        # ---- get max id for each -----
-        max_ids <- purrr::pmap(
-          tables_ids,
-          ~ get_id_max(..1, ..2)
-        ) |>
-          rlang::set_names(col_names_id)
+            # ---- get max id for each -----
+            max_ids <- purrr::pmap(
+              tables_ids,
+              ~ get_id_max(..1, ..2)
+            ) |>
+              rlang::set_names(col_names_id)
 
-        max_ids_str <- paste(
-          names(max_ids),
-          unlist(max_ids),
-          sep = " = ",
-          collapse = ", "
-        )
-        cli::cli_alert_info("Next id for each starts here: {max_ids_str}")
+            max_ids_str <- paste(
+              names(max_ids),
+              unlist(max_ids),
+              sep = " = ",
+              collapse = ", "
+            )
+            cli::cli_alert_info("Next id for each starts here: {max_ids_str}")
 
-        # ----- do the same for source id -----
-        tbl_source_submitted <- add_new_id(
-          df = tbl_source_submitted,
-          id_name = "source_id",
-          max_ids = max_ids
-        )
+            # ----- do the same for source id -----
+            tbl_source_submitted <- add_new_id(
+              df = tbl_source_submitted,
+              id_name = "source_id",
+              max_ids = max_ids
+            )
 
-        # ----- we need to do a couple things to tbl_submission before submitting
-        tbl_samples_submitted <- add_new_id(
-          df = tbl_samples_submitted,
-          id_name = "sample_id",
-          max_ids = max_ids
-        )
+            # ----- we need to do a couple things to tbl_submission before submitting
+            tbl_samples_submitted <- add_new_id(
+              df = tbl_samples_submitted,
+              id_name = "sample_id",
+              max_ids = max_ids
+            )
 
-        # ---- fix case types -----
-        tbl_samples_submitted <- fix_case_types(tbl_samples_submitted)
+            # ---- fix case types -----
+            tbl_samples_submitted <- fix_case_types(tbl_samples_submitted)
 
-        # ---- add source id based on user supplied id ------
-        tbl_samples_submitted <- add_source_id(
-          tbl_samples = tbl_samples_submitted,
-          tbl_sources = tbl_source_submitted
-        )
+            # ---- add source id based on user supplied id ------
+            tbl_samples_submitted <- add_source_id(
+              tbl_samples = tbl_samples_submitted,
+              tbl_sources = tbl_source_submitted
+            )
 
-        tbl_samples_submitted <- tbl_samples_submitted |>
-          dplyr::left_join(
-            species_list |>
-              dplyr::collect()
-          )
+            tbl_samples_submitted <- tbl_samples_submitted |>
+              dplyr::left_join(
+                species_list |>
+                  dplyr::collect()
+              )
 
-        # doo the same to source -----
-        tbl_source_submitted <- tbl_source_submitted |>
-          dplyr::select(-source_id) |>
-          dplyr::rename(source_id = .source_id)
+            # doo the same to source -----
+            tbl_source_submitted <- tbl_source_submitted |>
+              dplyr::select(-source_id) |>
+              dplyr::rename(source_id = .source_id)
 
-        # ------ get tables to split -----
-        tables_to_split <- get_column_map(con) |>
-          dplyr::filter(!table_name %in% c("tbl_sources", "tbl_submission")) |>
-          dplyr::collect() |>
-          (\(.) split(., .$table_name))()
-        # ----- split by table name ----
+            # ------ get tables to split -----
+            tables_to_split <- get_column_map(con) |>
+              dplyr::filter(
+                !table_name %in% c("tbl_sources", "tbl_submission")
+              ) |>
+              dplyr::collect() |>
+              (\(.) split(., .$table_name))()
+            # ----- split by table name ----
 
-        tables_split <- split_tables(
-          df = tbl_samples_submitted,
-          tables_to_split = tables_to_split
-        )
+            tables_split <- split_tables(
+              df = tbl_samples_submitted,
+              tables_to_split = tables_to_split
+            )
 
-        # --- add in ids -----
+            # --- add in ids -----
 
         tables_split_full <- assign_table_ids(
           tables_split,
