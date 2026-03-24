@@ -335,7 +335,6 @@ upload_data_server <- function(id, con) {
         validated_samples(NULL)
         tables_to_submit(NULL)
         tables_split_full(NULL)
-
         error_report <- clean_all_validations(
           tbl_submssion = agent_submission,
           tbl_sources = agent_sources,
@@ -354,7 +353,7 @@ upload_data_server <- function(id, con) {
         })
       }
       load_indicator_hide(input, output)
-      shinyjs::reset("file_upload")
+      # shinyjs::reset("file_upload")
     })
 
     # ---- submit to database ----
