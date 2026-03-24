@@ -262,33 +262,35 @@ upload_data_server <- function(id, con) {
 
             # --- add in ids -----
 
-        tables_split_full <- assign_table_ids(
-          tables_split,
-          tables_ids,
-          max_ids
-        )
+            tables_split_ready <- assign_table_ids(
+              tables_split,
+              tables_ids,
+              max_ids
+            )
 
-        tables_split_full <- add_sub_sor_tbl(
-          split_tables = tables_split_full,
-          sub_tbl = tbl_submission_submitted,
-          sor_tbl = tbl_source_submitted
-        )
+            tables_split_ready <- add_sub_sor_tbl(
+              split_tables = tables_split_ready,
+              sub_tbl = tbl_submission_submitted,
+              sor_tbl = tbl_source_submitted
+            )
 
-        tables_split_full <- fix_table_order(split_tables = tables_split_full)
-        # etc for other tables
-        tables_to_submit(tables_split_full)
-
-        cli::cli_alert_danger(
-          "Colnmn names are the following: {.field {tables_split_full |> 
+            tables_split_ready <- fix_table_order(
+              split_tables = tables_split_ready
+            )
+            # etc for other tables
+            tables_to_submit(tables_split_ready)
+            tables_split_full(tables_split_ready)
+            cli::cli_alert_danger(
+              "Colnmn names are the following: {.field {tables_split_ready |> 
             purrr::map(~ colnames(.x))}}"
-        )
+            )
 
-        purrr::iwalk(
-          tables_split_full,
-          ~ cli::cli_alert_info("Table {.field {.y}}: {.val {nrow(.x)}} rows")
-        )
-
-        shinyjs::enable("submit_btn")
+            purrr::iwalk(
+              tables_split_ready,
+              ~ cli::cli_alert_info(
+                "Table {.field {.y}}: {.val {nrow(.x)}} rows"
+              )
+            )
 
         display_submission_map(
           output = output,
