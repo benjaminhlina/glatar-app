@@ -344,7 +344,12 @@ display_scatter_plot <- function(
   })
 }
 # ----- dsplay_submsiion_id -----
-display_submission_map <- function(output, output_id = "map", split_tables) {
+display_submission_map <- function(
+  output,
+  ns,
+  output_id = "map",
+  split_tables
+) {
   output[[output_id]] <- leaflet::renderLeaflet({
     tbl_locs <- split_tables$tbl_location
     tbl_samp <- split_tables$tbl_samples |>
