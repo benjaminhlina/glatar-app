@@ -165,9 +165,11 @@ upload_data_server <- function(id, con) {
           isTRUE(ok[['agent_samples']])
       ) {
         # ---- make all of them reactive vals -----
-        validated_submission(tbl_samples_submitted)
-        validated_sources(tbl_source_submitted)
-        validated_samples(tbl_samples_submitted)
+        tryCatch(
+          {
+            validated_submission(tbl_submission_submitted)
+            validated_sources(tbl_source_submitted)
+            validated_samples(tbl_samples_submitted)
 
         # ----- get the next submission id ------
         next_submission_id <- get_submission_id(con)
