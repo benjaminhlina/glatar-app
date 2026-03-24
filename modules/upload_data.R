@@ -68,7 +68,7 @@ upload_data_server <- function(id, con) {
       # ---- get file upload -----
       load_indicator(input, output)
 
-      shinyjs::disable("submit_btn")
+      shinyjs::disable(ns("submit_btn"))
       file_path <- input$file_upload$datapath
       check_sheets(file_path, output)
       # ----- start validation processes ------
@@ -355,13 +355,14 @@ upload_data_server <- function(id, con) {
       # Create a message to display
       display_upload_status(
         output = output,
+        ns = ns,
         output_id = "upload_status",
         upload_succeeded = upload_succeeded,
         submission_results = submission_results
       )
 
-      shinyjs::disable("submit_btn")
-      shinyjs::reset("file_upload")
+      shinyjs::disable(ns("submit_btn"))
+      # shinyjs::reset("file_upload")
     })
   })
 }
