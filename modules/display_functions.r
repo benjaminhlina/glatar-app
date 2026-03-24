@@ -367,7 +367,11 @@ display_submission_map <- function(
         sample_ids = paste(user_sample_id, collapse = ", "),
         n_samples = dplyr::n(),
       ) |>
-      dplyr::ungroup()
+      dplyr::ungroup() |>
+      dplyr::mutate(
+        latitude = as.numeric(latitude),
+        longitude = as.numeric(longitude)
+      )
 
     # Show the actual coordinates for debugging
     cli::cli_alert_info(
