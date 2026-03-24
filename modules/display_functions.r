@@ -393,9 +393,9 @@ display_submission_map <- function(
     ) {
       cli::cli_alert_warning("Some coordinates are NA!")
     }
-    if (any(abs(location_summary$latitude) > 90, na.rm = TRUE)) {
+    if (any(abs(location_summary$latitude) > 105, na.rm = TRUE)) {
       cli::cli_alert_warning(
-        "Some latitudes are out of range (-90 to 90)!"
+        "Some latitudes are out of range (-105 to 105)!"
       )
     }
     if (any(abs(location_summary$longitude) > 180, na.rm = TRUE)) {
