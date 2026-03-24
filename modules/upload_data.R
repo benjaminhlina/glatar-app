@@ -364,6 +364,28 @@ upload_data_server <- function(id, con) {
       shiny::req(validated_samples())
       shiny::req(tables_to_submit())
 
+      cli::cli_h3("Reactive state check")
+
+      cli::cli_alert_info(
+        "validated_submission is NULL: {is.null(validated_submission())}"
+      )
+
+      cli::cli_alert_info(
+        "validated_sources is NULL: {is.null(validated_sources())}"
+      )
+
+      cli::cli_alert_info(
+        "validated_samples is NULL: {is.null(validated_samples())}"
+      )
+
+      cli::cli_alert_info(
+        "tables_to_submit is NULL: {is.null(tables_to_submit())}"
+      )
+
+      cli::cli_alert_info(
+        "tables_split_full is NULL: {is.null(tables_split_full())}"
+      )
+
       # --- assume tables_split_full is a named list ---
       tables_to_submit <- tables_to_submit()
 
