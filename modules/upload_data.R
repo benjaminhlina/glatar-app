@@ -3,6 +3,7 @@ upload_data_ui <- function(id) {
 
   shinydashboard::tabItem(
     tabName = id,
+    shinyjs::useShinyjs(),
     shiny::h2("Upload Excel File"),
     shiny::p(
       "This panel allows you to upload data to the GLATAR database.
