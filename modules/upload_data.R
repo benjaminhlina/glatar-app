@@ -346,7 +346,7 @@ upload_data_server <- function(id, con) {
           output = output,
           ns = ns,
           output_id = "upload_status",
-          validate = FALSE
+          validated = FALSE
         )
 
         output$error_table <- shiny::renderTable({
