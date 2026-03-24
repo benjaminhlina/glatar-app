@@ -34,6 +34,7 @@ add_valid_cols <- function(df, valid_values) {
       dplyr::where(is.character) &
         !dplyr::any_of(c(
           "energy_units",
+          "pi_name",
           "amino_acid_type",
           "calorimetry_method",
           "fatty_acid_type",
