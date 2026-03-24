@@ -292,17 +292,19 @@ upload_data_server <- function(id, con) {
               )
             )
 
-        display_submission_map(
-          output = output,
-          output_id = "map",
-          split_tables = tables_split_full
-        )
+            display_submission_map(
+              output = output,
+              ns = ns,
+              output_id = "map",
+              split_tables = tables_split_full()
+            )
 
-        display_validation_status(
-          output = output,
-          output_id = "upload_status",
-          split_tables = tables_split_full
-        )
+            display_validation_status(
+              output = output,
+              ns = ns,
+              output_id = "upload_status",
+              split_tables = tables_split_full()
+            )
 
         display_sub_map_msg(
           output = output,
