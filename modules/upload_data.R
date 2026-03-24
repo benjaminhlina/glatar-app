@@ -334,6 +334,7 @@ upload_data_server <- function(id, con) {
         })
       }
       load_indicator_hide(input, output)
+      shinyjs::reset("file_upload")
     })
 
     # ---- submit to database ----
@@ -360,6 +361,7 @@ upload_data_server <- function(id, con) {
       )
 
       shinyjs::disable("submit_btn")
+      shinyjs::reset("file_upload")
     })
   })
 }
