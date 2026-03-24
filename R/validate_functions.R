@@ -115,7 +115,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
 
         grepl("is.na\\(as.Date", expression) ~ "Date format does not follow the
         required format of yyyy-mm-dd or is an invalid date",
-
+        grepl("numeric__", name) ~ "Field needs to be numeric",
         grepl("is.na", expression) ~ "Required field - cannot be empty",
         grepl("numeric__", name) ~ "Field needs to be numeric",
         grepl("common_name", expression) ~ "Common name not found in database",
