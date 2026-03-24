@@ -403,7 +403,7 @@ upload_data_server <- function(id, con) {
         submission_results = submission_results
       )
 
-      shinyjs::disable(ns("submit_btn"))
+      shinyjs::disable("submit_btn")
       # shinyjs::reset("file_upload")
     })
   })
