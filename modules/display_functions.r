@@ -364,8 +364,8 @@ display_submission_map <- function(
       ) |>
       dplyr::group_by(latitude, longitude) |>
       dplyr::summarise(
-        sample_ids = paste(user_sample_id, collapse = ", "),
-        n_samples = dplyr::n(),
+        sample_ids = paste(unique(user_sample_id), collapse = ", "),
+        n_samples = dplyr::n_distinct(sample_ids),
       ) |>
       dplyr::ungroup() |>
       dplyr::mutate(
