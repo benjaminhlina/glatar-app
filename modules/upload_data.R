@@ -32,8 +32,6 @@ upload_data_ui <- function(id) {
       icon = icon("upload")
     ),
 
-    shinyjs::useShinyjs(),
-
     shiny::actionButton(
       ns("submit_btn"),
       "Submit to Database",
