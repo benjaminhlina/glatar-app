@@ -4,6 +4,7 @@ fix_case_types <- function(df) {
       dplyr::across(common_name:family, ~ stringr::str_to_sentence(.x)),
       length_type = tolower(length_type),
       waterbody = tools::toTitleCase(waterbody),
+      data_type = stringr::str_to_sentence(data_type),
       .energy_units = dplyr::if_else(
         is.na(energy_units),
         true = NA,
