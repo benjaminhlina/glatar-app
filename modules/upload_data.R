@@ -5,21 +5,46 @@ upload_data_ui <- function(id) {
     tabName = id,
     shinyjs::useShinyjs(),
     shiny::h2("Upload Excel File"),
-    shiny::p(
-      "This panel allows you to upload data to the GLATAR database.
-                   First, select the Excel file you would like to upload. Then click
-                   'Upload & Process'. The system will run a series of validation checks and
-                   process the data to adhere to database standards. Validation checks will
-                   notify you of any issues, including the specific rows, columns,
-                   and descriptions of the errors.
-
-                   If the upload is successful, a confirmation message will appear and an
-                   interactive map will be displayed so you can verify that your sampling
-                   locations are correct. Once you have reviewed the map, click the
-                   'Submit to Database' button to finalize the upload.
-                   A successful submission will generate a confirmation message (displayed
-                   in green) and you will receive a confirmation email."
+    shiny::h4("Instructions"),
+    shiny::tags$ol(
+      shiny::tags$li("Select the Excel file you would like to upload."),
+      shiny::br(),
+      shiny::tags$li(
+        "Click 'Upload & Process'. The system will run a series of 
+      validation checks and process the data to adhere to database standards."
+      ),
+      shiny::br(),
+      shiny::tags$li(
+        "Review any validation errors — these will identify the 
+      specific rows, columns, and descriptions of any issues found."
+      ),
+      shiny::br(),
+      shiny::tags$li(
+        "If the upload is successful, verify your sampling 
+      locations using the interactive map that appears."
+      ),
+      shiny::br(),
+      shiny::tags$li(
+        "Click 'Submit to Database' to finalize the upload. A 
+      confirmation message (displayed in green) will appear and 
+      you will receive a confirmation email."
+      )
     ),
+    # shiny::p(
+    #   "This panel allows you to upload data to the GLATAR database.
+    #                First, select the Excel file you would like to upload. Then click
+    #                'Upload & Process'. The system will run a series of validation checks and
+    #                process the data to adhere to database standards. Validation checks will
+    #                notify you of any issues, including the specific rows, columns,
+    #                and descriptions of the errors.
+
+    #                If the upload is successful, a confirmation message will appear and an
+    #                interactive map will be displayed so you can verify that your sampling
+    #                locations are correct. Once you have reviewed the map, click the
+    #                'Submit to Database' button to finalize the upload.
+    #                A successful submission will generate a confirmation message (displayed
+    #                in green) and you will receive a confirmation email."
+    # ),
     shiny::fileInput(
       ns("file_upload"),
       "Choose an Excel File",
