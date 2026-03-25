@@ -18,11 +18,13 @@ create_filtered_data <- function(input_source, data, pane) {
     data_type_f <- input_source$data_types()
     waterbody_f <- input_source$waterbody_filter()
     species_f <- input_source$species_filter()
+    organism_type_f <- input_source$organism_type()
 
     cli::cli_inform(c(
       "data_type_f: {paste(data_type_f, collapse = ', ')}",
       "waterbody_f: {paste(waterbody_f, collapse = ', ')}",
-      "species_f:   {paste(species_f, collapse = ', ')}"
+      "species_f: {paste(species_f, collapse = ', ')}",
+      "organism_type_f: {paste(organism_type_f, collapse = ', ')}"
     ))
     # ----- filters -----
     if (!is.null(data_type_f) && !"All" %in% data_type_f) {
@@ -34,6 +36,10 @@ create_filtered_data <- function(input_source, data, pane) {
         dplyr::filter(waterbody %in% waterbody_f)
     }
 
+    if (!is.null(organism_type_f) && !"All" %in% organism_type_f) {
+      df <- df |>
+        dplyr::filter(organism_type %in% organism_type_f)
+    }
     if (!is.null(species_f) && !"All" %in% species_f) {
       df <- df |>
         dplyr::filter(scientific_name %in% species_f)
@@ -62,6 +68,7 @@ create_mean_data <- function(input_source, data) {
     # can create base_df
     base_df <- df |>
       dplyr::group_by(dplyr::across(dplyr::any_of(c(
+        "organism_type",
         "data_type",
         summary_grouping_vars
       )))) |>
@@ -136,6 +143,7 @@ create_mean_data <- function(input_source, data) {
         na_matches = "na"
       ) |>
       dplyr::relocate(
+        "organism_type",
         "data_type",
         .before = dplyr::everything()
       ) |>
@@ -148,6 +156,7 @@ create_mean_data <- function(input_source, data) {
       ) |>
       dplyr::collect() |>
       dplyr::group_by(dplyr::across(dplyr::any_of(c(
+        "organism_type",
         "data_type",
         summary_grouping_vars
       )))) |>
@@ -162,6 +171,7 @@ create_mean_data <- function(input_source, data) {
         .groups = "drop"
       ) |>
       dplyr::arrange(dplyr::across(dplyr::all_of(c(
+        "organism_type",
         "data_type",
         summary_grouping_vars
       )))) |>
