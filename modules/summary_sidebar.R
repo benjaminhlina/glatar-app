@@ -219,7 +219,7 @@ summary_sidebar_server <- function(id, con, main_input) {
         # species
         species_choices <- get_dropdown_choices(df, "scientific_name")
 
-        organism_choices <- get_dropdown_choices(df, "organsim_type")
+        organism_choices <- get_dropdown_choices(df, "organism_type")
 
         # get info to make pretty console info
         n_wb <- length(waterbody_choices)
