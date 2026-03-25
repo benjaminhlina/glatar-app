@@ -97,7 +97,6 @@ add_taxonomic_groups <- function(df, species_list) {
     dplyr::left_join(species_list, by = c("common_name", "scientific_name"))
 
   # return  species list back to lazy -----
-  species_list <- dbplyr::tbl_lazy(species_list)
 
   # ----- cli out put ------
   new_cols <- setdiff(names(species_list), c("common_name", "scientific_name"))
