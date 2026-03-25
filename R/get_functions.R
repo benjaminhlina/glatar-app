@@ -32,6 +32,15 @@ get_data <- function(con, debug_sql = FALSE) {
   return(df)
 }
 
+# ----- get dropdown hoices ----- 
+get_dropdown_choices <- function(df, type) {
+  df <- df |>
+          dplyr::distinct(type) |>
+          dplyr::arrange(type) |>
+          dplyr::pull(type)
+  return(df))
+}
+
 # ---- get good groups -----
 get_good_groups <- function(df) {
   good_groups <- c(
