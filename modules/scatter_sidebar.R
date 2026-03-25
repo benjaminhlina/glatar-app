@@ -333,7 +333,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
 
     return(list(
       data_types = shiny::reactive(input$scatter_data_types),
-      organism_choices = shiny::reactive(input$scatter_organism_type),
+      organism_type = shiny::reactive(input$scatter_organism_type),
       grouping_vars = shiny::reactive(input$scatter_grouping_vars),
       waterbody_filter = shiny::reactive(input$scatter_waterbody_filter),
       species_filter = shiny::reactive(input$scatter_species_filter),
