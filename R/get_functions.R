@@ -334,6 +334,7 @@ get_summary_data <- function(
       # Select only requested columns (plus keys if needed)
       df <- df |>
         dplyr::select(
+          organism_type,
           data_type,
           waterbody,
           scientific_name,
@@ -345,6 +346,7 @@ get_summary_data <- function(
     } else {
       df <- df |>
         dplyr::select(
+          organism_type,
           data_type,
           waterbody,
           scientific_name,
