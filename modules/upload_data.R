@@ -260,11 +260,10 @@ upload_data_server <- function(id, con) {
               tbl_sources = tbl_source_submitted
             )
 
-            tbl_samples_submitted <- tbl_samples_submitted |>
-              dplyr::left_join(
-                species_list |>
-                  dplyr::collect()
-              )
+            tbl_samples_submitted <- add_taxonomic_groups(
+              tbl_samples_submitted,
+              species_list = species_list
+            )
 
             # doo the same to source -----
             tbl_source_submitted <- tbl_source_submitted |>
