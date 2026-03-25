@@ -35,9 +35,9 @@ get_data <- function(con, debug_sql = FALSE) {
 # ----- get dropdown hoices -----
 get_dropdown_choices <- function(df, type) {
   df <- df |>
-    dplyr::distinct(type) |>
-    dplyr::arrange(type) |>
-    dplyr::pull(type)
+    dplyr::distinct(.data[[type]]) |>
+    dplyr::arrange(.data[[type]]) |>
+    dplyr::pull(.data[[type]])
   return(df)
 }
 
