@@ -33,7 +33,7 @@ scatter_sidebar_ui <- function(id) {
       ),
       shiny::selectInput(
         ns("scatter_organism_type"),
-        "Select Species",
+        "Select Organism Type",
         choices = NULL,
         multiple = TRUE
       ),
