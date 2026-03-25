@@ -83,6 +83,45 @@ add_sub_sor_tbl <- function(split_tables, sub_tbl, sor_tbl) {
   return(split_tables)
 }
 
+
+# ----- add tax groups ----
+
+add_taxonomic_groups <- function(df, species_list) {
+  species_list <- species_list |>
+    dplyr::collect()
+
+  df <- df |>
+    dplyr::rename(user_genus = genus, user_family = family)
+
+  df_joined <- df |>
+    dplyr::left_join(species_list, by = c("common_name", "scientific_name"))
+
+  # return  species list back to lazy -----
+  species_list <- dbplyr::tbl_lazy(species_list)
+
+  # ----- cli out put ------
+  new_cols <- setdiff(names(species_list), c("common_name", "scientific_name"))
+  matched <- df_joined |>
+    dplyr::filter(!is.na(.data[[new_cols[1]]]))
+  unmatched <- df_joined |>
+    dplyr::filter(is.na(.data[[new_cols[1]]]))
+
+  cli::cli_h1("Taxonomic Join Report")
+  cli::cli_alert_success("{nrow(matched)} name{?s} matched:")
+  cli::cli_ul(glue::glue("{matched$common_name} ({matched$scientific_name})"))
+
+  if (nrow(unmatched) > 0) {
+    cli::cli_alert_warning("{nrow(unmatched)} name{?s} did not match:")
+    cli::cli_ul(glue::glue(
+      "{unmatched$common_name} ({unmatched$scientific_name})"
+    ))
+  } else {
+    cli::cli_alert_info("All names matched successfully.")
+  }
+  return(df_joined)
+}
+
+
 # ----- add valid txaomnmy ------
 
 add_valid_taxonomy <- function(df, species_list) {
