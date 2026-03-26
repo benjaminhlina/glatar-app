@@ -175,7 +175,27 @@ upload_data_server <- function(id, con) {
       # ----- unlist them alll to see if they're okay to enter if statment ------
       ok <- purrr::imap(
         all_agents,
-        ~ all(validate::as.data.frame(.x)$passes, na.rm = TRUE)
+        ~ {
+          df <- validate::as.data.frame(.x)
+
+          has_errors <- any(df$error, na.rm = TRUE) # if error col exists
+          has_na <- anyNA(df$value)
+          has_fails <- any(!df$value, na.rm = TRUE)
+
+          if (has_errors) {
+            cli::cli_alert_warning("{.y}: rules threw errors")
+          }
+          if (has_na) {
+            cli::cli_alert_warning("{.y}: {sum(is.na(df$value))} NA result(s)")
+          }
+          if (has_fails) {
+            cli::cli_alert_warning(
+              "{.y}: {sum(!df$value, na.rm=TRUE)} failed result(s)"
+            )
+          }
+
+          !has_errors && !has_na && !has_fails
+        }
       )
 
       cli::cli_alert_info(
