@@ -99,11 +99,15 @@ add_taxonomic_groups <- function(df, species_list) {
   # return  species list back to lazy -----
 
   # ----- cli out put ------
-  new_cols <- setdiff(names(species_list), c("common_name", "scientific_name"))
+  tax_cols <- setdiff(names(species_list), c("common_name", "scientific_name"))
+  # CLI report
   matched <- df_joined |>
-    dplyr::filter(!is.na(.data[[new_cols[1]]]))
+    dplyr::filter(!is.na(.data[[tax_cols[1]]]))
+
   unmatched <- df_joined |>
-    dplyr::filter(is.na(.data[[new_cols[1]]]))
+    dplyr::filter(is.na(.data[[tax_cols[1]]]))
+
+  pct <- round(nrow(matched) / nrow(df) * 100, 1)
 
   cli::cli_h1("Taxonomic Join Report")
   cli::cli_inform(c(
