@@ -381,7 +381,7 @@ the_golden_lance <- function(df) {
 
     rule_strings <- c(
       paste0("!is.na(", not_null_fields, ")"),
-      paste0(flag_fields, " == TRUE"),
+      paste0(flag_fields, " == TRUE | is.na(", flag_fields, ")"),
       paste0(
         "grepl('^-?[0-9]*\\\\.?[0-9]+$', as.character(",
         numeric_fields,
