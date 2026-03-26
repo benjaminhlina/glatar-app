@@ -142,8 +142,20 @@ add_valid_taxonomy <- function(df, species_list) {
   common_check <- check_taxonomy_match(df$common_name, valid_common_sentence)
   sci_check <- check_taxonomy_match(df$scientific_name, valid_sci_sentence)
 
-  cli::cli_alert_info("comon_check {.val {common_check}}")
-  cli::cli_alert_info("sci_check {.val {sci_check}}")
+  print_common <- data.frame(
+    valid = common_check$valid,
+    suggestions = common_check$suggestions
+  ) |>
+    dplyr::distinct()
+
+  print_sci <- data.frame(
+    valid = sci_check$valid,
+    suggestions = sci_check$suggestions
+  ) |>
+    dplyr::distinct()
+
+  cli::cli_alert_info("comon_check {.val {print_common}}")
+  cli::cli_alert_info("sci_check {.val {print_sci}}")
 
   attr(df, "common_name_suggestions") <- common_check$suggestions
   attr(df, "scientific_name_suggestions") <- sci_check$suggestions
