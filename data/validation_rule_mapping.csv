@@ -18,5 +18,5 @@ pat,col,issue
 \.mercury_type,mercury_type,Invalid mercury type - must be total mercury or methyl mercury
 \.thiamine_type,thiamine_type,Invalid thiamine type - must be the correct Vitamer
 \.ed,energy_measurement,Invalid energy measurement - must be within appropriate ranges for Joules/g wet or dry weight
-\.isotope_lipid_correction,isotope_lipid_correction, Invalid isotopic lipid correction - must be either bulk or lipid free 
+\.isotope_lipid_correction,isotope_lipid_correction,Invalid isotopic lipid correction - must be either bulk or lipid free 
 
