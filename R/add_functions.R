@@ -91,11 +91,35 @@ add_taxonomic_groups <- function(df, species_list) {
     dplyr::collect()
 
   df <- df |>
-    dplyr::rename(user_genus = genus, user_family = family)
+    dplyr::rename(
+      user_genus = genus,
+      user_family = family
+    )
+  has_sci <- !is.na(df$scientific_name)
+  # df_joined <- df |>
+  #   dplyr::left_join(species_list, by = c("common_name", "scientific_name"))
 
-  df_joined <- df |>
-    dplyr::left_join(species_list, by = c("common_name", "scientific_name"))
+  species_by_sci <- species_list |>
+    dplyr::select(-common_name) |>
+    dplyr::distinct(scientific_name, .keep_all = TRUE)
 
+  species_by_com <- species_list |>
+    dplyr::select(-scientific_name) |>
+    dplyr::distinct(common_name, .keep_all = TRUE)
+
+  df_sci <- df[has_sci, ] |>
+    dplyr::left_join(
+      species_by_sci,
+      by = c("scientific_name")
+    )
+
+  df_com <- df[!has_sci, ] |>
+    dplyr::left_join(
+      species_by_com,
+      by = "common_name"
+    )
+
+  df_joined <- dplyr::bind_rows(df_sci, df_com)
   # return  species list back to lazy -----
 
   # ----- cli out put ------
