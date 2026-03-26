@@ -106,16 +106,30 @@ add_taxonomic_groups <- function(df, species_list) {
     dplyr::filter(is.na(.data[[new_cols[1]]]))
 
   cli::cli_h1("Taxonomic Join Report")
-  cli::cli_alert_success("{nrow(matched)} name{?s} matched:")
-  cli::cli_ul(glue::glue("{matched$common_name} ({matched$scientific_name})"))
+  cli::cli_inform(c(
+    "i" = "{nrow(df)} row{?s} processed ({pct}% match rate)",
+    "v" = "{nrow(matched)} matched",
+    if (nrow(unmatched) > 0) c("!" = "{nrow(unmatched)} unmatched")
+  ))
+  if (nrow(matched) > 0) {
+    matched_pairs <- matched |>
+      dplyr::distinct(common_name, scientific_name) |>
+      dplyr::arrange(common_name)
 
-  if (nrow(unmatched) > 0) {
-    cli::cli_alert_warning("{nrow(unmatched)} name{?s} did not match:")
     cli::cli_ul(glue::glue(
-      "{unmatched$common_name} ({unmatched$scientific_name})"
+      "{matched_pairs$common_name} ({matched_pairs$scientific_name})"
     ))
-  } else {
-    cli::cli_alert_info("All names matched successfully.")
+  }
+  if (nrow(unmatched) > 0) {
+    unmatched_pairs <- unmatched |>
+      dplyr::distinct(common_name, scientific_name) |>
+      dplyr::arrange(common_name)
+
+    cli::cli_h2("Unmatched")
+    cli::cli_ul(glue::glue(
+      "{unmatched_pairs$common_name} ({unmatched_pairs$scientific_name})"
+    ))
+    cli::cli_rule()
   }
   return(df_joined)
 }
