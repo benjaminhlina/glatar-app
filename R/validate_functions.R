@@ -89,7 +89,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
   rule_issue <- rule_match(bad$expression, "issue")
 
   cli::cli_alert_success(
-    "What is Descirption {.field {unique(bad$name)}}"
+    "What is is the issue {.field {unique(bad$name)}}"
   )
 
   # ----- create pretty names -----
