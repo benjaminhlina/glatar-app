@@ -95,8 +95,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
   # ----- create pretty names -----
   out <- bad |>
     dplyr::mutate(
-      col_name = dplyr::coalesce(rule_col, col_name) |>
-        stringr::str_remove(".valid_"),
+      col_name = dplyr::coalesce(rule_col, col_name),
       Issue = dplyr::case_when(
         grepl(
           "nrow\\(\\.\\) == 1",
@@ -121,6 +120,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
 
         .default = expression
       ),
+      col_name = stringr::str_remove(col_name, ".valid_"),
     ) |>
     dplyr::select(Row = data_row, Column = col_name, Issue)
 
