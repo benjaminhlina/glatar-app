@@ -63,7 +63,7 @@ add_valid_cols <- function(df, valid_values) {
     dplyr::mutate(
       .date = is.na(date) | grepl("^\\d{4}-\\d{2}-\\d{2}$", date),
       .month = is.na(month) | (month >= 1 & month <= 12),
-      .ed = dplyr::case_when(
+      .energy_measurement = dplyr::case_when(
         is.na(sample_weight_type) ~ NA,
         sample_weight_type == "wet" ~ energy_measurement >= 0 &
           energy_measurement <= 13000,
