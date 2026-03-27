@@ -97,14 +97,12 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
     dplyr::mutate(
       col_name = dplyr::coalesce(rule_col, col_name),
       Issue = dplyr::case_when(
-        grepl(
-          "nrow\\(\\.\\) == 1",
-          expression
-        ) ~ "Sheet is empty - please enter in
-        data and reupload",
+        grepl("nrow\\(\\.\\) == 1", expression) ~
+          "Sheet is empty - please enter data and reupload",
 
-        expression %in% "publication_type" ~ "Invalid publication type - must
-        be Journal Article, Book, Book Section, Report, or Unpublished",
+        grepl("publication_type", expression) ~
+          "Invalid publication type - must be Journal Article, Book,
+         Book Section, Report, or Unpublished",
 
         grepl('%vin% colnames', expression) ~ paste0(
           "Missing required column(s):",
