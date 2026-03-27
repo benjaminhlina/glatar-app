@@ -1,22 +1,24 @@
 pat,col,issue
 \.month,month,Month must be between 1 and 12
-\.season,season,"Invalid season - must be spring, summer, fall, or winter"
-\.sex,sex,"Invalid sex - must be female, male, unknown, or both"
-\.lifestage,lifestage,"Invalid lifestage - must be fry, larva, nymph, pupa, juvenile, or adult"
-\.length_type,length_type,"Invalid length type - must be total, fork, standard, or carapace"
-\.data_type,data_type,"Invalid data_type - must be individual, composite, mean, or equation"
+\.season,season,Invalid season - must be spring, summer, fall, or winter
+\.sex,sex,Invalid sex - must be female, male, unknown, or both
+\.lifestage,lifestage,Invalid lifestage - must be fry, larva, nymph, pupa, juvenile, or adult
+\.length_type,length_type,"Invalid length type - must be total, fork, standard, or carapace
+\.data_type,data_type,Invalid data_type - must be individual, composite, mean, or equation
 \.tissue_type,tissue_type,Invalid tissue type - must be a recognised tissue type; see data dictionary
 \.sample_procedure,sample_procedure,Invalid sample procedure - must be wet or dried
 \.calorimetry_method,calorimetry_method,Invalid calorimetry method - must be a recognised calorimetry method
 \.sample_weight_type,sample_weight_type,Invalid sample weight type - must be wet or dry
 \.lipid_percent_type,lipid_percent_type,Invalid lipid percent type - must be % sample weight or % total lipids
-\.lipid_type,lipid_type,"Invalid lipid type - must be fatty acids, phospholipids, sterols, or triacylglycerides"
+\.lipid_type,lipid_type,Invalid lipid type - must be fatty acids, phospholipids, sterols, or triacylglycerides
 \.fatty_acid_unit,fatty_acid_unit,Invalid fatty acid unit - must be ug/mg sample weight or % total fatty acid
-\.fatty_acid_type,fatty_acid_type,"Invalid fatty acid type - must be a recognized fatty acid (e.g. 20:5n-3 (EPA), 22:6n-3 (DHA), ∑PUFA, etc.)"
+\.fatty_acid_type,fatty_acid_type,Invalid fatty acid type - must be a recognized fatty acid (e.g. 20:5n-3 (EPA), 22:6n-3 (DHA), ∑PUFA, etc.)
 \.amino_acid_unit,amino_acid_unit,Invalid amino acid unit - must be ug/mg sample weight or % total protein
-\.amino_acid_type,amino_acid_type,"Invalid amino acid type - must be a recognized amino acid (e.g. Alanine, Lysine, Glycine, etc.)"
+\.amino_acid_type,amino_acid_type,Invalid amino acid type - must be a recognized amino acid (e.g. Alanine, Lysine, Glycine, etc.)
 \.mercury_type,mercury_type,Invalid mercury type - must be total mercury or methyl mercury
 \.thiamine_type,thiamine_type,Invalid thiamine type - must be the correct Vitamer
-\.ed,energy_measurement,Invalid energy measurement - must be within appropriate ranges for Joules/g wet or dry weight
+\.energy_measurement,energy_measurement,Invalid energy measurement - must be within appropriate ranges for Joules/g wet or dry weight
 \.isotope_lipid_correction,isotope_lipid_correction,Invalid isotopic lipid correction - must be either bulk or lipid free 
-
+\.common_name, common_name, Common name not found in database
+\.scientific_name, scientific_name, Scientific name not found in database
+\.date, date, Date format does not follow the required format of yyyy-mm-dd or is an invalid date
