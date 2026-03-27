@@ -361,7 +361,7 @@ the_golden_lance <- function(df) {
       ".isotope_lipid_correction",
       ".lipid_percent_type",
       ".lipid_type",
-      ".mecury_type",
+      ".mercury_type",
       ".fatty_acid_unit",
       ".fatty_acid_type",
       ".amino_acid_unit",
