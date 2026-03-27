@@ -359,7 +359,7 @@ the_golden_lance <- function(df) {
       ".sample_weight_type",
       ".valid_common_name",
       ".valid_scientific_name",
-      ".ed",
+      ".energy_measurement",
       ".isotope_lipid_correction",
       ".lipid_percent_type",
       ".lipid_type",
