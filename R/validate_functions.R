@@ -120,7 +120,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
         grepl("scientific_name", expression) ~ "Scientific name not found in
         database",
         !is.na(rule_issue) ~ rule_issue,
-        lgrepl("is.na", expression) ~ "Required field - cannot be empty",
+        grepl("is.na", expression) ~ "Required field - cannot be empty",
       
         .default = expression
       ),
