@@ -132,12 +132,10 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
     scientific_name_suggestions <- character(0)
   }
 
-  row_offset <- if (table_name %in% c("tbl_sources", "tbl_submission")) {
+  row_offset <- if (table_name %in% c("tbl_submission", "tbl_sources")) {
     4
-  } else if (table_name %in% c("tbl_samples")) {
-    5
   } else {
-    0
+    5
   }
 
   out <- out |>
