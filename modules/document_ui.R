@@ -22,18 +22,18 @@ docs_ui <- function(id) {
             shiny::tags$ul(
               shiny::tags$li(
                 shiny::tags$a(
-                  "Basic Data Entry Template (v20)",
-                  href = "data-entry-template/GLATAR_data_entry_template_v20.xlsx",
-                  download = "GLATAR_data_entry_template_v20.xlsx",
+                  "Basic Data Entry Template (v21)",
+                  href = "data-entry-template/GLATAR_data_entry_template_v21.xlsx",
+                  download = "GLATAR_data_entry_template_v21.xlsx",
                   target = "_blank"
                 )
               ),
               # add more templates here
               shiny::tags$li(
                 shiny::tags$a(
-                  "Extended Data Entry Template (v20)",
-                  href = "data-entry-template/GLATAR_data_entry_template_v20_long.xlsx",
-                  download = "GLATAR_data_entry_template_v20_long.xlsx",
+                  "Extended Data Entry Template (v21)",
+                  href = "data-entry-template/GLATAR_data_entry_template_v21_long.xlsx",
+                  download = "GLATAR_data_entry_template_v21_long.xlsx",
                   target = "_blank"
                 )
               )
