@@ -7,7 +7,25 @@ upload_data_ui <- function(id) {
     shiny::h2("Upload Excel File"),
     shiny::h4("Instructions"),
     shiny::tags$ol(
-      shiny::tags$li("Select the Excel file you would like to upload."),
+      shiny::tags$li(
+        "Go to the Documentation tab and download either the Basic or Extended 
+      Data Template (in Excel format)."
+      ),
+      shiny::br(),
+      shiny::tags$li(
+        "Please enter your data and associated information in the data template file.  
+        This file contains multiple sheets, with the “data_dictionary” sheet defining the fields 
+        (including units and format) that you will find on other sheets. 
+        Once oriented to file format, enter your data and other information on the three remaining sheets. 
+        These sheets are the following, tbl_submission which collects the name of the submitter, 
+        their associated email and affiliation. All fields on this sheet are required to successfully upload. 
+        The next two sheets, tbl_sources and tbl_samples, first collect metadata on the source material 
+        supporting the data that is collected which can be entered in tbl_samples."
+      ),
+      shiny::br(),
+      shiny::tags$li(
+        "Once complete, select the Excel file you would like to upload."
+      ),
       shiny::br(),
       shiny::tags$li(
         "Click 'Upload & Process'. The system will run a series of 
@@ -30,21 +48,6 @@ upload_data_ui <- function(id) {
       you will receive a confirmation email."
       )
     ),
-    # shiny::p(
-    #   "This panel allows you to upload data to the GLATAR database.
-    #                First, select the Excel file you would like to upload. Then click
-    #                'Upload & Process'. The system will run a series of validation checks and
-    #                process the data to adhere to database standards. Validation checks will
-    #                notify you of any issues, including the specific rows, columns,
-    #                and descriptions of the errors.
-
-    #                If the upload is successful, a confirmation message will appear and an
-    #                interactive map will be displayed so you can verify that your sampling
-    #                locations are correct. Once you have reviewed the map, click the
-    #                'Submit to Database' button to finalize the upload.
-    #                A successful submission will generate a confirmation message (displayed
-    #                in green) and you will receive a confirmation email."
-    # ),
     shiny::fileInput(
       ns("file_upload"),
       "Choose an Excel File",
