@@ -1,57 +1,105 @@
 view_data_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  shinydashboard::tabItem(
-    tabName = id,
-    shiny::h2("Viewing Selected Table"),
-    shiny::selectInput(ns("table_select"), "Select a Table", choices = NULL),
-    DT::DTOutput(ns("selected_table"))
+  shiny::tagList(
+    shinyjs::useShinyjs(),
+    shiny::div(
+      id = ns("raw_data_ui"),
+      style = "display:none;",
+      shiny::h2("Raw Data"),
+      shiny::p(
+        "This panel displays user specific submitted raw data. Use the theme dropdown to select a theme of data of interest. 
+        Select the variables of interest and use the the other dropdowns to filter the raw data."
+      ),
+      shiny::fluidRow(
+        shinydashboard::box(
+          title = "Raw Data Table",
+          status = "primary",
+          solidHeader = TRUE,
+          width = 12,
+          div(
+            style = "overflow-x: auto; width: 100%;",
+            DT::DTOutput(ns("raw_data_output"))
+          )
+        )
+      )
+    )
   )
 }
 
 
 # ---- server ----
-view_data_server <- function(id, con) {
+view_data_server <- function(id, con, main_input, raw_sidebar_vals) {
   shiny::moduleServer(id, function(input, output, session) {
-    # Get all table names and update selectInput dynamically
-    shiny::observe({
-      table_names <- DBI::dbListTables(con)
+    shiny::observeEvent(
+      main_input$tabs,
+      {
+        shinyjs::toggle(
+          id = "raw_data_ui",
+          condition = main_input$tabs == "view_data"
+        )
+      },
+      ignoreInit = TRUE
+    )
 
-      table_names <- setdiff(table_names, "tbl_submission")
+    # ---- namespaces -----
+    ns <- session$ns
 
-      shiny::updateSelectInput(session, "table_select", choices = table_names)
+    # reactive export df
+    raw_export_df <- shiny::reactiveVal(NULL)
+
+    # reactive when raw is actived
+    raw_activated <- shiny::reactiveVal(FALSE)
+
+    #  ----- first create raw data -----
+    # raw actived_true only if
+    shiny::observeEvent(
+      main_input$tabs,
+      {
+        shiny::req(main_input$tabs == "view_data")
+        raw_activated(TRUE)
+      },
+      ignoreInit = TRUE
+    )
+
+    # create summary data
+    raw_data <- create_raw_data(
+      con = con,
+      main_input = main_input,
+      input_source = raw_sidebar_vals,
+      tab = "view_data",
+      var_field = "y_variable",
+      activated = raw_activated()
+    )
+
+    # filtered summary by waterbody and species
+    filtered_raw_data <- create_filtered_data(
+      input_source = raw_sidebar_vals,
+      data = raw_data,
+      pane = "view_data"
+    )
+
+    filtered_raw_data_df_names <- shiny::reactive({
+      shiny::req(filtered_raw_data())
+
+      filtered_raw_data() |>
+        dplyr::rename_with(~ convert_nice_name(.x))
     })
 
-    # Render the selected table
-    output$selected_table <- DT::renderDT(
-      {
-        allowed_tables <- c(
-          "tbl_amino_acid",
-          "tbl_calorimetry",
-          "tbl_contaminants",
-          "tbl_data_dictionary",
-          "tbl_fatty_acid",
-          "tbl_isotope",
-          "tbl_length",
-          "tbl_lipid_composition",
-          "tbl_location",
-          "tbl_proxcomp",
-          "tbl_samples",
-          "tbl_sources",
-          "tbl_taxonomy",
-          "tbl_thiamine"
-        )
-
-        shiny::req(input$table_select %in% allowed_tables)
-
-        safe_name <- DBI::dbQuoteIdentifier(con, input$table_select)
-
-        DBI::dbGetQuery(con, paste0("SELECT * FROM ", safe_name))
-      },
-      options = list(
-        pageLength = 15,
-        scrollX = TRUE
-      )
+    display_table(
+      data = filtered_raw_data_df_names,
+      output,
+      output_id = "raw_data_output"
     )
+
+    # ---- run exporte -----
+    shiny::observe({
+      raw_export_df(filtered_raw_data_df_names())
+    })
+
+    # ----- return this so it can be exported -----
+    return(list(
+      raw_df = filtered_raw_data_df_names
+    ))
   })
 }

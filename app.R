@@ -53,7 +53,7 @@ ui <- shinydashboard::dashboardPage(
         icon = shiny::icon("chart-line")
       ),
       shinydashboard::menuItem(
-        "View Data",
+        "View Raw Data",
         tabName = "view_data",
         icon = shiny::icon("table")
       ),
@@ -92,6 +92,10 @@ ui <- shinydashboard::dashboardPage(
     shiny::conditionalPanel(
       "input.tabs == 'scatter_plot'",
       scatter_sidebar_ui("scatter_sidebar")
+    ),
+    conditionalPanel(
+      "input.tabs == 'view_data'",
+      raw_data_sidebar_ui("raw_sidebar")
     )
   ),
   # ---- create display panes ----
@@ -216,7 +220,19 @@ server <- function(input, output, session) {
     scatter_sidebar_vals = scatter_sidebar_vals
   )
   # ----- get tables -----
-  view_data_server("view_data", con)
+  raw_sidebar_vals <- raw_data_sidebar_server(
+    "raw_sidebar",
+    con,
+    main_input = input
+  )
+  view_data <- view_data_server(
+    "view_data",
+    con,
+    main_input = input,
+    raw_sidebar_vals = raw_sidebar_vals
+  )
+
+  raw_sidebar_vals$register_raw(view_data)
 
   # ---- upload data -----
   upload_data_server("insert_data", con)

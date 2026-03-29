@@ -146,10 +146,11 @@ get_join_table <- function(df, table, con) {
 # ---- get vart types ----
 
 get_var_types <- function(df, var) {
-  var_types <- df |>
-    dplyr::distinct(.data[[var]]) |>
-    dplyr::arrange(.data[[var]]) |>
-    dplyr::pull(.data[[var]])
+  var_types <- get_dropdown_choices(df = df, type = var)
+  # df |>
+  # dplyr::distinct(.data[[var]]) |>
+  # dplyr::arrange(.data[[var]]) |>
+  # dplyr::pull(.data[[var]])
   # Only keep non-NA length types
   var_types <- var_types[!is.na(var_types)]
 
@@ -233,7 +234,95 @@ get_numeric_vars <- function(con) {
     dplyr::arrange(field_name) |>
     dplyr::pull(field_name)
 }
+# ------ gret raw data ------
 
+get_raw_data <- function(
+  con,
+  selected_vars = NULL,
+  grouping_vars = NULL,
+  debug_sql = FALSE
+) {
+  shiny::req(con)
+
+  if (is.null(selected_vars)) {
+    selected_vars <- NULL
+  }
+
+  cli::cli_inform(c(
+    "v" = "Starting summary data query.",
+    "•" = "Variables selected: {.val {selected_vars}}"
+  ))
+
+  # Always start from samples
+  # --grab location
+  df <- get_data(con)
+  # |>
+  #   left_join(
+  #     tbl(con, "tbl_calorimetry")
+  #   )
+
+  base_col <- c(
+    "submission_id",
+    "sample_id",
+    "user_sample_id",
+    "organism_type",
+    "common_name",
+    "scientific_name",
+    "data_type",
+    "waterbody"
+  )
+
+  # base_col <- get_data(con) |>
+  #   colnames() |>
+  #   sort()
+
+  # ----- grab seelected vars ----
+
+  if (!is.null(selected_vars) && length(selected_vars) > 0) {
+    # --- get selected vars -----
+    vars_for_select <- as.character(selected_vars)
+
+    vars_for_select <- dplyr::case_when(
+      grepl(
+        "^length_mm__(fork|total|standard)$",
+        vars_for_select
+      ) ~ "length_mm",
+      grepl("^energy_units__", vars_for_select) ~ "energy_measurement",
+      # grepl("amino_acid_type__", vars_for_select) ~ "amino_acid_measurement",
+      .default = vars_for_select
+    ) |>
+      unique(vars_for_select)
+
+    cli::cli_inform("vars_for_select after remap: {.val {vars_for_select}}")
+    needed_tables <- setdiff(
+      get_tables_needed(con = con, var = vars_for_select),
+      "tbl_samples"
+    )
+    cli::cli_inform("needed_tables: {.val {needed_tables}}")
+
+    if (!is.null(needed_tables)) {
+      df <- needed_tables |>
+        purrr::reduce(.init = df, ~ get_join_table(.x, .y, con))
+    }
+
+    # ← is energy_measurement actually in df after the join?
+    cli::cli_inform("cols in df: {.val {colnames(df)}}")
+  } else {
+    vars_for_select <- NULL # no extra cols
+  }
+
+  df <- df |>
+    dplyr::select(
+      dplyr::all_of(base_col),
+      dplyr::any_of(c(grouping_vars, vars_for_select))
+    )
+
+  if (debug_sql) {
+    cli::cli_alert_info(dbplyr::sql_render(df))
+  }
+  cli::cli_alert_success("selected qery completed: df is {.val {class(df)}}")
+  return(df)
+}
 # ---- Helper: determine which tab is selected ----
 get_selected_tab <- function(input) {
   current_tab <- input$tabs
@@ -438,13 +527,13 @@ get_theme_choices <- function(
   valid_names <- numeric_names[numeric_choices %in% relevant_vars]
   cli::cli_alert_info("Relevant vars matched: {.val {relevant_vars}}")
 
-  summary_choices <- sort(c(
+  choices <- sort(c(
     stats::setNames(valid_numeric, valid_names),
     length_vars,
     if (theme %in% c("Energy Density")) energy_vars else NULL
   ))
 
-  return(summary_choices)
+  return(choices)
 }
 
 
