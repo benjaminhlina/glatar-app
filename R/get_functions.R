@@ -32,6 +32,15 @@ get_data <- function(con, debug_sql = FALSE) {
   return(df)
 }
 
+# ----- get dropdown hoices -----
+get_dropdown_choices <- function(df, type) {
+  df <- df |>
+    dplyr::distinct(.data[[type]]) |>
+    dplyr::arrange(.data[[type]]) |>
+    dplyr::pull(.data[[type]])
+  return(df)
+}
+
 # ---- get good groups -----
 get_good_groups <- function(df) {
   good_groups <- c(
@@ -50,6 +59,9 @@ get_good_groups <- function(df) {
     "superorder",
     "class",
     "superclass",
+    "phylum",
+    "kingdom",
+    "organism_type",
     "tsn",
     "sex",
     "life_stage",
@@ -88,6 +100,27 @@ get_groups <- function(df) {
   ))
   return(groups)
 }
+# ---- get table ids -----
+
+get_id_col <- function(con) {
+  tables_ids <- DBI::dbGetQuery(
+    con,
+    "
+        SELECT table_name, column_name
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+        AND column_name LIKE '%_id'
+        AND table_name <> 'tbl_submission'"
+  ) |>
+    dplyr::filter(
+      !column_name %in%
+        c("submission_id", "percent_lipid", "user_sample_id") &
+        !(column_name %in% "sample_id" & table_name != "tbl_samples"),
+      !(column_name %in% "source_id" & table_name != "tbl_sources")
+    )
+
+  return(tables_ids)
+}
 
 # ----- get max id -----
 get_id_max <- function(table_name, id_col) {
@@ -96,8 +129,10 @@ get_id_max <- function(table_name, id_col) {
     glue::glue("SELECT COALESCE(MAX({id_col}), 0) AS max_id FROM {table_name}")
   )
   selected_id_max <- result$max_id
+
   return(selected_id_max)
 }
+
 
 # ----- simple function to get a tb use dbplyr -----
 #
@@ -289,7 +324,7 @@ get_selected_tab <- function(input) {
   return(out)
 }
 
-# ----- get sidebr df -----
+# ----- get sidebr df ----- ---- this is reactive move?
 get_sidebar_df <- function(con) {
   shiny::reactive({
     # create connection reactively
@@ -368,6 +403,7 @@ get_summary_data <- function(
       # Select only requested columns (plus keys if needed)
       df <- df |>
         dplyr::select(
+          organism_type,
           data_type,
           waterbody,
           scientific_name,
@@ -379,6 +415,7 @@ get_summary_data <- function(
     } else {
       df <- df |>
         dplyr::select(
+          organism_type,
           data_type,
           waterbody,
           scientific_name,
@@ -399,6 +436,16 @@ get_summary_data <- function(
   cli::cli_alert_success("selected qery completed: df is {.val {class(df)}}")
   return(df)
 }
+# ----- get submision id ------
+
+get_submission_id <- function(con) {
+  sub_id <- DBI::dbGetQuery(
+    con,
+    glue::glue("SELECT gen_random_uuid() AS next_id")
+  )
+  return(sub_id)
+}
+
 
 # ---- get teh tables we need to filter by based on what the user selects -----
 get_tables_needed <- function(con, var) {
@@ -467,4 +514,36 @@ get_theme_choices <- function(
   ))
 
   return(choices)
+}
+
+
+# ---- get valid values
+get_valid_values <- function(con) {
+  raw_constraints <- DBI::dbGetQuery(
+    con,
+    "
+    SELECT cc.table_name, cc.column_name, chk.check_clause
+    FROM information_schema.table_constraints tc
+    JOIN information_schema.check_constraints chk
+      ON tc.constraint_name = chk.constraint_name
+     AND tc.constraint_schema = chk.constraint_schema
+    JOIN information_schema.constraint_column_usage cc
+      ON tc.constraint_name = cc.constraint_name
+     AND tc.table_schema = cc.table_schema
+    WHERE tc.constraint_type = 'CHECK'
+      AND tc.table_schema = 'public'
+      AND cc.table_name LIKE 'tbl_%'
+    ORDER BY cc.table_name, cc.column_name
+  "
+  )
+
+  cleaned_constrants <- raw_constraints |>
+    dplyr::rowwise() |>
+    dplyr::mutate(values = list(clean_db_constraints(check_clause))) |>
+    dplyr::filter(!is.null(values)) |>
+    dplyr::ungroup() |>
+    dplyr::select(column_name, values) |>
+    tibble::deframe()
+
+  return(cleaned_constrants)
 }

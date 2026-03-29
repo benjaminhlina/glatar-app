@@ -21,11 +21,13 @@ create_filtered_data <- function(input_source, data, pane) {
     data_type_f <- input_source$data_types()
     waterbody_f <- input_source$waterbody_filter()
     species_f <- input_source$species_filter()
+    organism_type_f <- input_source$organism_type()
 
     cli::cli_inform(c(
       "data_type_f: {paste(data_type_f, collapse = ', ')}",
       "waterbody_f: {paste(waterbody_f, collapse = ', ')}",
-      "species_f:   {paste(species_f, collapse = ', ')}"
+      "species_f: {paste(species_f, collapse = ', ')}",
+      "organism_type_f: {paste(organism_type_f, collapse = ', ')}"
     ))
     # ----- filters -----
     if (!is.null(data_type_f) && !"All" %in% data_type_f) {
@@ -37,6 +39,10 @@ create_filtered_data <- function(input_source, data, pane) {
         dplyr::filter(waterbody %in% waterbody_f)
     }
 
+    if (!is.null(organism_type_f) && !"All" %in% organism_type_f) {
+      df <- df |>
+        dplyr::filter(organism_type %in% organism_type_f)
+    }
     if (!is.null(species_f) && !"All" %in% species_f) {
       df <- df |>
         dplyr::filter(scientific_name %in% species_f)
@@ -62,7 +68,7 @@ create_mean_data <- function(input_source, data) {
     y_vals <- input_source$y_variable()
 
     # cli check
-    check_mean_data(
+    error_mean_data(
       df = df,
       summary_grouping_vars = summary_grouping_vars,
       y_vals = y_vals
@@ -70,7 +76,11 @@ create_mean_data <- function(input_source, data) {
 
     # can create base_df
     base_df <- df |>
-      dplyr::group_by(dplyr::across(dplyr::any_of(c("data_type", summary_grouping_vars)))) |>
+      dplyr::group_by(dplyr::across(dplyr::any_of(c(
+        "organism_type",
+        "data_type",
+        summary_grouping_vars
+      )))) |>
       dplyr::summarise(n = dplyr::n()) |>
       dplyr::ungroup()
 
@@ -142,6 +152,7 @@ create_mean_data <- function(input_source, data) {
         na_matches = "na"
       ) |>
       dplyr::relocate(
+        "organism_type",
         "data_type",
         .before = dplyr::everything()
       ) |>
@@ -154,6 +165,7 @@ create_mean_data <- function(input_source, data) {
       ) |>
       dplyr::collect() |>
       dplyr::group_by(dplyr::across(dplyr::any_of(c(
+        "organism_type",
         "data_type",
         summary_grouping_vars
       )))) |>
@@ -167,7 +179,11 @@ create_mean_data <- function(input_source, data) {
         ),
         .groups = "drop"
       ) |>
-      dplyr::arrange(dplyr::across(dplyr::all_of(c("data_type", summary_grouping_vars)))) |>
+      dplyr::arrange(dplyr::across(dplyr::all_of(c(
+        "organism_type",
+        "data_type",
+        summary_grouping_vars
+      )))) |>
       dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~ round(.x, 2)))
 
     return(grouped_summary_df)
@@ -188,7 +204,7 @@ create_summary_data <- function(
   shiny::reactive({
     # use for other tabs ---
     if (!is.null(tab)) {
-      check_tab_name(tab)
+      error_tab_name(tab)
 
       shiny::req(main_input$tabs == tab)
     }
@@ -220,7 +236,7 @@ create_summary_data <- function(
     cli::cli_alert("selected vars is: {.var {selected_vars}}")
 
     # check slected _vars
-    check_selected_vars(selected_vars = selected_vars)
+    error_selected_vars(selected_vars = selected_vars)
 
     # get groups
 

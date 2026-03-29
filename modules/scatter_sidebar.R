@@ -32,6 +32,12 @@ scatter_sidebar_ui <- function(id) {
         multiple = TRUE
       ),
       shiny::selectInput(
+        ns("scatter_organism_type"),
+        "Select Organism Type",
+        choices = NULL,
+        multiple = TRUE
+      ),
+      shiny::selectInput(
         ns("scatter_species_filter"),
         "Select Species",
         choices = NULL,
@@ -131,9 +137,17 @@ scatter_sidebar_server <- function(id, con, main_input) {
         sidebar_df <- get_sidebar_df(con)
 
         # make input for filters to exclude all when it hits
-        exclusive_all_observer(input, session, "scatter_waterbody_filter")
-        exclusive_all_observer(input, session, "scatter_species_filter")
-        exclusive_all_observer(input, session, "scatter_data_types")
+        scatter_filters <- c(
+          "scatter_waterbody_filter",
+          "scatter_species_filter",
+          "scatter_data_types",
+          "scatter_organism_type"
+        )
+
+        purrr::walk(
+          scatter_filters,
+          ~ exclusive_all_observer(input, session, .x)
+        )
 
         # get use the reactive
         df <- sidebar_df()
@@ -209,25 +223,18 @@ scatter_sidebar_server <- function(id, con, main_input) {
         energy_vars_r(energy_vars)
 
         # waterbody
-        waterbody_choices <- df |>
-          dplyr::distinct(waterbody) |>
-          # filter(!(is.na(waterbody))) |>
-          dplyr::arrange(waterbody) |>
-          dplyr::pull(waterbody)
-
+        waterbody_choices <- get_dropdown_choices(df, "waterbody")
         # species
-        species_choices <- df |>
-          dplyr::distinct(scientific_name) |>
-          # filter(!(is.na(scientific_name))) |>
-          dplyr::arrange(scientific_name) |>
-          dplyr::pull(scientific_name)
+        species_choices <- get_dropdown_choices(df, "scientific_name")
+
+        organism_choices <- get_dropdown_choices(df, "organism_type")
 
         # get info for check dropdown
         n_wb <- length(waterbody_choices)
         n_sp <- length(species_choices)
         grp <- paste(grouping_choices, collapse = ', ')
 
-        # check_dropdowns()
+        # error_dropdowns()
         cli::cli_alert_success("Updating dropdowns")
         cli::cli_alert_danger("scatter_sidebar tiggered")
         cli::cli_ul(c(
@@ -265,6 +272,13 @@ scatter_sidebar_server <- function(id, con, main_input) {
           selected = "All"
         )
 
+        # Species Drop-down
+        shiny::updateSelectInput(
+          session,
+          "scatter_organism_type",
+          choices = c("All", organism_choices),
+          selected = "All"
+        )
         # Species Drop-down
         shiny::updateSelectInput(
           session,
@@ -319,6 +333,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
 
     return(list(
       data_types = shiny::reactive(input$scatter_data_types),
+      organism_type = shiny::reactive(input$scatter_organism_type),
       grouping_vars = shiny::reactive(input$scatter_grouping_vars),
       waterbody_filter = shiny::reactive(input$scatter_waterbody_filter),
       species_filter = shiny::reactive(input$scatter_species_filter),

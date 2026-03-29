@@ -1,4 +1,4 @@
-check_dropdowns <- function(
+error_dropdowns <- function(
   waterbody_choices,
   common_name_choices,
   grouping_choices,
@@ -13,7 +13,7 @@ check_dropdowns <- function(
   ))
 }
 
-check_input_source <- function(input_source_name, envir = parent.frame()) {
+error_input_source <- function(input_source_name, envir = parent.frame()) {
   valid_sources <- c("summary_sidebar_vals", "scatter_sidebar_vals")
 
   # Check if it's a valid name
@@ -29,7 +29,7 @@ check_input_source <- function(input_source_name, envir = parent.frame()) {
 }
 
 # ---- check lenght_ui -----
-check_hist_ui <- function(
+error_hist_ui <- function(
   df,
   var,
   type_val,
@@ -42,7 +42,7 @@ check_hist_ui <- function(
   )
 }
 
-check_hist_vars <- function(df, var, ba) {
+error_hist_vars <- function(df, var, ba) {
   if (ba == "before") {
     cli::cli_alert_info("Variable: {.var {var}}")
     cli::cli_alert_info("Rows before filtering: {.val {nrow(df)}}")
@@ -57,7 +57,7 @@ check_hist_vars <- function(df, var, ba) {
 }
 
 # ----- chekc mean_data ------
-check_mean_data <- function(df, summary_grouping_vars, y_vals) {
+error_mean_data <- function(df, summary_grouping_vars, y_vals) {
   cli::cli_h2("create_mean_data() diagnostics")
 
   cli::cli_ul(c(
@@ -74,14 +74,14 @@ check_mean_data <- function(df, summary_grouping_vars, y_vals) {
 
 # ---- check tab name -----
 
-check_tab_name <- function(tab) {
+error_tab_name <- function(tab) {
   if (!(tab %in% c("summary_info", "scatter_plot", "view_data"))) {
     cli::cli_abort("Cannot execute function for {.val {tab}} tab")
   }
 }
 
 # ---- ehck if summary data is being triggered ----
-check_summary_data <- function(df, name = deparse(substitute(df))) {
+error_summary_data <- function(df, name = deparse(substitute(df))) {
   cli::cli_alert_success("{name} triggered")
 
   # Lazy dbplyr table → do NOT validate rows
@@ -112,7 +112,7 @@ check_summary_data <- function(df, name = deparse(substitute(df))) {
 }
 
 
-check_selected_vars <- function(selected_vars) {
+error_selected_vars <- function(selected_vars) {
   cli::cli_ul(c(
     "y_variable value: {if (is.null(selected_vars)) 'NULL' else paste(selected_vars, collapse = ', ')}",
     "length(y_variable): {length(selected_vars)}"

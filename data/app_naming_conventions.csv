@@ -19,6 +19,9 @@ order_sci,Order
 superorder,Superorder
 class_sci,Class
 superclass,Superclass
+phylum, Phylum
+kingdom, Kingdom
+organism_type, Organism Type 
 tsn,TSN Code
 sex,Sex
 lifestage,Life Stage

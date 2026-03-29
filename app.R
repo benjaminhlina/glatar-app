@@ -1,57 +1,16 @@
-# ---- load packages ----
-# {
-#   library(dplyr)
-#   library(dbplyr)
-#   library(DT)
-#   library(ggplot2)
-#   library(ggtext)
-#   library(glue)
-#   library(grid)
-#   library(janitor)
-#   library(leaflet)
-#   library(mapview)
-#   library(plotly)
-#   library(purrr)
-#   library(readr)
-#   library(sf)
-#   library(shiny)
-#   library(shinydashboard)
-#   library(shinyjs)
-#   library(shinymanager)
-#   library(stringr)
-#   library(stringdist)
-#   library(tidyr)
-#   library(validate)
-# }
+# ---- load modules ------
+source("load/load_functions.R")
 
-cli::cli_alert_info("Starting the loading of modules....")
-cli::cli_ul(list.files('modules', full.names = TRUE))
-
-module_files <- list.files("modules", full.names = TRUE)
-
-lapply(module_files, function(f) {
-  tryCatch(
-    source(f, local = FALSE),
-    error = function(e) {
-      cli::cli_alert_danger("Failed to load {.file {f}}: {e$message}")
-    }
-  )
-})
-
-cli::cli_alert_success(
-  "All {length(module_files)} modules successfully loaded!"
-)
+load_scripts(folder = "modules", type = "modules")
+load_scripts(folder = "R", type = "functions")
 
 
-app_version <- "0.1.0"
+# ---- startup the app -----
 
-credentials <- data.frame(
-  user = Sys.getenv("SHINY_USER"),
-  password = Sys.getenv("SHINY_PASSWORD"),
-  stringsAsFactors = FALSE
-)
-# ---- create ui ----
-cli::cli_alert_info("Starting the App")
+source("startup/startup.R")
+
+
+# ---- ui ------
 ui <- shinydashboard::dashboardPage(
   # ----- title -----
   shinydashboard::dashboardHeader(
@@ -180,44 +139,10 @@ ui <- shinydashboard::dashboardPage(
   )
 )
 
-# ---- make this look nicer -----
-ui <- shinymanager::secure_app(
+# ---- secure ui -----
+ui <- secure_ui(
   ui,
-  enable_admin = FALSE,
-  # Bootstrap flatly, cerulean, cosmo,
-  theme = "flatly",
-  language = "en",
-  timeout = 15.0,
-  fab_position = "none",
-  # Customize the login page appearance
-  tags_top = shiny::tags$div(
-    shiny::tags$h2(
-      "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
-      style = "text-align: center; color: #2c3e50; margin-bottom: 20px;"
-    ),
-    shiny::tags$img(
-      src = "logo/glfc-logo.png",
-      width = 150,
-      style = "display: block; margin: 0 auto 20px auto;"
-    )
-  ),
-
-  tags_bottom = shiny::tags$div(
-    shiny::tags$p(
-      "Please login to access the application",
-      style = "text-align: center; color: #7f8c8d;"
-    )
-  ),
-
-  # Customize button colors and text
-  choose_language = FALSE,
-  lan = list(
-    en = list(
-      title = "Please Authenticate",
-      user = "Email Address",
-      password = "Password"
-    )
-  )
+  # off = TRUE
 )
 
 server <- function(input, output, session) {
@@ -226,8 +151,9 @@ server <- function(input, output, session) {
   ram_tracker()
   session$allowReconnect("force")
 
-  res_auth <- shinymanager::secure_server(
-    check_credentials = shinymanager::check_credentials(credentials),
+  res_auth <- authorize_server(
+    credentials = credentials,
+    # off = TRUE
   )
 
   # ---- add in logout tab -----

@@ -316,28 +316,17 @@ glatar_diagram_ui <- function() {
       doc: "documentation/fatty_acids_documentation.pdf"
     },
     {
-      id: "hg",
-      label: ["Mercury"],
-      icon: "⚪",
-      color: "#c8e840",
-      glow: "#c8e840",
-      grad: ["#84a100ff","#566900ff"],
-      desc: "Total mercury and methylmercury concentrations in fish and invertabrate tissues are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies.",
-      tags: ["Total Hg","Methylmercury","μg/g wet wt","Bioaccumulation"],
-      doc: "documentation/mercury_and_methylmercury_documentation.pdf"
-    },
-    {
-      id: "pcb",
-      label: ["PCBs"],
+      id: "contaminants",
+      label: ["Contaminants"],
       icon: "☠",
       iconFilter: "drop-shadow(0 0 4px rgba(255,255,255,0.8))",
       iconSize: "8rem",
       color: "#ff5f72",
       glow: "#ff5f72",
       grad: ["#be0020ff","#6a0013ff"],
-      desc: "Polychlorinated biphenyl concentrations (i.e., individual congeners and totals) in fish and invertebrate tissue reflect legacy contaminant loads and are used in ecological risk assessments.",
-      tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment"],
-      doc: "documentation/polychlorinated_biphenyls_documentation.pdf"
+      desc: "Contaminants in the database include total and methylmercury and Polychlorinated biphenyl (PCBs; i.e., individual congeners and totals) concentrations in fish and invertabrate tissues. These measurments are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies, as well as, reflect legacy contaminant loads and are used in ecological risk assessments.",
+      tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment", "Total Hg","Methylmercury", "μg/g wet wt","Bioaccumulation"],
+      doc:["documentation/polychlorinated_biphenyls_documentation.pdf", "documentation/mercury_and_methylmercury_documentation.pdf"]
     }
   ];
 
@@ -569,7 +558,8 @@ glatar_diagram_ui <- function() {
       document.getElementById("card-name").style.color = c.color;
       document.getElementById("glatar-card").classList.add("visible");
 
-      // doc link
+    // doc link
+   // doc link
       var docEl = document.getElementById("card-doc");
       docEl.innerHTML = "";
       if (c.doc) {

@@ -1,3 +1,77 @@
+fix_case_types <- function(df) {
+  df <- df |>
+    dplyr::mutate(
+      dplyr::across(common_name:family, ~ stringr::str_to_sentence(.x)),
+      length_type = tolower(length_type),
+      waterbody = tools::toTitleCase(waterbody),
+      data_type = stringr::str_to_sentence(data_type),
+      .energy_units = dplyr::if_else(
+        is.na(energy_units),
+        true = NA,
+        false = paste(
+          energy_units,
+          sample_weight_type,
+          "weight",
+          sep = " "
+        )
+      ),
+      calorimetry_method = stringr::str_to_sentence(calorimetry_method) |>
+        stringr::str_replace("Gentry-weigert", "Gentry-Weigert")
+    ) |>
+    dplyr::select(-energy_units) |>
+    dplyr::rename(
+      energy_units = .energy_units,
+      sample_id = .sample_id
+    )
+  return(df)
+}
+
+# ---- fix table order -----
+fix_table_order <- function(split_tables) {
+  # Define the "priority" tables to go first
+  priority_tables <- c("tbl_submission", "tbl_sources", "tbl_samples")
+
+  # Find which priority tables exist in your list
+  existing_priority <- intersect(
+    priority_tables,
+    names(split_tables)
+  )
+
+  # Get remaining tables
+  other_tables <- setdiff(names(split_tables), existing_priority)
+
+  # Combine: priority first, then the rest
+  tables_ordered <- c(existing_priority, other_tables)
+
+  # Reorder your list
+  fixed_table_order <- split_tables[tables_ordered]
+
+  # Optional: check order
+  cli::cli_alert_info(
+    "Tables will be submitted in this order:
+                            {paste(names(fixed_table_order), collapse = ' -> ')}"
+  )
+  return(fixed_table_order)
+}
+
+
+# ---- fix tittle label -----
+fix_title_label <- function(x, max = NULL) {
+  if (is.null(max)) {
+    max <- 4
+  }
+  if (length(x) <= max) {
+    paste(x, collapse = ", ")
+  } else {
+    paste0(
+      paste(utils::head(x, max), collapse = ", "),
+      ", <br>… (",
+      length(x) - max,
+      " more)"
+    )
+  }
+}
+# ---- fix_var_gneric ----
 fix_var_generic <- function(df, var_raw) {
   # detect if it's one of the synthetic length vars
   if (grepl("^length_mm__", var_raw)) {
@@ -71,20 +145,4 @@ fix_var_generic <- function(df, var_raw) {
     var = var,
     var_label = var_label
   )
-}
-# ---- fix tittle label -----
-fix_title_label <- function(x, max = NULL) {
-  if (is.null(max)) {
-    max <- 4
-  }
-  if (length(x) <= max) {
-    paste(x, collapse = ", ")
-  } else {
-    paste0(
-      paste(utils::head(x, max), collapse = ", "),
-      ", <br>… (",
-      length(x) - max,
-      " more)"
-    )
-  }
 }
