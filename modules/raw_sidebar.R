@@ -15,6 +15,12 @@ raw_data_sidebar_ui <- function(id) {
           # multiple = TRUE
         ),
         shiny::selectInput(
+          ns("raw_selected_col"),
+          "Select Columns of Interest",
+          choices = NULL,
+          multiple = TRUE
+        ),
+        shiny::selectInput(
           ns("raw_data_types"),
           "Select a data type",
           choices = NULL,
@@ -38,6 +44,7 @@ raw_data_sidebar_ui <- function(id) {
           choices = NULL,
           multiple = TRUE
         ),
+
         shiny::selectizeInput(
           ns("raw_y_variable"),
           "Select Data Columns of Interest",
@@ -145,7 +152,20 @@ raw_data_sidebar_server <- function(id, con, main_input) {
         )
 
         # get grouping snad numerical values
+
+        base_col <- c(
+          "submission_id",
+          "sample_id",
+          "user_sample_id",
+          "organism_type",
+          "common_name",
+          "scientific_name",
+          "data_type",
+          "waterbody"
+        )
+
         grouping_choices <- get_groups(df) |>
+          setdiff(base_col) |>
           sort()
 
         grouping_choices <- stats::setNames(
@@ -243,6 +263,12 @@ raw_data_sidebar_server <- function(id, con, main_input) {
           choices = c("All", species_choices),
           selected = "All"
         )
+        shiny::updateSelectInput(
+          session,
+          "raw_selected_col",
+          choices = c("All", grouping_choices),
+          selected = "All"
+        )
 
         # Update y summary  variable choices
 
@@ -298,7 +324,7 @@ raw_data_sidebar_server <- function(id, con, main_input) {
     return(list(
       data_types = shiny::reactive(input$raw_data_types),
       organism_type = shiny::reactive(input$raw_organism_type),
-      grouping_vars = shiny::reactive(input$raw_grouping_vars),
+      grouping_vars = shiny::reactive(input$raw_selected_col),
       waterbody_filter = shiny::reactive(input$raw_waterbody_filter),
       species_filter = shiny::reactive(input$raw_species_filter),
       y_variable = shiny::reactive(input$raw_y_variable),
