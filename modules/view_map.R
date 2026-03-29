@@ -92,6 +92,7 @@ view_map_server <- function(id, con) {
               }
             }
           ),
+          wild_lab = stringr::str_to_sentence(wild_lab),
           popup_info = paste(
             "<b>Waterbody:</b>",
             waterbody,
@@ -136,7 +137,7 @@ view_map_server <- function(id, con) {
 
       pal <- leaflet::colorFactor(
         palette = c("blue", "red"),
-        levels = c("wild", "lab")
+        levels = c("Wild", "Lab")
       )
       if (nrow(locs) == 0) {
         return(
