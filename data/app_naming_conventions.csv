@@ -20,9 +20,9 @@ order_sci,Order
 superorder,Superorder
 class_sci,Class
 superclass,Superclass
-phylum, Phylum
-kingdom, Kingdom
-organism_type, Organism Type 
+phylum,Phylum
+kingdom,Kingdom
+organism_type,Organism Type 
 tsn,TSN Code
 sex,Sex
 lifestage,Life Stage
@@ -49,8 +49,8 @@ sample_weight,Sample Weight
 sample_weight_type,Weight Type
 energy_measurement,Energy Density
 energy_type,Measurement Type
-intercept, Intercept
-slope, Slope
+intercept,Intercept
+slope,Slope
 percent_water,Percent Water (%)
 percent_ash,Percent Ash (%)
 percent_lipid,Percent Lipid (%)
@@ -63,13 +63,13 @@ d34s,\U03B4<sup>34</sup>S
 d18o,\U03B4<sup>18</sup>O
 d2h,\U03B4<sup>2</sup>H
 c_n,C:N
-percent_lipid_composition, Percent Lipid Composition (%)
-amino_acid_measurement, Amino Acid
-fatty_acid_measurement, Fatty Acid
-thiamine_nmol_g, Thiamine (nmol/g)
-thiamine_nmol_g_sd, Thiamine SD (nmol/g)
-thiaminase_activity, Thiaminase Activity
-thiaminase_activity_sd, Thiaminase Activity SD
+percent_lipid_composition,Percent Lipid Composition (%)
+amino_acid_measurement,Amino Acid
+fatty_acid_measurement,Fatty Acid
+thiamine_nmol_g,Thiamine (nmol/g)
+thiamine_nmol_g_sd,Thiamine SD (nmol/g)
+thiaminase_activity,Thiaminase Activity
+thiaminase_activity_sd,Thiaminase Activity SD
 mercury_ppm, Hg (ppm)
-total_pcb_ng_g, Total PCB (ng/g)
-pcb_congener_ng_g, PCB Congener (ng/g)
+total_pcb_ng_g,Total PCB (ng/g)
+pcb_congener_ng_g,PCB Congener (ng/g)
