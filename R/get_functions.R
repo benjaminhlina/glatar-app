@@ -260,6 +260,8 @@ get_raw_data <- function(
   #     tbl(con, "tbl_calorimetry")
   #   )
 
+  base_col <- get_data(con) |>
+    colnames()
   # ----- grab seelected vars ----
 
   if (!is.null(selected_vars) && length(selected_vars) > 0) {
