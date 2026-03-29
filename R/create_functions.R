@@ -237,6 +237,18 @@ create_raw_data <- function(
     error_selected_vars(selected_vars = selected_vars)
 
     # get groups
+    gv <- input_source$grouping_vars
+
+    group_vars <- if (inherits(gv, "reactive")) gv() else gv
+
+    shiny::req(con_db)
+
+    # ----- if grouping_vars is null or length is 0 return a null object all
+    # together
+
+    if (is.null(group_vars) || length(group_vars) == 0) {
+      return(NULL)
+    }
 
     shiny::req(con_db)
 
@@ -246,7 +258,7 @@ create_raw_data <- function(
     # ---- actually get data when group_vars is valid ----
     df <- get_raw_data(
       con = con_db,
-      grouping_vars = grouping_vars,
+      grouping_vars = group_vars,
       selected_vars = selected_vars,
     )
 
