@@ -64,7 +64,9 @@ view_map_server <- function(id, con) {
           waterbody,
           area,
           common_name,
-          scientific_name
+          scientific_name,
+          pi_name,
+          wild_lab
         ) |>
         dplyr::collect()
 
