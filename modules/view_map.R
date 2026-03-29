@@ -4,6 +4,12 @@ view_map_ui <- function(id) {
   shinydashboard::tabItem(
     tabName = id,
     shiny::h2("Map of Locations"),
+    shiny::p(
+      "This panel provides an interactive map displaying the sample locations for data in GLATAR. 
+      To use, explore the map and click on each location to view the waterbody, site, species collected 
+      (i.e., common and scientific name), the name of the collector, and the data in GLATAR that was collected. 
+      The colour of each location indicates whether the sample was derived from a wild or lab organism. "
+    ),
     leaflet::leafletOutput(ns("map"), height = "700px", width = "100%")
   )
 }
