@@ -279,16 +279,6 @@ get_raw_data <- function(
   # ----- grab seelected vars ----
 
   if (!is.null(selected_vars) && length(selected_vars) > 0) {
-    needed_tables <- setdiff(
-      get_tables_needed(con = con, var = selected_vars),
-      "tbl_samples"
-    )
-
-    if (!is.null(needed_tables)) {
-      df <- needed_tables |>
-        purrr::reduce(.init = df, ~ get_join_table(.x, .y, con))
-    }
-
     # --- get selected vars -----
     vars_for_select <- as.character(selected_vars)
 
@@ -300,17 +290,33 @@ get_raw_data <- function(
       grepl("^energy_units__", vars_for_select) ~ "energy_measurement",
       # grepl("amino_acid_type__", vars_for_select) ~ "amino_acid_measurement",
       .default = vars_for_select
+    ) |>
+      unique(vars_for_select)
+
+    cli::cli_inform("vars_for_select after remap: {.val {vars_for_select}}")
+    needed_tables <- setdiff(
+      get_tables_needed(con = con, var = vars_for_select),
+      "tbl_samples"
     )
+    cli::cli_inform("needed_tables: {.val {needed_tables}}")
 
-    vars_for_select <- unique(vars_for_select)
+    if (!is.null(needed_tables)) {
+      df <- needed_tables |>
+        purrr::reduce(.init = df, ~ get_join_table(.x, .y, con))
+    }
 
-    # Select only requested columns (plus keys if needed)
-    df <- df |>
+    # ← is energy_measurement actually in df after the join?
+    cli::cli_inform("cols in df: {.val {colnames(df)}}")
+  } else {
+    vars_for_select <- NULL # no extra cols
+  }
+
+  df <- df |>
     dplyr::select(
       dplyr::all_of(base_col),
       dplyr::any_of(c(grouping_vars, vars_for_select))
     )
-  }
+
   if (debug_sql) {
     cli::cli_alert_info(dbplyr::sql_render(df))
   }
