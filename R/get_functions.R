@@ -146,10 +146,11 @@ get_join_table <- function(df, table, con) {
 # ---- get vart types ----
 
 get_var_types <- function(df, var) {
-  var_types <- df |>
-    dplyr::distinct(.data[[var]]) |>
-    dplyr::arrange(.data[[var]]) |>
-    dplyr::pull(.data[[var]])
+  var_types <- get_dropdown_choices(df = df, type = var)
+  # df |>
+  # dplyr::distinct(.data[[var]]) |>
+  # dplyr::arrange(.data[[var]]) |>
+  # dplyr::pull(.data[[var]])
   # Only keep non-NA length types
   var_types <- var_types[!is.na(var_types)]
 
