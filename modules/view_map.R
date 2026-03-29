@@ -65,18 +65,6 @@ view_map_server <- function(id, con) {
             leaflet::addMarkers(lng = 0, lat = 0, popup = "No Data Available")
         )
       }
-
-      # remove locations that don't have lon
-      locs <- locs |>
-        dplyr::filter(!(is.na(longitude))) |>
-        dplyr::select(
-          latitude,
-          longitude,
-          waterbody,
-          common_name,
-          scientific_name
-        )
-
       # Create popup content dynamically
       locs$popup_info <- paste(
         "<b>Waterbody:</b>",
