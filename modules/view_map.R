@@ -22,7 +22,8 @@ view_map_server <- function(id, con) {
       }
 
       # Fetch location data
-      locs <- DBI::dbGetQuery(con, 'SELECT * FROM tbl_location')
+      locs <- dplyr::tbl(con, 'tbl_location') |>
+        left_join(tbl(con, "tbl_samples"))
 
       # Ensure required columns exist
       missing_cols <- setdiff(
@@ -54,22 +55,25 @@ view_map_server <- function(id, con) {
 
       # remove locations that don't have lon
       locs <- locs |>
-        dplyr::filter(!(is.na(longitude)))
+        dplyr::filter(!(is.na(longitude))) |>
+        dplyr::select(
+          latitude,
+          longitude,
+          waterbody,
+          common_name,
+          scientific_name
+        )
 
       # Create popup content dynamically
       locs$popup_info <- paste(
         "<b>Waterbody:</b>",
         locs$waterbody,
         "<br>",
-        "<b>Area:</b>",
-        locs$area,
+        "<b>Common Name:</b>",
+        locs$common_name,
         "<br>",
-        "<b>Site:</b>",
-        locs$site,
-        "<br>",
-        "<b>Site Depth:</b>",
-        locs$site_depth,
-        "m"
+        "<b>Scientific Name:</b>",
+        locs$scientific_name
       )
 
       # Create map with popups
