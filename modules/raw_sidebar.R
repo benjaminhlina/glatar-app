@@ -27,6 +27,12 @@ raw_data_sidebar_ui <- function(id) {
           multiple = TRUE
         ),
         shiny::selectInput(
+          ns("raw_organism_type"),
+          "Select Organism Type",
+          choices = NULL,
+          multiple = TRUE
+        ),
+        shiny::selectInput(
           ns("raw_species_filter"),
           "Select Species",
           choices = NULL,
@@ -106,9 +112,14 @@ raw_data_sidebar_server <- function(id, con, main_input) {
 
         sidebar_df <- get_sidebar_df(con)
 
-        exclusive_all_observer(input, session, "raw_waterbody_filter")
-        exclusive_all_observer(input, session, "raw_species_filter")
-        exclusive_all_observer(input, session, "raw_data_types")
+        filters <- c(
+          "raw_waterbody_filter",
+          "raw_species_filter",
+          "raw_data_types",
+          "raw_organism_type"
+        )
+
+        purrr::walk(filters, ~ exclusive_all_observer(input, session, .x))
 
         # get df
         df <- sidebar_df()
@@ -178,18 +189,11 @@ raw_data_sidebar_server <- function(id, con, main_input) {
         energy_vars_r(energy_vars)
 
         # watervody
-        waterbody_choices <- df |>
-          dplyr::distinct(waterbody) |>
-          # filter(!(is.na(waterbody))) |>
-          dplyr::arrange(waterbody) |>
-          dplyr::pull(waterbody)
-
+        waterbody_choices <- get_dropdown_choices(df, "waterbody")
         # species
-        species_choices <- df |>
-          dplyr::distinct(scientific_name) |>
-          # filter(!(is.na(scientific_name))) |>
-          dplyr::arrange(scientific_name) |>
-          dplyr::pull(scientific_name)
+        species_choices <- get_dropdown_choices(df, "scientific_name")
+
+        organism_choices <- get_dropdown_choices(df, "organism_type")
 
         # get info to make pretty console info
         n_wb <- length(waterbody_choices)
@@ -221,6 +225,14 @@ raw_data_sidebar_server <- function(id, con, main_input) {
           session,
           "raw_waterbody_filter",
           choices = c("All", waterbody_choices),
+          selected = "All"
+        )
+        # Species Drop-down
+
+        shiny::updateSelectInput(
+          session,
+          "raw_organism_type",
+          choices = c("All", organism_choices),
           selected = "All"
         )
         # Species Drop-down
@@ -285,6 +297,8 @@ raw_data_sidebar_server <- function(id, con, main_input) {
 
     return(list(
       data_types = shiny::reactive(input$raw_data_types),
+      organism_type = shiny::reactive(input$raw_organism_type),
+      grouping_vars = shiny::reactive(input$raw_grouping_vars),
       waterbody_filter = shiny::reactive(input$raw_waterbody_filter),
       species_filter = shiny::reactive(input$raw_species_filter),
       y_variable = shiny::reactive(input$raw_y_variable),
