@@ -1,8 +1,8 @@
 raw_names,nice_names
-submission_id, Submission ID
-sample_id, Sample ID
+submission_id,Submission ID
+sample_id,Sample ID
 user_sample_id, User Sample ID
-source_id, Source ID
+source_id,Source ID
 pi_name,PI Name
 date,Date
 month,Month

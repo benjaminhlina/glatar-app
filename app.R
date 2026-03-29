@@ -38,11 +38,6 @@ ui <- shinydashboard::dashboardPage(
         icon = shiny::icon("home")
       ),
       shinydashboard::menuItem(
-        "Map",
-        tabName = "view_map",
-        icon = shiny::icon("map")
-      ),
-      shinydashboard::menuItem(
         "Summary Tables",
         tabName = "summary_info",
         icon = shiny::icon("bar-chart")
@@ -71,11 +66,6 @@ ui <- shinydashboard::dashboardPage(
         "Upload Data",
         tabName = "insert_data",
         icon = shiny::icon("plus")
-      ),
-      shinydashboard::menuItem(
-        "Taxonomic Search",
-        tabName = "taxa_search",
-        icon = shiny::icon("fish")
       ),
       shinydashboard::menuItem(
         "Documentation",
