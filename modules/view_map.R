@@ -68,20 +68,63 @@ view_map_server <- function(id, con) {
           pi_name,
           wild_lab
         ) |>
-        dplyr::collect()
-
-      # if columns are missing return blank map with
-      if (length(missing_cols) > 0) {
-        return(
-          leaflet::leaflet() |>
-            leaflet::addTiles() |>
-            leaflet::addMarkers(
-              lng = 0,
-              lat = 0,
-              popup = "Missing Required Columns"
-            )
+        dplyr::summarise(
+          dplyr::across(dplyr::all_of(flag_cols), max),
+          .groups = "drop"
+        ) |>
+        dplyr::collect() |>
+        dplyr::mutate(
+          data_types = purrr::pmap_chr(
+            dplyr::pick(dplyr::all_of(flag_cols)),
+            \(...) {
+              flags <- c(...)
+              labels <- unname(data_tables)[as.logical(flags)]
+              if (length(labels) == 0) {
+                "None"
+              } else {
+                paste(labels, collapse = ", ")
+              }
+            }
+          ),
+          popup_info = paste(
+            "<b>Waterbody:</b>",
+            waterbody,
+            "<br>",
+            "<b>Area:</b>",
+            area,
+            "<br>",
+            "<b>Common Name:</b>",
+            common_name,
+            "<br>",
+            "<b>Scientific Name:</b>",
+            scientific_name,
+            "<br>",
+            "<b>Collector Name:</b>",
+            pi_name,
+            "<br>",
+            "<b>Data Types:</b>",
+            data_types
+          )
         )
-      }
+
+      # Ensure required columns exist
+      # missing_cols <- setdiff(
+      #   c("latitude", "longitude", "waterbody", "area", "site", "site_depth"),
+      #   colnames(locs)
+      # )
+
+      # # if columns are missing return blank map with
+      # if (length(missing_cols) > 0) {
+      #   return(
+      #     leaflet::leaflet() |>
+      #       leaflet::addTiles() |>
+      #       leaflet::addMarkers(
+      #         lng = 0,
+      #         lat = 0,
+      #         popup = "Missing Required Columns"
+      #       )
+      #   )
+      # }
 
       # Ensure data is not empty
       if (nrow(locs) == 0) {
