@@ -239,6 +239,7 @@ get_numeric_vars <- function(con) {
 get_raw_data <- function(
   con,
   selected_vars = NULL,
+  grouping_vars = NULL,
   debug_sql = FALSE
 ) {
   shiny::req(con)
