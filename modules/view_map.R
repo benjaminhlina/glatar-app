@@ -127,6 +127,11 @@ view_map_server <- function(id, con) {
       # }
 
       # Ensure data is not empty
+
+      pal <- leaflet::colorFactor(
+        palette = c("blue", "red"),
+        levels = c("wild", "lab")
+      )
       if (nrow(locs) == 0) {
         return(
           leaflet::leaflet() |>
@@ -134,20 +139,6 @@ view_map_server <- function(id, con) {
             leaflet::addMarkers(lng = 0, lat = 0, popup = "No Data Available")
         )
       }
-      # Create popup content dynamically
-      locs$popup_info <- paste(
-        "<b>Waterbody:</b>",
-        locs$waterbody,
-        "<br>",
-        "<b>Area:</b>",
-        locs$area,
-        "<br>",
-        "<b>Common Name:</b>",
-        locs$common_name,
-        "<br>",
-        "<b>Scientific Name:</b>",
-        locs$scientific_name
-      )
 
       # Create map with popups
       leaflet::leaflet(locs) |>
@@ -157,8 +148,15 @@ view_map_server <- function(id, con) {
           lat = ~latitude,
           popup = ~popup_info,
           radius = 5,
-          color = "blue",
+          color = ~ pal(wild_lab),
+          fillColor = ~ pal(wild_lab),
           fillOpacity = 0.7
+        ) |>
+        leaflet::addLegend(
+          position = "bottomright",
+          pal = pal,
+          values = ~wild_lab,
+          title = "Sample Type"
         )
     })
   })
