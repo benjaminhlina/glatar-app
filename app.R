@@ -58,6 +58,16 @@ ui <- shinydashboard::dashboardPage(
         icon = shiny::icon("table")
       ),
       shinydashboard::menuItem(
+        "Map",
+        tabName = "view_map",
+        icon = shiny::icon("map")
+      ),
+      shinydashboard::menuItem(
+        "Taxonomic Search",
+        tabName = "taxa_search",
+        icon = shiny::icon("fish")
+      ),
+      shinydashboard::menuItem(
         "Upload Data",
         tabName = "insert_data",
         icon = shiny::icon("plus")
