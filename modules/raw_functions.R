@@ -9,7 +9,7 @@ create_raw_data <- function(
   shiny::reactive({
     # use for other tabs ---
     if (!is.null(tab)) {
-      check_tab_name(tab)
+      error_tab_name(tab)
 
       shiny::req(main_input$tabs == tab)
     }
@@ -41,7 +41,7 @@ create_raw_data <- function(
     cli::cli_alert("selected vars is: {.var {selected_vars}}")
 
     # check slected _vars
-    check_selected_vars(selected_vars = selected_vars)
+    error_selected_vars(selected_vars = selected_vars)
 
     # get groups
 
