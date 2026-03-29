@@ -53,7 +53,7 @@ ui <- shinydashboard::dashboardPage(
         icon = shiny::icon("chart-line")
       ),
       shinydashboard::menuItem(
-        "View Data",
+        "View Raw Data",
         tabName = "view_data",
         icon = shiny::icon("table")
       ),
