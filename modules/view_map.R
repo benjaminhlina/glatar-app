@@ -21,20 +21,44 @@ view_map_server <- function(id, con) {
         )
       }
 
-      # Fetch location data
-      locs <- dplyr::tbl(con, 'tbl_location') |>
-        dplyr::left_join(dplyr::tbl(con, "tbl_samples"))
-
-      # Ensure required columns exist
-      missing_cols <- setdiff(
-        c("latitude", "longitude", "waterbody", "area", "site", "site_depth"),
-        colnames(locs)
+      # Named vector: table name → friendly label
+      data_tables <- c(
+        "tbl_amino_acid" = "Amino Acid",
+        "tbl_calorimetry" = "Calorimetry",
+        "tbl_contaminants" = "Contaminants",
+        "tbl_fatty_acid" = "Fatty Acid",
+        "tbl_isotope" = "Isotope",
+        "tbl_lipid_composition" = "Lipid Composition",
+        "tbl_proxcomp" = "Proximate Composition",
+        "tbl_thiamine" = "Thiamine"
       )
 
-      # remove locations that don't have lon
+      flag_cols <- paste0("has_", sub("tbl_", "", names(data_tables)))
+
+      # ── 1. Base join ──────────────────────────────────────────────────────────────
+      locs <- dplyr::tbl(con, "tbl_location") |>
+        dplyr::left_join(dplyr::tbl(con, "tbl_samples"))
+
+      # ── 2. Flag presence of each data type ──────────────────────────────────────
+      for (i in seq_along(data_tables)) {
+        locs <- locs |>
+          dplyr::left_join(
+            dplyr::tbl(con, names(data_tables)[i]) |>
+              dplyr::distinct(sample_id) |>
+              dplyr::mutate(!!flag_cols[i] := 1L),
+            by = "sample_id"
+          )
+      }
+
+      # ── 3. Aggregate to unique locations ─────────────────────────────────────────
       locs <- locs |>
-        dplyr::filter(!(is.na(longitude))) |>
-        dplyr::select(
+        dplyr::filter(!is.na(longitude)) |>
+        # Replace NA flags with 0 before aggregating
+        dplyr::mutate(
+          dplyr::across(dplyr::all_of(flag_cols), ~ dplyr::coalesce(., 0L))
+        ) |>
+        # Use group_by + summarise (not distinct) so flags are OR'd across samples
+        dplyr::group_by(
           latitude,
           longitude,
           waterbody,
