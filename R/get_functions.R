@@ -261,8 +261,21 @@ get_raw_data <- function(
   #     tbl(con, "tbl_calorimetry")
   #   )
 
-  base_col <- get_data(con) |>
-    colnames()
+  base_col <- c(
+    "submission_id",
+    "sample_id",
+    "user_sample_id",
+    "organism_type",
+    "common_name",
+    "scientific_name",
+    "data_type",
+    "waterbody"
+  )
+
+  # base_col <- get_data(con) |>
+  #   colnames() |>
+  #   sort()
+
   # ----- grab seelected vars ----
 
   if (!is.null(selected_vars) && length(selected_vars) > 0) {
@@ -293,10 +306,10 @@ get_raw_data <- function(
 
     # Select only requested columns (plus keys if needed)
     df <- df |>
-      dplyr::select(
-        dplyr::all_of(base_col),
-        dplyr::any_of(vars_for_select)
-      )
+    dplyr::select(
+      dplyr::all_of(base_col),
+      dplyr::any_of(c(grouping_vars, vars_for_select))
+    )
   }
   if (debug_sql) {
     cli::cli_alert_info(dbplyr::sql_render(df))
