@@ -13,3 +13,5 @@ NAAEDdb_test2.dump
 .gitignore
 .vscode/settings.json
 data/bash/num_col.R
+data/bash/validate_prep.R
+data/bash/test.r
