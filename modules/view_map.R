@@ -23,13 +23,26 @@ view_map_server <- function(id, con) {
 
       # Fetch location data
       locs <- dplyr::tbl(con, 'tbl_location') |>
-        left_join(tbl(con, "tbl_samples"))
+        dplyr::left_join(dplyr::tbl(con, "tbl_samples"))
 
       # Ensure required columns exist
       missing_cols <- setdiff(
         c("latitude", "longitude", "waterbody", "area", "site", "site_depth"),
         colnames(locs)
       )
+
+      # remove locations that don't have lon
+      locs <- locs |>
+        dplyr::filter(!(is.na(longitude))) |>
+        dplyr::select(
+          latitude,
+          longitude,
+          waterbody,
+          area,
+          common_name,
+          scientific_name
+        ) |>
+        dplyr::collect()
 
       # if columns are missing return blank map with
       if (length(missing_cols) > 0) {
