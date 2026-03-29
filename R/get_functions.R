@@ -289,14 +289,11 @@ get_raw_data <- function(
     )
 
     vars_for_select <- unique(vars_for_select)
+
     # Select only requested columns (plus keys if needed)
     df <- df |>
       dplyr::select(
-        data_type,
-        waterbody,
-        scientific_name,
-        length_type,
-        # energy_units,
+        dplyr::all_of(base_col),
         dplyr::any_of(vars_for_select)
       )
   }
