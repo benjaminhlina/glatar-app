@@ -247,6 +247,19 @@ server <- function(input, output, session) {
 
   raw_sidebar_vals$register_raw(view_data)
 
+  # ----- view source -----
+  source_sidebar_vals <- source_sidebar_server(
+    "source_sidebar",
+    con,
+    main_input = input
+  )
+
+  view_source_server(
+    id = "view_source",
+    main_input = input,
+    con = con,
+    source_sidebar_vals = source_sidebar_vals
+  )
   # ---- upload data -----
   upload_data_server("insert_data", con)
   # ---- taxa search -----
