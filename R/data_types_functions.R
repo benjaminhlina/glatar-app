@@ -36,7 +36,7 @@ clean_data_types <- function(
       dplyr::across(dplyr::all_of(flag_cols), ~ dplyr::coalesce(., 0L))
     ) |>
     # Use group_by + summarise (not distinct) so flags are OR'd across samples
-    dplyr::group_by(dplyr::across(dplyr::all_of(group_cols))) |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(group_vars))) |>
     dplyr::summarise(
       dplyr::across(dplyr::all_of(flag_cols), ~ max(.x, na.rm = TRUE)),
       .groups = "drop"
