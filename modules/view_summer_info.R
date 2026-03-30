@@ -24,7 +24,10 @@ view_summary_info_ui <- function(id) {
           width = 12,
           shiny::div(
             style = "overflow-x: auto; width: 100%;",
-            DT::DTOutput(ns("summary_table_output"))
+            shinycssloaders::withSpinner(
+              DT::DTOutput(ns("summary_table_output")),
+              type = 4, 
+              caption = "Please wait for the table to load..."
           )
         )
       ),
