@@ -266,6 +266,92 @@ create_raw_data <- function(
   })
 }
 
+# ----- create source data ------
+
+create_source_data <- function(
+  con,
+  main_input,
+  # input_source,
+  tab = NULL,
+  activated = NULL
+) {
+  shiny::reactive({
+    # use for other tabs ---
+    if (!is.null(tab)) {
+      error_tab_name(tab)
+
+      shiny::req(main_input$tabs == tab)
+    }
+
+    if (!is.null(activated)) {
+      shiny::req(activated)
+    }
+
+    # get connection
+    con_db <- if (inherits(con, "reactive")) con() else con
+
+    source_data <- dplyr::tbl(con, "tbl_sources") |>
+      dplyr::select(-submission_id, -email, -affiliation)
+
+    data_tables <- data_types()
+
+    flag_cols <- paste0("has_", sub("tbl_", "", names(data_tables)))
+
+    samples_data <- dplyr::tbl(con, "tbl_samples") |>
+      dplyr::select(
+        source_id,
+        sample_id,
+        common_name:class_sci,
+        phylum,
+        kingdom,
+        organism_type,
+        tsn
+      )
+
+    samples_data <- get_data_types(
+      con = con,
+      df = samples_data,
+      data_types = data_tables,
+      flag_cols = flag_cols,
+      var = "sample_id"
+    )
+
+    # ── 3. Aggregate to unique locations ─────────────────────────────────────────
+    samples_data <- clean_data_types(
+      df = samples_data,
+      flag_cols = flag_cols,
+      type = data_tables,
+      group_cols = c(
+        source_id,
+        common_name:class_sci,
+        phylum,
+        kingdom,
+        organism_type,
+        tsn
+      ),
+      filter_coords = FALSE
+    ) |>
+      dplyr::select(source_id:tsn, data_types, n_samples)
+
+    samples_data <- samples_data |>
+      dplyr::group_by(source_id, data_types, ) |>
+      dplyr::summarise(
+        dplyr::across(
+          common_name:tsn,
+          ~ paste(unique(.x), collapse = ", ")
+        ),
+        n_total = sum(n_samples),
+        .groups = "drop"
+      )
+
+    source_data_joined <- source_data |>
+      dplyr::collect() |>
+      dplyr::left_join(samples_data) |>
+      dplyr::select(-source_id)
+
+    return(source_data_joined)
+  })
+}
 
 # ---- sumary data -----
 # args here are con and main input with tab being used in view_summary and
