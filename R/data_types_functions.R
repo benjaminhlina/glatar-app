@@ -23,8 +23,11 @@ clean_data_types <- function(
   group_cols,
   filter_coords = TRUE
 ) {
-  if (filter_coords) {
-    df <- df |> dplyr::filter(!is.na(longitude))
+  group_vars <- names(tidyselect::eval_select(rlang::enquo(group_cols), df))
+
+  if (isTRUE(filter_coords)) {
+    df <- df |>
+      dplyr::filter(!is.na(longitude))
   }
 
   df <- df |>
