@@ -12,7 +12,7 @@ plot_ui <- function(title, plot_id, height, ...) {
       shinycssloaders::withSpinner(
         shiny::plotOutput(ns(plot_id), height = height),
         type = 4,
-        caption = "Please wait for the plot to render"
+        caption = "Please wait for the plot to load..."
       )
     )
   )

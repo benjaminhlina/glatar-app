@@ -13,7 +13,7 @@ view_map_ui <- function(id) {
     shinycssloaders::withSpinner(
       leaflet::leafletOutput(ns("map"), height = "700px", width = "100%"),
       type = 4,
-      caption = "Please wait for map to load"
+      caption = "Please wait for map to load..."
     )
   )
 }
@@ -32,16 +32,7 @@ view_map_server <- function(id, con) {
       }
 
       # Named vector: table name → friendly label
-      data_tables <- c(
-        "tbl_amino_acid" = "Amino Acid",
-        "tbl_calorimetry" = "Calorimetry",
-        "tbl_contaminants" = "Contaminants",
-        "tbl_fatty_acid" = "Fatty Acid",
-        "tbl_isotope" = "Isotope",
-        "tbl_lipid_composition" = "Lipid Composition",
-        "tbl_proxcomp" = "Proximate Composition",
-        "tbl_thiamine" = "Thiamine"
-      )
+      data_tables <- data_types()
 
       flag_cols <- paste0("has_", sub("tbl_", "", names(data_tables)))
 
@@ -50,52 +41,32 @@ view_map_server <- function(id, con) {
         dplyr::left_join(dplyr::tbl(con, "tbl_samples"))
 
       # ── 2. Flag presence of each data type ──────────────────────────────────────
-      for (i in seq_along(data_tables)) {
-        locs <- locs |>
-          dplyr::left_join(
-            dplyr::tbl(con, names(data_tables)[i]) |>
-              dplyr::distinct(sample_id) |>
-              dplyr::mutate(!!flag_cols[i] := 1L),
-            by = "sample_id"
-          )
-      }
+      locs <- get_data_types(
+        con,
+        df = locs,
+        data_types = data_tables,
+        flag_cols = flag_cols,
+        var = "sample_id"
+      )
 
       # ── 3. Aggregate to unique locations ─────────────────────────────────────────
-      locs <- locs |>
-        dplyr::filter(!is.na(longitude)) |>
-        # Replace NA flags with 0 before aggregating
+      locs <- clean_data_types(
+        df = locs,
+        flag_cols = flag_cols,
+        type = data_tables,
+        filter_coords = TRUE,
+        group_cols = c(
+          "latitude",
+          "longitude",
+          "waterbody",
+          "area",
+          "common_name",
+          "scientific_name",
+          "pi_name",
+          "wild_lab"
+        )
+      ) |>
         dplyr::mutate(
-          dplyr::across(dplyr::all_of(flag_cols), ~ dplyr::coalesce(., 0L))
-        ) |>
-        # Use group_by + summarise (not distinct) so flags are OR'd across samples
-        dplyr::group_by(
-          latitude,
-          longitude,
-          waterbody,
-          area,
-          common_name,
-          scientific_name,
-          pi_name,
-          wild_lab
-        ) |>
-        dplyr::summarise(
-          dplyr::across(dplyr::all_of(flag_cols), max),
-          .groups = "drop"
-        ) |>
-        dplyr::collect() |>
-        dplyr::mutate(
-          data_types = purrr::pmap_chr(
-            dplyr::pick(dplyr::all_of(flag_cols)),
-            \(...) {
-              flags <- c(...)
-              labels <- unname(data_tables)[as.logical(flags)]
-              if (length(labels) == 0) {
-                "None"
-              } else {
-                paste(labels, collapse = ", ")
-              }
-            }
-          ),
           wild_lab = stringr::str_to_sentence(wild_lab),
           popup_info = paste(
             "<b>Waterbody:</b>",
@@ -114,7 +85,10 @@ view_map_server <- function(id, con) {
             pi_name,
             "<br>",
             "<b>Data Types:</b>",
-            data_types
+            data_types,
+            "<br>",
+            "<b>n:</b>",
+            n_samples
           )
         )
 

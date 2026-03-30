@@ -53,6 +53,11 @@ ui <- shinydashboard::dashboardPage(
         icon = shiny::icon("table")
       ),
       shinydashboard::menuItem(
+        "View Source Material",
+        tabName = "view_source",
+        icon = shiny::icon("book")
+      ),
+      shinydashboard::menuItem(
         "Map",
         tabName = "view_map",
         icon = shiny::icon("map")
@@ -70,7 +75,7 @@ ui <- shinydashboard::dashboardPage(
       shinydashboard::menuItem(
         "Documentation",
         tabName = "docs",
-        icon = shiny::icon("book")
+        icon = shiny::icon("print")
       ),
       shinydashboard::menuItem(
         "About",
@@ -96,6 +101,10 @@ ui <- shinydashboard::dashboardPage(
     conditionalPanel(
       "input.tabs == 'view_data'",
       raw_data_sidebar_ui("raw_sidebar")
+    ),
+    conditionalPanel(
+      "input.tabs == 'view_source'",
+      source_sidebar_ui("source_sidebar")
     )
   ),
   # ---- create display panes ----
@@ -125,6 +134,10 @@ ui <- shinydashboard::dashboardPage(
         view_scatter_plot_ui("scatter_plot")
       ),
       shinydashboard::tabItem(tabName = "view_data", view_data_ui("view_data")),
+      shinydashboard::tabItem(
+        tabName = "view_source",
+        view_source_ui("view_source")
+      ),
       shinydashboard::tabItem(
         tabName = "insert_data",
         upload_data_ui("insert_data")
@@ -234,6 +247,19 @@ server <- function(input, output, session) {
 
   raw_sidebar_vals$register_raw(view_data)
 
+  # ----- view source -----
+  source_sidebar_vals <- source_sidebar_server(
+    "source_sidebar",
+    con,
+    main_input = input
+  )
+
+  view_source_server(
+    id = "view_source",
+    main_input = input,
+    con = con,
+    source_sidebar_vals = source_sidebar_vals
+  )
   # ---- upload data -----
   upload_data_server("insert_data", con)
   # ---- taxa search -----
