@@ -10,7 +10,11 @@ view_map_ui <- function(id) {
       (i.e., common and scientific name), the name of the collector, and the data in GLATAR that was collected. 
       The colour of each location indicates whether the sample was derived from a wild or lab organism. "
     ),
-    leaflet::leafletOutput(ns("map"), height = "700px", width = "100%")
+    shinycssloaders::withSpinner(
+      leaflet::leafletOutput(ns("map"), height = "700px", width = "100%"),
+      type = 4,
+      caption = "Please wait for map to load"
+    )
   )
 }
 
@@ -113,25 +117,6 @@ view_map_server <- function(id, con) {
             data_types
           )
         )
-
-      # Ensure required columns exist
-      # missing_cols <- setdiff(
-      #   c("latitude", "longitude", "waterbody", "area", "site", "site_depth"),
-      #   colnames(locs)
-      # )
-
-      # # if columns are missing return blank map with
-      # if (length(missing_cols) > 0) {
-      #   return(
-      #     leaflet::leaflet() |>
-      #       leaflet::addTiles() |>
-      #       leaflet::addMarkers(
-      #         lng = 0,
-      #         lat = 0,
-      #         popup = "Missing Required Columns"
-      #       )
-      #   )
-      # }
 
       # Ensure data is not empty
 
