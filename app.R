@@ -53,6 +53,11 @@ ui <- shinydashboard::dashboardPage(
         icon = shiny::icon("table")
       ),
       shinydashboard::menuItem(
+        "View Source Material",
+        tabName = "view_source",
+        icon = shiny::icon("book")
+      ),
+      shinydashboard::menuItem(
         "Map",
         tabName = "view_map",
         icon = shiny::icon("map")
@@ -70,7 +75,7 @@ ui <- shinydashboard::dashboardPage(
       shinydashboard::menuItem(
         "Documentation",
         tabName = "docs",
-        icon = shiny::icon("book")
+        icon = shiny::icon("print")
       ),
       shinydashboard::menuItem(
         "About",
@@ -125,6 +130,10 @@ ui <- shinydashboard::dashboardPage(
         view_scatter_plot_ui("scatter_plot")
       ),
       shinydashboard::tabItem(tabName = "view_data", view_data_ui("view_data")),
+      shinydashboard::tabItem(
+        tabName = "view_source",
+        view_source_ui("view_source")
+      ),
       shinydashboard::tabItem(
         tabName = "insert_data",
         upload_data_ui("insert_data")
