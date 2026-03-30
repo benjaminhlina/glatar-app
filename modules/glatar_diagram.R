@@ -327,7 +327,7 @@ glatar_diagram_ui <- function() {
       desc: "Contaminants in the database include total and methylmercury and Polychlorinated biphenyl (PCBs; i.e., individual congeners and totals) concentrations in fish and invertabrate tissues. These measurments are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies, as well as, reflect legacy contaminant loads and are used in ecological risk assessments.",
       tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment", "Total Hg","Methylmercury", "μg/g wet wt","Bioaccumulation"],
       doc:["documentation/polychlorinated_biphenyls_documentation.pdf", "documentation/mercury_and_methylmercury_documentation.pdf"], 
-      docLabels: ["View Documentation — Mercury", "View Documentation — PCBs"]
+      docLabels: ["View Documentation — PCBs", "View Documentation — Mercury"]
     }
   ];
 
