@@ -26,7 +26,7 @@ view_source_ui <- function(id) {
   )
 }
 
-view_source_server <- function(id, main_input) {
+view_source_server <- function(id, main_input, con, source_sidebar_vals) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observeEvent(
       main_input$tabs,
@@ -38,5 +38,22 @@ view_source_server <- function(id, main_input) {
       },
       ignoreInit = TRUE
     )
+    ns <- session$ns
+
+    # reactive export df
+    source_export_df <- shiny::reactiveVal(NULL)
+
+    # reactive when raw is actived
+    source_activated <- shiny::reactiveVal(FALSE)
+
+    shiny::observeEvent(
+      main_input$tabs,
+      {
+        shiny::req(main_input$tabs == "view_source")
+        source_activated(TRUE)
+      },
+      ignoreInit = TRUE
+    )
+
   })
 }
