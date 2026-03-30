@@ -32,6 +32,21 @@ get_data <- function(con, debug_sql = FALSE) {
   return(df)
 }
 
+
+# ----- get data types we will move one sec -----
+get_data_types <- function(con, df, data_types, flag_cols, var) {
+  for (i in seq_along(data_types)) {
+    df <- df |>
+      dplyr::left_join(
+        dplyr::tbl(con, names(data_types)[i]) |>
+          dplyr::distinct(.data[[var]]) |>
+          dplyr::mutate(!!flag_cols[i] := 1L),
+        by = var
+      )
+  }
+  return(df)
+}
+
 # ----- get dropdown hoices -----
 get_dropdown_choices <- function(df, type) {
   df <- df |>
