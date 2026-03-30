@@ -21,8 +21,9 @@ view_data_ui <- function(id) {
             style = "overflow-x: auto; width: 100%;",
             shinycssloaders::withSpinner(
               DT::DTOutput(ns("raw_data_output")),
-              type = 4, 
+              type = 4,
               caption = "Please wait for the table to load..."
+            )
           )
         )
       )
