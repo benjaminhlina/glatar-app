@@ -101,6 +101,10 @@ ui <- shinydashboard::dashboardPage(
     conditionalPanel(
       "input.tabs == 'view_data'",
       raw_data_sidebar_ui("raw_sidebar")
+    ),
+    conditionalPanel(
+      "input.tabs == 'view_source'",
+      source_sidebar_ui("source_sidebar")
     )
   ),
   # ---- create display panes ----
