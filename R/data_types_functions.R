@@ -31,7 +31,6 @@ clean_data_types <- function(
   }
 
   df <- df |>
-    dplyr::filter(!is.na(longitude)) |>
     dplyr::mutate(
       dplyr::across(dplyr::all_of(flag_cols), ~ dplyr::coalesce(., 0L))
     ) |>
