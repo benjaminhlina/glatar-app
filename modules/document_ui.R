@@ -18,6 +18,11 @@ docs_ui <- function(id) {
           shiny::column(
             width = 6,
             shiny::tags$h4("Templates"),
+            shiny::tags$h5(
+              "Basic Data Entry Template - collects energy density, 
+                  proximate composition, and stable isotope data."
+            ),
+
             shiny::tags$ul(
               shiny::tags$li(
                 style = "white-space: nowrap;",
@@ -26,14 +31,15 @@ docs_ui <- function(id) {
                   href = "data-entry-template/GLATAR_data_entry_template_v21.xlsx",
                   download = "GLATAR_data_entry_template_v21.xlsx",
                   target = "_blank"
-                ),
-                shiny::tags$span(
-                  " - collects energy density, 
-                  proximate composition, and stable isotope data.",
-                  style = "display: inline;"
                 )
-              ),
-              # add more templates here
+              )
+            ),
+
+            shiny::tags$h5(
+              "Extended Data Entry Template - additional fields to collect thiamine, fatty and amino acid, mercury, and PCB data."
+            ),
+            # add more templates here
+            shiny::tags$ul(
               shiny::tags$li(
                 style = "white-space: nowrap;",
                 shiny::tags$a(
@@ -41,10 +47,6 @@ docs_ui <- function(id) {
                   href = "data-entry-template/GLATAR_data_entry_template_v21_long.xlsx",
                   download = "GLATAR_data_entry_template_v21_long.xlsx",
                   target = "_blank",
-                  style = "display: inline;"
-                ),
-                shiny::tags$span(
-                  " - additional fields to collect thiamine, fatty and amino acid, mercury, and PCB data.",
                   style = "display: inline;"
                 )
               )
