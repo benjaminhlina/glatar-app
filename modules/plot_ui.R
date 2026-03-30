@@ -9,7 +9,11 @@ plot_ui <- function(title, plot_id, height, ...) {
       solidHeader = TRUE,
       width = 12,
       # plotlyOutput("summary_histogram", height = "300px")
-      shiny::plotOutput(ns(plot_id), height = height)
+      shinycssloaders::withSpinner(
+        shiny::plotOutput(ns(plot_id), height = height),
+        type = 4,
+        caption = "Please wait for the plot to render"
+      )
     )
   )
 }
