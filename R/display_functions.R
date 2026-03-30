@@ -527,7 +527,8 @@ display_validation_status <- function(
     } else {
       shiny::tagList(
         shiny::p(
-          "✖ Validation failed - please fix the following issues:",
+          "✖ Validation failed - please fix the following issues. If you can not resolve 
+          the issue (e.g., common name not in the database) please contact the GLATAR manager",
           style = "color:red; font-weight:600;"
         ),
         shiny::tableOutput(ns("error_table"))
