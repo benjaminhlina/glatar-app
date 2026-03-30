@@ -326,7 +326,8 @@ glatar_diagram_ui <- function() {
       grad: ["#be0020ff","#6a0013ff"],
       desc: "Contaminants in the database include total and methylmercury and Polychlorinated biphenyl (PCBs; i.e., individual congeners and totals) concentrations in fish and invertabrate tissues. These measurments are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies, as well as, reflect legacy contaminant loads and are used in ecological risk assessments.",
       tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment", "Total Hg","Methylmercury", "μg/g wet wt","Bioaccumulation"],
-      doc:["documentation/polychlorinated_biphenyls_documentation.pdf", "documentation/mercury_and_methylmercury_documentation.pdf"]
+      doc:["documentation/polychlorinated_biphenyls_documentation.pdf", "documentation/mercury_and_methylmercury_documentation.pdf"], 
+      docLabels: ["View Documentation — Mercury", "View Documentation — PCBs"]
     }
   ];
 
@@ -562,15 +563,22 @@ glatar_diagram_ui <- function() {
    // doc link
       var docEl = document.getElementById("card-doc");
       docEl.innerHTML = "";
-      if (c.doc) {
+
+      var docs = Array.isArray(c.doc) ? c.doc : (c.doc ? [c.doc] : []);
+
+     if (docs.length > 0) {  
         docEl.classList.add("has-doc");
-        var a = document.createElement("a");
-        a.className = "glatar-doc-link";
-        a.href = c.doc;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
-        a.innerHTML = \'<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>\' + "View Documentation";
-        docEl.appendChild(a);
+        docs.forEach(function(docUrl, i) {   
+
+          var label = (c.docLabels && c.docLabels[i]) ? c.docLabels[i] : "View Documentation";
+          var a = document.createElement("a");
+          a.className = "glatar-doc-link";
+          a.href = docUrl;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.innerHTML = \'<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>\' + label;
+          docEl.appendChild(a);
+    });
       } else {
         docEl.classList.remove("has-doc");
       }
