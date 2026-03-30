@@ -8,7 +8,7 @@ about_ui <- function(id) {
     shiny::h3("Funding"),
     shiny::tags$ul(
       shiny::tags$li(
-        "This database and toolbox is funded by the Great Lakes Fishery Commission
+        "This database and toolbox are funded by the Great Lakes Fishery Commission
       through grant number 2025_JOH_460024."
       )
     ),
@@ -16,7 +16,7 @@ about_ui <- function(id) {
     shiny::tags$ul(
       shiny::tags$li(
         "The following individuals provided thoughts, critiques, and design for this project with 
-        the core group being: Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers, 
+        the core group being Timothy B. Johnson, James E. Breck, Steven R. Chipps, David Deslauriers, 
         Mark W. Kershner, Charles P. Madenjian, Brent W. Metcalfe, 
         Steven A. Pothoven, Michael D. Rennie, and Benjamin L. Hlina."
       ),
