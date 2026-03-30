@@ -22,7 +22,7 @@ view_source_ui <- function(id) {
             shinycssloaders::withSpinner(
               DT::DTOutput(ns("source_output")),
               type = 4,
-              caption = "Please wait for table to load..."
+              caption = "Please wait for the table to load..."
             )
           )
         )

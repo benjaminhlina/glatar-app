@@ -13,7 +13,7 @@ view_map_ui <- function(id) {
     shinycssloaders::withSpinner(
       leaflet::leafletOutput(ns("map"), height = "700px", width = "100%"),
       type = 4,
-      caption = "Please wait for map to load..."
+      caption = "Please wait for the map to load..."
     )
   )
 }
