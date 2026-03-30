@@ -54,6 +54,7 @@ view_map_server <- function(id, con) {
         df = locs,
         flag_cols = flag_cols,
         type = data_tables,
+        filter_coords = TRUE,
         group_cols = c(
           "latitude",
           "longitude",
@@ -84,7 +85,10 @@ view_map_server <- function(id, con) {
             pi_name,
             "<br>",
             "<b>Data Types:</b>",
-            data_types
+            data_types,
+            "<br>",
+            "<b>n:</b>",
+            n_samples
           )
         )
 
