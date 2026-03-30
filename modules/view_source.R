@@ -18,10 +18,12 @@ view_source_ui <- function(id) {
           width = 12,
           div(
             style = "overflow-x: auto; width: 100%;",
-            
+
             shinycssloaders::withSpinner(
-              DT::DTOutput(ns("source_output")), 
-              type = 4, caption = "Please wait for table to load..."
+              DT::DTOutput(ns("source_output")),
+              type = 4,
+              caption = "Please wait for table to load..."
+            )
           )
         )
       )
