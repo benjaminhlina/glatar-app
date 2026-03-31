@@ -34,11 +34,11 @@ get_data <- function(con, debug_sql = FALSE) {
 
 
 # ----- get data types we will move one sec -----
-get_data_types <- function(con, df, data_types, flag_cols, var) {
-  for (i in seq_along(data_types)) {
+get_data_tables <- function(con, df, data_tables, flag_cols, var) {
+  for (i in seq_along(data_tables)) {
     df <- df |>
       dplyr::left_join(
-        dplyr::tbl(con, names(data_types)[i]) |>
+        dplyr::tbl(con, names(data_tables)[i]) |>
           dplyr::distinct(.data[[var]]) |>
           dplyr::mutate(!!flag_cols[i] := 1L),
         by = var

@@ -1,5 +1,5 @@
 # ----- all the data types we want -----
-data_types <- function() {
+data_tables <- function() {
   data_tables <- c(
     "tbl_amino_acid" = "Amino Acid",
     "tbl_calorimetry" = "Calorimetry",
@@ -16,7 +16,7 @@ data_types <- function() {
 
 # ------ clean data types -----
 
-clean_data_types <- function(
+clean_data_tables <- function(
   df,
   flag_cols,
   type,
@@ -43,7 +43,7 @@ clean_data_types <- function(
     ) |>
     dplyr::collect() |>
     dplyr::mutate(
-      data_types = purrr::pmap_chr(
+      data_tables = purrr::pmap_chr(
         dplyr::pick(dplyr::all_of(flag_cols)),
         \(...) {
           flags <- c(...)

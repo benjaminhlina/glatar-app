@@ -32,28 +32,28 @@ view_map_server <- function(id, con) {
       }
 
       # Named vector: table name → friendly label
-      data_tables <- data_types()
+      data_table <- data_tables()
 
-      flag_cols <- paste0("has_", sub("tbl_", "", names(data_tables)))
+      flag_cols <- paste0("has_", sub("tbl_", "", names(data_table)))
 
       # ── 1. Base join ──────────────────────────────────────────────────────────────
       locs <- dplyr::tbl(con, "tbl_location") |>
         dplyr::left_join(dplyr::tbl(con, "tbl_samples"))
 
       # ── 2. Flag presence of each data type ──────────────────────────────────────
-      locs <- get_data_types(
+      locs <- get_data_tables(
         con,
         df = locs,
-        data_types = data_tables,
+        data_tables = data_table,
         flag_cols = flag_cols,
         var = "sample_id"
       )
 
       # ── 3. Aggregate to unique locations ─────────────────────────────────────────
-      locs <- clean_data_types(
+      locs <- clean_data_tables(
         df = locs,
         flag_cols = flag_cols,
-        type = data_tables,
+        type = data_table,
         filter_coords = TRUE,
         group_cols = c(
           "latitude",
@@ -85,7 +85,7 @@ view_map_server <- function(id, con) {
             pi_name,
             "<br>",
             "<b>Data Types:</b>",
-            data_types,
+            data_tables,
             "<br>",
             "<b>n:</b>",
             n_samples

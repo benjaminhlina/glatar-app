@@ -293,7 +293,7 @@ create_source_data <- function(
     source_data <- dplyr::tbl(con, "tbl_sources") |>
       dplyr::select(-submission_id, -email, -affiliation)
 
-    data_tables <- data_types()
+    data_tables <- data_tables()
 
     flag_cols <- paste0("has_", sub("tbl_", "", names(data_tables)))
 
@@ -308,16 +308,16 @@ create_source_data <- function(
         tsn
       )
 
-    samples_data <- get_data_types(
+    samples_data <- get_data_tables(
       con = con,
       df = samples_data,
-      data_types = data_tables,
+      data_tables = data_tables,
       flag_cols = flag_cols,
       var = "sample_id"
     )
 
     # ── 3. Aggregate to unique locations ─────────────────────────────────────────
-    samples_data <- clean_data_types(
+    samples_data <- clean_data_tables(
       df = samples_data,
       flag_cols = flag_cols,
       type = data_tables,
@@ -331,10 +331,10 @@ create_source_data <- function(
       ),
       filter_coords = FALSE
     ) |>
-      dplyr::select(source_id:tsn, data_types, n_samples)
+      dplyr::select(source_id:tsn, data_tables, n_samples)
 
     samples_data <- samples_data |>
-      dplyr::group_by(source_id, data_types, ) |>
+      dplyr::group_by(source_id, data_tables) |>
       dplyr::summarise(
         dplyr::across(
           common_name:tsn,
