@@ -151,25 +151,9 @@ summary_sidebar_server <- function(id, con, main_input) {
         df <- sidebar_df()
         shiny::req(df)
 
-        theme_choices <- c(
-          "Energy Density",
-          "Body Composition",
-          "Stable Isotopes",
-          "Amino Acids",
-          "Fatty Acids",
-          "Contaminates",
-          "Thiamine"
-        )
-
+        theme_choices <- themes()
         # ---- get data types -----
-        data_types_choices <- c(
-          "Individual",
-          "Composite",
-          "Mean",
-          "SD",
-          "Equation"
-        )
-
+        data_types_choices <- data_types()
         # get grouping snad numerical values
         grouping_choices <- get_groups(df) |>
           sort()
