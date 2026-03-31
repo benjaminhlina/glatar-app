@@ -14,6 +14,31 @@ data_tables <- function() {
   return(data_tables)
 }
 
+data_types <- function() {
+  data_types <- c(
+    "Individual",
+    "Composite",
+    "Mean",
+    "SD",
+    "Equation"
+  )
+  return(data_types)
+}
+
+# ----- themes -----
+
+themes <- function() {
+  themes <- c(
+    "Energy Density",
+    "Body Composition",
+    "Stable Isotopes",
+    "Amino Acids",
+    "Fatty Acids",
+    "Contaminates",
+    "Thiamine"
+  )
+  return(themes)
+}
 # ------ clean data types -----
 
 clean_data_tables <- function(
