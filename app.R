@@ -225,7 +225,8 @@ server <- function(input, output, session) {
   raw_sidebar_vals <- raw_data_sidebar_server(
     "raw_sidebar",
     con,
-    main_input = input
+    main_input = input,
+    auth_state = tab_auth$auth_state
   )
   view_data <- view_data_server(
     "view_data",
