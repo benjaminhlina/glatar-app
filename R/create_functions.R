@@ -277,7 +277,9 @@ create_searching_data <- function(
   shiny::reactive({
     if (!is.null(source_data)) {
       shiny::req(source_data)
+
       df <- source_data
+
       search_cols <- colnames(df)
     } else {
       if (is.null(con) || is.null(tbl_name)) {
@@ -288,7 +290,7 @@ create_searching_data <- function(
       }
 
       df <- dplyr::tbl(con, tbl_name)
-      search_cols <- dplyr::tbl(con, tbl_name) |>
+      search_cols <- df |>
         colnames()
     }
 
