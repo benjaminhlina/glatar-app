@@ -101,10 +101,6 @@ ui <- shinydashboard::dashboardPage(
     conditionalPanel(
       "input.tabs == 'view_data'",
       raw_data_sidebar_ui("raw_sidebar")
-    ),
-    conditionalPanel(
-      "input.tabs == 'view_source'",
-      source_sidebar_ui("source_sidebar")
     )
   ),
   # ---- create display panes ----
@@ -248,11 +244,6 @@ server <- function(input, output, session) {
   raw_sidebar_vals$register_raw(view_data)
 
   # ----- view source -----
-  source_sidebar_vals <- source_sidebar_server(
-    "source_sidebar",
-    con,
-    main_input = input
-  )
 
   view_source_server(
     id = "view_source",
