@@ -265,7 +265,61 @@ create_raw_data <- function(
     return(df)
   })
 }
+# ------- create filtered souce ------
 
+create_searching_data <- function(
+  input,
+  con = NULL,
+  tbl_name = NULL,
+  source_data = NULL,
+  collect = TRUE
+) {
+  shiny::reactive({
+    if (!is.null(source_data)) {
+      shiny::req(source_data)
+      df <- source_data
+      search_cols <- colnames(df)
+    } else {
+      if (is.null(con) || is.null(tbl_name)) {
+        cli::cli_abort(
+          "Must provide both {.arg con} and {.arg tbl_name} 
+          when {.arg source_data} is {.val NULL}."
+        )
+      }
+
+      df <- dplyr::tbl(con, tbl_name)
+      search_cols <- dplyr::tbl(con, tbl_name) |>
+        colnames()
+    }
+
+    search_term <- input$search_bar
+
+    # Only filter if the user has typed something
+    if (!is.null(search_term) && nzchar(trimws(search_term))) {
+      df <- search_table(
+        df = df,
+        search_term = search_term,
+        search_cols = search_cols
+      )
+    }
+    if (isTRUE(collect) && !is.data.frame(df)) {
+      df <- df |>
+        dplyr::arrange(common_name) |>
+        dplyr::collect()
+    } else {
+      df
+    }
+
+    current_names <- names(df)
+
+    names(df) <- dplyr::coalesce(
+      nice_name_lookup[current_names],
+      current_names
+    )
+
+    return(df)
+  })
+}
 # ----- create source data ------
 
 create_source_data <- function(
