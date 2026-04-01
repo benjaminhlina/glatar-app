@@ -310,7 +310,14 @@ create_searching_data <- function(
       df <- df |>
         dplyr::arrange(common_name)
     }
-
+    if (isFALSE(collect)) {
+      df <- df |> 
+        dplyr::select(-c(common_name:class_sci,
+                      phylum,
+                      kingdom,
+                      organism_type,
+                      tsn))
+    }
   
 
 
