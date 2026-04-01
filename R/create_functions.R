@@ -311,12 +311,6 @@ create_searching_data <- function(
         dplyr::arrange(common_name)
     }
 
-    current_names <- names(df)
-
-    names(df) <- dplyr::coalesce(
-      nice_name_lookup[current_names],
-      current_names
-    )
     if (isFALSE(collect)) {
       df <- df |> 
         select(-c(common_name:class_sci,
@@ -325,6 +319,22 @@ create_searching_data <- function(
                       organism_type,
                       tsn))
     }
+
+
+    current_names <- names(df)
+
+    names(df) <- dplyr::coalesce(
+      nice_name_lookup[current_names],
+      current_names
+    )
+    # if (isFALSE(collect)) {
+      # df <- df |> 
+        # select(-c(common_name:class_sci,
+                      # phylum,
+                      # kingdom,
+                      # organism_type,
+                      # tsn))
+    # }
 
     return(df)
   })
