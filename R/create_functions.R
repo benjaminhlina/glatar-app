@@ -317,6 +317,14 @@ create_searching_data <- function(
       nice_name_lookup[current_names],
       current_names
     )
+    if (isFALSE(collect)) {
+      df <- df |> 
+        select(-c(common_name:class_sci,
+                      phylum,
+                      kingdom,
+                      organism_type,
+                      tsn))
+    }
 
     return(df)
   })
