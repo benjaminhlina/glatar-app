@@ -8,8 +8,35 @@ upload_data_ui <- function(id) {
     shiny::h4("Instructions"),
     shiny::tags$ol(
       shiny::tags$li(
-        "Go to the Documentation tab and download either the Basic or Extended 
-      Data Template (in Excel format)."
+        "Go to the Documentation tab or download them from the links below for either the Basic or Extended 
+      Data Template (in Excel format)"
+      ),
+      shiny::br(),
+      shiny::tags$ul(
+        shiny::tags$li(
+          "Basic Data Entry Template - collects energy density, 
+                  proximate composition, and stable isotope data."
+        ),
+        shiny::tags$li(
+          shiny::tags$a(
+            "Basic Data Entry Template (v21)",
+            href = "data-entry-template/GLATAR_data_entry_template_v21.xlsx",
+            download = "GLATAR_data_entry_template_v21.xlsx",
+            target = "_blank"
+          )
+        ),
+        shiny::tags$li(
+          "Extended Data Entry Template - additional fields to collect thiamine, fatty and amino acid, mercury, and PCB data."
+        ),
+        shiny::tags$li(
+          shiny::tags$a(
+            "Extended Data Entry Template (v21)",
+            href = "data-entry-template/GLATAR_data_entry_template_v21_long.xlsx",
+            download = "GLATAR_data_entry_template_v21_long.xlsx",
+            target = "_blank",
+            style = "display: inline;"
+          )
+        )
       ),
       shiny::br(),
       shiny::tags$li(
