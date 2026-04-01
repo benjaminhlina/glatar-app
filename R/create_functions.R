@@ -294,11 +294,8 @@ create_searching_data <- function(
         colnames()
     }
 
-    cli::cli_alert_info("df is the following type: {.val {class(df)}}")
-
     search_term <- input$search_bar
 
-    cli::cli_alert_success("Search term is: {.field {search_term}}")
     # Only filter if the user has typed something
     if (!is.null(search_term) && nzchar(trimws(search_term))) {
       df <- search_table(
@@ -314,9 +311,15 @@ create_searching_data <- function(
         dplyr::arrange(common_name)
     }
     if (isFALSE(collect)) {
-      df <- df |>
-        dplyr::select(-c(genus:class_sci, phylum, kingdom, organism_type, tsn))
+      df <- df |> 
+        dplyr::select(-c(genus:class_sci,
+                      phylum,
+                      kingdom,
+                      organism_type,
+                      tsn))
     }
+  
+
 
     current_names <- names(df)
 
@@ -324,6 +327,14 @@ create_searching_data <- function(
       nice_name_lookup[current_names],
       current_names
     )
+    # if (isFALSE(collect)) {
+      # df <- df |> 
+        # select(-c(common_name:class_sci,
+                      # phylum,
+                      # kingdom,
+                      # organism_type,
+                      # tsn))
+    # }
 
     return(df)
   })
