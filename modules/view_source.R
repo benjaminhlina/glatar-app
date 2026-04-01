@@ -64,7 +64,7 @@ view_source_server <- function(id, con, main_input) {
       activated = source_activated()
     )
     observe({
-      cli::cli_alert_danger("Class of source: {.val {class(source_data())}}")
+      cli::cli_alert_info("Class of source: {.val {class(source_data())}}")
     })
 
     filtered_source <- create_searching_data(
@@ -74,7 +74,7 @@ view_source_server <- function(id, con, main_input) {
     )
 
     observe({
-      cli::cli_alert_danger(
+      cli::cli_alert_info(
         "Class of filtered data: {.val {class(filtered_source())}}"
       )
     })
