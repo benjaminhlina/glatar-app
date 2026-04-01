@@ -107,7 +107,7 @@ upload_data_ui <- function(id) {
 }
 
 
-upload_data_server <- function(id, con) {
+upload_data_server <- function(id, con, auth_state) {
   shiny::moduleServer(id, function(input, output, session) {
     options(shiny.maxRequestSize = 20 * 1024^2)
     ns <- session$ns
@@ -120,6 +120,7 @@ upload_data_server <- function(id, con) {
     tables_split_full <- shiny::reactiveVal(NULL)
 
     shiny::observeEvent(input$upload_btn, {
+      shiny::req(auth_state())
       # ---- get file upload -----
       load_indicator(input, output)
 
@@ -432,6 +433,7 @@ upload_data_server <- function(id, con) {
 
     # ---- submit to database ----
     shiny::observeEvent(input$submit_btn, {
+      shiny::req(auth_state())
       shiny::req(validated_submission())
       shiny::req(validated_sources())
       shiny::req(validated_samples())
