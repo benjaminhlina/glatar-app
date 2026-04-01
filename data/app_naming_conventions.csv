@@ -10,14 +10,15 @@ sample_year,Sample Year
 publication_year,Publication Year
 publication_type,Publication Type
 title,Title
-author_name,Authors 
+author_names,Authors 
 journal_name,Journal
 issue,Issue
 volume,Volume
 publisher,Publisher
 editor,Editor
-isbn,ISBN
+ibsn,IBSN
 doi,DOI
+pages,Pages
 data_tables,Data Collected
 n_total,Number of Samples in GLATAR
 common_name,Common Name
