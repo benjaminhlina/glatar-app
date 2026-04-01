@@ -10,22 +10,15 @@ view_source_ui <- function(id) {
       shiny::p(
         "This panel displays information on source material supporting the data that is in GLATAR."
       ),
-      shiny::fluidRow(
-        shinydashboard::box(
-          title = "Source Material Table",
-          status = "primary",
-          solidHeader = TRUE,
-          width = 12,
-          div(
-            style = "overflow-x: auto; width: 100%;",
-
-            shinycssloaders::withSpinner(
-              DT::DTOutput(ns("source_output")),
-              type = 4,
-              caption = "Please wait for the table to load..."
-            )
-          )
-        )
+      shiny::textInput(
+        ns("search_bar"),
+        label = "Search Source Material",
+        placeholder = "Type to filter source material..."
+      ),
+      shinycssloaders::withSpinner(
+        DT::DTOutput(ns("source_output")),
+        type = 4,
+        caption = "Please wait for the table to load..."
       )
     )
   )
