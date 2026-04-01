@@ -42,3 +42,11 @@ compress_row_index <- function(row_index_str, min_run = 5) {
   out <- paste(parts, collapse = ", ")
   return(out)
 }
+
+
+make_column_defs <- function(...) {
+  args <- list(...)
+  lapply(seq_along(args), function(i) {
+    list(width = paste0(args[[i]], "px"), targets = i - 1)
+  })
+}
