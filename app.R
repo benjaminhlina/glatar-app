@@ -148,19 +148,18 @@ ui <- shinydashboard::dashboardPage(
   )
 )
 
-# ---- secure ui -----
-ui <- secure_ui(
-  ui,
-  # off = TRUE
-)
-
+# ------ Main Server -----
 server <- function(input, output, session) {
   options(shiny.usecairo = FALSE)
   # options(shiny.trace = TRUE)
   ram_tracker()
   session$allowReconnect("force")
 
-  res_auth <- authorize_server(
+  # ---- tab authentication -----
+  tab_auth <- tab_auth_server(
+    input = input,
+    output = output,
+    session = session,
     credentials = credentials,
     # off = TRUE
   )
@@ -232,13 +231,15 @@ server <- function(input, output, session) {
   raw_sidebar_vals <- raw_data_sidebar_server(
     "raw_sidebar",
     con,
-    main_input = input
+    main_input = input,
+    auth_state = tab_auth$auth_state
   )
   view_data <- view_data_server(
     "view_data",
     con,
     main_input = input,
-    raw_sidebar_vals = raw_sidebar_vals
+    raw_sidebar_vals = raw_sidebar_vals,
+    auth_state = tab_auth$auth_state
   )
 
   raw_sidebar_vals$register_raw(view_data)
@@ -251,12 +252,14 @@ server <- function(input, output, session) {
     main_input = input
   )
   # ---- upload data -----
-  upload_data_server("insert_data", con)
+  upload_data_server("insert_data", con, auth_state = tab_auth$auth_state)
   # ---- taxa search -----
   taxa_search_server("taxa_search", con)
   docs_server("docs")
 
-  # ram_tracker()
+  observeEvent(input$logout_btn, {
+    tab_auth$logout()
+  })
 }
 
 # render ui and serve together to create dashboard
