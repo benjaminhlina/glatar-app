@@ -33,7 +33,13 @@ view_data_ui <- function(id) {
 
 
 # ---- server ----
-view_data_server <- function(id, con, main_input, raw_sidebar_vals) {
+view_data_server <- function(
+  id,
+  con,
+  main_input,
+  raw_sidebar_vals,
+  auth_state
+) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observeEvent(
       main_input$tabs,
@@ -60,6 +66,7 @@ view_data_server <- function(id, con, main_input, raw_sidebar_vals) {
     shiny::observeEvent(
       main_input$tabs,
       {
+        shiny::req(auth_state())
         shiny::req(main_input$tabs == "view_data")
         raw_activated(TRUE)
       },
@@ -84,6 +91,7 @@ view_data_server <- function(id, con, main_input, raw_sidebar_vals) {
     )
 
     filtered_raw_data_df_names <- shiny::reactive({
+      shiny::req(auth_state())
       shiny::req(filtered_raw_data())
 
       filtered_raw_data() |>
@@ -98,6 +106,7 @@ view_data_server <- function(id, con, main_input, raw_sidebar_vals) {
 
     # ---- run exporte -----
     shiny::observe({
+      shiny::req(auth_state())
       raw_export_df(filtered_raw_data_df_names())
     })
 
