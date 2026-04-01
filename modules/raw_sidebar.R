@@ -79,7 +79,7 @@ raw_data_sidebar_ui <- function(id) {
 }
 
 
-raw_data_sidebar_server <- function(id, con, main_input) {
+raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observe({
       shinyjs::toggle(
@@ -114,6 +114,7 @@ raw_data_sidebar_server <- function(id, con, main_input) {
     shiny::observeEvent(
       main_input$tabs,
       {
+        shiny::req(auth_state())
         shiny::req(main_input$tabs == "view_data")
         shiny::req(!initialized())
 
