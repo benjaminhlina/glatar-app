@@ -21,7 +21,7 @@ tab_auth_server <- function(
         pending_tab(tab)
         login_failed(FALSE)
         shiny::showModal(tab_login_modal())
-        shinydashboard::updateTabItems(session, sidebar_id, pending_tab)
+        shinydashboard::updateTabItems(session, sidebar_id, "home")
       }
     },
     ignoreInit = TRUE
