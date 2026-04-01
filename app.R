@@ -247,9 +247,8 @@ server <- function(input, output, session) {
 
   view_source_server(
     id = "view_source",
-    main_input = input,
     con = con,
-    source_sidebar_vals = source_sidebar_vals
+    main_input = input
   )
   # ---- upload data -----
   upload_data_server("insert_data", con)
