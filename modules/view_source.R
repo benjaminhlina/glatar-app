@@ -24,8 +24,11 @@ view_source_ui <- function(id) {
   )
 }
 
-view_source_server <- function(id, main_input, con, source_sidebar_vals) {
+view_source_server <- function(id, con, main_input) {
   shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    # ----- add in ui ------
     shiny::observeEvent(
       main_input$tabs,
       {
@@ -36,12 +39,8 @@ view_source_server <- function(id, main_input, con, source_sidebar_vals) {
       },
       ignoreInit = TRUE
     )
-    ns <- session$ns
 
-    # reactive export df
-    source_export_df <- shiny::reactiveVal(NULL)
-
-    # reactive when raw is actived
+    # add activation
     source_activated <- shiny::reactiveVal(FALSE)
 
     shiny::observeEvent(
@@ -53,6 +52,9 @@ view_source_server <- function(id, main_input, con, source_sidebar_vals) {
       ignoreInit = TRUE
     )
 
+    # reactive export df
+    # source_export_df <- shiny::reactiveVal(NULL)
+
     # # create summary data
     source_data <- create_source_data(
       con = con,
@@ -61,25 +63,26 @@ view_source_server <- function(id, main_input, con, source_sidebar_vals) {
       tab = "view_source",
       activated = source_activated()
     )
+    observe({
+      cli::cli_alert_danger("Class of source: {.val {class(source_data())}}")
+    })
 
-    # # filtered summary by waterbody and species
-    # filtered_rsource_data <- create_filtered_data(
-    #   input_source = raw_sidebar_vals,
-    #   data = raw_data,
-    #   pane = "view_data"
-    # )
+    filtered_source <- create_searching_data(
+      input = input,
+      source_data = source_data(),
+      collect = FALSE
+    )
 
-    # filtered_raw_data_df_names <- shiny::reactive({
-    #   shiny::req(filtered_raw_data())
-
-    #   filtered_raw_data() |>
-    #     dplyr::rename_with(~ convert_nice_name(.x))
-    # })
-
+    observe({
+      cli::cli_alert_danger(
+        "Class of filtered data: {.val {class(filtered_source())}}"
+      )
+    })
     display_table(
-      data = source_data,
+      data = filtered_source,
       output,
-      output_id = "source_output"
+      output_id = "source_output",
+      search = FALSE
     )
 
     # # ---- run exporte -----
