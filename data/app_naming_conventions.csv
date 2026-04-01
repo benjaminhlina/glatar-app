@@ -7,7 +7,19 @@ pi_name,PI Name
 date,Date
 month,Month
 sample_year,Sample Year
-publication_year, Publication Year
+publication_year,Publication Year
+publication_type,Publication Type
+title,Title
+author_name,Authors 
+journal_name,Journal
+issue,Issue
+volume,Volume
+publisher,Publisher
+editor,Editor
+isbn,ISBN
+doi,DOI
+data_tables,Data Collected
+n_total,Number of Samples in GLATAR
 common_name,Common Name
 scientific_name,Scientific Name
 genus,Genus
