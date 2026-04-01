@@ -13,7 +13,7 @@ tab_auth_server <- function(
 
   # ------ Intercept tab navigation ------
   shiny::observeEvent(
-    input[[sidebar_id]], # ← dynamic input ID
+    input[[sidebar_id]],
     {
       tab <- input[[sidebar_id]]
 
@@ -21,7 +21,7 @@ tab_auth_server <- function(
         pending_tab(tab)
         login_failed(FALSE)
         shiny::showModal(tab_login_modal())
-        shinydashboard::updateTabItems(session, sidebar_id, "home") # ← same ID
+        shinydashboard::updateTabItems(session, sidebar_id, pending_tab)
       }
     },
     ignoreInit = TRUE
@@ -38,12 +38,16 @@ tab_auth_server <- function(
     if (valid) {
       auth_state(TRUE)
       login_failed(FALSE)
+      dest <- pending_tab()
+      pending_tab(NULL)
+
       shiny::removeModal()
 
-      if (!is.null(pending_tab())) {
-        shinydashboard::updateTabItems(session, sidebar_id, pending_tab()) # ← same ID
-        pending_tab(NULL)
-      }
+      shinyjs::delay(150, {
+        if (!is.null(dest)) {
+          shinydashboard::updateTabItems(session, sidebar_id, dest)
+        }
+      })
     } else {
       login_failed(TRUE)
       shiny::showModal(tab_login_modal(failed = TRUE))
@@ -54,13 +58,13 @@ tab_auth_server <- function(
   # ------ Handle cancel ------
   shiny::observeEvent(input$tab_login_cancel, {
     shiny::removeModal()
-    shinydashboard::updateTabItems(session, sidebar_id, "home") # ← same ID
+    shinydashboard::updateTabItems(session, sidebar_id, "home")
   })
 
   # ------ Logout helper ------
   logout <- function() {
     auth_state(FALSE)
-    shinydashboard::updateTabItems(session, sidebar_id, "home") # ← same ID
+    shinydashboard::updateTabItems(session, sidebar_id, "home")
     shiny::showNotification(
       "You have been logged out.",
       type = "message",
