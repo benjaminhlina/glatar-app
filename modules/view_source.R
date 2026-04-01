@@ -69,7 +69,7 @@ view_source_server <- function(id, con, main_input) {
 
     filtered_source <- create_searching_data(
       input = input,
-      source_data = source_data(),
+      source_data = source_data,
       collect = FALSE
     )
 
