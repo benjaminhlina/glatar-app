@@ -4,6 +4,21 @@ check_empty_character <- function(x) {
   is.null(x) || length(x) == 0 || all(x == "")
 }
 
+
+# ----- Credential checker -----
+# Works with the same `credentials` data frame shinymanager uses.
+check_tab_credentials <- function(user, pass, credentials) {
+  row <- credentials[
+    tolower(trimws(credentials$user)) == tolower(trimws(user)),
+  ]
+  if (nrow(row) == 0) {
+    return(FALSE)
+  }
+  # Plain-text comparison — replace with hash check if needed
+  isTRUE(row$password[1] == pass)
+}
+
+
 # ----- check tax  -----
 check_taxonomy_match <- function(input_values, db_values) {
   # Normalize input value
