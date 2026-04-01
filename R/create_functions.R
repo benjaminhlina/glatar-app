@@ -306,8 +306,6 @@ create_searching_data <- function(
       df <- df |>
         dplyr::arrange(common_name) |>
         dplyr::collect()
-    } else {
-      df
     }
 
     current_names <- names(df)
