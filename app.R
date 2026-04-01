@@ -156,7 +156,13 @@ server <- function(input, output, session) {
   session$allowReconnect("force")
 
   # ---- tab authentication -----
-  tab_auth <- tab_auth_server(input, output, session, credentials)
+  tab_auth <- tab_auth_server(
+    input = input,
+    output = output,
+    session = session,
+    credentials = credentials,
+    # off = TRUE
+  )
 
   # ---- add in logout tab -----
   shiny::observeEvent(input$tabs, {

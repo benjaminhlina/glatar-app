@@ -5,8 +5,16 @@ tab_auth_server <- function(
   output,
   session,
   credentials,
-  sidebar_id = "tabs"
+  sidebar_id = "tabs",
+  off = FALSE
 ) {
+  # ---- this alllows me to turn things on and off
+  if (isTRUE(off)) {
+    return(list(
+      auth_state = shiny::reactiveVal(TRUE), # always authenticated
+      logout = function() invisible(NULL) # no-op
+    ))
+  }
   auth_state <- shiny::reactiveVal(FALSE)
   pending_tab <- shiny::reactiveVal(NULL)
   login_failed <- shiny::reactiveVal(FALSE)
