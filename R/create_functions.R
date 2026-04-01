@@ -312,7 +312,7 @@ create_searching_data <- function(
     }
     if (isFALSE(collect)) {
       df <- df |> 
-        dplyr::select(-c(common_name:class_sci,
+        dplyr::select(-c(genus:class_sci,
                       phylum,
                       kingdom,
                       organism_type,
