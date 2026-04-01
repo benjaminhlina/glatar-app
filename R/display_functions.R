@@ -473,7 +473,12 @@ display_sub_map_msg <- function(
 
 # ---- display summary_table -----
 
-display_table <- function(data, output, output_id = "summary_table_output") {
+display_table <- function(
+  data,
+  output,
+  output_id = "summary_table_output",
+  search = TRUE
+) {
   output[[output_id]] <- DT::renderDT({
     shiny::req(data())
     # get data
@@ -485,14 +490,22 @@ display_table <- function(data, output, output_id = "summary_table_output") {
       shiny::need(nrow(df) > 0, "No data available")
     )
 
+    if (isTRUE(search)) {
+      search <- TRUE
+    } else {
+      search <- FALSE
+    }
+
     # display data
     DT::datatable(
       df,
       options = list(
         pageLength = 10,
-        scrollX = TRUE
+        scrollX = TRUE,
         # autoWidth = TRUE
+        searching = search
       ),
+      rownames = FALSE,
       escape = FALSE
     )
   })
