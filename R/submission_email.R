@@ -20,9 +20,15 @@ benjamin.hlina@gmail.com to this email.
 
   blastula::smtp_send(
     email,
-    to = c(to_user, "your_email@domain.com"),
-    from = "your_email@domain.com",
+    to = c(to_user, "benjamin.hlinal@gmail.com"),
+    from = "noreply@glatar.org",
     subject = paste("Submission Received:", submission_id),
-    credentials = creds
+    blastula::creds_envvar(
+      user = "noreply@glatar.org",
+      pass_envvar = "SMTP_PASSWORD",
+      host = "mail.hover.com",
+      port = 587,
+      use_ssl = FALSE
+    )
   )
 }
