@@ -2,7 +2,7 @@ pat,col,issue
 \.month,month,Month must be between 1 and 12
 \.season,season,"Invalid season - must be spring, summer, fall, or winter"
 \.sex,sex,"Invalid sex - must be female, male, unknown, or both"
-\.lifestage,lifestage,"Invalid lifestage - must be fry, larva, nymph, pupa, juvenile, or adult"
+\.lifestage,lifestage,"Invalid lifestage - must be egg, fry, larva, nymph, pupa, juvenile, or adult"
 \.length_type,length_type,"Invalid length type - must be total, fork, standard, or carapace"
 \.data_type,data_type,"Invalid data_type - must be individual, composite, mean, or equation"
 \.tissue_type,tissue_type,Invalid tissue type - must be a recognised tissue type; see data dictionary
