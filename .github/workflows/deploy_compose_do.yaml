@@ -39,6 +39,7 @@ jobs:
           POSTGRES_SSLMODE: ${{ secrets.POSTGRES_SSLMODE }}
           SHINY_USER: ${{ secrets.SHINY_USER }}
           SHINY_PASSWORD: ${{ secrets.SHINY_PASSWORD }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
         run: |
           # Write .env file with GH secrets
           cat <<EOT > .env
@@ -50,6 +51,8 @@ jobs:
           POSTGRES_SSLMODE=${POSTGRES_SSLMODE}
           SHINY_USER=${SHINY_USER}
           SHINY_PASSWORD=${SHINY_PASSWORD}
+          SMTP_PASSWORD=${SMTP_PASSWORD}
+
           EOT
 
       - name: Deploy with Docker Compose     
