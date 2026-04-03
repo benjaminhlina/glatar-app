@@ -48,7 +48,7 @@ send_submission_email <- function(to_user, submission_id, submission_results) {
       user = "noreply@glatar.org",
       pass_envvar = "SMTP_PASSWORD",
       host = "mail.hover.com",
-      port = 587,
+      port = 465,
       use_ssl = FALSE
     )
   )
