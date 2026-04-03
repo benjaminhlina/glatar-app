@@ -257,7 +257,7 @@ server <- function(input, output, session) {
   taxa_search_server("taxa_search", con)
   docs_server("docs")
 
-  observeEvent(input$logout_btn, {
+  shiny::observeEvent(input$logout_btn, {
     tab_auth$logout()
   })
 }
