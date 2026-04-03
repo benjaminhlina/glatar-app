@@ -26,7 +26,7 @@ Please keep this ID for reference.
 ---
 
 If you have questions, please contact the GLATAR manager at
-benjamin.hlina@gmail.com or tim.johnson@ontario.ca.
+benjamin.hlina@gmail.com.
 
 — GLATAR Team
 "
