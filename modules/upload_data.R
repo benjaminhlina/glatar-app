@@ -469,13 +469,41 @@ upload_data_server <- function(id, con, auth_state) {
       upload_succeeded <- upload_result$succeeded
       submission_results <- upload_result$results
 
+      email_succeeded <- NULL
+      user_email <- NULL
+
+      if (upload_succeeded) {
+        submission_id <- submission_results[["tbl_submission"]][[
+          "submission_id"
+        ]][[1]]
+
+        user_email <- tables_to_submit[["tbl_submission"]]$submission_email[[1]]
+
+        email_succeeded <- tryCatch(
+          {
+            send_submission_email(
+              to_user = user_email,
+              submission_id = submission_id,
+              submission_results = submission_results
+            )
+            TRUE
+          },
+
+          error = function(e) {
+            cli::cli_alert_warning("Email failed to send: {e$message}")
+            FALSE
+          }
+        )
+      }
       # Create a message to display
       display_upload_status(
         output = output,
         ns = ns,
         output_id = "upload_status",
         upload_succeeded = upload_succeeded,
-        submission_results = submission_results
+        submission_results = submission_results,
+        email_succeeded = email_succeeded,
+        user_email = user_email
       )
 
       shinyjs::disable("submit_btn")
