@@ -40,6 +40,7 @@ jobs:
           SHINY_USER: ${{ secrets.SHINY_USER }}
           SHINY_PASSWORD: ${{ secrets.SHINY_PASSWORD }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: |
           # Write .env file with GH secrets
           cat <<EOT > .env
@@ -52,6 +53,7 @@ jobs:
           SHINY_USER=${SHINY_USER}
           SHINY_PASSWORD=${SHINY_PASSWORD}
           SMTP_PASSWORD=${SMTP_PASSWORD}
+          RESEND_API_KEY=${RESEND_API_KEY}
 
           EOT
 

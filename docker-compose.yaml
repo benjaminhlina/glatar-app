@@ -41,6 +41,7 @@ services:
       SHINY_USER: ${SHINY_USER}
       SHINY_PASSWORD: ${SHINY_PASSWORD}
       SMTP_PASSWORD: ${SMTP_PASSWORD}
+      RESEND_API_KEY: ${RESEND_API_KEY}
     networks:
       - shiny-net
 
