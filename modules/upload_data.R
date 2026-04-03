@@ -481,11 +481,12 @@ upload_data_server <- function(id, con, auth_state) {
 
         email_succeeded <- tryCatch(
           {
-            send_submission_email(
+            send_submission_email_html(
               to_user = user_email,
               submission_id = submission_id,
               submission_results = submission_results
             )
+            cli::cli_alert_success("Email was successfully sent!")
             TRUE
           },
 
