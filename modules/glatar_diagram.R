@@ -210,7 +210,7 @@ glatar_diagram_ui <- function() {
 
       htmltools::tags$div(
         class = "glatar-diagram-title",
-        "Database Components"
+        "Repository Components"
       ),
       htmltools::tags$div(
         class = "glatar-hint",
@@ -324,7 +324,7 @@ glatar_diagram_ui <- function() {
       color: "#ff5f72",
       glow: "#ff5f72",
       grad: ["#be0020ff","#6a0013ff"],
-      desc: "Contaminants in the database include total and methylmercury and Polychlorinated biphenyl (PCBs, i.e., individual congeners and totals) concentrations in fish and invertebrate tissues. These measurements are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies, as well as reflect legacy contaminant loads and are used in ecological risk assessments.",
+      desc: "Contaminants in the repository include total and methylmercury and Polychlorinated biphenyl (PCBs, i.e., individual congeners and totals) concentrations in fish and invertebrate tissues. These measurements are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies, as well as reflect legacy contaminant loads and are used in ecological risk assessments.",
       tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment", "Total Hg","Methylmercury", "μg/g wet wt","Bioaccumulation"],
       doc:["documentation/polychlorinated_biphenyls_documentation.pdf", "documentation/mercury_and_methylmercury_documentation.pdf"], 
       docLabels: ["View Documentation — PCBs", "View Documentation — Mercury"]
@@ -391,7 +391,7 @@ glatar_diagram_ui <- function() {
     "font-family":"Georgia,serif", "letter-spacing":"1.5px",
     x:cx, y:cy+9
   }, hubGroup);
-  hubSub.textContent = "DATABASE";
+  hubSub.textContent = "REPOSITORY";
 
   var hubActive = false;
   hubGroup.addEventListener("click", function() {

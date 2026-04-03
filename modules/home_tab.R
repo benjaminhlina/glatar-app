@@ -16,7 +16,7 @@ home_tab_ui <- function(id) {
     shiny::br(),
     shiny::fluidRow(
       shinydashboard::box(
-        title = "Explore Database Components",
+        title = "Explore Repository Components",
         width = 6,
         status = "primary",
         solidHeader = TRUE,
@@ -37,7 +37,7 @@ home_tab_ui <- function(id) {
                   fatty acid, mercury and PCB data."
           ),
           shiny::tags$li(
-            "Upload new data into the database (i.e.,
+            "Upload new data into the repository (i.e.,
                   if you're a contributing member)."
           ),
           shiny::tags$li(
@@ -47,7 +47,7 @@ home_tab_ui <- function(id) {
         )
       ),
       shinydashboard::box(
-        title = "About the Database",
+        title = "About the Repository",
         width = 6,
         status = "info",
         solidHeader = TRUE,
@@ -81,7 +81,7 @@ home_tab_ui <- function(id) {
           ),
 
           shiny::tags$li(
-            "If you would like to contribute to this database,
+            "If you would like to contribute to this repository,
           please create a username using your email address on the data upload
                   pane and wait for registration code to be sent to you."
           ),
