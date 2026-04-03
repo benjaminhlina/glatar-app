@@ -1,55 +1,51 @@
-# ----- email body ------
-
-email_body <- function(submission_id, submission_results) {
+# ---- email body html ------
+email_body_html <- function(submission_id, submission_results) {
   results_lines <- purrr::imap_chr(submission_results, function(res, tbl_name) {
-    glue::glue("- **{tbl_name}**: {res$rows_submitted} row(s) submitted")
+    glue::glue(
+      "<li><strong>{tbl_name}</strong>: {res$rows_submitted} row(s) submitted</li>"
+    )
   })
   results_block <- paste(results_lines, collapse = "\n")
 
-  email <- blastula::compose_email(
-    body = blastula::md(glue::glue(
-      "
-### Submission Received
-
-Thank you for your submission.
-
-**Submission ID:** `{submission_id}`
-  
-Please keep this ID for reference.
-  
----
-
-**Submission Summary:**
-
-{results_block}
-
----
-
-If you have questions, please contact the GLATAR manager at
-benjamin.hlina@gmail.com.
-
-— GLATAR Team
-"
-    ))
+  glue::glue(
+    '
+    <h3>Submission Received</h3>
+    <p>Thank you for your submission.</p>
+    <p><strong>Submission ID:</strong> <code>{submission_id}</code></p>
+    <p>Please keep this ID for reference.</p>
+    <hr>
+    <strong>Submission Summary:</strong>
+    <ul>
+      {results_block}
+    </ul>
+    <hr>
+    <p>If you have questions, please contact the GLATAR manager at
+    <a href="mailto:benjamin.hlina@gmail.com">benjamin.hlina@gmail.com</a>.</p>
+    <p>— GLATAR Team</p>
+  '
   )
 }
 
+# ----- email send ------
+send_submission_email_html <- function(
+  to_user,
+  submission_id,
+  submission_results
+) {
+  html <- email_body_html(submission_id, submission_results)
 
-# ----- send submission emial ------
-send_submission_email <- function(to_user, submission_id, submission_results) {
-  email <- email_body(submission_id, submission_results)
+  resp <- httr2::request("https://api.resend.com/emails") |>
+    httr2::req_headers(
+      Authorization = paste("Bearer", Sys.getenv("RESEND_API_KEY")),
+      `Content-Type` = "application/json"
+    ) |>
+    httr2::req_body_json(list(
+      from = "noreply@glatar.org",
+      to = list(to_user, "benjamin.hlina@gmail.com"),
+      subject = paste("GLATAR Submission Received:", submission_id),
+      html = html
+    )) |>
+    httr2::req_perform()
 
-  blastula::smtp_send(
-    email = email,
-    to = c(to_user, "benjamin.hlina@gmail.com"),
-    from = "noreply@glatar.org",
-    subject = paste("GLATAR Submission Received:", submission_id),
-    credentials = blastula::creds_envvar(
-      user = "noreply@glatar.org",
-      pass_envvar = "SMTP_PASSWORD",
-      host = "mail.hover.com",
-      port = 465,
-      use_ssl = FALSE
-    )
-  )
+  return(resp)
 }
