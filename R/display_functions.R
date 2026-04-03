@@ -556,7 +556,9 @@ display_upload_status <- function(
   ns,
   output_id = "upload_status",
   upload_succeeded = NULL,
-  submission_results = NULL
+  submission_results = NULL,
+  email_succeeded = NULL,
+  user_email = NULL
 ) {
   output[[output_id]] <- shiny::renderUI({
     if (!upload_succeeded) {
@@ -581,12 +583,27 @@ display_upload_status <- function(
           }
         )
       })
+      email_msg <- if (!is.null(email_succeeded)) {
+        if (isTRUE(email_succeeded)) {
+          paste0(
+            "<span style='color: green;'>✔ Confirmation email 
+             sent successfully to ",
+            user_email,
+            ".</span>"
+          )
+        } else {
+          "<span style='color: orange;'>⚠ Upload succeeded but confirmation email failed to send.</span>"
+        }
+      } else {
+        ""
+      }
 
       shiny::HTML(
         paste0(
           "<span style='color: green;'>",
           paste(msg, collapse = "<br>"),
-          "</span>"
+          "</span><br>",
+          email_msg
         )
       )
     }
