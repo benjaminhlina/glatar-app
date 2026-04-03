@@ -35,6 +35,7 @@ benjamin.hlina@gmail.com or tim.johnson@ontario.ca.
 }
 
 
+# ----- send submission emial ------
 send_submission_email <- function(to_user, submission_id, submission_results) {
   email <- email_body(submission_id, submission_results)
 
