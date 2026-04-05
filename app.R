@@ -38,6 +38,11 @@ ui <- shinydashboard::dashboardPage(
         icon = shiny::icon("home")
       ),
       shinydashboard::menuItem(
+        "How to use GLATAR",
+        tabName = "how_to_use",
+        icon = shiny::icon("readme")
+      ),
+      shinydashboard::menuItem(
         "Summary Tables",
         tabName = "summary_info",
         icon = shiny::icon("bar-chart")
@@ -120,7 +125,10 @@ ui <- shinydashboard::dashboardPage(
     # tab itimes
     shinydashboard::tabItems(
       shinydashboard::tabItem(tabName = "home", home_tab_ui("home")),
-      shinydashboard::tabItem(tabName = "view_map", view_map_ui("view_map")),
+      shinydashboard::tabItem(
+        tabName = "how_to_use",
+        how_to_ui("how_to_use")
+      ),
       shinydashboard::tabItem(
         tabName = "summary_info",
         view_summary_info_ui("summary_info")
@@ -134,13 +142,14 @@ ui <- shinydashboard::dashboardPage(
         tabName = "view_source",
         view_source_ui("view_source")
       ),
-      shinydashboard::tabItem(
-        tabName = "insert_data",
-        upload_data_ui("insert_data")
-      ),
+      shinydashboard::tabItem(tabName = "view_map", view_map_ui("view_map")),
       shinydashboard::tabItem(
         tabName = "taxa_search",
         taxa_search_ui("taxa_search")
+      ),
+      shinydashboard::tabItem(
+        tabName = "insert_data",
+        upload_data_ui("insert_data")
       ),
       shinydashboard::tabItem(tabName = "docs", docs_ui("docs")),
       shinydashboard::tabItem(tabName = "about", about_ui("about"))
@@ -191,6 +200,8 @@ server <- function(input, output, session) {
   shiny::observeEvent(input$go_docs, {
     shinydashboard::updateTabItems(session, "tabs", "docs")
   })
+
+  how_to_server("how_to_use", parent_session = session)
 
   # ---- get map -----
   view_map_server("view_map", con)
