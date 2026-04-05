@@ -88,7 +88,7 @@ RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
 # Copy app files
 COPY app.R app.R
 COPY www/ www/
-COPY data/ data/
+COPY data/app-data data/app-data
 COPY modules/ modules/
 COPY startup/ startup/
 COPY load/ load/
