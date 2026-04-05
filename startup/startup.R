@@ -10,6 +10,7 @@ app_version <- "0.1.0"
 naming_conventions <- readr::read_csv(
   here::here(
     "data",
+    "app-data",
     "app_naming_conventions.csv"
   ),
 ) |>
@@ -35,6 +36,7 @@ nice_name_lookup <- stats::setNames(
 # ----- bring in rule map ----
 rule_map <- readr::read_csv(here::here(
   "data",
+  "app-data",
   "validation_rule_mapping.csv"
 ))
 
