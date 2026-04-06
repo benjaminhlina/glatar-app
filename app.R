@@ -159,8 +159,10 @@ ui <- shinydashboard::dashboardPage(
 
 # ------ Main Server -----
 server <- function(input, output, session) {
-  options(shiny.usecairo = FALSE)
-  # options(shiny.trace = TRUE)
+  options(
+    shiny.usecairo = FALSE
+    # shiny.trace = TRUE
+  )
   ram_tracker()
   session$allowReconnect("force")
 
