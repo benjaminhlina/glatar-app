@@ -33,12 +33,12 @@ how_to_ui <- function(id) {
       shiny::tags$li(
         shiny::strong("Select the data fields of interest"),
         " for the tabular summary
-        (e.g. \u00b9\u2075N, total length, etc.). You can select up to 4 variables."
+        (e.g. \u00b9\u2075N, total length, etc.)."
       ),
       shiny::tags$li(
         shiny::strong("Select the data field of interest"),
         " for the frequency histogram
-        (e.g. \u00b9\u2075N). Only one variable can be selected."
+        (e.g. \u00b9\u2075N). Only one variable can be selected at a time."
       ),
       shiny::tags$li(
         shiny::strong("Apply data filters"),
