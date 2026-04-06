@@ -7,8 +7,10 @@ submission_email_body <- function(submission_id, submission_results) {
   })
   results_block <- paste(results_lines, collapse = "\n")
 
-  glue::glue(
-    '
+  email_structure <- list(
+    subject = paste("GLATAR Submission Received:", submission_id),
+    email_body = glue::glue(
+      '
     <h3>Submission Received</h3>
     <p>Thank you for your submission.</p>
     <p><strong>Submission ID:</strong> <code>{submission_id}</code></p>
@@ -27,8 +29,11 @@ submission_email_body <- function(submission_id, submission_results) {
     If you have any concerns, please email <a href="mailto:benjamin.hlina@gmail.com">benjamin.hlina@gmail.com</a> with 
     your submission ID in the subject line.</em></p>
   '
+    )
   )
+  return(email_structure)
 }
+
 
 # ----- email send ------
 send_submission_email_html <- function(
