@@ -36,25 +36,25 @@ submission_email_body <- function(submission_id, submission_results) {
 
 
 # ----- email send ------
-send_submission_email_html <- function(
+send_email <- function(
   to_user,
-  submission_id,
-  submission_results
+  email
 ) {
-  html <- email_body_html(submission_id, submission_results)
-
-  resp <- httr2::request("https://api.resend.com/emails") |>
+  email_sent <- httr2::request("https://api.resend.com/emails") |>
     httr2::req_headers(
       Authorization = paste("Bearer", Sys.getenv("RESEND_API_KEY")),
       `Content-Type` = "application/json"
     ) |>
-    httr2::req_body_json(list(
-      from = "noreply@glatar.org",
-      to = list(to_user, "benjamin.hlina@gmail.com"),
-      subject = paste("GLATAR Submission Received:", submission_id),
-      html = html
-    )) |>
+    httr2::req_body_json(
+      data = list(
+        from = "noreply@glatar.org",
+        to = to_user,
+        cc = "benjamin.hlina@gmail.com",
+        subject = email$subject,
+        html = email$email_body
+      )
+    ) |>
     httr2::req_perform()
 
-  return(resp)
+  return(email_sent)
 }
