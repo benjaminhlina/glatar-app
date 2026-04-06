@@ -1,7 +1,7 @@
-logout_server <- function(id, con, main_input) {
+logout_server <- function(id, parent_session) {
   shiny::moduleServer(id, function(input, output, session) {
-    shiny::observeEvent(input$tabs, {
-      if (input$tabs == "logout") {
+    shiny::observeEvent(parent_session$input$tabs, {
+      if (parent_session$input$tabs == "logout") {
         shinydashboard::updateTabItems(session, "tabs", "home")
         shiny::showModal(shiny::modalDialog(
           title = "Confirm Logout",
@@ -9,17 +9,18 @@ logout_server <- function(id, con, main_input) {
           footer = shiny::tagList(
             shiny::modalButton("Cancel"),
             shiny::actionButton(
-              "confirm_logout",
+              session$ns("confirm_logout"),
               "Logout",
               class = "btn btn-danger"
             )
           )
         ))
       }
-      shiny::observeEvent(input$confirm_logout, {
-        shiny::removeModal()
-        session$reload()
-      })
+    })
+
+    shiny::observeEvent(input$confirm_logout, {
+      shiny::removeModal()
+      session$reload()
     })
   })
 }
