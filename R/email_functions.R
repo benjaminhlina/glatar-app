@@ -1,5 +1,5 @@
 # ---- email body html ------
-email_body_html <- function(submission_id, submission_results) {
+submission_email_body <- function(submission_id, submission_results) {
   results_lines <- purrr::imap_chr(submission_results, function(res, tbl_name) {
     glue::glue(
       "<li><strong>{tbl_name}</strong>: {res$rows_submitted} row(s) submitted</li>"
