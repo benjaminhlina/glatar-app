@@ -174,27 +174,7 @@ server <- function(input, output, session) {
   )
 
   # ---- add in logout tab -----
-  shiny::observeEvent(input$tabs, {
-    if (input$tabs == "logout") {
-      shinydashboard::updateTabItems(session, "tabs", "home")
-      shiny::showModal(shiny::modalDialog(
-        title = "Confirm Logout",
-        "Are you sure you want to log out?",
-        footer = shiny::tagList(
-          shiny::modalButton("Cancel"),
-          shiny::actionButton(
-            "confirm_logout",
-            "Logout",
-            class = "btn btn-danger"
-          )
-        )
-      ))
-    }
-    shiny::observeEvent(input$confirm_logout, {
-      shiny::removeModal()
-      session$reload()
-    })
-  })
+  logout_server(id = "logout", session)
 
   # ----- link to docs -----
   shiny::observeEvent(input$go_docs, {
