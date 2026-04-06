@@ -392,7 +392,7 @@ how_to_server <- function(id, parent_session) {
       go_raw_intro = "view_data",
       go_raw_heading = "view_data",
       go_map_heading = "view_map",
-      go_search_heading = "search",
+      go_search_heading = "taxa_search",
       go_upload_heading = "insert_data",
       go_docs_heading = "docs",
       go_about_heading = "about",
@@ -401,7 +401,7 @@ how_to_server <- function(id, parent_session) {
 
     purrr::walk2(names(tab_links), tab_links, function(link_id, tab_name) {
       shiny::observeEvent(input[[link_id]], {
-        shinydashboard::updateTabItems(parent_session, "sidebar", tab_name)
+        shinydashboard::updateTabItems(parent_session, "tabs", tab_name)
       })
     })
   })
