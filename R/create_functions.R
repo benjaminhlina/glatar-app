@@ -487,3 +487,62 @@ create_summary_data <- function(
     return(df)
   })
 }
+
+# ----- creaete zoom slider -----
+create_zoom_slider <- function(
+  data,
+  input_source
+) {
+  shiny::reactive({
+    df <- data()
+
+    x_var_raw <- input_source$x_choices()
+
+    # get the y var
+    y_var_raw <- input_source$y_choices()
+
+    # use generic function to filter and grab the correct for length only
+    fix_x <- fix_var_generic(
+      df = df,
+      var_raw = x_var_raw
+    )
+
+    # get the returned objects which are returned in a list
+    df <- fix_x$df
+    x_var <- fix_x$var
+    x_label <- fix_x$var_label
+
+    # now do the same for y
+    fix_y <- fix_var_generic(
+      df = df,
+      var_raw = y_var_raw
+    )
+
+    df <- fix_y$df
+    y_var <- fix_y$var
+    y_label <- fix_y$var_label
+
+    # filter df by x and y vars
+    df <- df |>
+      dplyr::filter(!is.na(.data[[x_var]]), !is.na(.data[[y_var]]))
+
+    ranges <- get_ranges(df, x_var, y_var)
+
+    x_range <- ranges[["x_range_vec"]]
+    y_range <- ranges[["y_range_vec"]]
+
+    if (!is.null(x_range)) {
+      cli::cli_alert(
+        "x_range is: {.val {c(min = round(x_range[1]), max = round(x_range[2]))}}"
+      )
+      update_zoom_slider("zoom_x", x_range)
+    }
+    if (!is.null(y_range)) {
+      cli::cli_alert(
+        "y_range is: {.val {c(min = round(y_range[1]), max = round(y_range[2]))}}"
+      )
+
+      update_zoom_slider("zoom_y", y_range)
+    }
+  })
+}
