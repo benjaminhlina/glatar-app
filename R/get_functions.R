@@ -249,6 +249,33 @@ get_numeric_vars <- function(con) {
     dplyr::arrange(field_name) |>
     dplyr::pull(field_name)
 }
+
+
+get_ranges <- function(df, x_var, y_var) {
+  ranges <- df |>
+    dplyr::summarise(
+      x_min = min(.data[[x_var]], na.rm = TRUE),
+      x_max = max(.data[[x_var]], na.rm = TRUE),
+      y_min = min(.data[[y_var]], na.rm = TRUE),
+      y_max = max(.data[[y_var]], na.rm = TRUE)
+    ) |>
+    dplyr::collect()
+
+  if (
+    is.na(ranges$y_min) ||
+      is.na(ranges$y_max) ||
+      is.na(ranges$x_min) ||
+      is.na(ranges$x_max)
+  ) {
+    return(NULL)
+  } else {
+    range_tot <- list(
+      x_range_vec = c(ranges$x_min, ranges$x_max),
+      y_range_vec = c(ranges$y_min, ranges$y_max)
+    )
+    return(range_tot)
+  }
+}
 # ------ gret raw data ------
 
 get_raw_data <- function(
