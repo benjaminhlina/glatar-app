@@ -275,6 +275,12 @@ display_scatter_plot <- function(
     x_label <- gsub('"', '', x_label)
     y_label <- gsub('"', '', y_label)
 
+    zoom_x <- input_source$zoom_x()
+    zoom_y <- input_source$zoom_y()
+    req(zoom_x, zoom_y)
+    selected_palette <- input_source$viridis_palette()
+    cli::cli_alert_info("Viridis palette selected: {.val {selected_palette}}")
+
     # ----- plot -----
     p <- ggplot2::ggplot(
       data = df,
@@ -285,7 +291,7 @@ display_scatter_plot <- function(
     ) +
       ggplot2::scale_fill_viridis_d(
         name = legend_title,
-        option = "B",
+        option = selected_palette,
         begin = 0.1,
         end = 0.9,
         alpha = 0.5
@@ -313,6 +319,10 @@ display_scatter_plot <- function(
           alpha = 0.7,
           size = 5,
           shape = 21
+        ) +
+        ggplot2::coord_cartesian(
+          xlim = zoom_x,
+          ylim = zoom_y
         )
     } else {
       p <- p +
