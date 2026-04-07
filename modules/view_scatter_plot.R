@@ -103,43 +103,14 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     palette_inputs <- pallete_selector_server(input)
     zoom_inputs <- zoom_slider_server(input)
 
-    observeEvent(
-      {
-        filtered_scatter_data()
-        scatter_sidebar_vals$x_choices()
-        scatter_sidebar_vals$y_choices()
-      },
-      {
-        df <- filtered_scatter_data()
-        req(df)
-
-        var_map <- syn_var()
-
-        x_choice <- scatter_sidebar_vals$x_choices()
-        y_choice <- scatter_sidebar_vals$y_choices()
-
-        x_var <- var_map[[x_choice]] %||% x_choice
-        y_var <- var_map[[y_choice]] %||% y_choice
-
-        ranges <- get_ranges(df, x_var, y_var)
-
-        x_range <- ranges[["x_range_vec"]]
-        y_range <- ranges[["y_range_vec"]]
-        cli::cli_alert(
-          "x_range is: {.val {c(min = round(x_range[1]), max = round(x_range[2]))}}"
-        )
-        cli::cli_alert(
-          "y_range is: {.val {c(min = round(y_range[1]), max = round(y_range[2]))}}"
-        )
-
-        if (!is.null(x_range)) {
-          update_zoom_slider("zoom_x", x_range)
-        }
-        if (!is.null(y_range)) update_zoom_slider("zoom_y", y_range)
-      },
-      ignoreNULL = TRUE
+    zoom_updates <- create_zoom_slider(
+      data = filtered_scatter_data,
+      input_source = scatter_sidebar_vals
     )
 
+    shiny::observe({
+      zoom_updates()
+    })
     # ----- CREATE INPUTS -----
     input_sources <- c(
       scatter_sidebar_vals,
