@@ -21,6 +21,31 @@ view_scatter_plot_ui <- function(id) {
         plot_id = "scatter_plot",
         height = "600px",
         ns = ns
+      ),
+      shiny::hr(),
+      shiny::h4("Plot Controls", style = "margin-top: 5px;"),
+      shiny::fluidRow(
+        shiny::column(4, pallete_selector(ns = ns)),
+        shiny::column(
+          4,
+          zoom_slider_ui(ns = ns, label = "Zoom X Axis", id = "zoom_x")
+        ),
+        shiny::column(
+          4,
+          zoom_slider_ui(ns = ns, label = "Zoom Y Axis", id = "zoom_y")
+        ),
+        shiny::column(
+          4,
+          alpha_selector(ns = ns)
+        ),
+        shiny::column(
+          4,
+          size_selector(ns = ns)
+        ),
+        shiny::column(
+          4,
+          shape_selector(ns = ns)
+        )
       )
     )
   )
@@ -67,7 +92,7 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
         "x_choices",
         "y_choices"
       ),
-      activated = scatter_activated()
+      activated = scatter_activated
     )
     # ---- allow filtering -----
     filtered_scatter_data <- create_filtered_data(
@@ -86,10 +111,35 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
       ignoreInit = TRUE
     )
 
+    # ----- PLOT CONTROLS ------
+    palette_inputs <- pallete_selector_server(input)
+    alpha_input <- alpha_selector_server(input)
+    size_input <- size_selector_server(input)
+    shape_input <- shape_selector_server(input)
+    zoom_inputs <- zoom_slider_server(input)
+
+    zoom_updates <- create_zoom_slider(
+      data = filtered_scatter_data,
+      input_source = scatter_sidebar_vals
+    )
+
+    shiny::observe({
+      zoom_updates()
+    })
+    # ----- CREATE INPUTS -----
+    input_sources <- c(
+      scatter_sidebar_vals,
+      palette_inputs,
+      alpha_input,
+      size_input,
+      shape_input,
+      zoom_inputs
+    )
+
     # ---- display plot -----
     display_scatter_plot(
       data = filtered_scatter_data,
-      input_source = scatter_sidebar_vals,
+      input_source = input_sources,
       output
     )
   })

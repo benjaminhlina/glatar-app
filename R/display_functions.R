@@ -243,6 +243,17 @@ display_scatter_plot <- function(
     df <- df |>
       dplyr::filter(!is.na(.data[[x_var]]), !is.na(.data[[y_var]]))
 
+    has_rows <- df |>
+      dplyr::summarise(has = dplyr::n() > 0) |>
+      dplyr::pull(has)
+
+    if (!has_rows) {
+      p <- empty_plot(
+        "No data available"
+      )
+      return(p)
+    }
+
     # ----- create nice title -----
     species_f <- input_source$species_filter()
     waterbody_f <- input_source$waterbody_filter()
@@ -275,6 +286,18 @@ display_scatter_plot <- function(
     x_label <- gsub('"', '', x_label)
     y_label <- gsub('"', '', y_label)
 
+    zoom_x <- input_source$zoom_x()
+    zoom_y <- input_source$zoom_y()
+    req(zoom_x, zoom_y)
+
+    selected_palette <- input_source$viridis_palette()
+    selcted_alpha <- input_source$alpha()
+    selected_size <- input_source$size()
+    selected_shape <- input_source$shape() |>
+      as.numeric()
+
+    cli::cli_alert_info("Viridis palette selected: {.val {selected_palette}}")
+
     # ----- plot -----
     p <- ggplot2::ggplot(
       data = df,
@@ -285,10 +308,10 @@ display_scatter_plot <- function(
     ) +
       ggplot2::scale_fill_viridis_d(
         name = legend_title,
-        option = "B",
+        option = selected_palette,
         begin = 0.1,
         end = 0.9,
-        alpha = 0.5
+        alpha = selcted_alpha,
       ) +
       ggplot2::theme_bw(base_size = 15) +
       ggplot2::theme(
@@ -310,16 +333,20 @@ display_scatter_plot <- function(
       p <- p +
         ggplot2::geom_point(
           ggplot2::aes(fill = !!rlang::sym(scatter_grouping_vars[1])),
-          alpha = 0.7,
-          size = 5,
-          shape = 21
+          alpha = selcted_alpha,
+          size = selected_size,
+          shape = selected_shape
+        ) +
+        ggplot2::coord_cartesian(
+          xlim = zoom_x,
+          ylim = zoom_y
         )
     } else {
       p <- p +
         ggplot2::geom_point(
-          alpha = 0.7,
-          size = 3,
-          shape = 21
+          alpha = selcted_alpha,
+          size = selected_size,
+          shape = selected_shape
         )
     }
     # ---- Faceting logic ----
