@@ -66,12 +66,23 @@ size_selector <- function(...) {
   args <- list(...)
   ns <- args$ns
 
-  shiny::sliderInput(
-    inputId = ns("size"),
-    label = "Size",
-    min = 0.5,
-    max = 10,
-    value = 5
+  shiny::tagList(
+    shiny::sliderInput(
+      inputId = ns("size"),
+      label = "Size",
+      min = 0.5,
+      max = 10,
+      value = 5
+    ),
+    shiny::div(
+      style = "
+        display: flex; 
+        justify-content: space-between; 
+        margin-top: -10px;
+      ",
+      shiny::span("Small"),
+      shiny::span(style = "margin-right: 150px;", "Big")
+    )
   )
 }
 
