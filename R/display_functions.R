@@ -243,6 +243,17 @@ display_scatter_plot <- function(
     df <- df |>
       dplyr::filter(!is.na(.data[[x_var]]), !is.na(.data[[y_var]]))
 
+    has_rows <- df |>
+      dplyr::summarise(has = dplyr::n() > 0) |>
+      dplyr::pull(has)
+
+    if (!has_rows) {
+      p <- empty_plot(
+        "No data available"
+      )
+      return(p)
+    }
+
     # ----- create nice title -----
     species_f <- input_source$species_filter()
     waterbody_f <- input_source$waterbody_filter()
