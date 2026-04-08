@@ -289,7 +289,13 @@ display_scatter_plot <- function(
     zoom_x <- input_source$zoom_x()
     zoom_y <- input_source$zoom_y()
     req(zoom_x, zoom_y)
+
     selected_palette <- input_source$viridis_palette()
+    selcted_alpha <- input_source$alpha()
+    selected_size <- input_source$size()
+    selected_shape <- input_source$shape() |>
+      as.numeric()
+
     cli::cli_alert_info("Viridis palette selected: {.val {selected_palette}}")
 
     # ----- plot -----
@@ -305,7 +311,7 @@ display_scatter_plot <- function(
         option = selected_palette,
         begin = 0.1,
         end = 0.9,
-        alpha = 0.5
+        alpha = selcted_alpha,
       ) +
       ggplot2::theme_bw(base_size = 15) +
       ggplot2::theme(
@@ -327,9 +333,9 @@ display_scatter_plot <- function(
       p <- p +
         ggplot2::geom_point(
           ggplot2::aes(fill = !!rlang::sym(scatter_grouping_vars[1])),
-          alpha = 0.7,
-          size = 5,
-          shape = 21
+          alpha = selcted_alpha,
+          size = selected_size,
+          shape = selected_shape
         ) +
         ggplot2::coord_cartesian(
           xlim = zoom_x,
@@ -338,9 +344,9 @@ display_scatter_plot <- function(
     } else {
       p <- p +
         ggplot2::geom_point(
-          alpha = 0.7,
-          size = 3,
-          shape = 21
+          alpha = selcted_alpha,
+          size = selected_size,
+          shape = selected_shape
         )
     }
     # ---- Faceting logic ----
