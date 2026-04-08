@@ -25,3 +25,74 @@ pallete_selector_server <- function(input) {
     viridis_palette = shiny::reactive(input$viridis_palette)
   )
 }
+
+
+# ------ alpha -------
+
+alpha_selector <- function(...) {
+  args <- list(...)
+  ns <- args$ns
+
+  shiny::sliderInput(
+    inputId = ns("alpha"),
+    label = "Transparency",
+    min = 0,
+    max = 1,
+    value = 0.7
+  )
+}
+
+
+alpha_selector_server <- function(input) {
+  list(
+    alpha = shiny::reactive(input$alpha)
+  )
+}
+
+
+# ------ size -------
+
+size_selector <- function(...) {
+  args <- list(...)
+  ns <- args$ns
+
+  shiny::sliderInput(
+    inputId = ns("size"),
+    label = "Size",
+    min = 0.5,
+    max = 10,
+    value = 5
+  )
+}
+
+
+size_selector_server <- function(input) {
+  list(
+    size = shiny::reactive(input$size)
+  )
+}
+
+
+# ---- shape -----
+shape_selector <- function(...) {
+  args <- list(...)
+  ns <- args$ns
+
+  shiny::selectInput(
+    inputId = ns("shape"),
+    label = "Shape",
+    choices = c(
+      "Circle" = 21,
+      "Square" = 22,
+      "Diamond" = 23,
+      "Triangle" = 24
+    ),
+    selected = 21
+  )
+}
+
+shape_selector_server <- function(input) {
+  list(
+    shape = shiny::reactive(input$shape)
+  )
+}
