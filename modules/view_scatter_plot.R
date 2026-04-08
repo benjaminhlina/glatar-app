@@ -33,6 +33,18 @@ view_scatter_plot_ui <- function(id) {
         shiny::column(
           4,
           zoom_slider_ui(ns = ns, label = "Zoom Y Axis", id = "zoom_y")
+        ),
+        shiny::column(
+          4,
+          alpha_selector(ns = ns)
+        ),
+        shiny::column(
+          4,
+          size_selector(ns = ns)
+        ),
+        shiny::column(
+          4,
+          shape_selector(ns = ns)
         )
       )
     )
@@ -101,6 +113,9 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
 
     # ----- PLOT CONTROLS ------
     palette_inputs <- pallete_selector_server(input)
+    alpha_input <- alpha_selector_server(input)
+    size_input <- size_selector_server(input)
+    shape_input <- shape_selector_server(input)
     zoom_inputs <- zoom_slider_server(input)
 
     zoom_updates <- create_zoom_slider(
@@ -115,6 +130,9 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     input_sources <- c(
       scatter_sidebar_vals,
       palette_inputs,
+      alpha_input,
+      size_input,
+      shape_input,
       zoom_inputs
     )
 
