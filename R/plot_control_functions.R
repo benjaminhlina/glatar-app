@@ -32,13 +32,23 @@ pallete_selector_server <- function(input) {
 alpha_selector <- function(...) {
   args <- list(...)
   ns <- args$ns
-
-  shiny::sliderInput(
-    inputId = ns("alpha"),
-    label = "Transparency",
-    min = 0,
-    max = 1,
-    value = 0.7
+  shiny::tagList(
+    shiny::sliderInput(
+      inputId = ns("alpha"),
+      label = "Transparency",
+      min = 0,
+      max = 1,
+      value = 0.7,
+    ),
+    shiny::div(
+      style = "
+        display: flex; 
+        justify-content: space-between; 
+        margin-top: -10px;
+      ",
+      shiny::span("Transparent"),
+      shiny::span(style = "margin-right: 150px;", "Opaque")
+    )
   )
 }
 
