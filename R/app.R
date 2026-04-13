@@ -4,7 +4,7 @@
 glatar_app <- function() {
   # ---- startup the app -----
 
-  list2env(start_up(), envir = environment())
+  list2env(start_up(), envir = globalenv())
 
   # ---- ui ------
   ui <- shinydashboard::dashboardPage(
