@@ -12,7 +12,11 @@ start_up <- function() {
     naming_conventions$nice_names,
     naming_conventions$raw_names
   )
-
+  # ----- load everything ------
+  shiny::addResourcePath(
+    prefix = "www",
+    directoryPath = system.file("www", package = "glatar")
+  )
   credentials <- data.frame(
     user = Sys.getenv("SHINY_USER"),
     password = Sys.getenv("SHINY_PASSWORD"),
@@ -32,3 +36,5 @@ start_up <- function() {
   )
   return(startup)
 }
+
+
