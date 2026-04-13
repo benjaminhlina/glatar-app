@@ -537,46 +537,6 @@ display_table <- function(
     )
   })
 }
-
-# ----- display upload status ------
-display_validation_status <- function(
-  output,
-  ns,
-  output_id = "upload_status",
-  split_tables = NULL,
-  validated = TRUE
-) {
-  output[[output_id]] <- shiny::renderUI({
-    if (validated) {
-      tbl_samp <- split_tables$tbl_samples
-
-      shiny::tagList(
-        shiny::p(
-          "✔ All validations passed",
-          style = "color:green; font-weight:600;"
-        ),
-        shiny::p(
-          paste0(
-            "Ready to submit ",
-            nrow(tbl_samp),
-            " rows to database."
-          ),
-          style = "color:green;"
-        )
-      )
-    } else {
-      shiny::tagList(
-        shiny::p(
-          "✖ Validation failed - please fix the following issues. If you can not resolve 
-          the issue (e.g., common name not in the database) please contact the GLATAR manager",
-          style = "color:red; font-weight:600;"
-        ),
-        shiny::tableOutput(ns("error_table"))
-      )
-    }
-  })
-}
-
 # ---- dispaly upload status ------
 display_upload_status <- function(
   output,
@@ -632,6 +592,45 @@ display_upload_status <- function(
           "</span><br>",
           email_msg
         )
+      )
+    }
+  })
+}
+
+# ----- display upload status ------
+display_validation_status <- function(
+  output,
+  ns,
+  output_id = "upload_status",
+  split_tables = NULL,
+  validated = TRUE
+) {
+  output[[output_id]] <- shiny::renderUI({
+    if (validated) {
+      tbl_samp <- split_tables$tbl_samples
+
+      shiny::tagList(
+        shiny::p(
+          "✔ All validations passed",
+          style = "color:green; font-weight:600;"
+        ),
+        shiny::p(
+          paste0(
+            "Ready to submit ",
+            nrow(tbl_samp),
+            " rows to database."
+          ),
+          style = "color:green;"
+        )
+      )
+    } else {
+      shiny::tagList(
+        shiny::p(
+          "✖ Validation failed - please fix the following issues. If you can not resolve 
+          the issue (e.g., common name not in the database) please contact the GLATAR manager",
+          style = "color:red; font-weight:600;"
+        ),
+        shiny::tableOutput(ns("error_table"))
       )
     }
   })
