@@ -1,0 +1,14 @@
+Package: glatar
+Title: Shiny app that interfaces with GLATAR database
+Version: 0.0.0.9000
+Authors@R: 
+    person("Benjamin L.", "Hlina", , "benjamin.hlinal@gmail.com", role = c("aut", "cre"))
+Description: This app has the ability to upload (i.e., 
+             if you are a contributing member), map, view raw data (i.e., 
+             if you are a contributing member), view summarised data, 
+             and view scatter plots of the raw data and can be found at
+             https://glatar.org/
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
