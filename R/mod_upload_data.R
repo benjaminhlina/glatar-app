@@ -84,21 +84,21 @@ upload_data_ui <- function(id) {
     shiny::actionButton(
       ns("upload_btn"),
       "Upload & Process",
-      icon = icon("upload")
+      icon = shiny::icon("upload")
     ),
 
     shiny::actionButton(
       ns("submit_btn"),
       "Submit to Database",
-      icon = icon("database"),
+      icon = shiny::icon("database"),
       disabled = TRUE
     ),
     shinyjs::hidden(
       shiny::div(
         id = ns("loading_indicator"),
         style = "display: flex; align-items: center; gap: 8px; margin-top: 10px; color: #555;",
-        tags$i(class = "fa fa-spinner fa-spin fa-lg"),
-        tags$span(id = ns("loading_msg"))
+        shiny::tags$i(class = "fa fa-spinner fa-spin fa-lg"),
+        shiny::tags$span(id = ns("loading_msg"))
       )
     ),
     shiny::uiOutput(ns("upload_status")),
