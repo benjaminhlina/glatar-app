@@ -17,7 +17,7 @@ view_data_ui <- function(id) {
           status = "primary",
           solidHeader = TRUE,
           width = 12,
-          div(
+          shiny::div(
             style = "overflow-x: auto; width: 100%;",
             shinycssloaders::withSpinner(
               DT::DTOutput(ns("raw_data_output")),
