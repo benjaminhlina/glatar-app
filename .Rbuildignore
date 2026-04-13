@@ -12,3 +12,4 @@
 ^shiny_entry\.sh$
 ^warming_up\.html$
 ^docker-composer\.yaml$
+^/R/app\.R$
