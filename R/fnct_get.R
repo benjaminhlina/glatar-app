@@ -158,86 +158,6 @@ get_join_table <- function(df, table, con) {
   return(jt)
 }
 
-# ---- get vart types ----
-
-get_var_types <- function(df, var) {
-  var_types <- get_dropdown_choices(df = df, type = var)
-  # df |>
-  # dplyr::distinct(.data[[var]]) |>
-  # dplyr::arrange(.data[[var]]) |>
-  # dplyr::pull(.data[[var]])
-  # Only keep non-NA length types
-  var_types <- var_types[!is.na(var_types)]
-
-  # Create synthetic variable names and labels
-  if (any(var_types %in% c("fork", "standard", "total", "carapace"))) {
-    vars <- paste0("length_mm__", var_types)
-    labels <- paste0(stringr::str_to_title(var_types), " Length (mm)")
-  }
-  if (
-    any(
-      var_types %in%
-        c(
-          "Joules/g dry weight",
-          "Joules/g wet weight"
-        )
-    )
-  ) {
-    # cleaned_var_types <- gsub("/", " ", var_types)
-    # cleaned_var_types <- gsub("\\s+", "_", cleaned_var_types)
-
-    vars <- paste0("energy_units__", var_types)
-    labels <- paste0("Energy Density (", var_types, ")")
-  }
-  # if (
-  #   any(
-  #     var_types %in%
-  #       c(
-  #         "Alanine",
-  #         "Arginine",
-  #         "Aspartic acid",
-  #         "Cysteine",
-  #         "Cystine",
-  #         "Glutamic acid",
-  #         "Glycine",
-  #         "Histidine",
-  #         "Isoleucine",
-  #         "Leucine",
-  #         "Lysine",
-  #         "Methionine",
-  #         "Phenylalanine",
-  #         "Proline",
-  #         "Serine",
-  #         "Threonine",
-  #         "Tyrosine",
-  #         "Valine"
-  #       )
-  #   )
-  # ) {
-  #   vars <- paste0("amino_acid_type__", var_types)
-  #   labels <- paste0(
-  #     stringr::str_to_sentence(var_types)
-  #     # " (",
-  #     # amino_acid_unit,
-  #     # ")"
-  #   )
-  # }
-  # c("ug/mg sample weigh"t, "% total protein")
-
-  stats::setNames(vars, labels) # names = labels, values = synthetic variable codes
-}
-
-# ----- get nice names -----
-convert_nice_name <- function(cols, lookup = nice_name_lookup) {
-  converted_name <- unname(sapply(cols, function(col) {
-    if (col %in% names(lookup)) {
-      lookup[[col]]
-    } else {
-      col
-    }
-  }))
-  return(converted_name)
-}
 
 # ---- get numeric vars -----
 get_numeric_vars <- function(con) {
@@ -250,7 +170,7 @@ get_numeric_vars <- function(con) {
     dplyr::pull(field_name)
 }
 
-
+# ----- get ranges -----
 get_ranges <- function(df, x_var, y_var) {
   ranges <- df |>
     dplyr::summarise(
@@ -608,4 +528,73 @@ get_valid_values <- function(con) {
     tibble::deframe()
 
   return(cleaned_constrants)
+}
+
+# ---- get vart types ----
+
+get_var_types <- function(df, var) {
+  var_types <- get_dropdown_choices(df = df, type = var)
+  # df |>
+  # dplyr::distinct(.data[[var]]) |>
+  # dplyr::arrange(.data[[var]]) |>
+  # dplyr::pull(.data[[var]])
+  # Only keep non-NA length types
+  var_types <- var_types[!is.na(var_types)]
+
+  # Create synthetic variable names and labels
+  if (any(var_types %in% c("fork", "standard", "total", "carapace"))) {
+    vars <- paste0("length_mm__", var_types)
+    labels <- paste0(stringr::str_to_title(var_types), " Length (mm)")
+  }
+  if (
+    any(
+      var_types %in%
+        c(
+          "Joules/g dry weight",
+          "Joules/g wet weight"
+        )
+    )
+  ) {
+    # cleaned_var_types <- gsub("/", " ", var_types)
+    # cleaned_var_types <- gsub("\\s+", "_", cleaned_var_types)
+
+    vars <- paste0("energy_units__", var_types)
+    labels <- paste0("Energy Density (", var_types, ")")
+  }
+  # if (
+  #   any(
+  #     var_types %in%
+  #       c(
+  #         "Alanine",
+  #         "Arginine",
+  #         "Aspartic acid",
+  #         "Cysteine",
+  #         "Cystine",
+  #         "Glutamic acid",
+  #         "Glycine",
+  #         "Histidine",
+  #         "Isoleucine",
+  #         "Leucine",
+  #         "Lysine",
+  #         "Methionine",
+  #         "Phenylalanine",
+  #         "Proline",
+  #         "Serine",
+  #         "Threonine",
+  #         "Tyrosine",
+  #         "Valine"
+  #       )
+  #   )
+  # ) {
+  #   vars <- paste0("amino_acid_type__", var_types)
+  #   labels <- paste0(
+  #     stringr::str_to_sentence(var_types)
+  #     # " (",
+  #     # amino_acid_unit,
+  #     # ")"
+  #   )
+  # }
+  # c("ug/mg sample weigh"t, "% total protein")
+
+  stats::setNames(vars, labels) # names = labels, values = synthetic variable codes
 }
