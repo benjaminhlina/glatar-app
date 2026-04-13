@@ -10,7 +10,7 @@ tab_login_modal <- function(failed = FALSE) {
   shiny::modalDialog(
     title = shiny::tags$div(
       shiny::tags$img(
-        src = "logo/glfc-logo.png",
+        src = "www/logo/glfc-logo.png",
         width = 80,
         style = "display:block; margin: 0 auto 12px auto;"
       ),

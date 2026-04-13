@@ -28,7 +28,7 @@ docs_ui <- function(id) {
                 style = "white-space: nowrap;",
                 shiny::tags$a(
                   "Basic Data Entry Template (v21)",
-                  href = "data-entry-template/GLATAR_data_entry_template_v21.xlsx",
+                  href = "www/data-entry-template/GLATAR_data_entry_template_v21.xlsx",
                   download = "GLATAR_data_entry_template_v21.xlsx",
                   target = "_blank"
                 )
@@ -44,7 +44,7 @@ docs_ui <- function(id) {
                 style = "white-space: nowrap;",
                 shiny::tags$a(
                   "Extended Data Entry Template (v21)",
-                  href = "data-entry-template/GLATAR_data_entry_template_v21_long.xlsx",
+                  href = "www/data-entry-template/GLATAR_data_entry_template_v21_long.xlsx",
                   download = "GLATAR_data_entry_template_v21_long.xlsx",
                   target = "_blank",
                   style = "display: inline;"
@@ -78,49 +78,49 @@ docs_ui <- function(id) {
             shiny::tags$li(
               shiny::tags$a(
                 "Rationale and Purpose of GLATAR",
-                href = "documentation/rationale_for_GLATAR.pdf",
+                href = "www/documentation/rationale_for_GLATAR.pdf",
                 target = "_blank"
               )
             ),
             shiny::tags$li(
               shiny::tags$a(
                 "Calorimetry Documentation",
-                href = "documentation/calorimetry_documentation.pdf",
+                href = "www/documentation/calorimetry_documentation.pdf",
                 target = "_blank"
               )
             ),
             shiny::tags$li(
               shiny::tags$a(
                 "Fatty Acid Documentation",
-                href = "documentation/fatty_acids_documentation.pdf",
+                href = "www/documentation/fatty_acids_documentation.pdf",
                 target = "_blank"
               )
             ),
             shiny::tags$li(
               shiny::tags$a(
                 "Mercury and Methylmercury Documentation",
-                href = "documentation/mercury_and_methylmercury_documentation.pdf",
+                href = "www/documentation/mercury_and_methylmercury_documentation.pdf",
                 target = "_blank"
               )
             ),
             shiny::tags$li(
               shiny::tags$a(
                 "Polychlorinated Biphenyls (PCBs) Documentation",
-                href = "documentation/polychlorinated_biphenyls_documentation.pdf",
+                href = "www/documentation/polychlorinated_biphenyls_documentation.pdf",
                 target = "_blank"
               )
             ),
             shiny::tags$li(
               shiny::tags$a(
                 "Stable Isotope Documentation",
-                href = "documentation/stable_isotope_documentation.pdf",
+                href = "www/documentation/stable_isotope_documentation.pdf",
                 target = "_blank"
               )
             ),
             shiny::tags$li(
               shiny::tags$a(
                 "Thiamine and Thiaminase Documentation",
-                href = "documentation/thiamine_and_thiaminase_documentation.pdf",
+                href = "www/documentation/thiamine_and_thiaminase_documentation.pdf",
                 target = "_blank"
               )
             )

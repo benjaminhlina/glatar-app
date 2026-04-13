@@ -267,7 +267,7 @@ glatar_diagram_ui <- function() {
       grad: ["#bc7a00ff","#7f5900ff"],
       desc: "Measures the caloric content of tissue samples (i.e., Joules/g wet or dry weight), providing a key index of organismal condition and energy reserves. Widely used in bioenergetics models.",
       tags: ["Joules/g wet weight","Joules/g dry weight","Bomb calorimetry","Proximate estimation"],
-      doc: "documentation/calorimetry_documentation.pdf"
+      doc: "www/documentation/calorimetry_documentation.pdf"
       },
     {
       id: "pc",
@@ -291,7 +291,7 @@ glatar_diagram_ui <- function() {
       grad: ["#2a84c8ff","#155c96ff"],
       desc: "Ratios of δ¹³C and δ¹⁵N (and others) in tissue are used to infer trophic position, dietary sources, niche partition, community dynamics, habitat use, and migration patterns across food webs.",
       tags: ["δ¹³C","δ¹⁵N","δ³⁴S","δ¹⁸O", "δ²H", "Trophic position","Food web tracing"],
-      doc: "documentation/stable_isotope_documentation.pdf"
+      doc: "www/documentation/stable_isotope_documentation.pdf"
     },
     {
       id: "th",
@@ -302,7 +302,7 @@ glatar_diagram_ui <- function() {
       grad: ["#8900c0ff","#50006fff"],
       desc: "Thiamine (i.e., Vitamin B₁) concentrations in eggs and tissues are critical indicators of early mortality syndrome (EMS/TAMS) in salmonids and other Great Lakes fishes.",
       tags: ["nmol/g","Egg thiamine","EMS / TAMS","Salmonid health"],
-      doc: "documentation/thiamine_and_thiaminase_documentation.pdf"
+      doc: "www/documentation/thiamine_and_thiaminase_documentation.pdf"
     },
     {
       id: "fa",
@@ -313,7 +313,7 @@ glatar_diagram_ui <- function() {
       grad: ["#973500ff","#602000ff"],
       desc: "Fatty acid profiles (e.g., EPA, DHA, DPA) serve as dietary tracers and indicators of nutritional quality, linking primary producers to secondary consumers (e.g., top predators).",
       tags: ["EPA","DHA","DPA","% total FA","Dietary tracers"],
-      doc: "documentation/fatty_acids_documentation.pdf"
+      doc: "www/documentation/fatty_acids_documentation.pdf"
     },
     {
       id: "contaminants",
@@ -326,7 +326,7 @@ glatar_diagram_ui <- function() {
       grad: ["#be0020ff","#6a0013ff"],
       desc: "Contaminants in the repository include total and methylmercury and Polychlorinated biphenyl (PCBs, i.e., individual congeners and totals) concentrations in fish and invertebrate tissues. These measurements are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies, as well as reflect legacy contaminant loads and are used in ecological risk assessments.",
       tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment", "Total Hg","Methylmercury", "μg/g wet wt","Bioaccumulation"],
-      doc:["documentation/polychlorinated_biphenyls_documentation.pdf", "documentation/mercury_and_methylmercury_documentation.pdf"], 
+      doc:["www/documentation/polychlorinated_biphenyls_documentation.pdf", "www/documentation/mercury_and_methylmercury_documentation.pdf"], 
       docLabels: ["View Documentation — PCBs", "View Documentation — Mercury"]
     }
   ];
@@ -411,7 +411,7 @@ glatar_diagram_ui <- function() {
     hubActive = true;
     hubGroup.classList.add("active");
 
-    fetch("icons/great_lakes.svg")
+    fetch("www/icons/great_lakes.svg")
     .then(r => r.text())
     .then(svg => {
     document.getElementById("card-icon").innerHTML = svg;
@@ -435,7 +435,7 @@ glatar_diagram_ui <- function() {
     docEl.classList.add("has-doc");
     var a = document.createElement("a");
     a.className = "glatar-doc-link";
-    a.href = "documentation/rationale_for_GLATAR.pdf";
+    a.href = "www/documentation/rationale_for_GLATAR.pdf";
     a.target = "_blank";
     a.rel = "noopener noreferrer";
     a.innerHTML = \'<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>View GLATAR Purpose Document\';
