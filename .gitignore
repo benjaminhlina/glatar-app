@@ -16,3 +16,5 @@ NAAEDdb_test2.dump
 
 data/test-R/test.r
 data/test-R/validate_prep.R
+data-raw/test-R/validate_prep.R
+data-raw/test-R/test.r
