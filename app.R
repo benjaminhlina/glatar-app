@@ -1,13 +1,6 @@
-# ---- load modules ------
-source("load/load_functions.R")
-
-load_scripts(folder = "modules", type = "modules")
-load_scripts(folder = "R", type = "functions")
-
-
 # ---- startup the app -----
 
-source("startup/startup.R")
+list2env(start_up(), envir = environment())
 
 
 # ---- ui ------
