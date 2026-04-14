@@ -10,6 +10,9 @@ Description: This app has the ability to upload (i.e.,
              https://glatar.org/
 License: MIT + file LICENSE
 Encoding: UTF-8
+imports: 
+    shiny,
+    shinydashboard
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Depends: 
