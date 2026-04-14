@@ -6,12 +6,14 @@
 #'
 #' @import shiny
 #' @import shinydashboard
+#' @importFrom shinyjs useShinyjs
 #' @export
 
 glatar_app <- function() {
   # ---- startup the app -----
 
   list2env(start_up(), envir = globalenv())
+  message("cli connection: ", class(getOption("cli.output_connection")))
 
   # ---- ui ------
   ui <- shinydashboard::dashboardPage(
