@@ -1,5 +1,15 @@
-# ---- add_valid_col
-# ----- ad_new_id
+#' Add functions
+#'
+#' Thes functions add new columns to the ingested
+#' data prior to either being validated or imported
+#' into the database
+#'
+#' @param df a `data.frame`
+#' @param id_name the id column name to add new id to
+#' @param max_ids the max id value
+#'
+#' @name add_functions
+#' @export
 add_new_id <- function(df, id_name, max_ids) {
   col_name <- paste0(".", id_name)
 
@@ -12,8 +22,10 @@ add_new_id <- function(df, id_name, max_ids) {
     )
 }
 
-
-# ----- add source id ----
+#' @param tbl_samples `data.frame` that contains sample data
+#' @param tbl_sources `data.frame` that contains source data
+#' @name add_functions
+#' @export
 add_source_id <- function(tbl_samples, tbl_sources) {
   source_select <- tbl_sources |>
     dplyr::select(source_id, .source_id)
@@ -27,7 +39,13 @@ add_source_id <- function(tbl_samples, tbl_sources) {
 
   return(tbl_samples)
 }
-# ----- add_valid_cols
+
+#' @param df a `data.frame`
+#' @param valid_values a `data.frame` containing valid values from database
+#' schema derived from `get_valid_values()`
+#'
+#' @name add_functions
+#' @export
 add_valid_cols <- function(df, valid_values) {
   df <- df |>
     dplyr::mutate(dplyr::across(
@@ -75,6 +93,17 @@ add_valid_cols <- function(df, valid_values) {
 
   return(df)
 }
+
+#' @param split_tables a `list` cotaining `tbl_samples` split into
+#' database tables prior to submission
+#' @param sub_tbl the `data.frame` that will be submitted to `tbl_submission`
+#' in the database.
+#' @param sor_tbl the `data.frame` that will be submitted to `tbl_sources`
+#' in the database.
+#'
+#' @name add_functions
+#' @export
+
 # ---- source and submission tables once split samples -----
 add_sub_sor_tbl <- function(split_tables, sub_tbl, sor_tbl) {
   # addd --- source and submsision
@@ -83,8 +112,11 @@ add_sub_sor_tbl <- function(split_tables, sub_tbl, sor_tbl) {
   return(split_tables)
 }
 
-
-# ----- add tax groups ----
+#' @param df a `data.frame`
+#' @param species_list a `tbl_lzy` object of the `tbl_taxonomy` from the
+#' database
+#' @name add_functions
+#' @export
 
 add_taxonomic_groups <- function(df, species_list) {
   species_list <- species_list |>
@@ -162,7 +194,15 @@ add_taxonomic_groups <- function(df, species_list) {
   return(df_joined)
 }
 
-# ----- add valid txaomnmy ------
+#' @param df a `data.frame`
+#' @param species_list a `tbl_lzy` object of the `tbl_taxonomy` from the
+#' database
+#'
+#' @details `add_valid_taxonomy()` adds columns whether or not `vald_taxonomu()`
+#' returns species that are present in `tbl_taxononomy`'s `common_name` and
+#' `scientific_name`
+#' @name add_functions
+#' @export
 
 add_valid_taxonomy <- function(df, species_list) {
   # ---- get tax from db ----
