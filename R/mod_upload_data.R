@@ -337,7 +337,7 @@ upload_data_server <- function(id, con, auth_state) {
 
             # --- add in ids -----
 
-            tables_split_ready <- assign_table_ids(
+            tables_split_ready <- add_table_ids(
               tables_split,
               tables_ids,
               max_ids
