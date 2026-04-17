@@ -1,4 +1,17 @@
 # ---- clean all_validations -----
+
+#' Clean functions
+#'
+#' These functions clean up `data.frames` and `vectors` that
+#' are coming into the the databae prior to submission,
+#' validation reports, or are in the database and need need to be
+#' cleaned prior to being displayed (e.g., schema constraints)
+#'
+#' @param ... objects to be cleaned. Usually validation reports
+#'
+#' @name clean_functions
+#' @export
+
 clean_all_validations <- function(...) {
   dots <- rlang::enquos(...)
 
@@ -26,7 +39,15 @@ clean_all_validations <- function(...) {
 }
 
 # ------ clean data types -----
-
+#' @param df a `data.frame` objects to be cleaned prior to being
+#' dispalyed. For example, number of samples at a location
+#' @param flag_cols collumns to flag and coalesce
+#' @param type is the data table type that is being supplied e.g., tbl_isotope
+#' @param group_cols columns that will be grouping our summariziing e.g.,
+#' lat and lon, pi name, waterbody ect.
+#'
+#' @name clean_functions
+#' @export
 clean_data_tables <- function(
   df,
   flag_cols,
@@ -73,6 +94,11 @@ clean_data_tables <- function(
 
 
 # ----- clean db_constraints -----
+#' @param clause constraint clause to be cleaned
+#'
+#' @name clean_functions
+#' @export
+
 clean_db_constraints <- function(clause) {
   # Try ARRAY form first
   array_match <- stringr::str_match(clause, "ARRAY\\[(.+?)\\]")
@@ -102,8 +128,14 @@ clean_db_constraints <- function(clause) {
 
   NULL
 }
-
+# ----- clean_match_to_db_col -----
 # Match Excel column to DB column using progressive matching
+
+#' @param col_name column name to be cleaned to match database column names
+#' @param db_cols column names in the database to be used
+#'
+#' @name clean_functions
+#' @export
 clean_match_to_db_col <- function(col_name, db_cols) {
   # Strip example: split on "_e_g_" or "_i_e_" and take the first part
   # ., "common_name_e_g_lake_trout" -> "common_name"
@@ -121,8 +153,14 @@ clean_match_to_db_col <- function(col_name, db_cols) {
   # ---- No match found ----
   return(col_name)
 }
-
-
+# ----- clean_rename_to_db_col -----
+#' @param df a `data.frame` of imported new data
+#' @param con PostgreSQL connection object using `{DBI}`
+#' @param table_name the table name in the database that each
+#' column name is assinged to.
+#'
+#' @name clean_functions
+#' @export
 # Rename Excel columns to match database schema
 clean_rename_to_db_col <- function(df, con, table_name) {
   db_cols <- get_column_map(con) |>
