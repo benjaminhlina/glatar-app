@@ -44,6 +44,26 @@ add_source_id <- function(tbl_samples, tbl_sources) {
 
   return(tbl_samples)
 }
+
+# ------ add_sub_sor_tbl -------
+
+#' @param split_tables a `list` cotaining `tbl_samples` split into
+#' database tables prior to submission.
+#' @param sub_tbl the `data.frame` that will be submitted to `tbl_submission`
+#' in the database.
+#' @param sor_tbl the `data.frame` that will be submitted to `tbl_sources`
+#' in the database.
+#'
+#' @name add_functions
+#' @export
+
+# ---- source and submission tables once split samples -----
+add_sub_sor_tbl <- function(split_tables, sub_tbl, sor_tbl) {
+  # addd --- source and submsision
+  split_tables$tbl_submission <- sub_tbl
+  split_tables$tbl_sources <- sor_tbl
+  return(split_tables)
+}
 # ------ add_table_ids -----
 #' @param tables_split a `list` cotaining `tbl_samples` split into
 #' database tables prior to submission.
@@ -100,84 +120,6 @@ add_table_ids <- function(tables_split, tables_ids, max_ids) {
 
     df
   })
-}
-
-
-# ------ add_valid_cols ------
-
-#' @param df a `data.frame`
-#' @param valid_values a `data.frame` containing valid values from database
-#' schema derived from `get_valid_values()`.
-#'
-#' @name add_functions
-#' @seealso [get_valid_values()]
-#' @export
-add_valid_cols <- function(df, valid_values) {
-  df <- df |>
-    dplyr::mutate(dplyr::across(
-      dplyr::where(is.character) &
-        !dplyr::any_of(c(
-          "energy_units",
-          "pi_name",
-          "amino_acid_type",
-          "calorimetry_method",
-          "fatty_acid_type",
-          "thiamine_type",
-          "energy_measurment_units"
-        )),
-      tolower
-    ))
-
-  constraint_exprs <- purrr::imap(valid_values, function(vals, col) {
-    if (!col %in% names(df)) {
-      return(NULL)
-    }
-    sym <- rlang::sym(col)
-    rlang::expr(is.na(!!sym) | !!sym %in% !!vals)
-  }) |>
-    purrr::compact()
-
-  names(constraint_exprs) <- paste0(".", names(constraint_exprs))
-
-  df <- df |>
-    dplyr::mutate(!!!constraint_exprs)
-
-  # 3. Bespoke checks that can't be expressed as simple %in% -------------
-  df <- df |>
-    dplyr::mutate(
-      .date = is.na(date) | grepl("^\\d{4}-\\d{2}-\\d{2}$", date),
-      .month = is.na(month) | (month >= 1 & month <= 12),
-      .energy_measurement = dplyr::case_when(
-        is.na(sample_weight_type) ~ NA,
-        sample_weight_type == "wet" ~ energy_measurement >= 0 &
-          energy_measurement <= 13000,
-        sample_weight_type == "dry" ~ energy_measurement >= 1000 &
-          energy_measurement <= 43000,
-        .default = NA
-      )
-    )
-
-  return(df)
-}
-
-# ------ add_sub_sor_tbl -------
-
-#' @param split_tables a `list` cotaining `tbl_samples` split into
-#' database tables prior to submission.
-#' @param sub_tbl the `data.frame` that will be submitted to `tbl_submission`
-#' in the database.
-#' @param sor_tbl the `data.frame` that will be submitted to `tbl_sources`
-#' in the database.
-#'
-#' @name add_functions
-#' @export
-
-# ---- source and submission tables once split samples -----
-add_sub_sor_tbl <- function(split_tables, sub_tbl, sor_tbl) {
-  # addd --- source and submsision
-  split_tables$tbl_submission <- sub_tbl
-  split_tables$tbl_sources <- sor_tbl
-  return(split_tables)
 }
 
 # ------- add_taxonomic_groups -----
@@ -264,6 +206,64 @@ add_taxonomic_groups <- function(df, species_list) {
   }
   return(df_joined)
 }
+
+# ------ add_valid_cols ------
+
+#' @param df a `data.frame`
+#' @param valid_values a `data.frame` containing valid values from database
+#' schema derived from `get_valid_values()`.
+#'
+#' @name add_functions
+#' @seealso [get_valid_values()]
+#' @export
+add_valid_cols <- function(df, valid_values) {
+  df <- df |>
+    dplyr::mutate(dplyr::across(
+      dplyr::where(is.character) &
+        !dplyr::any_of(c(
+          "energy_units",
+          "pi_name",
+          "amino_acid_type",
+          "calorimetry_method",
+          "fatty_acid_type",
+          "thiamine_type",
+          "energy_measurment_units"
+        )),
+      tolower
+    ))
+
+  constraint_exprs <- purrr::imap(valid_values, function(vals, col) {
+    if (!col %in% names(df)) {
+      return(NULL)
+    }
+    sym <- rlang::sym(col)
+    rlang::expr(is.na(!!sym) | !!sym %in% !!vals)
+  }) |>
+    purrr::compact()
+
+  names(constraint_exprs) <- paste0(".", names(constraint_exprs))
+
+  df <- df |>
+    dplyr::mutate(!!!constraint_exprs)
+
+  # 3. Bespoke checks that can't be expressed as simple %in% -------------
+  df <- df |>
+    dplyr::mutate(
+      .date = is.na(date) | grepl("^\\d{4}-\\d{2}-\\d{2}$", date),
+      .month = is.na(month) | (month >= 1 & month <= 12),
+      .energy_measurement = dplyr::case_when(
+        is.na(sample_weight_type) ~ NA,
+        sample_weight_type == "wet" ~ energy_measurement >= 0 &
+          energy_measurement <= 13000,
+        sample_weight_type == "dry" ~ energy_measurement >= 1000 &
+          energy_measurement <= 43000,
+        .default = NA
+      )
+    )
+
+  return(df)
+}
+
 
 # ------ add_valid_taxonomy ------
 
