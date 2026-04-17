@@ -1,25 +1,81 @@
 # ---- check empty characters ------
 
+#' Check functions
+#'
+#' These functions check different conditions
+#'
+#' @param x a `vector
+#'
+#' @name check_functions
+#' @export`
+
 check_empty_character <- function(x) {
   is.null(x) || length(x) == 0 || all(x == "")
 }
 
 
+# ---- check sheets ----
+#' @param file_path the file path supplied by reactive handler
+#' @param output shiny object to output too
+#'
+#' @name check_functions
+#'
+#' @export
+check_sheets <- function(file_path, output) {
+  # get sheets
+  sheets <- readxl::excel_sheets(file_path)
+
+  # check if all sheets are there
+  required_sheets <- c("tbl_submission", "tbl_sources", "tbl_samples")
+  missing_sheets <- setdiff(required_sheets, sheets)
+
+  if (length(missing_sheets) > 0) {
+    output$upload_status <- shiny::renderUI({
+      shiny::p(
+        paste0(
+          "✖ Error: Missing required sheet(s): ",
+          paste(missing_sheets, collapse = ", ")
+        ),
+        style = "color:red; font-weight:600;"
+      )
+    })
+
+    return()
+  }
+}
+
 # ----- Credential checker -----
 # Works with the same `credentials` data frame shinymanager uses.
+
+#' @param user a `vector` containing the username
+#' @param pass a `vector` containing the password
+#' @param credentials a `dataframe` containing username and password
+#'
+#' @name check_functions
+#' @export
+
 check_tab_credentials <- function(user, pass, credentials) {
-  row <- credentials[
+  cd <- credentials[
     tolower(trimws(credentials$user)) == tolower(trimws(user)),
   ]
-  if (nrow(row) == 0) {
+  if (nrow(cd) == 0) {
     return(FALSE)
   }
   # Plain-text comparison — replace with hash check if needed
-  isTRUE(row$password[1] == pass)
+  isTRUE(cd$password[1] == pass)
 }
 
 
-# ----- check tax  -----
+# ----- check tax  ----
+#' @param input_values a `vector` of common and species names in incoming
+#' excel sheet.
+#' @param db_values a `vector` of common and species naems that are
+#' in `tbl_taxonomy`
+#'
+#' @name check_functions
+#'
+#' @export
+
 check_taxonomy_match <- function(input_values, db_values) {
   # Normalize input value
   input_norm <- stringr::str_to_sentence(input_values)
@@ -60,28 +116,4 @@ check_taxonomy_match <- function(input_values, db_values) {
   result$suggestions[!matches] <- suggestions
 
   return(result)
-}
-
-# ---- check sheets ----
-check_sheets <- function(file_path, output) {
-  # get sheets
-  sheets <- readxl::excel_sheets(file_path)
-
-  # check if all sheets are there
-  required_sheets <- c("tbl_submission", "tbl_sources", "tbl_samples")
-  missing_sheets <- setdiff(required_sheets, sheets)
-
-  if (length(missing_sheets) > 0) {
-    output$upload_status <- shiny::renderUI({
-      shiny::p(
-        paste0(
-          "✖ Error: Missing required sheet(s): ",
-          paste(missing_sheets, collapse = ", ")
-        ),
-        style = "color:red; font-weight:600;"
-      )
-    })
-
-    return()
-  }
 }
