@@ -25,7 +25,7 @@ add_valid_taxonomy(df, species_list)
 \arguments{
 \item{df}{a \code{data.frame}}
 
-\item{id_name}{the id column name to add new id to}
+\item{id_name}{the id column name to add new id to in the database}
 
 \item{max_ids}{the max id value}
 
@@ -34,10 +34,10 @@ add_valid_taxonomy(df, species_list)
 \item{tbl_sources}{\code{data.frame} that contains source data}
 
 \item{valid_values}{a \code{data.frame} containing valid values from database
-schema derived from \code{get_valid_values()}}
+schema derived from \code{get_valid_values()}.}
 
 \item{split_tables}{a \code{list} cotaining \code{tbl_samples} split into
-database tables prior to submission}
+database tables prior to submission.}
 
 \item{sub_tbl}{the \code{data.frame} that will be submitted to \code{tbl_submission}
 in the database.}
@@ -45,16 +45,19 @@ in the database.}
 \item{sor_tbl}{the \code{data.frame} that will be submitted to \code{tbl_sources}
 in the database.}
 
-\item{species_list}{a \code{tbl_lzy} object of the \code{tbl_taxonomy} from the
+\item{species_list}{a \code{tbl_lazy} object of the \code{tbl_taxonomy} from the
 database}
 }
 \description{
-Thes functions add new columns to the ingested
-data prior to either being validated or imported
+These functions add new columns to the ingested
+data prior to being validated or imported
 into the database
 }
 \details{
-\code{add_valid_taxonomy()} adds columns whether or not \code{vald_taxonomu()}
+\code{add_valid_taxonomy()} adds columns whether or not \code{valid_taxonomy()}
 returns species that are present in \code{tbl_taxononomy}'s \code{common_name} and
 \code{scientific_name}
+}
+\seealso{
+\code{\link[=get_valid_values]{get_valid_values()}}
 }
