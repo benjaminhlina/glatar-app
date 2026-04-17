@@ -1,3 +1,12 @@
+# ----- app version head ------
+#' App version functions
+#'
+#' This function, which has no arguments, dynamically displays
+#' the app version and build time.
+#'
+#' @name App version
+#' @export
+
 app_version_head <- function() {
   shiny::tags$head(
     shiny::tags$style(shiny::HTML(
@@ -33,6 +42,10 @@ app_version_head <- function() {
   )
 }
 
+# ----- app_verison_label ------
+
+#' @name App version
+#' @export
 
 app_version_label <- function(app_version, build_time = NULL) {
   if (is.null(build_time)) {
