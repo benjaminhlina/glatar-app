@@ -12,8 +12,29 @@
 glatar_app <- function() {
   # ---- startup the app -----
 
+  # withr::local_options(
+  #   .local_envir = parent.frame(),
+  #   cli.default_handler = function(msg) {
+  #     envir <- tryCatch(
+  #       rlang::env_find(msg$.envir, nms = names(msg$args[[1]])),
+  #       error = function(e) msg$.envir
+  #     )
+
+  #     txt <- cli::format_message(msg$args, .envir = envir) |>
+  #       sub("^FALSE", "", x = _) |>
+  #       sub("<environment.*$", "", x = _) |>
+  #       trimws() |>
+  #       cli::ansi_strip()
+
+  #     cat(txt, "\n", file = stderr(), sep = "")
+  #   }
+  # )
+
+  app_env <- new.env(parent = emptyenv())
+
   list2env(start_up(), envir = globalenv())
-  message("cli connection: ", class(getOption("cli.output_connection")))
+
+  # message("cli connection: ", class(getOption("cli.output_connection")))
 
   # ---- ui ------
   ui <- shinydashboard::dashboardPage(
@@ -260,6 +281,11 @@ glatar_app <- function() {
 
     shiny::observeEvent(input$logout_btn, {
       tab_auth$logout()
+    })
+
+    observe({
+      cat("TEST\n", file = stderr())
+      flush(stderr())
     })
   }
 
