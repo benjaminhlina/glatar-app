@@ -4,6 +4,7 @@
 \alias{add_functions}
 \alias{add_new_id}
 \alias{add_source_id}
+\alias{add_table_ids}
 \alias{add_valid_cols}
 \alias{add_sub_sor_tbl}
 \alias{add_taxonomic_groups}
@@ -13,6 +14,8 @@
 add_new_id(df, id_name, max_ids)
 
 add_source_id(tbl_samples, tbl_sources)
+
+add_table_ids(tables_split, tables_ids, max_ids)
 
 add_valid_cols(df, valid_values)
 
@@ -32,6 +35,11 @@ add_valid_taxonomy(df, species_list)
 \item{tbl_samples}{\code{data.frame} that contains sample data}
 
 \item{tbl_sources}{\code{data.frame} that contains source data}
+
+\item{tables_split}{a \code{list} cotaining \code{tbl_samples} split into
+database tables prior to submission.}
+
+\item{tables_ids}{column name that ids are assigned}
 
 \item{valid_values}{a \code{data.frame} containing valid values from database
 schema derived from \code{get_valid_values()}.}
