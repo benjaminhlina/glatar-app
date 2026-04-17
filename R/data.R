@@ -1,4 +1,5 @@
 #' A `data.frame` containing naming conventions
+#'
 #' @format `data.frame` containing 87 rows and 2 variables
 #'  \describe{
 #'    \item{raw_names}{name database columns}
