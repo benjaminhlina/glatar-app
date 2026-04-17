@@ -7,7 +7,7 @@
 #' @param x a `vector
 #'
 #' @name check_functions
-#' @export`
+#' @export
 
 check_empty_character <- function(x) {
   is.null(x) || length(x) == 0 || all(x == "")
