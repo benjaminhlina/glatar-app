@@ -165,7 +165,7 @@ pretty_validate_report <- function(confrontation, table_name = NULL) {
   out <- out |>
     dplyr::group_by(Column, Issue) |>
     dplyr::summarise(
-      `Row Index` = compress_row_index(paste(
+      `Row Index` = clean_row_index(paste(
         sort(unique(Row)),
         collapse = ", "
       )),
