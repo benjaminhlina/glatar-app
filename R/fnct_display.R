@@ -1,3 +1,10 @@
+display_column_defs <- function(...) {
+  args <- list(...)
+  lapply(seq_along(args), function(i) {
+    list(width = paste0(args[[i]], "px"), targets = i - 1)
+  })
+}
+
 display_hist <- function(
   data,
   input_source,
