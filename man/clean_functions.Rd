@@ -7,6 +7,7 @@
 \alias{clean_db_constraints}
 \alias{clean_match_to_db_col}
 \alias{clean_rename_to_db_col}
+\alias{clean_row_index}
 \title{Clean functions}
 \usage{
 clean_all_validations(...)
@@ -18,6 +19,8 @@ clean_db_constraints(clause)
 clean_match_to_db_col(col_name, db_cols)
 
 clean_rename_to_db_col(df, con, table_name)
+
+clean_row_index(row_index_str, min_run = 5)
 }
 \arguments{
 \item{...}{objects to be cleaned. Usually validation reports}
@@ -41,6 +44,12 @@ lat and lon, pi name, waterbody ect.}
 
 \item{table_name}{the table name in the database that each
 column name is assinged to.}
+
+\item{row_index_str}{a column containing the row index from submitted data during
+validation}
+
+\item{min_run}{minimum number of consecutive numbers before it condenses
+the row numbers. Default is \code{5}.}
 }
 \description{
 These functions clean up \code{data.frames} and \code{vectors} that
