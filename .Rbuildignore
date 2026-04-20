@@ -13,3 +13,6 @@
 ^warming_up\.html$
 ^docker-composer\.yaml$
 ^/R/app\.R$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
