@@ -6,6 +6,9 @@
 \alias{create_mean_data}
 \alias{create_raw_data}
 \alias{create_searching_data}
+\alias{create_source_data}
+\alias{create_summary_data}
+\alias{create_zoom_slider}
 \title{Create functions}
 \usage{
 create_filtered_data(data, input_source, pane)
@@ -28,6 +31,19 @@ create_searching_data(
   source_data = NULL,
   tbl_name = NULL
 )
+
+create_source_data(activated = NULL, con, main_input, tab = NULL)
+
+create_summary_data(
+  activated = NULL,
+  con,
+  input_source,
+  main_input,
+  tab = NULL,
+  var_field
+)
+
+create_zoom_slider(data, input_source)
 }
 \arguments{
 \item{data}{a \code{reactive()} data frame like object usually
@@ -52,7 +68,7 @@ the tab upon start up nor when clicking away.}
 \item{main_input}{the \code{main_input} from the shiny server.}
 
 \item{tab}{the selected tab that is being displayed e.g.,
-\verb{"scatter_plot". }}
+\verb{"summary_info". }}
 
 \item{var_field}{a \code{character} string that identifies the object
 in the \code{list} that is supplied to \code{input_source}. This object

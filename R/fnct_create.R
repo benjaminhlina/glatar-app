@@ -392,12 +392,22 @@ create_searching_data <- function(
 }
 # ----- create source data ------
 
+#' @param activated is a `shiny` reactive value which gets triggered
+#' when the tab is activated. This makes it so that the tab stays the
+#' same when clicking away but also that it doesn't run
+#' the tab upon start up nor when clicking away.
+#' @param con a `DBI` conection to, in this case PostgreSQL database
+#' @param main_input the `main_input` from the shiny server.
+#' @param tab the selected tab that is being displayed e.g.,
+#' `"source_info". `
+#'
+#' @name create_functions
+#' @export
 create_source_data <- function(
+  activated = NULL,
   con,
   main_input,
-  # input_source,
-  tab = NULL,
-  activated = NULL
+  tab = NULL
 ) {
   shiny::reactive({
     # use for other tabs ---
@@ -478,15 +488,31 @@ create_source_data <- function(
 }
 
 # ---- sumary data -----
-# args here are con and main input with tab being used in view_summary and
-# view_plot
+#' @param activated is a `shiny` reactive value which gets triggered
+#' when the tab is activated. This makes it so that the tab stays the
+#' same when clicking away but also that it doesn't run
+#' the tab upon start up nor when clicking away.
+#' @param con a `DBI` conection to, in this case PostgreSQL database
+#' @param input_source usually an object created by a sidebar
+#' function. These objects tend to be `reactive()` outcomes from
+#' `observe()` or `observeEvent()` calls within a module.
+#' @param main_input the `main_input` from the shiny server.
+#' @param tab the selected tab that is being displayed e.g.,
+#' `"summary_info". `
+#' @param var_field a `character` string that identifies the object
+#' in the `list` that is supplied to `input_source`. This object
+#' name is the variable field that is of interest for the particular
+#' use for a given function.
+#'
+#' @name create_functions
+#' @export
 create_summary_data <- function(
+  activated = NULL,
   con,
-  main_input,
   input_source,
-  var_field,
+  main_input,
   tab = NULL,
-  activated = NULL
+  var_field
 ) {
   shiny::reactive({
     # use for other tabs ---
@@ -551,6 +577,17 @@ create_summary_data <- function(
 }
 
 # ----- creaete zoom slider -----
+#' @param data a `reactive()` data frame like object usually
+#' created from another `create_function`. Considering
+#' raw data is gathered through a PostgresSQL connection
+#' these reactive objects tend to be `tbl_lazy`.
+#' @param input_source usually an object created by a sidebar
+#' function. These objects tend to be `reactive()` outcomes from
+#' `observe()` or `observeEvent()` calls within a module.
+#'
+#' @name create_functions
+#' @export
+
 create_zoom_slider <- function(
   data,
   input_source
