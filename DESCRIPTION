@@ -25,3 +25,4 @@ RoxygenNote: 7.3.3
 Depends: 
     R (>= 4.1.0)
 LazyData: true
+URL: https://benjaminhlina.github.io/glatar-app/
