@@ -1,4 +1,13 @@
-# ----- all the data types we want -----
+# ---- Data tabels -----
+#' Vector functions
+#'
+#' These functions produce a vector with information related to
+#' the database. These may eventually be moved to being data
+#' objects that are loaded when the package is loaded.
+#'
+#' @name vector_functions
+#'
+#' @export
 data_tables <- function() {
   data_tables <- c(
     "tbl_amino_acid" = "Amino Acid",
@@ -14,6 +23,11 @@ data_tables <- function() {
   return(data_tables)
 }
 
+# ----- data types -----
+#' @name vector_functions
+#'
+#' @export
+
 data_types <- function() {
   data_types <- c(
     "Individual",
@@ -26,7 +40,9 @@ data_types <- function() {
 }
 
 # ----- themes -----
-
+#' @name vector_functions
+#'
+#' @export
 themes <- function() {
   themes <- c(
     "Energy Density",
