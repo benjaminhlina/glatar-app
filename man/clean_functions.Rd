@@ -34,6 +34,9 @@ clean_row_index(row_index_str, min_run = 5)
 \item{group_cols}{columns that will be grouping our summariziing e.g.,
 lat and lon, pi name, waterbody ect.}
 
+\item{filter_coords}{Logical value that controls whether \code{NA} coords are removed.
+Default value is \code{TRUE}.}
+
 \item{clause}{constraint clause to be cleaned}
 
 \item{col_name}{column name to be cleaned to match database column names}

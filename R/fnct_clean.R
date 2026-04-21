@@ -45,7 +45,8 @@ clean_all_validations <- function(...) {
 #' @param type is the data table type that is being supplied e.g., tbl_isotope
 #' @param group_cols columns that will be grouping our summariziing e.g.,
 #' lat and lon, pi name, waterbody ect.
-#'
+#' @param filter_coords Logical value that controls whether `NA` coords are removed.
+#' Default value is `TRUE`.
 #' @name clean_functions
 #' @export
 clean_data_tables <- function(
