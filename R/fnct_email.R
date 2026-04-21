@@ -1,4 +1,19 @@
 # ---- email body html ------
+#' Submission Email Body
+#'
+#' This function drafts the text body the submission email that
+#' will be sent once the data has been successfully uploaded to
+#' the database
+#'
+#' @param submission_id a `vector` containing the submission id
+#' which will be used in the subject line and body of the emaul
+#' @param submission_results an object returned by `upload_to_db`
+#' that has the name of the table, the number of rows that were submitted, and
+#' the submission id so this can be dynamically added to the the email text.
+#' @return HTML of the email structure to be sent.
+#'
+#' @export
+
 submission_email_body <- function(submission_id, submission_results) {
   results_lines <- purrr::imap_chr(submission_results, function(res, tbl_name) {
     glue::glue(
@@ -36,9 +51,22 @@ submission_email_body <- function(submission_id, submission_results) {
 
 
 # ----- email send ------
+#' Send Email
+#'
+#' This function sends an email using `httr` using the
+#' starndard HTTPS port of 443. Due to server firewall restrictions
+#' we cannot use STMP protocols to send emails from the site but
+#' can use HTTPS and resend.
+#'
+#' @param to_user a valid email address
+#' @param email_text an object containing HTML for the subject
+#' line and the body of the email.
+#'
+#' @export
+
 send_email <- function(
   to_user,
-  email
+  email_text
 ) {
   email_sent <- httr2::request("https://api.resend.com/emails") |>
     httr2::req_headers(
@@ -50,8 +78,8 @@ send_email <- function(
         from = "noreply@glatar.org",
         to = to_user,
         cc = "benjamin.hlina@gmail.com",
-        subject = email$subject,
-        html = email$email_body
+        subject = email_text$subject,
+        html = email_text$email_body
       )
     ) |>
     httr2::req_perform()
