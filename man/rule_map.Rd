@@ -11,6 +11,7 @@
 \item{col}{column name that is being validated}
 \item{issue}{what is the issue that the column has}
 }
+}
 \usage{
 rule_map
 }

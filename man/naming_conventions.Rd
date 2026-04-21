@@ -10,6 +10,7 @@
 \item{raw_names}{name database columns}
 \item{nice_names}{nice names to transform them into}
 }
+}
 \usage{
 naming_conventions
 }
