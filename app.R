@@ -1,4 +1,5 @@
 # ----- glatar app ----
-glatar::glatar_app()
+library(glatar)
+glatar_app()
 
 # ---- run additonal apps -----
