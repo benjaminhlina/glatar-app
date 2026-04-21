@@ -12,8 +12,10 @@
 ^shiny_entry\.sh$
 ^warming_up\.html$
 ^docker-composer\.yaml$
-^/R/app\.R$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^app\.R$
+^data-raw$
+^docker-compose\.yaml$
+^CODE_OF_CONDUCT\.md$
