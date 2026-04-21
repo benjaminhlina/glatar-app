@@ -283,10 +283,10 @@ glatar_app <- function() {
       tab_auth$logout()
     })
 
-    observe({
-      cat("TEST\n", file = stderr())
-      flush(stderr())
-    })
+    # observe({
+    #   cat("TEST\n", file = stderr())
+    #   flush(stderr())
+    # })
   }
 
   # render ui and serve together to create dashboard
