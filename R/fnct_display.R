@@ -1,9 +1,32 @@
-display_column_defs <- function(...) {
+# ----- display_column_width -----
+#' Display functions
+#'
+#' These functions are all display vital information
+#' within GLATAR such as plots, histograms, and tables.
+#' They function by wrapping the given display object (e.g.,
+#' table) with a `render*()` function from `shiny`.
+#'
+#' @param ... additional arguments
+#' @name display_functions
+#' @export
+
+display_col_width <- function(...) {
   args <- list(...)
   lapply(seq_along(args), function(i) {
     list(width = paste0(args[[i]], "px"), targets = i - 1)
   })
 }
+# ------- display_hist ------
+#' @param data a reactive data object for a given variable.
+#' @param input_source usually an object created by a sidebar
+#' function. These objects tend to be `reactive()` outcomes from
+#' `observe()` or `observeEvent()` calls within a module.
+#' @param output an output within a shiny module.
+#' @param output_id the id name of the output, e.g., `"summary_histogram"`.
+#'
+#'
+#' @name display_functions
+#' @export
 
 display_hist <- function(
   data,
@@ -169,6 +192,18 @@ display_hist <- function(
     return(p)
   })
 }
+
+# ----- dsipaly_scatter_plot -------
+
+#' @param data a reactive data object for a given variable.
+#' @param input_source usually an object created by a sidebar
+#' function. These objects tend to be `reactive()` outcomes from
+#' `observe()` or `observeEvent()` calls within a module.
+#' @param output an output within a shiny module.
+#' @param output_id the id name of the output, e.g., `"summary_histogram"`.
+#'
+#' @name display_functions
+#' @export
 
 # ----- display scatter plot -----
 display_scatter_plot <- function(
@@ -377,10 +412,19 @@ display_scatter_plot <- function(
     return(p)
   })
 }
-# ----- dsplay_submsiion_id -----
+# ----- display_submission_map -----
+#' @param ns a namespace object created from `NS()` from `shiny`
+#' @param output an output within a shiny module.
+#' @param output_id the id name of the output, e.g., `"summary_histogram"`.
+#' @param split_tables a `list` that contains the tables that will
+#' be submitted split into their given PostgreSQL table names.
+#'
+#' @name display_functions
+#' @export
+
 display_submission_map <- function(
-  output,
   ns,
+  output,
   output_id = "map",
   split_tables
 ) {
@@ -461,9 +505,24 @@ display_submission_map <- function(
 
 
 # ----- dsiplay submssion map info ------
+#' @param ns a namespace object created from `NS()` from `shiny`
+#' @param output an output within a shiny module.
+#' @param output_id the id name of the output, e.g., `"summary_histogram"`.
+#' @param split_tables a `list` that contains the tables that will
+#' be submitted split into their given PostgreSQL table names.
+#' @param validated_submission a reactive value this contains the
+#' validated `tbl_submission`.
+#' @param validated_sources a reactive value this contains the
+#' validated `tbl_sources`.
+#' @param validated_samples a reactive value this contains the
+#' validated `tbl_samples`.
+#'
+#' @name display_functions
+#' @export
+
 display_sub_map_msg <- function(
-  output,
   ns,
+  output,
   output_id = "location_map",
   split_tables,
   validated_submission,
@@ -506,6 +565,15 @@ display_sub_map_msg <- function(
 }
 
 # ---- display summary_table -----
+#' @param data a reactive data object for a given variable.
+#' `observe()` or `observeEvent()` calls within a module.
+#' @param output an output within a shiny module.
+#' @param output_id the id name of the output, e.g., `"summary_histogram"`.
+#' @param search a logitcal value that determines whether `datatable()` from
+#' `DT` has a search bar or not. Default value is `TRUE`.
+#'
+#' @name display_functions
+#' @export
 
 display_table <- function(
   data,
@@ -545,9 +613,27 @@ display_table <- function(
   })
 }
 # ---- dispaly upload status ------
+#' @param ns a namespace object created from `NS()` from `shiny`
+#' @param output an output within a shiny module.
+#' @param output_id the id name of the output, e.g., `"summary_histogram"`.
+#' @param upload_succeeded a `tryCatch()` that tries to submit the split tables
+#' to the database. The returning object is a logical value, `TRUE` or `FALSE`
+#' which will change the given status of ghe upload that is then displayed to the user.
+#' This object is returned by `upload_to_db()`.
+#' @param submission_results an object returned by `upload_to_db` that has the
+#' name of the table, the number of rows that were submitted, and
+#' the submission id so this can be dynamically displayed to the user.
+#' @param email_succeeded a `tryCatch()` that tries to send an meail. The returning
+#' object is a logical value, `TRUE` or `FALSE` which will change the given email
+#' status displayed to the user.
+#' @param user_email a valid email address of the user, e.g., `user.name@example.com`.
+#'
+#' @name display_functions
+#' @export
+
 display_upload_status <- function(
-  output,
   ns,
+  output,
   output_id = "upload_status",
   upload_succeeded = NULL,
   submission_results = NULL,
@@ -605,9 +691,21 @@ display_upload_status <- function(
 }
 
 # ----- display upload status ------
+
+#' @param ns a namespace object created from `NS()` from `shiny`
+#' @param output an output within a shiny module.
+#' @param output_id the id name of the output, e.g., `"summary_histogram"`.
+#' @param split_tables a `list` that contains the tables that will
+#' be submitted split into their given PostgreSQL table names.
+#' @param validated a logical value to determine if a validation
+#' succeeded. Default is `TRUE`.
+#'
+#' @name display_functions
+#' @export
+
 display_validation_status <- function(
-  output,
   ns,
+  output,
   output_id = "upload_status",
   split_tables = NULL,
   validated = TRUE
