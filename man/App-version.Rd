@@ -10,7 +10,13 @@ app_version_head()
 
 app_version_label(app_version, build_time = NULL)
 }
+\arguments{
+\item{app_version}{\code{character}for app version.}
+
+\item{build_time}{a \code{POSIXct} object. If \code{NULL} it uses
+\verb{Sys.time(). }}
+}
 \description{
-This function, which has no arguments, dynamically displays
-the app version and build time.
+These function build and display the app version
+and build time.
 }
