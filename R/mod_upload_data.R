@@ -485,7 +485,7 @@ upload_data_server <- function(id, con, auth_state) {
           {
             send_email(
               to_user = user_email,
-              email = email_body
+              email_text = email_body
             )
             cli::cli_alert_success("Email was successfully sent!")
             TRUE
