@@ -38,7 +38,7 @@ submission_email_body <- function(submission_id, submission_results) {
     <hr>
     <p>If you have questions, please contact the GLATAR manager at
     <a href="mailto:benjamin.hlina@gmail.com">benjamin.hlina@gmail.com</a>.</p>
-    <p>— GLATAR Team</p>
+    <p> -GLATAR Team</p>
 
     <p><em>Please do not reply to this email as it will not be received. 
     If you have any concerns, please email <a href="mailto:benjamin.hlina@gmail.com">benjamin.hlina@gmail.com</a> with 

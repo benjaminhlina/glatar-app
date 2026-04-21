@@ -119,7 +119,11 @@ create_mean_data <- function(data, input_source) {
     # if selected_vars is null just produce base query -----
     if (is.null(y_vals) || length(y_vals) == 0) {
       # Return just the grouped counts
-      cli::cli_inform("No y_variable selected → returning grouped n only")
+      cli::cli_inform(paste(
+        "No y_variable selected",
+        cli::symbol$arrow_right,
+        "returning grouped n only"
+      ))
       grouped_summary_df <- base_df |>
         dplyr::collect() |>
         dplyr::arrange(dplyr::across(dplyr::any_of(summary_grouping_vars)))
@@ -144,7 +148,11 @@ create_mean_data <- function(data, input_source) {
       # Check if variable exists after filtering
       if (!var_to_summarise %in% colnames(df_filtered)) {
         cli::cli_warn(
-          "Skipping {.field {v}} — column not present after mapping"
+          paste(
+            "Skipping {.field {v}}",
+            cli::symbol$line,
+            "column not present after mapping"
+          )
         )
         return(NULL)
       }
@@ -450,7 +458,7 @@ create_source_data <- function(
       var = "sample_id"
     )
 
-    # ── 3. Aggregate to unique locations ───────
+    # ---- 3. Aggregate to unique locations ------
     samples_data <- clean_data_tables(
       df = samples_data,
       flag_cols = flag_cols,

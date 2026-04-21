@@ -65,7 +65,9 @@ fix_title_label <- function(x, max = NULL) {
   } else {
     paste0(
       paste(utils::head(x, max), collapse = ", "),
-      ", <br>… (",
+      ", <br>",
+      cli::symbol$ellipsis,
+      "(",
       length(x) - max,
       " more)"
     )

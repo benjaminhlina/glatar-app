@@ -33,7 +33,8 @@ check_sheets <- function(file_path, output) {
     output$upload_status <- shiny::renderUI({
       shiny::p(
         paste0(
-          "✖ Error: Missing required sheet(s): ",
+          cli::symbol$cross,
+          " Error: Missing required sheet(s): ",
           paste(missing_sheets, collapse = ", ")
         ),
         style = "color:red; font-weight:600;"

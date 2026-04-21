@@ -234,8 +234,11 @@ display_scatter_plot <- function(
     }
     if (check_empty_character(x_var_raw) | check_empty_character(y_var_raw)) {
       p <- empty_plot(
-        "Grouping variables selected ✓\n\nNow 
-      choose your **x** and **y** variables of interest."
+        paste(
+          "Grouping variables selected",
+          cli::symbol$tick,
+          "\n\nNow choose your **x** and **y** variables of interest."
+        )
       )
 
       return(p)
@@ -588,7 +591,13 @@ display_table <- function(
 
     # validate data
     shiny::validate(
-      shiny::need(is.data.frame(df), "Waiting for data…"),
+      shiny::need(
+        is.data.frame(df),
+        paste0(
+          "Waiting for data",
+          cli::symbol$ellipsis
+        )
+      ),
       shiny::need(nrow(df) > 0, "No data available")
     )
 
@@ -643,15 +652,21 @@ display_upload_status <- function(
   output[[output_id]] <- shiny::renderUI({
     if (!upload_succeeded) {
       shiny::HTML(
-        "<span style='color: red;'>
-           ✘ Upload failed — no data was saved. Please check your data and try again.
+        paste0(
+          "<span style='color: red;'>",
+          cli::symbol$cross,
+          " Upload failed ",
+          cli::symbol$line,
+          " no data was saved. 
+          Please check your data and try again.
          </span>"
+        )
       )
     } else {
       msg <- lapply(names(submission_results), function(tbl_name) {
         res <- submission_results[[tbl_name]]
         paste0(
-          "✔ ",
+          cli::symbol$tick,
           tbl_name,
           ": ",
           res$rows_submitted,
@@ -666,13 +681,19 @@ display_upload_status <- function(
       email_msg <- if (!is.null(email_succeeded)) {
         if (isTRUE(email_succeeded)) {
           paste0(
-            "<span style='color: green;'>✔ Confirmation email 
+            "<span style='color: green;'>",
+            cli::symbol$tick,
+            " Confirmation email 
              sent successfully to ",
             user_email,
             ".</span>"
           )
         } else {
-          "<span style='color: orange;'>⚠ Upload succeeded but confirmation email failed to send.</span>"
+          paste0(
+            "<span style='color: orange;'>",
+            cli::symbol$warning,
+            " Upload succeeded but confirmation email failed to send.</span>"
+          )
         }
       } else {
         ""
@@ -716,7 +737,7 @@ display_validation_status <- function(
 
       shiny::tagList(
         shiny::p(
-          "✔ All validations passed",
+          paste0(cli::symbol$tick, " All validations passed"),
           style = "color:green; font-weight:600;"
         ),
         shiny::p(
@@ -731,8 +752,12 @@ display_validation_status <- function(
     } else {
       shiny::tagList(
         shiny::p(
-          "✖ Validation failed - please fix the following issues. If you can not resolve 
-          the issue (e.g., common name not in the database) please contact the GLATAR manager",
+          paste0(
+            cli::symbol$cross,
+            " Validation failed - please fix the following issues. 
+          If you can not resolve the issue (e.g., common name not in the database) 
+          please contact the GLATAR manager"
+          ),
           style = "color:red; font-weight:600;"
         ),
         shiny::tableOutput(ns("error_table"))
