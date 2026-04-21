@@ -5,10 +5,13 @@ https://github.com/benjaminhlina/glatar-app/actions/workflows/build_docker.yaml
 )
 [![Deploy to DO](https://github.com/benjaminhlina/glatar-app/actions/workflows/deploy_compose_do.yaml/badge.svg)](
     https://github.com/benjaminhlina/glatar-app/actions/workflows/deploy_compose_do.yaml
+)
 [![Deployed App Status](https://github.com/benjaminhlina/glatar-app/actions/workflows/check_shiny_status.yaml/badge.svg)](
     https://github.com/benjaminhlina/glatar-app/actions/workflows/check_shiny_status.yaml
-
-[![R-CMD-check](https://github.com/benjaminhlina/glatar-app/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/benjaminhlina/glatar-app/actions/workflows/R-CMD-check.yaml)
+)
+[![R-CMD-check](https://github.com/benjaminhlina/glatar-app/actions/workflows/R-CMD-check.yaml/badge.svg)](
+    https://github.com/benjaminhlina/glatar-app/actions/workflows/R-CMD-check.yaml
+)
 <!-- badges: end -->
 
 # GLATAR-App 
