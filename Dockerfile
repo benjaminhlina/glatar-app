@@ -68,6 +68,8 @@ ENV RENV_CONFIG_PAK_ENABLED=TRUE
 ENV RENV_CONFIG_REPOS_OVERRIDE=https://cloud.r-project.org
 RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
 
+# ----- installl glatar ----- 
+RUN R -e "pak::pak('benjaminhlina/glatar-app')"
 # ---- Restore with pak debugging ----
 # RUN R -e "options(renv.verbose = TRUE); \
 #  Sys.setenv(RENV_CONFIG_PAK_ENABLED = 'TRUE'); \
@@ -87,12 +89,7 @@ RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
 
 # Copy app files
 COPY app.R app.R
-COPY www/ www/
-COPY data/app-data data/app-data
-COPY modules/ modules/
-COPY startup/ startup/
-COPY load/ load/
-COPY R/ R/
+
 # copy shiny-server config file
 COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 
