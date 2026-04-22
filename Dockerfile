@@ -66,27 +66,27 @@ COPY renv/ renv/
 ENV RENV_PATHS_CACHE=/renv/cache
 ENV RENV_CONFIG_PAK_ENABLED=TRUE
 ENV RENV_CONFIG_REPOS_OVERRIDE=https://cloud.r-project.org
-RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
+# RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
+
+# ---- Restore with pak debugging ----
+RUN R -e "options(renv.verbose = TRUE); \
+ Sys.setenv(RENV_CONFIG_PAK_ENABLED = 'TRUE'); \
+ lockfile <- renv:::renv_lockfile_load(project = getwd()); \
+ packages <- names(lockfile[['Packages']]); \
+ cat('Total packages to install:', length(packages), '\n'); \
+  for (i in seq_along(packages)) { \
+   cat(sprintf('Installing %d/%d: %s\n', i, length(packages), packages[i])); \
+    tryCatch({ \
+     renv::install(packages[i], prompt = FALSE); \
+    }, error = function(e) { \
+     cat('FAILED ON PACKAGE:', packages[i], '\n'); \
+      cat('Error:', conditionMessage(e), '\n'); \
+      quit(status = 1); \
+    }); \
+  }"
 
 # ----- installl glatar ----- 
 RUN R -e "pak::pak('benjaminhlina/glatar-app')"
-# ---- Restore with pak debugging ----
-# RUN R -e "options(renv.verbose = TRUE); \
-#  Sys.setenv(RENV_CONFIG_PAK_ENABLED = 'TRUE'); \
-#  lockfile <- renv:::renv_lockfile_load(project = getwd()); \
-#  packages <- names(lockfile[['Packages']]); \
-#  cat('Total packages to install:', length(packages), '\n'); \
-  #for (i in seq_along(packages)) { \
-   # cat(sprintf('Installing %d/%d: %s\n', i, length(packages), packages[i])); \
-    #tryCatch({ \
-    #  renv::install(packages[i], prompt = FALSE); \
-    #}, error = function(e) { \
-     # cat('FAILED ON PACKAGE:', packages[i], '\n'); \
-      #cat('Error:', conditionMessage(e), '\n'); \
-      #quit(status = 1); \
-    #}); \
-  #}"
-
 # Copy app files
 COPY app.R app.R
 
