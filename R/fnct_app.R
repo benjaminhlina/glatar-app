@@ -136,6 +136,10 @@ glatar_app <- function() {
     ),
     # ---- create display panes ----
     shinydashboard::dashboardBody(
+      shiny::tags$script(
+        async = NA,
+        src = "https://www.googletagmanager.com/gtag/js?id=G-'G-KP6R7HNSDB"
+      ),
       # add  analytics
       shiny::tags$head(
         # ----- add google analytics -----
