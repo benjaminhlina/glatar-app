@@ -136,7 +136,7 @@ summary_sidebar_server <- function(id, con, main_input) {
         shiny::req(main_input$tabs == "summary_info")
         shiny::req(!initialized())
 
-        sidebar_df <- get_sidebar_df(con)
+        sidebar_df <- create_sidebar_df(con)
 
         filters <- c(
           "summary_waterbody_filter",
@@ -155,7 +155,7 @@ summary_sidebar_server <- function(id, con, main_input) {
         # ---- get data types -----
         data_types_choices <- data_types()
         # get grouping snad numerical values
-        grouping_choices <- get_groups(df) |>
+        grouping_choices <- get_good_groups(df) |>
           sort()
 
         grouping_choices <- stats::setNames(
