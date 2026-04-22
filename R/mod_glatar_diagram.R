@@ -1,9 +1,19 @@
+# ------ glartar diagram -----
+
+#' GLATAR diagram
+#'
+#' The `glatar_diagram_ui()` create the interactive
+#' HTML solar system on the front page.
+#'
+#' @name glatar_diagram
+#' @export
+
 glatar_diagram_ui <- function() {
   htmltools::tags$div(
     style = "width:100%; padding: 10px 0;",
     htmltools::tags$style(htmltools::HTML(
       "
-      /* ── GLATAR Bubble Diagram ── */
+      /* ---- GLATAR Bubble Diagram --- */
       .glatar-diagram-wrap {
         font-family: 'Georgia', 'Times New Roman', serif;
         background: linear-gradient(160deg, #0a1628 0%, #0d2340 50%, #0a1e35 100%);
@@ -32,7 +42,7 @@ glatar_diagram_ui <- function() {
         opacity: 0.75;
       }
 
-      /* ── SVG canvas ── */
+      /* ---- SVG canvas ---- */
       #glatar-svg {
         display: block;
         margin: 0 auto;
@@ -41,7 +51,7 @@ glatar_diagram_ui <- function() {
         overflow: visible;
       }
 
-      /* ── Connector lines ── */
+      /* ---- Connector lines ---- */
       .glatar-spoke {
         stroke: rgba(100,180,220,0.18);
         stroke-width: 1.5;
@@ -49,7 +59,7 @@ glatar_diagram_ui <- function() {
         transition: stroke 0.3s, stroke-opacity 0.3s;
       }
 
-      /* ── Bubbles ── */
+      /* ---- Bubbles ---- */
       .glatar-bubble-group {
         cursor: pointer;
       }
@@ -89,7 +99,7 @@ glatar_diagram_ui <- function() {
         letter-spacing: 0.3px;
       }
 
-      /* ── Centre hub ── */
+      /* ---- Centre hub ---- */
       .glatar-hub-outer { opacity: 0.25; }
       .glatar-hub-inner { opacity: 0.55; }
       .glatar-hub-label {
@@ -102,7 +112,7 @@ glatar_diagram_ui <- function() {
         letter-spacing: 1.5px;
       }
 
-      /* ── Info card ── */
+      /* ---- Info card ---- */
       .glatar-info-card {
         max-width: 660px;
         margin: 24px auto 0;
@@ -261,7 +271,7 @@ glatar_diagram_ui <- function() {
     {
       id: "ed",
       label: ["Energy","Density"],
-      icon: "⚡",
+      icon: "\\u26A1",
       color: "#f0a500",
       glow: "#f0a500",
       grad: ["#bc7a00ff","#7f5900ff"],
@@ -283,31 +293,31 @@ glatar_diagram_ui <- function() {
     {
       id: "si",
       label: ["Stable","Isotopes"],
-      icon: "⚛",
+      icon: "\\u269B",
       iconFilter: "drop-shadow(0 0 4px rgba(255,255,255,0.8))",
       iconSize: "8rem",
       color: "#64c8f5",
       glow: "#64c8f5",
       grad: ["#2a84c8ff","#155c96ff"],
-      desc: "Ratios of δ¹³C and δ¹⁵N (and others) in tissue are used to infer trophic position, dietary sources, niche partition, community dynamics, habitat use, and migration patterns across food webs.",
-      tags: ["δ¹³C","δ¹⁵N","δ³⁴S","δ¹⁸O", "δ²H", "Trophic position","Food web tracing"],
+      desc: "Ratios of \\u03B4\\u00B9\\u00B3C and \\u03B4\\u00B9\\u2075N  (and others) in tissue are used to infer trophic position, dietary sources, niche partition, community dynamics, habitat use, and migration patterns across food webs.",
+      tags: ["\\u03B4\\u00B9\\u00B3C", "\\u03B4\\u00B9\\u2075N", "\\u03B4\\u00B3\\u2074S", "\\u03B4\\u00B9\\u2078O", "\\u03B4\\u00B2H", "Trophic position","Food web tracing"],
       doc: "www/documentation/stable_isotope_documentation.pdf"
     },
     {
       id: "th",
       label: ["Thiamine"],
-      icon: "💊",
+      icon: String.fromCodePoint(0x1F48A),
       color: "#e06dff",
       glow: "#e06dff",
       grad: ["#8900c0ff","#50006fff"],
-      desc: "Thiamine (i.e., Vitamin B₁) concentrations in eggs and tissues are critical indicators of early mortality syndrome (EMS/TAMS) in salmonids and other Great Lakes fishes.",
+      desc: "Thiamine (i.e., Vitamin B\\u2081) concentrations in eggs and tissues are critical indicators of early mortality syndrome (EMS/TAMS) in salmonids and other Great Lakes fishes.",
       tags: ["nmol/g","Egg thiamine","EMS / TAMS","Salmonid health"],
       doc: "www/documentation/thiamine_and_thiaminase_documentation.pdf"
     },
     {
       id: "fa",
       label: ["Fatty","Acids"],
-      icon: "🫧",
+      icon: String.fromCodePoint(0x1FAE7),
       color: "#ff9055",
       glow: "#ff9055",
       grad: ["#973500ff","#602000ff"],
@@ -318,16 +328,16 @@ glatar_diagram_ui <- function() {
     {
       id: "contaminants",
       label: ["Contaminants"],
-      icon: "☠",
+      icon: "\\u2620",
       iconFilter: "drop-shadow(0 0 4px rgba(255,255,255,0.8))",
       iconSize: "8rem",
       color: "#ff5f72",
       glow: "#ff5f72",
       grad: ["#be0020ff","#6a0013ff"],
       desc: "Contaminants in the repository include total and methylmercury and Polychlorinated biphenyl (PCBs, i.e., individual congeners and totals) concentrations in fish and invertebrate tissues. These measurements are essential for contaminant monitoring, consumption advisories, and food web biomagnification studies, as well as reflect legacy contaminant loads and are used in ecological risk assessments.",
-      tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment", "Total Hg","Methylmercury", "μg/g wet wt","Bioaccumulation"],
+      tags: ["Total PCBs","Congener profiles","ng/g wet wt","Risk assessment", "Total Hg","Methylmercury", "\\u03BCg/g wet wt","Bioaccumulation"],
       doc:["www/documentation/polychlorinated_biphenyls_documentation.pdf", "www/documentation/mercury_and_methylmercury_documentation.pdf"], 
-      docLabels: ["View Documentation — PCBs", "View Documentation — Mercury"]
+      docLabels: ["View Documentation - PCBs", "View Documentation - Mercury"]
     }
   ];
 
@@ -417,7 +427,7 @@ glatar_diagram_ui <- function() {
     document.getElementById("card-icon").innerHTML = svg;
     document.getElementById("card-icon").style.filter = "drop-shadow(0 0 4px rgba(255,255,255,0.8))";
     });
-    document.getElementById("card-name").textContent = "GLATAR — Great Lakes Aquatic Tissue Analysis Repository";
+    document.getElementById("card-name").textContent = "GLATAR - Great Lakes Aquatic Tissue Analysis Repository";
     document.getElementById("card-name").style.color = "#64c8f5";
     document.getElementById("card-desc").textContent = "GLATAR brings together energy density, proximate composition, stable isotopes, thiamine, fatty acids, mercury, and PCB data into a single, unified repository. By integrating these complementary data, researchers and managers can explore bioenergetics, contaminant dynamics, nutritional quality, and food web structure across species and spatial and temporal scales.";
 
@@ -450,10 +460,10 @@ glatar_diagram_ui <- function() {
   // helper: draw a mini pie chart in SVG at (px, py) with given radius
   function drawPie(parent, px, py, pr) {
     var slices = [
-      { pct: 0.70, fill: "#4ab8e8" },   // water – blue
-      { pct: 0.15, fill: "#f0d060" },   // lipid – yellow
-      { pct: 0.12, fill: "#f5b638ff" },   // protein – green
-      { pct: 0.03, fill: "#979797ff" }    // ash – grey
+      { pct: 0.70, fill: "#4ab8e8" },   // water - blue
+      { pct: 0.15, fill: "#f0d060" },   // lipid - yellow
+      { pct: 0.12, fill: "#f5b638ff" },   // protein - green
+      { pct: 0.03, fill: "#979797ff" }    // ash - grey
     ];
     var startAngle = -Math.PI / 2; // start at top
     slices.forEach(function(s) {
@@ -492,7 +502,7 @@ glatar_diagram_ui <- function() {
       stroke:c.color
     }, g);
 
-    // icon — mini pie chart for proximate composition, emoji for all others
+    // icon - mini pie chart for proximate composition, emoji for all others
     if (c.pieChart) {
       drawPie(g, p.x, p.y - 8, 8);
     } else {
