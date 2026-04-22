@@ -4,12 +4,15 @@
 \alias{vector_functions}
 \alias{data_tables}
 \alias{data_types}
+\alias{good_groups}
 \alias{themes}
 \title{Vector functions}
 \usage{
 data_tables()
 
 data_types()
+
+good_groups()
 
 themes()
 }

@@ -38,6 +38,46 @@ data_types <- function() {
   )
   return(data_types)
 }
+# ----- good groups ------
+#' @name vector_functions
+#'
+#' @export
+good_groups <- function() {
+  good_groups <- c(
+    "pi_name",
+    "month",
+    "sample_year",
+    "common_name",
+    "scientific_name",
+    "genus",
+    "tribe",
+    "subfamily",
+    "family",
+    "superfamily",
+    "suborder",
+    "order",
+    "superorder",
+    "class",
+    "superclass",
+    "phylum",
+    "kingdom",
+    "organism_type",
+    "tsn",
+    "sex",
+    "life_stage",
+    "wild_lab",
+    "age",
+    "composite",
+    "tissue_type",
+    "sample_procedure",
+    "trt_description",
+    "waterbody",
+    "area",
+    "site",
+    "site_depth"
+  )
+  return(good_groups)
+}
 
 # ----- themes -----
 #' @name vector_functions
