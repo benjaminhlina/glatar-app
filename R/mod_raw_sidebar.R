@@ -118,7 +118,7 @@ raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
         shiny::req(main_input$tabs == "view_data")
         shiny::req(!initialized())
 
-        sidebar_df <- get_sidebar_df(con)
+        sidebar_df <- creaet_sidebar_df(con)
 
         filters <- c(
           "raw_waterbody_filter",
@@ -150,7 +150,7 @@ raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
           "waterbody"
         )
 
-        grouping_choices <- get_groups(df) |>
+        grouping_choices <- get_good_groups(df) |>
           setdiff(base_col) |>
           sort()
 
