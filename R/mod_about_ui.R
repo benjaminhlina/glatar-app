@@ -23,7 +23,7 @@ about_ui <- function(id) {
       shiny::br(),
       shiny::tags$li(
         "The following individuals contributed to the database design and thoughts on 
-        the programming of the toolbox: Benjamin L. Hlina, Michael H.P. O’Brien, and Jonathan D. Pye"
+        the programming of the toolbox: Benjamin L. Hlina, Michael H.P. O'Brien, and Jonathan D. Pye"
       ),
       shiny::br(),
       shiny::tags$li(
