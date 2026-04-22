@@ -134,7 +134,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         shiny::req(!initialized_scatter())
 
         # get sidebar df
-        sidebar_df <- get_sidebar_df(con)
+        sidebar_df <- create_sidebar_df(con)
 
         # make input for filters to exclude all when it hits
         scatter_filters <- c(
@@ -157,7 +157,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         # ---- get data types -----
         data_types_choices <- data_types()
         # get grouping
-        grouping_choices <- get_groups(df) |>
+        grouping_choices <- get_good_groups(df) |>
           sort()
 
         grouping_choices <- stats::setNames(
