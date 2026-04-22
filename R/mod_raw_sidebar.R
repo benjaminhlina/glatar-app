@@ -118,7 +118,7 @@ raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
         shiny::req(main_input$tabs == "view_data")
         shiny::req(!initialized())
 
-        sidebar_df <- creaet_sidebar_df(con)
+        sidebar_df <- create_sidebar_df(con)
 
         filters <- c(
           "raw_waterbody_filter",
