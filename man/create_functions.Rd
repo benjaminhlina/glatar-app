@@ -6,6 +6,7 @@
 \alias{create_mean_data}
 \alias{create_raw_data}
 \alias{create_searching_data}
+\alias{create_sidebar_df}
 \alias{create_source_data}
 \alias{create_summary_data}
 \alias{create_zoom_slider}
@@ -31,6 +32,8 @@ create_searching_data(
   source_data = NULL,
   tbl_name = NULL
 )
+
+create_sidebar_df(con)
 
 create_source_data(activated = NULL, con, main_input, tab = NULL)
 

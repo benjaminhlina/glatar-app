@@ -398,13 +398,38 @@ create_searching_data <- function(
     return(df)
   })
 }
+# ----- create sodebar df ------
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#'
+#' @name create_functions
+#' @export
+create_sidebar_df <- function(con) {
+  shiny::reactive({
+    # create connection reactively
+    con_db <- if (inherits(con, "reactive")) con() else con
+    shiny::req(con_db)
+
+    # get sample_ids and locatiosn
+    df <- get_data(
+      con = con_db
+    ) |>
+      dplyr::left_join(
+        dplyr::tbl(con_db, "tbl_calorimetry") |>
+          dplyr::select(sample_id, energy_units)
+      )
+
+    cli::cli_alert_success("sidebar base tbl has completed")
+    return(df)
+  })
+}
+
 # ----- create source data ------
 
 #' @param activated is a `shiny` reactive value which gets triggered
 #' when the tab is activated. This makes it so that the tab stays the
 #' same when clicking away but also that it doesn't run
 #' the tab upon start up nor when clicking away.
-#' @param con a `DBI` conection to, in this case PostgreSQL database
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
 #' @param main_input the `main_input` from the shiny server.
 #' @param tab the selected tab that is being displayed e.g.,
 #' `"source_info". `
