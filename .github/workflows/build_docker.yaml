@@ -12,7 +12,7 @@ on:
       - main
       - master
   workflow_dispatch:
-    schedule:
+  schedule:
     - cron: '0 4 * * 0' 
 
 env:
