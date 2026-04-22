@@ -41,11 +41,12 @@ upload_data_ui <- function(id) {
       shiny::br(),
       shiny::tags$li(
         'Please enter your data and associated information in the data template file.  
-        This file contains multiple sheets, with the "data_dictionary” sheet defining the fields 
+        This file contains multiple sheets, with the "data_dictionary" sheet defining the fields 
         (including units and format) that you will find on other sheets. 
         Once oriented to file format, enter your data and other information on the three remaining sheets. 
         These sheets are the following, "tbl_submission" which collects the name of the submitter, 
-        their associated email and affiliation. All fields on this sheet are required to successfully upload to the database. 
+        their associated email and affiliation. All fields on this sheet are required to successfully upload 
+        to the database. 
         The next two sheets, "tbl_sources" and "tbl_samples", first collect metadata on the source material 
         supporting the data that is collected which can be entered in "tbl_samples."'
       ),
@@ -60,8 +61,12 @@ upload_data_ui <- function(id) {
       ),
       shiny::br(),
       shiny::tags$li(
-        "Review any validation errors — these will identify the 
-      specific rows, columns, and descriptions of any issues found."
+        paste0(
+          "Review any validation errors ",
+          cli::symbol$line,
+          "these will identify the specific rows, columns, and descriptions of 
+           any issues found."
+        )
       ),
       shiny::br(),
       shiny::tags$li(
@@ -230,8 +235,12 @@ upload_data_server <- function(id, con, auth_state) {
       )
 
       cli::cli_alert_info(
-        "Gate status — submission: {ok[['agent_submission']]}, 
+        paste0(
+          "Gate status ",
+          cli::symbol$line,
+          " submission: {ok[['agent_submission']]}, 
         sources: {ok[['agent_sources']]}, samples: {ok[['agent_samples']]}"
+        )
       )
 
       # if all agents are good process and get ready to submitt
