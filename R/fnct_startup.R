@@ -19,9 +19,21 @@ start_up <- function() {
     naming_conventions$raw_names
   )
   # ----- load everything ------
+  gtag_path <- system.file("www/gtag.js", package = "glatar")
+  if (gtag_path == "") {
+    cli::cli_alert_warning(
+      "gtag.js not found in inst/www/ - Google Analytics will not load"
+    )
+  } else {
+    cli::cli_alert_success("gtag.js found at: {gtag_path}")
+  }
   shiny::addResourcePath(
     prefix = "www",
     directoryPath = system.file("www", package = "glatar")
+  )
+  shiny::addResourcePath(
+    prefix = "gtag",
+    directoryPath = system.file("www", package = "glatar") # same directory
   )
   credentials <- data.frame(
     user = Sys.getenv("SHINY_USER"),
