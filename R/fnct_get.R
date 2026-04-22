@@ -1,10 +1,39 @@
-# ----- get COLUMN_MPA ------
+# ----- get_column_amp ------
+
+#' Get functions
+#'
+#' These functions are very important as they get infomration
+#' from a PostgreSQL database, whther that is
+#' schemas, raw values or other information about the database.
+#' Each function creates a SQL string that is excuted on a
+#' given table in the database.
+#'
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#'
+#' @details
+#' `get_column_map()` gets the data dictonary from the database.
+#'
+#' @name get_functions
+#' @export
 
 get_column_map <- function(con) {
   df <- dplyr::tbl(con, "tbl_data_dictionary")
   return(df)
 }
 
+# ----- get_data -----
+
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#' @param debug_sql a logical value that will provide SQL for
+#' debugging. Defualt is `FALSE`.
+#'
+#' @details
+#' `get_data()` retrives base template for all sample data in the
+#' the database. It gets `tbl_samples`, `tbl_loc`, and `tbl_length`
+#' and joins them to make a base for all other opperations.
+#'
+#' @name get_functions
+#' @export
 get_data <- function(con, debug_sql = FALSE) {
   shiny::req(con)
 
@@ -33,7 +62,21 @@ get_data <- function(con, debug_sql = FALSE) {
 }
 
 
-# ----- get data types we will move one sec -----
+# ----- get data types -----
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#' @param df a `tbl_lazy`.
+#' @param data_tables  a vector produced by `data_tables()`.
+#' @param flag_cols a vector that has replaced `tbl_` to `has_`
+#' if table is present in `data_tables()`.
+#' @param var a variable of interest.
+#'
+#' @details
+#' `get_data_tables()` this retrieves and identifes which data belongs to each sample
+#' id. For example, id `1` has calorimetry and proximent composition data. This will
+#' start the base dataframe to gather this information.
+#' @name get_functions
+#' @export
+
 get_data_tables <- function(con, df, data_tables, flag_cols, var) {
   for (i in seq_along(data_tables)) {
     df <- df |>
@@ -48,6 +91,11 @@ get_data_tables <- function(con, df, data_tables, flag_cols, var) {
 }
 
 # ----- get dropdown hoices -----
+
+#' @param df a `tbl_lazy`.
+#' @param type variable of interest for a given dropdown.
+#' @name get_functions
+#' @export
 get_dropdown_choices <- function(df, type) {
   df <- df |>
     dplyr::distinct(.data[[type]]) |>
@@ -57,40 +105,12 @@ get_dropdown_choices <- function(df, type) {
 }
 
 # ---- get good groups -----
+#' @param df a `tbl_lazy`.
+#' @name get_functions
+#' @export
 get_good_groups <- function(df) {
-  good_groups <- c(
-    "pi_name",
-    "month",
-    "sample_year",
-    "common_name",
-    "scientific_name",
-    "genus",
-    "tribe",
-    "subfamily",
-    "family",
-    "superfamily",
-    "suborder",
-    "order",
-    "superorder",
-    "class",
-    "superclass",
-    "phylum",
-    "kingdom",
-    "organism_type",
-    "tsn",
-    "sex",
-    "life_stage",
-    "wild_lab",
-    "age",
-    "composite",
-    "tissue_type",
-    "sample_procedure",
-    "trt_description",
-    "waterbody",
-    "area",
-    "site",
-    "site_depth"
-  )
+  shiny::req(df)
+  good_groups <- good_groups()
 
   # get column names
   cols <- dplyr::tbl_vars(df) |>
@@ -100,23 +120,28 @@ get_good_groups <- function(df) {
   groups <- sort(intersect(cols, good_groups))
 
   cli::cli_alert_info("Converted names: {.val {cols}}")
-  return(groups)
-}
-
-
-get_groups <- function(df) {
-  shiny::req(df)
-
-  groups <- get_good_groups(df)
-
+  bullet <- cli::symbol$bullet
   cli::cli_inform(c(
     "v" = "Selecting groups.",
-    "•" = "Groups selected: {.val {groups}}"
+    bullet = "Groups selected: {.val {groups}}"
   ))
+
   return(groups)
 }
+
 # ---- get table ids -----
 
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#'
+#' @details
+#' `get_id_col()`use a SQL query where we select all of the ID columns
+#' throughout the entire database and then select only the columns that
+#' we want to add new ID values to. This information is then fed to
+#' `get_id_max()`.
+#'
+#' @name get_functions
+#' @seealso [get_id_max()]
+#' @export
 get_id_col <- function(con) {
   tables_ids <- DBI::dbGetQuery(
     con,
@@ -138,6 +163,16 @@ get_id_col <- function(con) {
 }
 
 # ----- get max id -----
+
+#' @param table_name the name of the database table to get the maxiumum
+#' id column value.
+#' @param id_col name of the corresponding id column in a given `table_name`
+#' that we want the maximum id value.
+#'
+#' @name get_functions
+#' @seealso [get_id_col()]
+#' @export
+
 get_id_max <- function(table_name, id_col) {
   result <- DBI::dbGetQuery(
     con,
@@ -150,7 +185,13 @@ get_id_max <- function(table_name, id_col) {
 
 
 # ----- simple function to get a tb use dbplyr -----
-#
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#' @param df a `tbl_lazy`.
+#' @param table table name to get from the database.
+#'
+#' @name get_functions
+#' @export
+
 get_join_table <- function(df, table, con) {
   jt <- df |>
     dplyr::left_join(dplyr::tbl(con, table))
@@ -160,17 +201,31 @@ get_join_table <- function(df, table, con) {
 
 
 # ---- get numeric vars -----
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#'
+#' @name get_functions
+#' @export
+
 get_numeric_vars <- function(con) {
-  get_column_map(con) |>
+  df <- get_column_map(con) |>
     dplyr::filter(
       field_class %in% c("integer", "numeric", "double")
     ) |>
     dplyr::distinct(field_name) |>
     dplyr::arrange(field_name) |>
     dplyr::pull(field_name)
+  return(df)
 }
 
 # ----- get ranges -----
+
+#' @param df a `tbl_lazy`.
+#' @param x_var the `x` variable of interest.
+#' @param y_var the `y` variable of interest.
+#'
+#' @name get_functions
+#' @export
+
 get_ranges <- function(df, x_var, y_var) {
   ranges <- df |>
     dplyr::summarise(
@@ -196,8 +251,24 @@ get_ranges <- function(df, x_var, y_var) {
     return(range_tot)
   }
 }
+
 # ------ gret raw data ------
 
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#' @param selected_vars a `reactive` object that is the column name of interest
+#' usually generated from sidebar.
+#' @param grouping_vars a `reactive` object that is the column name of grouping
+#' variables usually generated from sidebar.
+#' @param debug_sql a logical value that will provide SQL for
+#' debugging. Defualt is `FALSE`.
+#'
+#' @details
+#' `get_raw_data()` retrives base template for all sample data in the
+#' the database and joins variables and grouping variables of interest.
+#'
+#' @name get_functions
+#' @export
+#'
 get_raw_data <- function(
   con,
   selected_vars = NULL,
@@ -212,7 +283,7 @@ get_raw_data <- function(
 
   cli::cli_inform(c(
     "v" = "Starting summary data query.",
-    "•" = "Variables selected: {.val {selected_vars}}"
+    bullet = "Variables selected: {.val {selected_vars}}"
   ))
 
   # Always start from samples
@@ -267,7 +338,7 @@ get_raw_data <- function(
         purrr::reduce(.init = df, ~ get_join_table(.x, .y, con))
     }
 
-    # ← is energy_measurement actually in df after the join?
+    # check what columns are in the the table after joining
     cli::cli_inform("cols in df: {.val {colnames(df)}}")
   } else {
     vars_for_select <- NULL # no extra cols
@@ -286,6 +357,17 @@ get_raw_data <- function(
   return(df)
 }
 # ---- Helper: determine which tab is selected ----
+#' @param input input from UI
+#'
+#' @details
+#' `get_selected_tabs()` is an exception within `get_*` functions as
+#' it doesn't interact with the database and instead interacts with
+#' the `shiny` UI.
+#'
+#' @name get_functions
+#' @export
+#'
+
 get_selected_tab <- function(input) {
   current_tab <- input$tabs
   if (is.null(current_tab) || length(current_tab) != 1) {
@@ -306,29 +388,23 @@ get_selected_tab <- function(input) {
   return(out)
 }
 
-# ----- get sidebr df ----- ---- this is reactive move?
-get_sidebar_df <- function(con) {
-  shiny::reactive({
-    # create connection reactively
-    con_db <- if (inherits(con, "reactive")) con() else con
-    shiny::req(con_db)
-
-    # get sample_ids and locatiosn
-    df <- get_data(
-      con = con_db
-    ) |>
-      dplyr::left_join(
-        dplyr::tbl(con_db, "tbl_calorimetry") |>
-          dplyr::select(sample_id, energy_units)
-      )
-
-    cli::cli_alert_success("sidebar base tbl has completed")
-    return(df)
-  })
-}
-
 # ---- get summary data frame -----
-
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#' @param selected_vars a `reactive` object that is the column name of interest
+#' usually generated from sidebar.
+#' @param grouping_vars a `reactive` object that is the column name of grouping
+#' variables usually generated from sidebar.
+#' @param debug_sql a logical value that will provide SQL for
+#' debugging. Defualt is `FALSE`.
+#'
+#' @details
+#' `get_summary_data()` retrives base template for all sample data in the
+#' the database and joins variables and grouping variables of interest for
+#' summarizing.
+#'
+#' @name get_functions
+#' @export
+#'
 get_summary_data <- function(
   con,
   selected_vars = NULL,
@@ -343,7 +419,7 @@ get_summary_data <- function(
 
   cli::cli_inform(c(
     "v" = "Starting summary data query.",
-    "•" = "Variables selected: {.val {selected_vars}}"
+    bullet = "Variables selected: {.val {selected_vars}}"
   ))
 
   # Always start from samples
@@ -419,7 +495,10 @@ get_summary_data <- function(
   return(df)
 }
 # ----- get submision id ------
-
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#'
+#' @name get_functions
+#' @export
 get_submission_id <- function(con) {
   sub_id <- DBI::dbGetQuery(
     con,
@@ -430,6 +509,17 @@ get_submission_id <- function(con) {
 
 
 # ---- get teh tables we need to filter by based on what the user selects -----
+
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#' @param var a variable of interest.
+#'
+#' @details
+#' `get_tables_needed()` this gets the tables of interest
+#'
+#' @seealso [get_column_map()]
+#' @name get_functions
+#' @export
+
 get_tables_needed <- function(con, var) {
   shiny::req(con)
 
@@ -444,9 +534,19 @@ get_tables_needed <- function(con, var) {
 }
 
 # ---- get theme selection -----
+
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#' @param theme a `vector` containing different data themes
+#' @param numeric_choices a `reactive` value that has numerical choices.
+#' @param numeric_names a `reactive` value that has selected numerical column names.
+#' @param length_vars a `reactive` value that has length variables.
+#' @param energy_vars a `reactive` value that has energy variables.
+#' @name get_functions
+#' @export
+
 get_theme_choices <- function(
-  theme,
   con,
+  theme,
   numeric_choices,
   numeric_names,
   length_vars,
@@ -500,6 +600,15 @@ get_theme_choices <- function(
 
 
 # ---- get valid values
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#'
+#' @details
+#' `get_valid_values()` gets all the schemas in the database and
+#' grabs all the constraints and cleans them up so we can use the
+#' constraints to validate data.
+#'
+#' @name get_functions
+#' @export
 get_valid_values <- function(con) {
   raw_constraints <- DBI::dbGetQuery(
     con,
@@ -531,7 +640,12 @@ get_valid_values <- function(con) {
 }
 
 # ---- get vart types ----
-
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#' @param df a `tbl_lazy`.
+#' @param var a variable of interst to get unique values.
+#'
+#' @name get_functions
+#' @export
 get_var_types <- function(df, var) {
   var_types <- get_dropdown_choices(df = df, type = var)
   # df |>
