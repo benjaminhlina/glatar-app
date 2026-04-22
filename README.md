@@ -9,8 +9,8 @@ https://github.com/benjaminhlina/glatar-app/actions/workflows/build_docker.yaml
 [![Deployed App Status](https://github.com/benjaminhlina/glatar-app/actions/workflows/check_shiny_status.yaml/badge.svg)](
     https://github.com/benjaminhlina/glatar-app/actions/workflows/check_shiny_status.yaml
 )
-[![R-CMD-check](https://github.com/benjaminhlina/glatar-app/actions/workflows/R-CMD-check.yaml/badge.svg)](
-    https://github.com/benjaminhlina/glatar-app/actions/workflows/R-CMD-check.yaml
+[![R-CMD-check](https://github.com/benjaminhlina/glatar-app/actions/workflows/R_CMD_check.yaml/badge.svg)](
+    https://github.com/benjaminhlina/glatar-app/actions/workflows/R_CMD_check.yaml
 )
 <!-- badges: end -->
 
