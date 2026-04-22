@@ -5,3 +5,17 @@
 ^LICENSE\.md$
 ^\.vscode$
 ^[.]?air[.]toml$
+^\.github$
+^Dockerfile$
+^shiny-server\.conf$
+^nginx\.conf$
+^shiny_entry\.sh$
+^warming_up\.html$
+^docker-composer\.yaml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^app\.R$
+^data-raw$
+^docker-compose\.yaml$
+^CODE_OF_CONDUCT\.md$

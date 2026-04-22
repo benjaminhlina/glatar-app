@@ -1,16 +1,10 @@
 name: Build Docker Image
 
 on:
-  push:
-    branches:
-      - main
-      - master
-    tags:
-      - 'v*'
-  pull_request:
-    branches:
-      - main
-      - master
+  workflow_run:
+    workflows: ["R CMD check"]
+    types:
+      - completed
   workflow_dispatch:
   schedule:
     - cron: '0 4 * * 2' 
