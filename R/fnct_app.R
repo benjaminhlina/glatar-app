@@ -30,14 +30,15 @@ glatar_app <- function() {
   #   }
   # )
 
-  app_env <- new.env(parent = emptyenv())
-
   list2env(start_up(), envir = globalenv())
 
   # message("cli connection: ", class(getOption("cli.output_connection")))
 
   # ---- ui ------
   ui <- shinydashboard::dashboardPage(
+     # ----- add google analytics ----- 
+    shiny::includeScript(path = "/js/gtag.js")
+
     # ----- title -----
     shinydashboard::dashboardHeader(
       title = "Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
@@ -139,12 +140,12 @@ glatar_app <- function() {
       # add  analytics
       shiny::tags$head(
         # shiny::HTML('<script src="/glatar/gtag.js"></script>'),
-        shiny::tags$script(
-          async = NA,
-          src = "https://www.googletagmanager.com/gtag/js?id=G-'G-KP6R7HNSDB"
-        ),
+        # shiny::tags$script(
+        #   async = NA,
+        #   src = "https://www.googletagmanager.com/gtag/js?id=G-'G-KP6R7HNSDB"
+        # ),
         # ----- add google analytics -----
-        shiny::tags$script(src = "/www/gtag.js"),
+        # shiny::tags$script(src = "gtag.js"),
         # ---- shiny.tictoc ----
         shiny::tags$script(
           src = "https://cdn.jsdelivr.net/gh/Appsilon/shiny.tictoc@v0.2.0/shiny-tic-toc.min.js"
