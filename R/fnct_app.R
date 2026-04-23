@@ -37,7 +37,7 @@ glatar_app <- function() {
   # ---- ui ------
   ui <- shinydashboard::dashboardPage(
     # ----- add google analytics -----
-    shiny::includeScript(path = "/js/gtag.js"),
+    # shiny::includeScript(path = "/js/gtag.js"),
 
     # ----- title -----
     shinydashboard::dashboardHeader(
@@ -145,7 +145,7 @@ glatar_app <- function() {
         #   src = "https://www.googletagmanager.com/gtag/js?id=G-'G-KP6R7HNSDB"
         # ),
         # ----- add google analytics -----
-        # shiny::tags$script(src = "gtag.js"),
+        shiny::tags$script(src = "js/gtag.js"),
         # ---- shiny.tictoc ----
         shiny::tags$script(
           src = "https://cdn.jsdelivr.net/gh/Appsilon/shiny.tictoc@v0.2.0/shiny-tic-toc.min.js"
