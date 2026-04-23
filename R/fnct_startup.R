@@ -19,7 +19,7 @@ start_up <- function() {
     naming_conventions$raw_names
   )
   # ----- load everything ------
-  gtag_path <- system.file("www", package = "glatar")
+  gtag_path <- system.file("js", package = "glatar")
   if (gtag_path == "") {
     cli::cli_alert_warning(
       "gtag.js not found in inst/www/ - Google Analytics will not load"
