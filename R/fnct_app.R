@@ -36,8 +36,8 @@ glatar_app <- function() {
 
   # ---- ui ------
   ui <- shinydashboard::dashboardPage(
-     # ----- add google analytics ----- 
-    shiny::includeScript(path = "/js/gtag.js")
+    # ----- add google analytics -----
+    shiny::includeScript(path = "/js/gtag.js"),
 
     # ----- title -----
     shinydashboard::dashboardHeader(
