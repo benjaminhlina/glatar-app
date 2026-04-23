@@ -29,7 +29,7 @@ start_up <- function() {
   }
   shiny::addResourcePath(
     prefix = "www",
-    directoryPath = system.file(package = "glatar")
+    directoryPath = system.file("www", package = "glatar")
   )
 
   credentials <- data.frame(
