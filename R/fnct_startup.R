@@ -33,7 +33,7 @@ start_up <- function() {
   )
   shiny::addResourcePath(
     prefix = "js",
-    directoryPath = system.file(package = "glatar")
+    directoryPath = system.file("js", package = "glatar")
   )
 
   credentials <- data.frame(
