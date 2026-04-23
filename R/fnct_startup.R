@@ -28,7 +28,7 @@ start_up <- function() {
     cli::cli_alert_success("gtag.js found at: {gtag_path}")
   }
   shiny::addResourcePath(
-    prefix = "glatar",
+    prefix = "www",
     directoryPath = system.file("www", package = "glatar")
   )
 
