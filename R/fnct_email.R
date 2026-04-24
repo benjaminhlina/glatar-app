@@ -68,19 +68,21 @@ send_email <- function(
   to_user,
   email_text
 ) {
+  body <- list(
+    from = "noreply@glatar.org",
+    to = to_user,
+    cc = "benjamin.hlina@gmail.com",
+    subject = email_text$subject,
+    html = email_text$email_body
+  )
+
   email_sent <- httr2::request("https://api.resend.com/emails") |>
     httr2::req_headers(
       Authorization = paste("Bearer", Sys.getenv("RESEND_API_KEY")),
       `Content-Type` = "application/json"
     ) |>
     httr2::req_body_json(
-      data = list(
-        from = "noreply@glatar.org",
-        to = to_user,
-        cc = "benjamin.hlina@gmail.com",
-        subject = email_text$subject,
-        html = email_text$email_body
-      )
+      data = body
     ) |>
     httr2::req_perform()
 
