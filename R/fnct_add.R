@@ -214,8 +214,7 @@ add_taxonomic_groups <- function(df, species_list) {
 #' @name add_functions
 #' @export
 add_taxa_ui <- function(con, ns) {
-  ns_names <- tbl(con, "tbl_taxonomy") |>
-    colnames()
+  ns_names <- get_taxa_col(con)
 
   nice_names <- convert_nice_name(ns_names)
 
