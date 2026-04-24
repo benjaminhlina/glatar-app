@@ -16,7 +16,10 @@ taxa_search_ui <- function(id) {
       label = "Search Taxa",
       placeholder = "Type to filter taxa..."
     ),
-    DT::DTOutput(ns("taxa_table"))
+    DT::DTOutput(ns("taxa_table")),
+    shiny::h2("Suggest Taxa to the Database"),
+    add_taxa_ui(ns = ns, con = con),
+    DT::DTOutput(ns("add_taxa"))
   )
 }
 
