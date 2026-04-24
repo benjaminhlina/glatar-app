@@ -7,7 +7,7 @@ to send emails from the site but can use HTTPS and resend.
 ## Usage
 
 ``` r
-send_email(to_user, email_text)
+send_email(to_user, email_text, attachment_path = NULL)
 ```
 
 ## Arguments
@@ -20,3 +20,7 @@ send_email(to_user, email_text)
 
   an object containing HTML for the subject line and the body of the
   email.
+
+- attachment_path:
+
+  path to attachement

@@ -53,6 +53,8 @@ into the database</p>
 <span></span>
 <span><span class="fu">add_taxonomic_groups</span><span class="op">(</span><span class="va">df</span>, <span class="va">species_list</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">add_taxa_ui</span><span class="op">(</span><span class="va">con</span>, <span class="va">ns</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">add_valid_cols</span><span class="op">(</span><span class="va">df</span>, <span class="va">valid_values</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">add_valid_taxonomy</span><span class="op">(</span><span class="va">df</span>, <span class="va">species_list</span><span class="op">)</span></span></code></pre></div>
@@ -109,6 +111,14 @@ database tables prior to submission.</p></dd>
 <dt id="arg-species-list">species_list<a class="anchor" aria-label="anchor" href="#arg-species-list"></a></dt>
 <dd><p>a <code>tbl_lazy</code> object of the <code>tbl_taxonomy</code> from the
 database</p></dd>
+
+
+<dt id="arg-con">con<a class="anchor" aria-label="anchor" href="#arg-con"></a></dt>
+<dd><p>a <code>DBI</code> conection to, in this case PostgreSQL database.</p></dd>
+
+
+<dt id="arg-ns">ns<a class="anchor" aria-label="anchor" href="#arg-ns"></a></dt>
+<dd><p>shiny namespcae object.</p></dd>
 
 
 <dt id="arg-valid-values">valid_values<a class="anchor" aria-label="anchor" href="#arg-valid-values"></a></dt>

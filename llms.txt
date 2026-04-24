@@ -52,6 +52,7 @@ be able to write their own issues.
   [`add_sub_sor_tbl()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
   [`add_table_ids()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
   [`add_taxonomic_groups()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
+  [`add_taxa_ui()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
   [`add_valid_cols()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
   [`add_valid_taxonomy()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
   : Add functions
@@ -70,6 +71,10 @@ be able to write their own issues.
   [`clean_row_index()`](https://benjaminhlina.github.io/glatar-app/reference/clean_functions.md)
   : Clean functions
 
+- [`clear_fields()`](https://benjaminhlina.github.io/glatar-app/reference/clear_functions.md)
+  [`clear_table()`](https://benjaminhlina.github.io/glatar-app/reference/clear_functions.md)
+  : Clear functions
+
 - [`convert_nice_name()`](https://benjaminhlina.github.io/glatar-app/reference/convert_functions.md)
   : Convert functions
 
@@ -83,7 +88,8 @@ be able to write their own issues.
   [`create_zoom_slider()`](https://benjaminhlina.github.io/glatar-app/reference/create_functions.md)
   : Create functions
 
-- [`display_col_width()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
+- [`display_add_taxa()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
+  [`display_col_width()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   [`display_hist()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   [`display_scatter_plot()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   [`display_submission_map()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
@@ -108,6 +114,7 @@ be able to write their own issues.
   [`get_summary_data()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
   [`get_submission_id()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
   [`get_tables_needed()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
+  [`get_taxa_col()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
   [`get_theme_choices()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
   [`get_valid_values()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
   [`get_var_types()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
@@ -137,6 +144,9 @@ be able to write their own issues.
 
 - [`submission_email_body()`](https://benjaminhlina.github.io/glatar-app/reference/submission_email_body.md)
   : Submission Email Body
+
+- [`taxa_submission_email_body()`](https://benjaminhlina.github.io/glatar-app/reference/taxa_submission_email_body.md)
+  : Taxa Submission Email Body
 
 - [`data_tables()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`data_types()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)

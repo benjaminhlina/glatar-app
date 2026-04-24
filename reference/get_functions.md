@@ -48,6 +48,8 @@ get_submission_id(con)
 
 get_tables_needed(con, var)
 
+get_taxa_col(con)
+
 get_theme_choices(
   con,
   theme,

@@ -7,6 +7,8 @@ display object (e.g., table) with a `render*()` function from `shiny`.
 ## Usage
 
 ``` r
+display_add_taxa(data, output, output_id, session)
+
 display_col_width(...)
 
 display_hist(data, input_source, output, output_id = "summary_histogram")
@@ -48,20 +50,10 @@ display_validation_status(
 
 ## Arguments
 
-- ...:
-
-  additional arguments
-
 - data:
 
   a reactive data object for a given variable. `observe()` or
   `observeEvent()` calls within a module.
-
-- input_source:
-
-  usually an object created by a sidebar function. These objects tend to
-  be `reactive()` outcomes from `observe()` or `observeEvent()` calls
-  within a module.
 
 - output:
 
@@ -70,6 +62,20 @@ display_validation_status(
 - output_id:
 
   the id name of the output, e.g., `"summary_histogram"`.
+
+- session:
+
+  module session.
+
+- ...:
+
+  additional arguments
+
+- input_source:
+
+  usually an object created by a sidebar function. These objects tend to
+  be `reactive()` outcomes from `observe()` or `observeEvent()` calls
+  within a module.
 
 - ns:
 

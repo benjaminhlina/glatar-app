@@ -16,6 +16,8 @@ add_table_ids(tables_split, tables_ids, max_ids)
 
 add_taxonomic_groups(df, species_list)
 
+add_taxa_ui(con, ns)
+
 add_valid_cols(df, valid_values)
 
 add_valid_taxonomy(df, species_list)
@@ -70,6 +72,14 @@ add_valid_taxonomy(df, species_list)
 - species_list:
 
   a `tbl_lazy` object of the `tbl_taxonomy` from the database
+
+- con:
+
+  a `DBI` conection to, in this case PostgreSQL database.
+
+- ns:
+
+  shiny namespcae object.
 
 - valid_values:
 
