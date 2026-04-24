@@ -4,13 +4,15 @@
 \alias{send_email}
 \title{Send Email}
 \usage{
-send_email(to_user, email_text)
+send_email(to_user, email_text, attachment_path = NULL)
 }
 \arguments{
 \item{to_user}{a valid email address}
 
 \item{email_text}{an object containing HTML for the subject
 line and the body of the email.}
+
+\item{attachment_path}{path to attachement}
 }
 \description{
 This function sends an email using \code{httr} using the
