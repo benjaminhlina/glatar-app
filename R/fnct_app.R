@@ -146,7 +146,7 @@ glatar_app <- function() {
         # ),
         # ----- add google analytics -----
         # shiny::includeScript(path = "/inst/js/gtag.js"),
-        shiny::tags$script(src = "/js/gtag.js"),
+        shiny::tags$script(src = "/js/gtag.js")
         # ---- shiny.tictoc ----
         shiny::tags$script(
           src = "https://cdn.jsdelivr.net/gh/Appsilon/shiny.tictoc@v0.2.0/shiny-tic-toc.min.js"
