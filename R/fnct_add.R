@@ -247,7 +247,7 @@ add_taxa_ui <- function(con, ns) {
           ns("add_row"),
           "Add Row",
           icon = shiny::icon("plus"),
-          class = "btn-primary"
+          class = "btn-success"
         ),
         shiny::actionButton(
           ns("clear_row"),
@@ -261,16 +261,17 @@ add_taxa_ui <- function(con, ns) {
           icon = shiny::icon("trash"),
           class = "btn-danger ms-2"
         ),
-        shiny::downloadButton(
-          ns("submit"),
+        shiny::actionButton(
+          ns("submit_to_manager"),
           "Submit to Manager",
-          icon = shiny::icon("file-excel"),
-          class = "btn-success ms-2"
+          shiny::icon("paper-plane"),
+          class = "btn-info ms-2"
         )
       )
     )
   )
 }
+
 
 # ------ add_valid_cols ------
 
