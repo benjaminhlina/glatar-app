@@ -61,12 +61,13 @@ submission_email_body <- function(submission_id, submission_results) {
 #' @param to_user a valid email address
 #' @param email_text an object containing HTML for the subject
 #' line and the body of the email.
-#'
+#' @param attachment_path path to attachement
 #' @export
 
 send_email <- function(
   to_user,
-  email_text
+  email_text,
+  attachment_path = NULL
 ) {
   body <- list(
     from = "noreply@glatar.org",
@@ -75,6 +76,22 @@ send_email <- function(
     subject = email_text$subject,
     html = email_text$email_body
   )
+
+  if (!is.null(attachment_path)) {
+    raw_bytes <- readBin(
+      attachment_path,
+      "raw",
+      file.info(attachment_path)$size
+    )
+    b64_content <- jsonlite::base64_enc(raw_bytes)
+
+    body$attachments <- list(
+      list(
+        filename = basename(attachment_path),
+        content = b64_content
+      )
+    )
+  }
 
   email_sent <- httr2::request("https://api.resend.com/emails") |>
     httr2::req_headers(
