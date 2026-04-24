@@ -54,7 +54,7 @@ RUN echo "alias ls='ls --color=auto'" >> /etc/bash.bashrc && \
 RUN rm -rf /srv/shiny-server/*
 
 # ---- ops for got to install renv ----
-RUN R -e "install.packages(c('renv','remotes', 'pak'), repos = 'https://cran.rstudio.com')"
+RUN R -e "install.packages(c('renv', 'pak'), repos = 'https://cran.rstudio.com')"
 
 # # ---- Set working directory ----
 WORKDIR /srv/shiny-server/GLATAR-App/
@@ -86,7 +86,7 @@ RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
 #   }"
 
 # ----- installl glatar ----- 
-RUN R -e "remotes::install_github('benjaminhlina/glatar-app', force = TRUE)"
+RUN R -e "pak::pak('benjaminhlina/glatar-app', force = TRUE)"
 # Copy app files
 COPY app.R app.R
 
