@@ -237,6 +237,12 @@ add_taxa_ui <- function(con, ns) {
     shiny::fluidRow(
       shiny::column(
         12,
+        shiny::textInput(
+          # <-- added submitter email field
+          ns("submitter_email"),
+          "Your Email",
+          placeholder = "user.name@example.com"
+        ),
         shiny::actionButton(
           ns("add_row"),
           "Add Row",
