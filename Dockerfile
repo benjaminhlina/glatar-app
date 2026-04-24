@@ -54,7 +54,7 @@ RUN echo "alias ls='ls --color=auto'" >> /etc/bash.bashrc && \
 RUN rm -rf /srv/shiny-server/*
 
 # ---- ops for got to install renv ----
-RUN R -e "install.packages(c('renv', 'pak', 'devtools'), repos = 'https://cran.rstudio.com')"
+RUN R -e "install.packages(c('renv', 'pak'), repos = 'https://cran.rstudio.com')"
 
 # # ---- Set working directory ----
 WORKDIR /srv/shiny-server/GLATAR-App/
@@ -85,8 +85,7 @@ RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
 #     }); \
 #   }"
 
-# ----- installl glatar ----- 
-RUN R -e "devtools::install_github('benjaminhlina/glatar-app')"
+
 # Copy app files
 COPY app.R app.R
 
@@ -103,6 +102,9 @@ RUN chown -R shiny:shiny /srv/shiny-server && \
 COPY shiny_entry.sh /usr/local/bin/shiny_entry.sh
 RUN chmod 755 /usr/local/bin/shiny_entry.sh
 
+# ----- installl glatar ----- 
+ARG CACHEBUST=1
+RUN R -e "pak::pak('benjaminhlina/glatar-app')"
 # Expose port
 # USER shiny
 EXPOSE 3838
