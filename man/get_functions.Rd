@@ -17,6 +17,7 @@
 \alias{get_summary_data}
 \alias{get_submission_id}
 \alias{get_tables_needed}
+\alias{get_taxa_col}
 \alias{get_theme_choices}
 \alias{get_valid_values}
 \alias{get_var_types}
@@ -61,6 +62,8 @@ get_summary_data(
 get_submission_id(con)
 
 get_tables_needed(con, var)
+
+get_taxa_col(con)
 
 get_theme_choices(
   con,

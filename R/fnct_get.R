@@ -533,6 +533,18 @@ get_tables_needed <- function(con, var) {
     dplyr::pull(table_name)
 }
 
+# ----- get taxa columns ------
+#' @param con a valid `DBI` connection to a PostgreSQL database.
+#' @name get_functions
+#' @export
+get_taxa_col <- function(con) {
+  taxa_col <- tbl(con, "tbl_taxonomy") |>
+    colnames()
+
+  return(taxa_col)
+}
+
+
 # ---- get theme selection -----
 
 #' @param con a valid `DBI` connection to a PostgreSQL database.
