@@ -86,3 +86,39 @@ send_email <- function(
 
   return(email_sent)
 }
+# ---- email body html ------
+#' Taxa Submission Email Body
+#'
+#' This function drafts the text body the taxa submission email that
+#' will be sent once the submit to manager has been hit.
+#' @param n_rows the number of rows being submitted
+#' @param submitted_by the email of the submitter
+#' @return HTML of the email structure to be sent.
+#'
+#' @export
+
+taxa_submission_email_body <- function(n_rows, submitted_by) {
+  email_structure <- list(
+    subject = paste("GLATAR Taxa Submission -", Sys.Date()),
+    email_body = glue::glue(
+      '
+      <h3>New Taxonomy Submission</h3>
+      <p>A new taxonomy submission has been sent for review.</p>
+      <hr>
+      <strong>Submission Details:</strong>
+      <ul>
+        <li><strong>Submitted by:</strong> {submitted_by}</li>
+        <li><strong>Date:</strong> {Sys.Date()}</li>
+        <li><strong>Rows submitted:</strong> {n_rows}</li>
+      </ul>
+      <hr>
+      <p>The submitted taxa are attached as an Excel file for your review.</p>
+      <p>If you have questions, please contact the submitter directly or reply to
+      <a href="mailto:benjamin.hlina@gmail.com">benjamin.hlina@gmail.com</a>.</p>
+      <p>-GLATAR Team</p>
+      <p><em>Please do not reply to this email as it will not be received.</em></p>
+      '
+    )
+  )
+  return(email_structure)
+}
