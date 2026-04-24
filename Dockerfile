@@ -86,7 +86,7 @@ RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
 #   }"
 
 # ----- installl glatar ----- 
-RUN R -e "pak::pak('benjaminhlina/glatar-app', force = TRUE)"
+RUN R -e "pak::pak('benjaminhlina/glatar-app?reinstall')"
 # Copy app files
 COPY app.R app.R
 
