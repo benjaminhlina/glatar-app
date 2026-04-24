@@ -80,9 +80,13 @@ taxa_search_server <- function(id, con) {
       taxa_data(clear_table(cols))
     })
 
+    taxa_data_clean <- shiny::reactive({
+      taxa_data() |>
+        dplyr::rename_with(~ convert_nice_name(.x))
+    })
     # ---- dispaly add table -----
     display_add_taxa(
-      data = taxa_data,
+      data = taxa_data_clean,
       output = output,
       session = session,
       output_id = "add_taxa"
