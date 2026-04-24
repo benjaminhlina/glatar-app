@@ -538,7 +538,7 @@ get_tables_needed <- function(con, var) {
 #' @name get_functions
 #' @export
 get_taxa_col <- function(con) {
-  taxa_col <- tbl(con, "tbl_taxonomy") |>
+  taxa_col <- dplyr::tbl(con, "tbl_taxonomy") |>
     colnames()
 
   return(taxa_col)
