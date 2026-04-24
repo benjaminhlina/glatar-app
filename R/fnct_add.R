@@ -207,6 +207,66 @@ add_taxonomic_groups <- function(df, species_list) {
   return(df_joined)
 }
 
+
+# ----- add_taxa_ui -----
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param ns shiny namespcae object.
+#' @name add_functions
+#' @export
+add_taxa_ui <- function(con, ns) {
+  ns_names <- tbl(con, "tbl_taxonomy") |>
+    colnames()
+
+  nice_names <- convert_nice_name(ns_names)
+
+  # Generate every input from the two vectors
+  inputs <- purrr::map2(ns_names, nice_names, function(ns_name, nice_name) {
+    if (ns_name == "tsn") {
+      shiny::column(3, shiny::numericInput(ns(ns_name), nice_name, value = NA))
+    } else {
+      shiny::column(3, shiny::textInput(ns(ns_name), nice_name))
+    }
+  })
+
+  # Chunk into groups of 4 → one fluidRow each
+  input_rows <- inputs |>
+    split(ceiling(seq_along(inputs) / 4)) |>
+    purrr::map(~ shiny::fluidRow(!!!.x))
+
+  shiny::wellPanel(
+    input_rows,
+    shiny::fluidRow(
+      shiny::column(
+        12,
+        shiny::actionButton(
+          ns("add_row"),
+          "Add Row",
+          icon = shiny::icon("plus"),
+          class = "btn-primary"
+        ),
+        shiny::actionButton(
+          ns("clear_row"),
+          "Clear Fields",
+          icon = shiny::icon("eraser"),
+          class = "btn-warning ms-2"
+        ),
+        shiny::actionButton(
+          ns("clear_all"),
+          "Clear All Rows",
+          icon = shiny::icon("trash"),
+          class = "btn-danger ms-2"
+        ),
+        shiny::downloadButton(
+          ns("submit"),
+          "Submit to Manager",
+          icon = shiny::icon("file-excel"),
+          class = "btn-success ms-2"
+        )
+      )
+    )
+  )
+}
+
 # ------ add_valid_cols ------
 
 #' @param df a `data.frame`

@@ -7,6 +7,7 @@
 \alias{add_sub_sor_tbl}
 \alias{add_table_ids}
 \alias{add_taxonomic_groups}
+\alias{add_taxa_ui}
 \alias{add_valid_cols}
 \alias{add_valid_taxonomy}
 \title{Add functions}
@@ -20,6 +21,8 @@ add_sub_sor_tbl(split_tables, sub_tbl, sor_tbl)
 add_table_ids(tables_split, tables_ids, max_ids)
 
 add_taxonomic_groups(df, species_list)
+
+add_taxa_ui(con, ns)
 
 add_valid_cols(df, valid_values)
 
@@ -52,6 +55,10 @@ database tables prior to submission.}
 
 \item{species_list}{a \code{tbl_lazy} object of the \code{tbl_taxonomy} from the
 database}
+
+\item{con}{a \code{DBI} conection to, in this case PostgreSQL database.}
+
+\item{ns}{shiny namespcae object.}
 
 \item{valid_values}{a \code{data.frame} containing valid values from database
 schema derived from \code{get_valid_values()}.}
