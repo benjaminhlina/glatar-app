@@ -39,6 +39,8 @@ taxa_search_server <- function(id, con) {
         rownames = FALSE
       )
     })
+    # ----- sbumisison ===
+    submitted_flag <- shiny::reactiveVal(FALSE)
     # All column names in order
     cols <- get_taxa_col(con)
 
@@ -99,8 +101,15 @@ taxa_search_server <- function(id, con) {
         taxa_data(df[-input$delete_row, , drop = FALSE])
       }
     })
-
+    # ----- email -----
     shiny::observeEvent(input$submit_to_manager, {
+      if (submitted_flag()) {
+        return()
+      }
+      submitted_flag(TRUE)
+
+      on.exit(submitted_flag(FALSE), add = TRUE)
+      # req(input$submit_to_manager > 0)
       df <- taxa_data()
 
       email <- trimws(input$submitter_email)
@@ -152,6 +161,7 @@ taxa_search_server <- function(id, con) {
             email_text = email_text,
             attachment_path = tmp
           )
+          unlink(tmp)
           shiny::showNotification(
             "Submission sent successfully!",
             type = "message"
