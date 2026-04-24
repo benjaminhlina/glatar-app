@@ -6,6 +6,57 @@
 #' They function by wrapping the given display object (e.g.,
 #' table) with a `render*()` function from `shiny`.
 #'
+#' @param data a reactive data object for a given variable.
+#' `observe()` or `observeEvent()` calls within a module.
+#' @param output an output within a shiny module.
+#' @param output_id the id name of the output, e.g., `"summary_histogram"`.
+#' @param session module session.
+#'
+#' @name display_functions
+#' @export
+
+display_add_taxa <- function(data, output, output_id, session) {
+  output[[output_id]] <- DT::renderDT({
+    df <- data()
+    if (nrow(df) == 0) {
+      return(df)
+    }
+
+    # Inject a Delete button column
+    df$delete <- vapply(
+      seq_len(nrow(df)),
+      function(i) {
+        as.character(shiny::actionButton(
+          inputId = paste0("del_", i),
+          label = "",
+          icon = shiny::icon("trash"),
+          class = "btn-danger btn-sm",
+          onclick = sprintf(
+            "Shiny.setInputValue('%s', %d, {priority: 'event'})",
+            session$ns("delete_row"),
+            i
+          )
+        ))
+      },
+      character(1)
+    )
+
+    DT::datatable(
+      df,
+      escape = FALSE,
+      rownames = FALSE,
+      options = list(
+        pageLength = 25,
+        scrollX = TRUE,
+        searching = FALSE,
+        columnDefs = list(list(orderable = FALSE, targets = ncol(df) - 1))
+      )
+    )
+  })
+}
+
+# ----- display_column_width -----
+
 #' @param ... additional arguments
 #' @name display_functions
 #' @export
@@ -621,6 +672,7 @@ display_table <- function(
     )
   })
 }
+
 # ---- dispaly upload status ------
 #' @param ns a namespace object created from `NS()` from `shiny`
 #' @param output an output within a shiny module.

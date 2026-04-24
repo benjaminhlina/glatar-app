@@ -2,6 +2,7 @@
 % Please edit documentation in R/fnct_display.R
 \name{display_functions}
 \alias{display_functions}
+\alias{display_add_taxa}
 \alias{display_col_width}
 \alias{display_hist}
 \alias{display_scatter_plot}
@@ -12,6 +13,8 @@
 \alias{display_validation_status}
 \title{Display functions}
 \usage{
+display_add_taxa(data, output, output_id, session)
+
 display_col_width(...)
 
 display_hist(data, input_source, output, output_id = "summary_histogram")
@@ -51,18 +54,20 @@ display_validation_status(
 )
 }
 \arguments{
-\item{...}{additional arguments}
-
 \item{data}{a reactive data object for a given variable.
-\code{observe()} or \code{observeEvent()} calls within a module.}
-
-\item{input_source}{usually an object created by a sidebar
-function. These objects tend to be \code{reactive()} outcomes from
 \code{observe()} or \code{observeEvent()} calls within a module.}
 
 \item{output}{an output within a shiny module.}
 
 \item{output_id}{the id name of the output, e.g., \code{"summary_histogram"}.}
+
+\item{session}{module session.}
+
+\item{...}{additional arguments}
+
+\item{input_source}{usually an object created by a sidebar
+function. These objects tend to be \code{reactive()} outcomes from
+\code{observe()} or \code{observeEvent()} calls within a module.}
 
 \item{ns}{a namespace object created from \code{NS()} from \code{shiny}}
 
