@@ -6,6 +6,7 @@
 \alias{msg_hist_ui}
 \alias{msg_hist_vars}
 \alias{msg_input_source}
+\alias{msg_log_agent}
 \alias{msg_mean_data}
 \alias{msg_summary_data}
 \alias{msg_selected_vars}
@@ -24,6 +25,8 @@ msg_hist_ui(df, var, type_val, col)
 msg_hist_vars(df, var, ba)
 
 msg_input_source(input_source_name, envir = parent.frame())
+
+msg_log_agent(x, name, show = 10)
 
 msg_mean_data(df, summary_grouping_vars, y_vals)
 
@@ -57,6 +60,12 @@ dataframe that is of interest}
 
 \item{envir}{the R environment}
 
+\item{x}{an \code{validator} object}
+
+\item{name}{of the validator}
+
+\item{show}{how many values to display, default is \code{10}}
+
 \item{summary_grouping_vars}{the summary grouping variables}
 
 \item{y_vals}{the \code{y} value of interst}
@@ -83,6 +92,9 @@ isssues that may arrise.
 \code{msg_hist_vars()} provides info on the histogogram variables
 
 \code{msg_input_source()} returns info on whether info from valid sources is being used.
+
+\code{msg_log_agent()} returns info on validator agents
+and whether they were successful.
 
 \code{msg_mean_data()} returns info on the mean data object
 
