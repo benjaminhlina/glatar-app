@@ -205,7 +205,7 @@ msg_mean_data <- function(df, summary_grouping_vars, y_vals) {
 # ---- ehck if summary data is being triggered ----
 
 #' @param df the `data.frame` that has summary information.
-#' @param nane the object name that has been triggered. It
+#' @param name the object name that has been triggered. It
 #' is usually a `reactive` object.
 #'
 #' @details

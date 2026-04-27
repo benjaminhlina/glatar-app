@@ -87,6 +87,8 @@ fix_table_order <- function(split_tables) {
 
 # ---- fix tittle label -----
 #' @param x a vector of selected variables.
+#' @param max the maximum nmber of objects to permit
+#' before the function starts condense the names. Defaults to `4`.
 #' @details
 #' `fix_title_label` adjusts the plot title to be dynamic and change
 #' based on the selected species and waterbodies.

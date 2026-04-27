@@ -1,10 +1,3 @@
-# ---- protected tabs -----
-
-protected_tabs <- function() {
-  pt <- c("view_data", "insert_data")
-  return(pt)
-}
-
 # ----- tab login modal -----
 tab_login_modal <- function(failed = FALSE) {
   shiny::modalDialog(

@@ -24,6 +24,9 @@ to be submited. `}
 
 \item{x}{a vector of selected variables.}
 
+\item{max}{the maximum nmber of objects to permit
+before the function starts condense the names. Defaults to \code{4}.}
+
 \item{var_raw}{a reactive value that is the raw variable name}
 }
 \description{

@@ -62,7 +62,8 @@ dataframe that is of interest}
 
 \item{x}{an \code{validator} object}
 
-\item{name}{of the validator}
+\item{name}{the object name that has been triggered. It
+is usually a \code{reactive} object.}
 
 \item{show}{how many values to display, default is \code{10}}
 
@@ -74,9 +75,6 @@ dataframe that is of interest}
 dropdowns.}
 
 \item{tab}{the name of the tab.}
-
-\item{nane}{the object name that has been triggered. It
-is usually a \code{reactive} object.}
 }
 \description{
 These functions use \code{{cli}} to display messages in other functions
