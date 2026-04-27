@@ -166,6 +166,9 @@ be able to write their own issues.
 - [`submission_email_body()`](https://benjaminhlina.github.io/glatar-app/reference/submission_email_body.md)
   : Submission Email Body
 
+- [`tab_login_modal()`](https://benjaminhlina.github.io/glatar-app/reference/tab_login_modal.md)
+  : Tab Login Modal
+
 - [`taxa_submission_email_body()`](https://benjaminhlina.github.io/glatar-app/reference/taxa_submission_email_body.md)
   : Taxa Submission Email Body
 
