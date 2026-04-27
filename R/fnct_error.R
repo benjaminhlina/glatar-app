@@ -1,4 +1,4 @@
-error_dropdowns <- function(
+msg_dropdowns <- function(
   waterbody_choices,
   common_name_choices,
   grouping_choices,
@@ -13,7 +13,7 @@ error_dropdowns <- function(
   ))
 }
 
-error_input_source <- function(input_source_name, envir = parent.frame()) {
+msg_input_source <- function(input_source_name, envir = parent.frame()) {
   valid_sources <- c("summary_sidebar_vals", "scatter_sidebar_vals")
 
   # Check if it's a valid name
@@ -29,7 +29,7 @@ error_input_source <- function(input_source_name, envir = parent.frame()) {
 }
 
 # ---- check lenght_ui -----
-error_hist_ui <- function(
+msg_hist_ui <- function(
   df,
   var,
   type_val,
@@ -42,7 +42,7 @@ error_hist_ui <- function(
   )
 }
 
-error_hist_vars <- function(df, var, ba) {
+msg_hist_vars <- function(df, var, ba) {
   if (ba == "before") {
     cli::cli_alert_info("Variable: {.var {var}}")
     cli::cli_alert_info("Rows before filtering: {.val {nrow(df)}}")
@@ -57,12 +57,12 @@ error_hist_vars <- function(df, var, ba) {
 }
 
 # ----- chekc mean_data ------
-error_mean_data <- function(df, summary_grouping_vars, y_vals) {
+msg_mean_data <- function(df, summary_grouping_vars, y_vals) {
   cli::cli_h2("create_mean_data() diagnostics")
 
   cli::cli_ul(c(
     "df class: {paste(class(df), collapse = ', ')}",
-    "df rows (if local): {tryCatch(nrow(df), error = function(e) 'lazy tbl')}",
+    "df rows (if local): {tryCatch(nrow(df), msg = function(e) 'lazy tbl')}",
     "grouping_vars: {if (is.null(summary_grouping_vars)) 'NULL' else paste(summary_grouping_vars, collapse = ', ')}",
     "length(grouping_vars): {length(summary_grouping_vars)}",
     "y_vals: {if (is.null(y_vals)) 'NULL' else paste(y_vals, collapse = ', ')}",
@@ -74,7 +74,7 @@ error_mean_data <- function(df, summary_grouping_vars, y_vals) {
 
 # ---- check tab name -----
 
-error_tab_name <- function(tab) {
+msg_tab_name <- function(tab) {
   if (
     !(tab %in% c("summary_info", "scatter_plot", "view_data", "view_source"))
   ) {
@@ -83,7 +83,7 @@ error_tab_name <- function(tab) {
 }
 
 # ---- ehck if summary data is being triggered ----
-error_summary_data <- function(df, name = deparse(substitute(df))) {
+msg_summary_data <- function(df, name = deparse(substitute(df))) {
   cli::cli_alert_success("{name} triggered")
 
   # Lazy dbplyr table → do NOT validate rows
@@ -93,7 +93,7 @@ error_summary_data <- function(df, name = deparse(substitute(df))) {
   }
 
   # Try/catch safety
-  if (inherits(df, "try-error")) {
+  if (inherits(df, "try-msg")) {
     cli::cli_alert_danger("{name} failed completely")
     return(invisible(FALSE))
   }
@@ -114,7 +114,7 @@ error_summary_data <- function(df, name = deparse(substitute(df))) {
 }
 
 
-error_selected_vars <- function(selected_vars) {
+msg_selected_vars <- function(selected_vars) {
   cli::cli_ul(c(
     "y_variable value: {if (is.null(selected_vars)) 'NULL' else paste(selected_vars, collapse = ', ')}",
     "length(y_variable): {length(selected_vars)}"
