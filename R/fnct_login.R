@@ -1,4 +1,16 @@
 # ----- tab login modal -----
+#' Tab Login Modal
+#'
+#' This function produces the login modal when clicking on the
+#' protected tabs `raw_data` and `upload_data`.
+#'
+#' @param failed a logical value that when supplied
+#' produces a warning message stating invalid email or
+#' password. Default is `FALSE`
+#'
+#'
+#' @export
+
 tab_login_modal <- function(failed = FALSE) {
   shiny::modalDialog(
     title = shiny::tags$div(
