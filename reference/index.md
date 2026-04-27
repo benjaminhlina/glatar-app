@@ -85,6 +85,16 @@
 - [`glatar_diagram_ui()`](https://benjaminhlina.github.io/glatar-app/reference/glatar_diagram.md)
   : GLATAR diagram
 
+- [`msg_dropdowns()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
+  [`msg_hist_ui()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
+  [`msg_hist_vars()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
+  [`msg_input_source()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
+  [`msg_mean_data()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
+  [`msg_summary_data()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
+  [`msg_selected_vars()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
+  [`msg_tab_name()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
+  : Message functions
+
 - [`naming_conventions`](https://benjaminhlina.github.io/glatar-app/reference/naming_conventions.md)
   :
 
