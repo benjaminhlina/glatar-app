@@ -117,21 +117,21 @@ display_hist <- function(
         .default = NA
       )
 
-      # error_hist_ui(df = df, var = var, type_val = length_type_val,
+      # msg_hist_ui(df = df, var = var, type_val = length_type_val,
       #               col = "length_type")
 
       shiny::req(!is.na(length_type_val))
       shiny::req("length_mm" %in% colnames(df))
       shiny::req("length_type" %in% colnames(df))
 
-      error_hist_vars(df, var = "length_mm", ba = "before")
+      msg_hist_vars(df, var = "length_mm", ba = "before")
 
       df <- df |>
         dplyr::filter(length_type == length_type_val) |>
         dplyr::mutate(length_mm = suppressWarnings(as.numeric(length_mm))) |>
         dplyr::filter(!is.na(length_mm))
 
-      error_hist_vars(df, var, ba = "after")
+      msg_hist_vars(df, var, ba = "after")
 
       var <- "length_mm"
     } else if (is_energy) {
@@ -151,13 +151,13 @@ display_hist <- function(
         .default = NA
       )
 
-      # error_hist_ui(df, var, type_val = energy_type_val)
+      # msg_hist_ui(df, var, type_val = energy_type_val)
 
       shiny::req(!is.na(energy_type_val))
       shiny::req("energy_measurement" %in% colnames(df))
       shiny::req("energy_units" %in% colnames(df))
 
-      error_hist_vars(df, var = "energy_measurement", ba = "before")
+      msg_hist_vars(df, var = "energy_measurement", ba = "before")
 
       df <- df |>
         dplyr::filter(energy_units == energy_type_val) |>
@@ -168,7 +168,7 @@ display_hist <- function(
         ) |>
         dplyr::filter(!is.na(energy_measurement))
 
-      error_hist_vars(df, var, ba = "after")
+      msg_hist_vars(df, var, ba = "after")
 
       var <- "energy_measurement"
     } else {
@@ -176,7 +176,7 @@ display_hist <- function(
       cli::cli_alert_success("entered else statement")
 
       shiny::req(var %in% colnames(df))
-      error_hist_vars(df, var, ba = "before")
+      msg_hist_vars(df, var, ba = "before")
 
       df <- df |>
         dplyr::mutate(dplyr::across(
@@ -185,7 +185,7 @@ display_hist <- function(
         )) |>
         dplyr::filter(!is.na(.data[[var]]))
 
-      error_hist_vars(df, var, ba = "after")
+      msg_hist_vars(df, var, ba = "after")
     }
 
     species_f <- input_source$species_filter()
@@ -812,7 +812,7 @@ display_validation_status <- function(
           ),
           style = "color:red; font-weight:600;"
         ),
-        shiny::tableOutput(ns("error_table"))
+        shiny::tableOutput(ns("msg_table"))
       )
     }
   })

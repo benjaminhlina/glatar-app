@@ -100,7 +100,7 @@ create_mean_data <- function(data, input_source) {
     y_vals <- input_source$y_variable()
 
     # cli check
-    error_mean_data(
+    msg_mean_data(
       df = df,
       summary_grouping_vars = summary_grouping_vars,
       y_vals = y_vals
@@ -260,7 +260,7 @@ create_raw_data <- function(
   shiny::reactive({
     # use for other tabs ---
     if (!is.null(tab)) {
-      error_tab_name(tab)
+      msg_tab_name(tab)
 
       shiny::req(main_input$tabs == tab)
     }
@@ -292,7 +292,7 @@ create_raw_data <- function(
     cli::cli_alert("selected vars is: {.var {selected_vars}}")
 
     # check slected _vars
-    error_selected_vars(selected_vars = selected_vars)
+    msg_selected_vars(selected_vars = selected_vars)
 
     # get groups
     gv <- input_source$grouping_vars
@@ -445,7 +445,7 @@ create_source_data <- function(
   shiny::reactive({
     # use for other tabs ---
     if (!is.null(tab)) {
-      error_tab_name(tab)
+      msg_tab_name(tab)
 
       shiny::req(main_input$tabs == tab)
     }
@@ -550,7 +550,7 @@ create_summary_data <- function(
   shiny::reactive({
     # use for other tabs ---
     if (!is.null(tab)) {
-      error_tab_name(tab)
+      msg_tab_name(tab)
 
       shiny::req(main_input$tabs == tab)
     }
@@ -582,7 +582,7 @@ create_summary_data <- function(
     cli::cli_alert("selected vars is: {.var {selected_vars}}")
 
     # check slected _vars
-    error_selected_vars(selected_vars = selected_vars)
+    msg_selected_vars(selected_vars = selected_vars)
 
     # get groups
 

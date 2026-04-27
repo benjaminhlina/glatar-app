@@ -106,7 +106,7 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
       filtered_scatter_data(),
       {
         shiny::req(filtered_scatter_data())
-        error_summary_data(filtered_scatter_data())
+        msg_summary_data(filtered_scatter_data())
       },
       ignoreInit = TRUE
     )
