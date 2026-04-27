@@ -30,6 +30,11 @@ fix_var_generic(df, var_raw)
 
   a vector of selected variables.
 
+- max:
+
+  the maximum nmber of objects to permit before the function starts
+  condense the names. Defaults to `4`.
+
 - var_raw:
 
   a reactive value that is the raw variable name

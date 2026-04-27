@@ -83,7 +83,8 @@ msg_tab_name(tab)
 
 - name:
 
-  of the validator
+  the object name that has been triggered. It is usually a `reactive`
+  object.
 
 - show:
 
@@ -104,11 +105,6 @@ msg_tab_name(tab)
 - tab:
 
   the name of the tab.
-
-- nane:
-
-  the object name that has been triggered. It is usually a `reactive`
-  object.
 
 ## Details
 
