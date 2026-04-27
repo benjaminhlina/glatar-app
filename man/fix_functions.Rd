@@ -6,7 +6,7 @@
 \alias{fix_table_order}
 \alias{fix_title_label}
 \alias{fix_var_generic}
-\title{Fix Functions Email Body}
+\title{Fix Functions}
 \usage{
 fix_case_types(df)
 
