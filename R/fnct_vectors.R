@@ -78,6 +78,14 @@ good_groups <- function() {
   )
   return(good_groups)
 }
+# ---- protected tabs ----
+#' @name vector_functions
+#'
+#' @export
+protected_tabs <- function() {
+  pt <- c("view_data", "insert_data")
+  return(pt)
+}
 
 # ----- themes -----
 #' @name vector_functions

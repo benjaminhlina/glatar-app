@@ -5,6 +5,7 @@
 \alias{data_tables}
 \alias{data_types}
 \alias{good_groups}
+\alias{protected_tabs}
 \alias{themes}
 \title{Vector functions}
 \usage{
@@ -13,6 +14,8 @@ data_tables()
 data_types()
 
 good_groups()
+
+protected_tabs()
 
 themes()
 }
