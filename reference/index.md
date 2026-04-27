@@ -62,7 +62,7 @@
   [`fix_table_order()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
   [`fix_title_label()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
   [`fix_var_generic()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
-  : Fix Functions Email Body
+  : Fix Functions
 
 - [`get_column_map()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
   [`get_data()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)

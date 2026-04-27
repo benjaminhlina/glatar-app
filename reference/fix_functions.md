@@ -1,4 +1,4 @@
-# Fix Functions Email Body
+# Fix Functions
 
 These functions fix or adjust an object to better fit within the
 required user interface and database. For example case types
