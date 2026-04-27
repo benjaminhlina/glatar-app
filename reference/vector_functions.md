@@ -13,5 +13,7 @@ data_types()
 
 good_groups()
 
+protected_tabs()
+
 themes()
 ```

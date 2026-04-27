@@ -58,6 +58,12 @@
   [`display_validation_status()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   : Display functions
 
+- [`fix_case_types()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
+  [`fix_table_order()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
+  [`fix_title_label()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
+  [`fix_var_generic()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
+  : Fix Functions Email Body
+
 - [`get_column_map()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
   [`get_data()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
   [`get_data_tables()`](https://benjaminhlina.github.io/glatar-app/reference/get_functions.md)
@@ -85,10 +91,15 @@
 - [`glatar_diagram_ui()`](https://benjaminhlina.github.io/glatar-app/reference/glatar_diagram.md)
   : GLATAR diagram
 
+- [`load_indicator()`](https://benjaminhlina.github.io/glatar-app/reference/load_indicator.md)
+  [`load_indicator_hide()`](https://benjaminhlina.github.io/glatar-app/reference/load_indicator.md)
+  : Load Indicator functions
+
 - [`msg_dropdowns()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
   [`msg_hist_ui()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
   [`msg_hist_vars()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
   [`msg_input_source()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
+  [`msg_log_agent()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
   [`msg_mean_data()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
   [`msg_summary_data()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
   [`msg_selected_vars()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
@@ -120,5 +131,6 @@
 - [`data_tables()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`data_types()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`good_groups()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
+  [`protected_tabs()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`themes()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   : Vector functions

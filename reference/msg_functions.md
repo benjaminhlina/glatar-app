@@ -20,6 +20,8 @@ msg_hist_vars(df, var, ba)
 
 msg_input_source(input_source_name, envir = parent.frame())
 
+msg_log_agent(x, name, show = 10)
+
 msg_mean_data(df, summary_grouping_vars, y_vals)
 
 msg_summary_data(df, name = deparse(substitute(df)))
@@ -75,6 +77,18 @@ msg_tab_name(tab)
 
   the R environment
 
+- x:
+
+  an `validator` object
+
+- name:
+
+  of the validator
+
+- show:
+
+  how many values to display, default is `10`
+
 - summary_grouping_vars:
 
   the summary grouping variables
@@ -106,6 +120,9 @@ msg_tab_name(tab)
 
 `msg_input_source()` returns info on whether info from valid sources is
 being used.
+
+`msg_log_agent()` returns info on validator agents and whether they were
+successful.
 
 `msg_mean_data()` returns info on the mean data object
 
