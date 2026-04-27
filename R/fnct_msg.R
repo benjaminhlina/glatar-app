@@ -1,3 +1,24 @@
+# ----- message dropdowns -----
+
+#' Message functions
+#'
+#' These functions use `{cli}` to display messages in other functions
+#' when different opperations occur. They are helpfui in seeing
+#' how the suer interacts with the app as well as diagnosing
+#' isssues that may arrise.
+#'
+#' @param waterbody_choices a vector of water body choices
+#' @param common_name_choices a vector of common name choices
+#' @param grouping_choices a vector of grouping variable choices
+#' @param numeric_choices a vector of numerical choices
+#'
+#' @details
+#' `msg_dropdowns()` returns info on the drop downs selected.
+#'
+#' @name msg_functions
+#'
+#' @export
+
 msg_dropdowns <- function(
   waterbody_choices,
   common_name_choices,
@@ -13,21 +34,21 @@ msg_dropdowns <- function(
   ))
 }
 
-msg_input_source <- function(input_source_name, envir = parent.frame()) {
-  valid_sources <- c("summary_sidebar_vals", "scatter_sidebar_vals")
+# ---- msg_hist_ui -------
 
-  # Check if it's a valid name
-  if (length(input_source_name) != 1 || !input_source_name %in% valid_sources) {
-    cli::cli_abort(c(
-      "Invalid {.arg input_source_name} provided",
-      "x" = "You supplied: {.val {input_source_name}}",
-      "i" = "Must be one of: {.val {valid_sources}}"
-    ))
-  }
-
-  # DON'T check existence here - it might not exist yet at module initialization
-}
-
+#' @param df the `data.frame` that is beinb supplied to the histogram
+#' @param var the `x` variable that is being supplied to the histogram
+#' @param type_val the type of value supplied
+#' @param col the column name of the column in
+#'  dataframe that is of interest
+#'
+#'
+#' @details
+#' `msg_hist_ui()` provides info on the histogogram
+#'
+#' @name msg_functions
+#'
+#' @export
 # ---- check lenght_ui -----
 msg_hist_ui <- function(
   df,
@@ -42,6 +63,17 @@ msg_hist_ui <- function(
   )
 }
 
+# ----- msg_hist_vars -------
+
+#' @param df the `data.frame` that has summary information.
+#' @param var the `x` variable that is being supplied to the histogram
+#' @param ba vector that is either `"before"` or `"after"`.
+#'
+#' @details
+#' `msg_hist_vars()` provides info on the histogogram variables
+#'
+#' @name msg_functions
+#' @export
 msg_hist_vars <- function(df, var, ba) {
   if (ba == "before") {
     cli::cli_alert_info("Variable: {.var {var}}")
@@ -55,6 +87,43 @@ msg_hist_vars <- function(df, var, ba) {
     cli::cli_alert_success("Rows after filtering: {.val {nrow(df)}}")
   }
 }
+
+
+# ----- msg_input_source ------
+
+#' @param input_source_name the name of the input
+#' @param envir the R environment
+#'
+#' @details
+#' `msg_input_source()` returns info on whether info from valid sources is being used.
+#'
+#' @name msg_functions
+#'
+#' @export
+msg_input_source <- function(input_source_name, envir = parent.frame()) {
+  valid_sources <- c("summary_sidebar_vals", "scatter_sidebar_vals")
+
+  # Check if it's a valid name
+  if (length(input_source_name) != 1 || !input_source_name %in% valid_sources) {
+    cli::cli_abort(c(
+      "Invalid {.arg input_source_name} provided",
+      "x" = "You supplied: {.val {input_source_name}}",
+      "i" = "Must be one of: {.val {valid_sources}}"
+    ))
+  }
+}
+
+# ----- msg_mean_data ------
+
+#' @param df the `data.frame` that has summary information.
+#' @param summary_grouping_vars the summary grouping variables
+#' @param y_vals the `y` value of interst
+#'
+#' @details
+#' `msg_mean_data()` returns info on the mean data object
+#'
+#' @name msg_functions
+#' @export
 
 # ----- chekc mean_data ------
 msg_mean_data <- function(df, summary_grouping_vars, y_vals) {
@@ -72,17 +141,19 @@ msg_mean_data <- function(df, summary_grouping_vars, y_vals) {
   cli::cli_rule()
 }
 
-# ---- check tab name -----
-
-msg_tab_name <- function(tab) {
-  if (
-    !(tab %in% c("summary_info", "scatter_plot", "view_data", "view_source"))
-  ) {
-    cli::cli_abort("Cannot execute function for {.val {tab}} tab")
-  }
-}
 
 # ---- ehck if summary data is being triggered ----
+
+#' @param df the `data.frame` that has summary information.
+#' @param nane the object name that has been triggered. It
+#' is usually a `reactive` object.
+#'
+#' @details
+#' `msg_summary_data()`returns info about summary data
+#'
+#' @name msg_functions
+#' @export
+
 msg_summary_data <- function(df, name = deparse(substitute(df))) {
   cli::cli_alert_success("{name} triggered")
 
@@ -113,10 +184,35 @@ msg_summary_data <- function(df, name = deparse(substitute(df))) {
   invisible(TRUE)
 }
 
+# ----- selected vars ------
+#' @param selected_vars an object that has selected variables from
+#' dropdowns.
+#'
+#' @details
+#' `msg_selected_vars()`returns info about the selected varialbes
+#'
+#' @name msg_functions
+#' @export
 
 msg_selected_vars <- function(selected_vars) {
   cli::cli_ul(c(
     "y_variable value: {if (is.null(selected_vars)) 'NULL' else paste(selected_vars, collapse = ', ')}",
     "length(y_variable): {length(selected_vars)}"
   ))
+}
+
+# ---- check tab name -----
+#' @param tab the name of the tab.
+#'
+#' @details
+#' `msg_tab_name()`tab name.
+#'
+#' @name msg_functions
+#' @export
+msg_tab_name <- function(tab) {
+  if (
+    !(tab %in% c("summary_info", "scatter_plot", "view_data", "view_source"))
+  ) {
+    cli::cli_abort("Cannot execute function for {.val {tab}} tab")
+  }
 }
