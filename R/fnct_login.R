@@ -35,7 +35,7 @@ tab_login_modal <- function(failed = FALSE) {
     shiny::textInput(
       "tab_login_user",
       label = shiny::tags$span(shiny::icon("envelope"), " Email"),
-      placeholder = "user.name@gmail.com"
+      placeholder = "user.name@example.com"
     ),
     shiny::passwordInput(
       "tab_login_pass",
