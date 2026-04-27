@@ -1,3 +1,20 @@
+# ---- fix case types -----
+#' Fix Functions Email Body
+#'
+#' These functions fix or adjust an object to better fit within
+#' the required user interface and database. For example case types
+#'
+#'
+#' @param df a `data.frame`
+#'
+#' @details
+#' `fix_case_types` fix case types once validation has occured for incoming
+#' data into the database.
+#'
+#' @name fix_functions
+#'
+#' @export
+
 fix_case_types <- function(df) {
   df <- df |>
     dplyr::mutate(
@@ -27,6 +44,19 @@ fix_case_types <- function(df) {
 }
 
 # ---- fix table order -----
+#'
+#' @param split_tables a `list` containing inported data as `data.frames` ready
+#' to be submited. `
+#'
+#' @details
+#' `fix_table_order` fixes the order of the tables within the `list` so we
+#' can iteratively load data into the the database. The proper order is
+#' `tbl_submission`, `tbl_sources`, and `tbl_samples`` the an other supporting
+#' tables.
+#'
+#' @name fix_functions
+#'
+#' @export
 fix_table_order <- function(split_tables) {
   # Define the "priority" tables to go first
   priority_tables <- c("tbl_submission", "tbl_sources", "tbl_samples")
@@ -56,6 +86,14 @@ fix_table_order <- function(split_tables) {
 
 
 # ---- fix tittle label -----
+#' @param x a vector of selected variables.
+#' @details
+#' `fix_title_label` adjusts the plot title to be dynamic and change
+#' based on the selected species and waterbodies.
+#'
+#' @name fix_functions
+#'
+#' @export
 fix_title_label <- function(x, max = NULL) {
   if (is.null(max)) {
     max <- 4
@@ -73,7 +111,19 @@ fix_title_label <- function(x, max = NULL) {
     )
   }
 }
+
+
 # ---- fix_var_gneric ----
+#' @param df a `data.frame`
+#' @param var_raw a reactive value that is the raw variable name
+#' @details
+#' `fix_var_generic` returns a `list` containing three objects one being `df` with
+#' the selected variable, one being the `variable` name and the last being
+#' `variable label`. This function is used in summary tables, histograms and scatter plots.
+#'
+#' @name fix_functions
+#'
+#' @export
 fix_var_generic <- function(df, var_raw) {
   # detect if it's one of the synthetic length vars
   if (grepl("^length_mm__", var_raw)) {
