@@ -1,3 +1,18 @@
+#' Split Tables
+#'
+#' Split tables takes validated and cleaned data submissions and splits
+#' them by columns into the table name from the data dictionary.
+#'
+#' @param df the `data.frame` containing the submitted data.
+#' @param tables_to_split the information from data dictionary
+#' determing which columns belong to which tables.
+
+#' @return returns a `list`containing the tables named
+#' apporipately and split into their proper tables for
+#' database submission.
+#'
+#' @export
+
 split_tables <- function(df, tables_to_split) {
   lapply(names(tables_to_split), function(tbl_name) {
     map <- tables_to_split[[tbl_name]]
