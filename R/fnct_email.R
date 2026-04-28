@@ -27,7 +27,7 @@ reg_confirmation_email_body <- function(first, last, affil, email) {
 
         <p>Hi <strong>{first}</strong>,</p>
 
-        <p>Thank you for requesting access to the GLFC Portal. We have received
+        <p>Thank you for requesting access to the GLATAR Portal. We have received
         your registration and will be in touch shortly.</p>
 
         <table style="width:100%; border-collapse:collapse; margin: 16px 0;">
