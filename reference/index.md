@@ -58,6 +58,9 @@
   [`display_validation_status()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   : Display functions
 
+- [`exclusive_all_observer()`](https://benjaminhlina.github.io/glatar-app/reference/exclusive_all_observer.md)
+  : Exclude all observer
+
 - [`fix_case_types()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
   [`fix_table_order()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
   [`fix_title_label()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
@@ -110,6 +113,16 @@
   :
 
   A `data.frame` containing naming conventions
+
+- [`plot_ui()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  [`pallete_selector()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  [`alpha_selector()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  [`size_selector()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  [`shape_selector()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  : Plot control functions
+
+- [`plot_message()`](https://benjaminhlina.github.io/glatar-app/reference/plot_message.md)
+  : Plot message functions
 
 - [`rule_map`](https://benjaminhlina.github.io/glatar-app/reference/rule_map.md)
   :
