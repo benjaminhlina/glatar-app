@@ -131,6 +131,10 @@
   [`read_xl()`](https://benjaminhlina.github.io/glatar-app/reference/read_functions.md)
   : Read functions
 
+- [`reg_confirmation_email_body()`](https://benjaminhlina.github.io/glatar-app/reference/reg_confirmation_email_body.md)
+  : This function drafts the text body the registration confirmation
+  email body.
+
 - [`rule_map`](https://benjaminhlina.github.io/glatar-app/reference/rule_map.md)
   :
 
@@ -147,6 +151,9 @@
 
 - [`tab_login_modal()`](https://benjaminhlina.github.io/glatar-app/reference/tab_login_modal.md)
   : Tab Login Modal
+
+- [`tab_register_modal()`](https://benjaminhlina.github.io/glatar-app/reference/tab_register_modal.md)
+  : Tab Register Modal
 
 - [`taxa_submission_email_body()`](https://benjaminhlina.github.io/glatar-app/reference/taxa_submission_email_body.md)
   : Taxa Submission Email Body
