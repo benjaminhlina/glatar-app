@@ -276,7 +276,7 @@ display_scatter_plot <- function(
 
     # ---- if data is null/no grouping varialbes display message -----
     if (is.null(df)) {
-      p <- empty_plot(
+      p <- plot_message(
         "Select one or more grouping variables from the sidebar.
         \n**Next** select your _x_ and _y_ variables of interest."
       )
@@ -284,7 +284,7 @@ display_scatter_plot <- function(
       return(p)
     }
     if (check_empty_character(x_var_raw) | check_empty_character(y_var_raw)) {
-      p <- empty_plot(
+      p <- plot_message(
         paste(
           "Grouping variables selected",
           cli::symbol$tick,
@@ -308,7 +308,7 @@ display_scatter_plot <- function(
 
     # ---- too many groups ----
     if (n_groups > 3) {
-      p <- empty_plot(
+      p <- plot_message(
         "You have selected 4 or more grouping variables.\nPlease select 3 or fewer."
       )
       return(p)
@@ -344,7 +344,7 @@ display_scatter_plot <- function(
       dplyr::pull(has)
 
     if (!has_rows) {
-      p <- empty_plot(
+      p <- plot_message(
         "No data available"
       )
       return(p)
