@@ -165,6 +165,13 @@ be able to write their own issues.
 - [`plot_message()`](https://benjaminhlina.github.io/glatar-app/reference/plot_message.md)
   : Plot message functions
 
+- [`ram_tracker()`](https://benjaminhlina.github.io/glatar-app/reference/ram_tracker.md)
+  : Ram Tracker
+
+- [`read_col_types()`](https://benjaminhlina.github.io/glatar-app/reference/read_functions.md)
+  [`read_xl()`](https://benjaminhlina.github.io/glatar-app/reference/read_functions.md)
+  : Read functions
+
 - [`rule_map`](https://benjaminhlina.github.io/glatar-app/reference/rule_map.md)
   :
 
