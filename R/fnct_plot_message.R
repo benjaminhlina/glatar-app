@@ -1,6 +1,15 @@
-# ----- empty plot ------
-# need to add ggtext to make this nicer
-empty_plot <- function(msg) {
+# ----- plot message ------
+#' Plot message functions
+#'
+#' This function allows for [ggplot2](https://ggplot2.tidyverse.org/) to be used to display blank plots
+#' with messages to the user.
+#'
+#' @param msg A character vector containing the message that is desired.
+#' @return a `ggplot()` object to be displayed.
+
+#' @export
+
+plot_message <- function(msg) {
   # Wrap msg in markdown for styling if desired
   styled_msg <- glue::glue(
     "<span style='color:#333333; font-size:14pt;'>{msg}</span>"
