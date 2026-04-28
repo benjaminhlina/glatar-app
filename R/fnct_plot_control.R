@@ -1,3 +1,20 @@
+# ----- plot ui -----
+#' Plot control functions
+#'
+#' These functions add different control features to different
+#' plots displayed such as scatter and eventually box plot.
+#'
+#' @param title the title of plot
+#' @param plot_id the shiny namespace for the plot desired `"scatter_plot"`
+#' @param height the height of the plot in pixels
+#' @param ... additional parameters to be given for example a `NS()` object.
+#'
+#' @return `plot_ui()` provides user interface for any plot object throughout
+#' the app.
+#'
+#' @name plot_controls
+#' @export
+
 plot_ui <- function(title, plot_id, height, ...) {
   args <- list(...)
   ns <- args$ns
@@ -19,6 +36,14 @@ plot_ui <- function(title, plot_id, height, ...) {
 
 
 # ------ pallletes ------
+#' @param ... additional parameters to be given for example a `NS()` object.
+#'
+#' @return `pallete_selector()` provides user interface to select different palletes
+#' from [viridis](https://CRAN.R-project.org/package=viridis).
+#'
+#'
+#' @name plot_controls
+#' @export
 pallete_selector <- function(...) {
   args <- list(...)
   ns <- args$ns
@@ -48,7 +73,13 @@ pallete_selector_server <- function(input) {
 
 
 # ------ alpha -------
-
+#' @param ... additional parameters to be given for example a `NS()` object.
+#'
+#' @return `alpha_selector()` provides user interface to select different values
+#' of `alpha` which controls transparency.
+#'
+#' @name plot_controls
+#' @export
 alpha_selector <- function(...) {
   args <- list(...)
   ns <- args$ns
@@ -81,7 +112,13 @@ alpha_selector_server <- function(input) {
 
 
 # ------ size -------
-
+#' @param ... additional parameters to be given for example a `NS()` object.
+#'
+#' @return `size_selector` provides user interface to select different values
+#' of `sizd` which controls the size of the points.
+#'
+#' @name plot_controls
+#' @export
 size_selector <- function(...) {
   args <- list(...)
   ns <- args$ns
@@ -115,6 +152,13 @@ size_selector_server <- function(input) {
 
 
 # ---- shape -----
+#' @param ... additional parameters to be given for example a `NS()` object.
+#'
+#' @return `shape_selector` provides user interface to select different values
+#' of `shapes` which controls the shape type.
+#'
+#' @name plot_controls
+#' @export
 shape_selector <- function(...) {
   args <- list(...)
   ns <- args$ns
