@@ -6,7 +6,7 @@
 #'
 #' @param msg A character vector containing the message that is desired.
 #' @return a `ggplot()` object to be displayed.
-
+#'
 #' @export
 
 plot_message <- function(msg) {
