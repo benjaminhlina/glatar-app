@@ -181,8 +181,14 @@ be able to write their own issues.
 
   A `data.frame` containing validation rules and names
 
+- [`search_table()`](https://benjaminhlina.github.io/glatar-app/reference/search_functions.md)
+  : Search functions
+
 - [`send_email()`](https://benjaminhlina.github.io/glatar-app/reference/send_email.md)
   : Send Email
+
+- [`split_tables()`](https://benjaminhlina.github.io/glatar-app/reference/split_tables.md)
+  : Split Tables
 
 - [`start_up()`](https://benjaminhlina.github.io/glatar-app/reference/start_up.md)
   : Start up GLATAR App
