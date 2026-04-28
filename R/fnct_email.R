@@ -1,3 +1,64 @@
+# ---- registration email -----
+# Registration Confirmation Email Body
+#'
+#' This function drafts the text body the registration confirmation
+#' email body.
+#'
+#' @param first a `vector` containing the first name of the submitter.
+#' @param last a `vector` containing the last name of the submitter.
+#' @param affil a `vector` containing the affiliation of the submitter.
+#' @param email a `vector` containing the email of the submitter.
+#'
+#' @return HTML of the email structure to be sent for the registration email.
+#'
+#' @export
+
+reg_confirmation_email_body <- function(first, last, affil, email) {
+  list(
+    subject = "GLATAR Portal - Registration Received",
+    email_body = glue::glue(
+      '
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px;">
+
+        <img src="https://glatar.org/www/logo/glfc-logo.png"
+             width="80" style="display:block; margin: 0 auto 16px auto;" />
+
+        <h2 style="text-align:center; color:#2c3e50;">Registration Received</h2>
+
+        <p>Hi <strong>{first}</strong>,</p>
+
+        <p>Thank you for requesting access to the GLFC Portal. We have received
+        your registration and will be in touch shortly.</p>
+
+        <table style="width:100%; border-collapse:collapse; margin: 16px 0;">
+          <tr style="background:#f2f2f2;">
+            <td style="padding:8px 12px; font-weight:bold; width:40%;">Name</td>
+            <td style="padding:8px 12px;">{first} {last}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px; font-weight:bold;">Affiliation</td>
+            <td style="padding:8px 12px;">{affil}</td>
+          </tr>
+          <tr style="background:#f2f2f2;">
+            <td style="padding:8px 12px; font-weight:bold;">Email</td>
+            <td style="padding:8px 12px;">{email}</td>
+          </tr>
+        </table>
+
+        <p style="color:#7f8c8d; font-size:0.9em;">
+          If you did not submit this request, please ignore this email.
+        <em>Please do not reply to this email as it will not be received.</em></p>
+
+        <hr style="border:none; border-top:1px solid #eee; margin:24px 0;" />
+        <p style="text-align:center; color:#aaa; font-size:0.85em;">
+          -GLATAR Team
+        </p>
+
+      </div>
+    '
+    )
+  )
+}
 # ---- email body html ------
 #' Submission Email Body
 #'

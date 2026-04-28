@@ -63,6 +63,54 @@ tab_auth_server <- function(
     }
   })
 
+  # ----- register modal -----
+  shiny::observeEvent(input$go_to_register, {
+    shiny::showModal(tab_register_modal())
+  })
+
+  shiny::observeEvent(input$reg_back, {
+    shiny::showModal(tab_login_modal())
+  })
+
+  # ----- back to login when email has successfully ben sumbitted ----
+  shiny::observeEvent(input$reg_back, {
+    shiny::showModal(tab_login_modal())
+  })
+
+  # ---- Handle registration submission ----
+  shiny::observeEvent(input$reg_submit, {
+    first <- trimws(input$reg_first_name)
+    last <- trimws(input$reg_last_name)
+    affil <- trimws(input$reg_affiliation)
+    email <- trimws(input$reg_email)
+
+    fields_missing <- any(nchar(c(first, last, affil, email)) == 0)
+    email_invalid <- !grepl("^[^@]+@[^@]+\\.[^@]+$", email)
+
+    if (fields_missing || email_invalid) {
+      shiny::showModal(tab_register_modal(failed = TRUE))
+      return()
+    }
+
+    tryCatch(
+      {
+        send_email(
+          to_user = email,
+          email_text = reg_confirmation_email_body(first, last, affil, email)
+        )
+        shiny::showModal(tab_register_modal(success = TRUE))
+      },
+      error = function(e) {
+        shiny::showNotification(
+          paste("Email could not be sent:", conditionMessage(e)),
+          type = "error",
+          duration = 8
+        )
+        # Still show success — registration was not even if email fails
+        shiny::showModal(tab_register_modal(success = FALSE))
+      }
+    )
+  })
   # ------ Handle cancel ------
   shiny::observeEvent(input$tab_login_cancel, {
     shiny::removeModal()
