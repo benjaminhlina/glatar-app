@@ -47,7 +47,7 @@ reg_confirmation_email_body <- function(first, last, affil, email) {
 
         <p style="color:#7f8c8d; font-size:0.9em;">
           If you did not submit this request, please ignore this email.
-        </p>
+        <em>Please do not reply to this email as it will not be received.</em></p>
 
         <hr style="border:none; border-top:1px solid #eee; margin:24px 0;" />
         <p style="text-align:center; color:#aaa; font-size:0.85em;">
