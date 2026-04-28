@@ -1,4 +1,22 @@
 # ----- read col_types------
+#' Read functions
+#'
+#' Read functions allow for `.xlsx` files to be read into the the app
+#' to be able to then manipulate and eventually validate and import into
+#' the database.
+#'
+#' @param file_path the path to the file provided by UI upload observer.
+#' @param tbl_name the table name to be imported
+#' @param skip the number of rows to skip given the header is not the first row.
+#' @param n_max n_max is number of the maximum number of data rows to read.
+#'
+#' @details `read_col_types()`` reads in a file and determiens the number of
+#' columns and the column types
+#' @return  `read_col_types()` returns a vector that has each column type
+#' for a given excel file.
+#'
+#' @name read_functions
+#' @export
 read_col_types <- function(file_path, tbl_name, skip, n_max) {
   col_count <- readxl::read_excel(
     file_path,
@@ -19,6 +37,24 @@ read_col_types <- function(file_path, tbl_name, skip, n_max) {
 }
 
 # ----- read xl file ------
+#'
+#' @param file_path the path to the file provided by UI upload observer.
+#' @param tbl_name the table name to be imported
+#' @param skip the number of rows to skip given the header is not the first row.
+#' @param col_types a vector contianing the column types supplied by `read_col_types()`.
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param rename a logical that strips excesive information and renames column names
+#' to snake case and follows the database shcema. Defaults to `TRUE`.
+#' @param rename_twice a logical that strips excesive information and renames column names
+#' to snake case and follows the database shcema. Defaults to  `NULL``.
+#'
+#'
+#' @details`read_xl()`` reads in a file and cleans up the columns names before any other
+#' processes occure such as validation and spliting to the database.
+#' @return  `read_xl()`returns a `data.frame` with the a given database table.
+#'
+#' @name read_functions
+#' @export
 
 read_xl <- function(
   file_path,
