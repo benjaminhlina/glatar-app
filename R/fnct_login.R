@@ -88,7 +88,7 @@ tab_register_modal <- function(failed = FALSE, success = FALSE) {
         style = "display:block; margin: 0 auto 12px auto;"
       ),
       shiny::tags$h4(
-        "Request Access",
+        "GLATAR Registration",
         style = "text-align:center; margin:0; color:#2c3e50;"
       )
     ),
@@ -112,11 +112,12 @@ tab_register_modal <- function(failed = FALSE, success = FALSE) {
     },
 
     shiny::tags$p(
-      "Complete the form below to request access. You will receive a confirmation email once submitted.",
+      "Complete the form below to request access to submit data and view
+       your raw data. You will receive a confirmation email once submitted.",
       style = "color:#7f8c8d; text-align:center; margin-bottom:16px;"
     ),
 
-    # ── Form fields ─────────────────────────────────────────────────────
+    # ----- Form fields ------
     shiny::fluidRow(
       shiny::column(
         6,
@@ -146,7 +147,7 @@ tab_register_modal <- function(failed = FALSE, success = FALSE) {
       placeholder = "user.name@example.com"
     ),
 
-    # ── Footer ──────────────────────────────────────────────────────────
+    # ----- Footer ----
     footer = shiny::tagList(
       shiny::modalButton("Cancel"),
       shiny::actionButton(
