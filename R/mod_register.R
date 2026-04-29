@@ -116,3 +116,29 @@ register_ui <- function(id) {
     )
   )
 }
+
+# ---- register ui -----
+
+#' Registration Server
+#'
+#' Porvides the server side for the
+#' `register_ui()`.
+#'
+#' @param id the shiny namespace id in this case
+#' it is `"register"``.
+#'
+#' @return a shiny server object that contains
+#' registration server.
+#'
+#' @export
+
+register_server <- function(id) {
+  shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+    register_observer(
+      input,
+      output,
+      session
+    )
+  })
+}
