@@ -3,7 +3,7 @@
 #' This function produces the UI for the registraiton fields both
 #' in the modal and tab
 #'
-#' @return shinmy UI objects
+#' @return shiny UI objects
 #'
 #' @export
 

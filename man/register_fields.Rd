@@ -8,7 +8,7 @@ in the modal and tab}
 register_fields(...)
 }
 \value{
-shinmy UI objects
+shiny UI objects
 }
 \description{
 This function produces the UI for the registraiton fields both
