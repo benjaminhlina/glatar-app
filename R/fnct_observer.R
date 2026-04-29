@@ -43,19 +43,34 @@ exclusive_all_observer <- function(input, session, id) {
 #' @param input a server input value.
 #' @param output a server output value.
 #' @param session a shiny session.
+#' @param modal a logical that allows for this function to
+#' be used in modal mode. Defaults to `FALSE`.
 #'
 #' @return an event that sends an email with registeration information.
 #' @export
 
-register_observer <- function(input, output, session) {
+register_observer <- function(input, output, session, modal = FALSE) {
   # ----- back to login when email has successfully been sumbitted ----
+
+  if (isTRUE(modal)) {
+    shiny::observeEvent(input$go_to_register, {
+      shiny::showModal(tab_register_modal())
+    })
+
+    # ----- back to login when email has successfully ben sumbitted ----
+    shiny::observeEvent(input$reg_back, {
+      shiny::showModal(tab_login_modal())
+    })
+  }
 
   shiny::observeEvent(input$reg_submit, {
     shinyjs::disable("reg_submit")
     on.exit(shinyjs::enable("reg_submit"), add = TRUE)
 
-    shinyjs::hide("banner_error")
-    shinyjs::hide("banner_success")
+    if (isFALSE(modal)) {
+      shinyjs::hide("banner_error")
+      shinyjs::hide("banner_success")
+    }
     # ---- Handle registration submission ----
     first <- trimws(input$reg_first_name)
     last <- trimws(input$reg_last_name)
@@ -66,7 +81,11 @@ register_observer <- function(input, output, session) {
     email_invalid <- !grepl("^[^@]+@[^@]+\\.[^@]+$", email)
 
     if (fields_missing || email_invalid) {
-      shinyjs::show("banner_error")
+      if (isTRUE(modal)) {
+        shiny::showModal(tab_register_modal(failed = TRUE))
+      } else {
+        shinyjs::show("banner_error")
+      }
       return()
     }
 
@@ -76,7 +95,11 @@ register_observer <- function(input, output, session) {
           to_user = email,
           email_text = reg_confirmation_email_body(first, last, affil, email)
         )
-        shinyjs::show("banner_success")
+        if (isTRUE(modal)) {
+          shiny::showModal(tab_register_modal(success = TRUE))
+        } else {
+          shinyjs::show("banner_success")
+        }
       },
       error = function(e) {
         shiny::showNotification(
