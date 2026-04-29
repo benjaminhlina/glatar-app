@@ -110,6 +110,11 @@ glatar_app <- function() {
           icon = shiny::icon("print")
         ),
         shinydashboard::menuItem(
+          "Registration",
+          tabName = "register",
+          icon = shiny::icon("address-card")
+        ),
+        shinydashboard::menuItem(
           "About",
           tabName = "about",
           icon = shiny::icon("circle-info")
@@ -188,7 +193,8 @@ glatar_app <- function() {
           upload_data_ui("insert_data")
         ),
         shinydashboard::tabItem(tabName = "docs", docs_ui("docs")),
-        shinydashboard::tabItem(tabName = "about", about_ui("about"))
+        shinydashboard::tabItem(tabName = "about", about_ui("about")),
+        shinydashboard::tabItem(tabName = "register", register_ui("register"))
       )
     )
   )
