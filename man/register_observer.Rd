@@ -4,7 +4,7 @@
 \alias{register_observer}
 \title{Registration Observer}
 \usage{
-register_observer(input, output, session, submission_flag)
+register_observer(input, output, session)
 }
 \arguments{
 \item{input}{a server input value.}
