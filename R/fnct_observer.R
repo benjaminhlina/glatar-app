@@ -47,7 +47,7 @@ exclusive_all_observer <- function(input, session, id) {
 #' @return an event that sends an email with registeration information.
 #' @export
 
-register_observer <- function(input, output, session, submission_flag) {
+register_observer <- function(input, output, session) {
   # ----- back to login when email has successfully been sumbitted ----
 
   shiny::observeEvent(input$reg_submit, {
@@ -57,36 +57,34 @@ register_observer <- function(input, output, session, submission_flag) {
     shinyjs::hide("banner_error")
     shinyjs::hide("banner_success")
     # ---- Handle registration submission ----
-    shiny::observeEvent(input$reg_submit, {
-      first <- trimws(input$reg_first_name)
-      last <- trimws(input$reg_last_name)
-      affil <- trimws(input$reg_affiliation)
-      email <- trimws(input$reg_email)
+    first <- trimws(input$reg_first_name)
+    last <- trimws(input$reg_last_name)
+    affil <- trimws(input$reg_affiliation)
+    email <- trimws(input$reg_email)
 
-      fields_missing <- any(nchar(c(first, last, affil, email)) == 0)
-      email_invalid <- !grepl("^[^@]+@[^@]+\\.[^@]+$", email)
+    fields_missing <- any(nchar(c(first, last, affil, email)) == 0)
+    email_invalid <- !grepl("^[^@]+@[^@]+\\.[^@]+$", email)
 
-      if (fields_missing || email_invalid) {
-        shinyjs::show("banner_error")
-        return()
+    if (fields_missing || email_invalid) {
+      shinyjs::show("banner_error")
+      return()
+    }
+
+    tryCatch(
+      {
+        send_email(
+          to_user = email,
+          email_text = reg_confirmation_email_body(first, last, affil, email)
+        )
+        shinyjs::show("banner_success")
+      },
+      error = function(e) {
+        shiny::showNotification(
+          paste("Email could not be sent:", conditionMessage(e)),
+          type = "error",
+          duration = 8
+        )
       }
-
-      tryCatch(
-        {
-          send_email(
-            to_user = email,
-            email_text = reg_confirmation_email_body(first, last, affil, email)
-          )
-          shinyjs::show("banner_success")
-        },
-        error = function(e) {
-          shiny::showNotification(
-            paste("Email could not be sent:", conditionMessage(e)),
-            type = "error",
-            duration = 8
-          )
-        }
-      )
-    })
+    )
   })
 }
