@@ -40,11 +40,12 @@ register_ui <- function(id) {
               style = "display:block; margin:0 auto 12px auto;"
             ),
             shiny::tags$h3(
-              "Request Access",
+              "GLATAR Registration",
               style = "margin:0; color:#2c3e50;"
             ),
             shiny::tags$p(
-              "Complete the form below to request access. You will receive a confirmation email once submitted.",
+              "Complete the form below to request access to submit data and view 
+              your raw data. You will receive a confirmation email once submitted.",
               style = "color:#7f8c8d; margin-top:8px;"
             )
           ),
