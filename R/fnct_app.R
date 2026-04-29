@@ -291,7 +291,7 @@ glatar_app <- function() {
     # ---- taxa search -----
     taxa_search_server("taxa_search", con)
     docs_server("docs")
-
+    register_server("register")
     shiny::observeEvent(input$logout_btn, {
       tab_auth$logout()
     })
