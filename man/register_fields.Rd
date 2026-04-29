@@ -7,6 +7,9 @@ in the modal and tab}
 \usage{
 register_fields(...)
 }
+\arguments{
+\item{...}{additional parameters to be given for example a \code{NS()} object.}
+}
 \value{
 shiny UI objects
 }

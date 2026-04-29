@@ -3,6 +3,8 @@
 #' This function produces the UI for the registraiton fields both
 #' in the modal and tab
 #'
+#' @param ... additional parameters to be given for example a `NS()` object.
+#'
 #' @return shiny UI objects
 #'
 #' @export
