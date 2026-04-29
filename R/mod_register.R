@@ -6,7 +6,7 @@
 #' to be able to register to GLATAR.
 #'
 #' @param id the shiny namespace id in this case
-#' it is `"register".
+#' it is `"register"``.
 #'
 #' @return a shiny dashboard interface
 #'

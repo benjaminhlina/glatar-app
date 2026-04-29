@@ -8,7 +8,7 @@ register_ui(id)
 }
 \arguments{
 \item{id}{the shiny namespace id in this case
-it is `"register".}
+it is `"register"``.}
 }
 \value{
 a shiny dashboard interface
