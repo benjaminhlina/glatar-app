@@ -4,7 +4,7 @@
 \alias{register_observer}
 \title{Registration Observer}
 \usage{
-register_observer(input, output, session)
+register_observer(input, output, session, modal = FALSE)
 }
 \arguments{
 \item{input}{a server input value.}
@@ -12,6 +12,9 @@ register_observer(input, output, session)
 \item{output}{a server output value.}
 
 \item{session}{a shiny session.}
+
+\item{modal}{a logical that allows for this function to
+be used in modal mode. Defaults to \code{FALSE}.}
 }
 \value{
 an event that sends an email with registeration information.
