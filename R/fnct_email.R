@@ -28,7 +28,8 @@ reg_confirmation_email_body <- function(first, last, affil, email) {
         <p>Hi <strong>{first}</strong>,</p>
 
         <p>Thank you for requesting access to the GLATAR Portal. We have received
-        your registration and will be in touch shortly.</p>
+        your registration and will be in touch shortly. Please allow 24 to 48 hours before 
+        reaching out.</p>
 
         <table style="width:100%; border-collapse:collapse; margin: 16px 0;">
           <tr style="background:#f2f2f2;">
