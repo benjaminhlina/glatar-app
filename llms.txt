@@ -176,6 +176,19 @@ be able to write their own issues.
   : This function drafts the text body the registration confirmation
   email body.
 
+- [`register_fields()`](https://benjaminhlina.github.io/glatar-app/reference/register_fields.md)
+  : This function produces the UI for the registraiton fields both in
+  the modal and tab
+
+- [`register_observer()`](https://benjaminhlina.github.io/glatar-app/reference/register_observer.md)
+  : Registration Observer
+
+- [`register_server()`](https://benjaminhlina.github.io/glatar-app/reference/register_server.md)
+  : Registration Server
+
+- [`register_ui()`](https://benjaminhlina.github.io/glatar-app/reference/register_ui.md)
+  : Registration User Interface
+
 - [`rule_map`](https://benjaminhlina.github.io/glatar-app/reference/rule_map.md)
   :
 
