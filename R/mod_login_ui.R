@@ -64,6 +64,7 @@ tab_auth_server <- function(
   })
 
   # ----- register modal -----
+  # register_observer(input, output, session)
   shiny::observeEvent(input$go_to_register, {
     shiny::showModal(tab_register_modal())
   })
@@ -106,7 +107,7 @@ tab_auth_server <- function(
           type = "error",
           duration = 8
         )
-        # Still show success — registration was not even if email fails
+        # Still show success — registration was even if email fails
         shiny::showModal(tab_register_modal(success = FALSE))
       }
     )
