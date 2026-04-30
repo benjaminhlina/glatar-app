@@ -1,3 +1,17 @@
+#' Upload New Data to Database
+#'
+#' This function takes the split tables and uploads them to the
+#' database.
+#'
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param tables_to_submit a `list` containing the the tables to
+#' be submitted.
+#'
+#' @return  a `list` that has results information and the submitted
+#' tables.
+#'
+#' @export
+
 upload_to_db <- function(con, tables_to_submit) {
   # ---- create empty list -----
   submission_results <- list()
