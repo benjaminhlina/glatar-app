@@ -1,5 +1,19 @@
 # ----- create connection to database -----
-start_db_con <- function() {
+
+#' Start Database Connection
+#'
+#' This function uses environment supplied variables, `{DBI}`,
+#' and `{RPostgres}` to connect to a PostgreSQL database.
+#'
+#' @param username The username for user specific connections.
+#' Default is `NULL` and will use default user.
+#'
+#' @return returns a connection object.
+#'
+#' @name db_connections
+#' @export
+
+start_db_con <- function(user = NULL) {
   cli::cli_alert_info("The SSL mode is {.val {Sys.getenv('POSTGRES_SSLMODE')}}")
   ssl_mode <- Sys.getenv("POSTGRES_SSLMODE", unset = "disable")
 
@@ -11,7 +25,11 @@ start_db_con <- function() {
     dbname = Sys.getenv("POSTGRES_DB"),
     host = Sys.getenv("POSTGRES_HOST"),
     port = Sys.getenv("POSTGRES_PORT"),
-    user = Sys.getenv("POSTGRES_USER"),
+    if (!is.null(user)) {
+      user = username
+    } else {
+      user = Sys.getenv("POSTGRES_USER")
+    },
     password = Sys.getenv("POSTGRES_PASSWORD"),
     sslmode = ssl_mode
   )
