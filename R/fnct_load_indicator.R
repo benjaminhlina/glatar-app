@@ -24,7 +24,7 @@ load_indicator <- function(input, output) {
 #' @param output a shiny `server` output value.
 #'
 #' @details
-#' `load_indicator_hide()` displays load indicator during file uploading
+#' `load_indicator_hide()` hides load indicator.
 #'
 #' @name load_indicator
 #' @export

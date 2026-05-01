@@ -20,5 +20,5 @@ Load Indicator functions
 \details{
 \code{load_indicator()} displays load indicator during file uploading
 
-\code{load_indicator_hide()} displays load indicator during file uploading
+\code{load_indicator_hide()} hides load indicator.
 }
