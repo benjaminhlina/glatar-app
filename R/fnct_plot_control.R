@@ -9,7 +9,7 @@
 #' @param height the height of the plot in pixels
 #' @param ... additional parameters to be given for example a `NS()` object.
 #'
-#' @return `plot_ui()` provides user interface for any plot object throughout
+#' @details `plot_ui()` provides user interface for any plot object throughout
 #' the app.
 #'
 #' @name plot_controls
@@ -38,7 +38,7 @@ plot_ui <- function(title, plot_id, height, ...) {
 # ------ pallletes ------
 #' @param ... additional parameters to be given for example a `NS()` object.
 #'
-#' @return `pallete_selector()` provides user interface to select different palletes
+#' @details `pallete_selector()` provides user interface to select different palletes
 #' from [viridis](https://CRAN.R-project.org/package=viridis).
 #'
 #'
@@ -75,7 +75,7 @@ pallete_selector_server <- function(input) {
 # ------ alpha -------
 #' @param ... additional parameters to be given for example a `NS()` object.
 #'
-#' @return `alpha_selector()` provides user interface to select different values
+#' @details `alpha_selector()` provides user interface to select different values
 #' of `alpha` which controls transparency.
 #'
 #' @name plot_controls
@@ -114,8 +114,8 @@ alpha_selector_server <- function(input) {
 # ------ size -------
 #' @param ... additional parameters to be given for example a `NS()` object.
 #'
-#' @return `size_selector` provides user interface to select different values
-#' of `sizd` which controls the size of the points.
+#' @details `size_selector()` provides user interface to select different values
+#' of `size` which controls the size of the points.
 #'
 #' @name plot_controls
 #' @export
@@ -154,7 +154,7 @@ size_selector_server <- function(input) {
 # ---- shape -----
 #' @param ... additional parameters to be given for example a `NS()` object.
 #'
-#' @return `shape_selector` provides user interface to select different values
+#' @details `shape_selector()` provides user interface to select different values
 #' of `shapes` which controls the shape type.
 #'
 #' @name plot_controls

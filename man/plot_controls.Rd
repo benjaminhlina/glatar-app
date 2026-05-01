@@ -28,7 +28,11 @@ shape_selector(...)
 
 \item{...}{additional parameters to be given for example a \code{NS()} object.}
 }
-\value{
+\description{
+These functions add different control features to different
+plots displayed such as scatter and eventually box plot.
+}
+\details{
 \code{plot_ui()} provides user interface for any plot object throughout
 the app.
 
@@ -38,13 +42,9 @@ from \href{https://CRAN.R-project.org/package=viridis}{viridis}.
 \code{alpha_selector()} provides user interface to select different values
 of \code{alpha} which controls transparency.
 
-\code{size_selector} provides user interface to select different values
-of \code{sizd} which controls the size of the points.
+\code{size_selector()} provides user interface to select different values
+of \code{size} which controls the size of the points.
 
-\code{shape_selector} provides user interface to select different values
+\code{shape_selector()} provides user interface to select different values
 of \code{shapes} which controls the shape type.
-}
-\description{
-These functions add different control features to different
-plots displayed such as scatter and eventually box plot.
 }
