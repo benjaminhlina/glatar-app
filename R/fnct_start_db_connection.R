@@ -13,7 +13,7 @@
 #' @name db_connections
 #' @export
 
-start_db_con <- function(user = NULL) {
+start_db_con <- function(username = NULL) {
   cli::cli_alert_info("The SSL mode is {.val {Sys.getenv('POSTGRES_SSLMODE')}}")
   ssl_mode <- Sys.getenv("POSTGRES_SSLMODE", unset = "disable")
 
@@ -25,7 +25,7 @@ start_db_con <- function(user = NULL) {
     dbname = Sys.getenv("POSTGRES_DB"),
     host = Sys.getenv("POSTGRES_HOST"),
     port = Sys.getenv("POSTGRES_PORT"),
-    if (!is.null(user)) {
+    if (!is.null(username)) {
       user = username
     } else {
       user = Sys.getenv("POSTGRES_USER")

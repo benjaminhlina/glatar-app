@@ -5,7 +5,7 @@
 \alias{start_db_con}
 \title{Start Database Connection}
 \usage{
-start_db_con(user = NULL)
+start_db_con(username = NULL)
 }
 \arguments{
 \item{username}{The username for user specific connections.
