@@ -25,8 +25,8 @@
 - [`clean_all_validations()`](https://benjaminhlina.github.io/glatar-app/reference/clean_functions.md)
   [`clean_data_tables()`](https://benjaminhlina.github.io/glatar-app/reference/clean_functions.md)
   [`clean_db_constraints()`](https://benjaminhlina.github.io/glatar-app/reference/clean_functions.md)
-  [`clean_match_to_db_col()`](https://benjaminhlina.github.io/glatar-app/reference/clean_functions.md)
-  [`clean_rename_to_db_col()`](https://benjaminhlina.github.io/glatar-app/reference/clean_functions.md)
+  [`match_to_db_col()`](https://benjaminhlina.github.io/glatar-app/reference/clean_functions.md)
+  [`rename_to_db_col()`](https://benjaminhlina.github.io/glatar-app/reference/clean_functions.md)
   [`clean_row_index()`](https://benjaminhlina.github.io/glatar-app/reference/clean_functions.md)
   : Clean functions
 
@@ -46,6 +46,9 @@
   [`create_summary_data()`](https://benjaminhlina.github.io/glatar-app/reference/create_functions.md)
   [`create_zoom_slider()`](https://benjaminhlina.github.io/glatar-app/reference/create_functions.md)
   : Create functions
+
+- [`start_db_con()`](https://benjaminhlina.github.io/glatar-app/reference/db_connections.md)
+  : Start Database Connection
 
 - [`display_add_taxa()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   [`display_col_width()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
@@ -132,12 +135,10 @@
   : Read functions
 
 - [`reg_confirmation_email_body()`](https://benjaminhlina.github.io/glatar-app/reference/reg_confirmation_email_body.md)
-  : This function drafts the text body the registration confirmation
-  email body.
+  : Registration Confirmation Email Body
 
 - [`register_fields()`](https://benjaminhlina.github.io/glatar-app/reference/register_fields.md)
-  : This function produces the UI for the registraiton fields both in
-  the modal and tab
+  : Registration Feilds
 
 - [`register_observer()`](https://benjaminhlina.github.io/glatar-app/reference/register_observer.md)
   : Registration Observer
@@ -176,6 +177,12 @@
 
 - [`taxa_submission_email_body()`](https://benjaminhlina.github.io/glatar-app/reference/taxa_submission_email_body.md)
   : Taxa Submission Email Body
+
+- [`update_zoom_slider()`](https://benjaminhlina.github.io/glatar-app/reference/update_zoom_slider.md)
+  : Update Zoom Slider
+
+- [`upload_to_db()`](https://benjaminhlina.github.io/glatar-app/reference/upload_to_db.md)
+  : Upload New Data to Database
 
 - [`data_tables()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`data_types()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)

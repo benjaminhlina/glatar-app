@@ -12,6 +12,7 @@
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/clear_functions.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/convert_functions.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/create_functions.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/db_connections.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/display_functions.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/exclusive_all_observer.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/fix_functions.html</loc></url>
@@ -40,6 +41,8 @@
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/tab_login_modal.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/tab_register_modal.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/taxa_submission_email_body.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/update_zoom_slider.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/upload_to_db.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/vector_functions.html</loc></url>
 </urlset>
 

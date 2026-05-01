@@ -35,7 +35,7 @@ shape_selector(...)
 
   additional parameters to be given for example a `NS()` object.
 
-## Value
+## Details
 
 `plot_ui()` provides user interface for any plot object throughout the
 app.
@@ -46,8 +46,8 @@ palletes from [viridis](https://CRAN.R-project.org/package=viridis).
 `alpha_selector()` provides user interface to select different values of
 `alpha` which controls transparency.
 
-`size_selector` provides user interface to select different values of
-`sizd` which controls the size of the points.
+`size_selector()` provides user interface to select different values of
+`size` which controls the size of the points.
 
-`shape_selector` provides user interface to select different values of
+`shape_selector()` provides user interface to select different values of
 `shapes` which controls the shape type.

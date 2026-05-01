@@ -24,4 +24,4 @@ load_indicator_hide(input, output)
 
 `load_indicator()` displays load indicator during file uploading
 
-`load_indicator_hide()` displays load indicator during file uploading
+`load_indicator_hide()` hides load indicator.

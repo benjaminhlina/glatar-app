@@ -109,7 +109,8 @@ display_validation_status(
   submit the split tables to the database. The returning object is a
   logical value, `TRUE` or `FALSE` which will change the given status of
   ghe upload that is then displayed to the user. This object is returned
-  by `upload_to_db()`.
+  by
+  [`upload_to_db()`](https://benjaminhlina.github.io/glatar-app/reference/upload_to_db.md).
 
 - submission_results:
 

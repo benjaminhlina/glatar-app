@@ -14,9 +14,9 @@ clean_data_tables(df, flag_cols, type, group_cols, filter_coords = TRUE)
 
 clean_db_constraints(clause)
 
-clean_match_to_db_col(col_name, db_cols)
+match_to_db_col(col_name, db_cols)
 
-clean_rename_to_db_col(df, con, table_name)
+rename_to_db_col(df, con, table_name)
 
 clean_row_index(row_index_str, min_run = 5)
 ```
