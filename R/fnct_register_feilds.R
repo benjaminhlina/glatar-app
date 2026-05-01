@@ -1,4 +1,4 @@
-#` Registration Feilds `
+#' Registration Feilds
 #'
 #' This function produces the UI for the registraiton fields both
 #' in the modal and tab

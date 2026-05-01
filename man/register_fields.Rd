@@ -2,8 +2,7 @@
 % Please edit documentation in R/fnct_register_feilds.R
 \name{register_fields}
 \alias{register_fields}
-\title{This function produces the UI for the registraiton fields both
-in the modal and tab}
+\title{Registration Feilds}
 \usage{
 register_fields(...)
 }
