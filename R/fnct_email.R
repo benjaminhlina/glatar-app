@@ -1,5 +1,5 @@
 # ---- registration email -----
-# Registration Confirmation Email Body
+#' Registration Confirmation Email Body
 #'
 #' This function drafts the text body the registration confirmation
 #' email body.

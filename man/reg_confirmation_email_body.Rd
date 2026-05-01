@@ -2,8 +2,7 @@
 % Please edit documentation in R/fnct_email.R
 \name{reg_confirmation_email_body}
 \alias{reg_confirmation_email_body}
-\title{This function drafts the text body the registration confirmation
-email body.}
+\title{Registration Confirmation Email Body}
 \usage{
 reg_confirmation_email_body(first, last, affil, email)
 }
