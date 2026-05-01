@@ -6,7 +6,7 @@ This function uses environment supplied variables, `{DBI}`, and
 ## Usage
 
 ``` r
-start_db_con(user = NULL)
+start_db_con(username = NULL)
 ```
 
 ## Arguments
