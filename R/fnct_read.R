@@ -79,9 +79,9 @@ read_xl <- function(
           if (!rename) {
             return(x)
           }
-          x <- clean_rename_to_db_col(x, con, tbl_name)
+          x <- rename_to_db_col(x, con, tbl_name)
           if (!is.null(rename_twice)) {
-            x <- clean_rename_to_db_col(x, con, rename_twice)
+            x <- rename_to_db_col(x, con, rename_twice)
           }
           x
         })()

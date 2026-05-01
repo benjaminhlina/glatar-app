@@ -137,7 +137,7 @@ clean_db_constraints <- function(clause) {
 #'
 #' @name clean_functions
 #' @export
-clean_match_to_db_col <- function(col_name, db_cols) {
+match_to_db_col <- function(col_name, db_cols) {
   # Strip example: split on "_e_g_" or "_i_e_" and take the first part
   # ., "common_name_e_g_lake_trout" -> "common_name"
   candidate_col <- col_name
@@ -163,7 +163,7 @@ clean_match_to_db_col <- function(col_name, db_cols) {
 #' @name clean_functions
 #' @export
 # Rename Excel columns to match database schema
-clean_rename_to_db_col <- function(df, con, table_name) {
+rename_to_db_col <- function(df, con, table_name) {
   db_cols <- get_column_map(con) |>
     dplyr::filter(table_name == !!table_name) |>
     dplyr::pull(field_name)
@@ -175,7 +175,7 @@ clean_rename_to_db_col <- function(df, con, table_name) {
 
   new_names <- vapply(
     old_names,
-    clean_match_to_db_col,
+    match_to_db_col,
     character(1),
     db_cols = db_cols
   )
