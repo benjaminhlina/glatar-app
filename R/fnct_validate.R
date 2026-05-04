@@ -1,4 +1,5 @@
 # ----- pretty validator -----
+
 pretty_validate_report <- function(confrontation, table_name = NULL) {
   df <- validate::as.data.frame(confrontation)
 
@@ -473,7 +474,7 @@ validate_tbl_submission <- function(df) {
         rule_len(required_fields),
         rule_na(required_fields),
         rule_blank(required_fields),
-        rule_email
+        rule_email(submission_email)
       )
     )
   }
