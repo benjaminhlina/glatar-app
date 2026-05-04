@@ -65,6 +65,16 @@ pallete_selector <- function(...) {
   )
 }
 
+# ----- pallete_selector_server ------
+
+#' @param input a shiny server input value.
+#'
+#' @details `pallete_selector_server()` provides the server and reactive value
+#' to select different palletes from [viridis](https://CRAN.R-project.org/package=viridis).
+#'
+#' @name plot_controls
+#' @export
+
 pallete_selector_server <- function(input) {
   list(
     viridis_palette = shiny::reactive(input$viridis_palette)
@@ -103,6 +113,14 @@ alpha_selector <- function(...) {
   )
 }
 
+# ----- alpha_selector_server ------
+#' @param input a shiny server input value.
+#'
+#' @details `alpha_selector_server()` provides the server and reactive value to
+#' select different values of `alpha` which controls transparency.
+#'
+#' @name plot_controls
+#' @export
 
 alpha_selector_server <- function(input) {
   list(
@@ -143,6 +161,14 @@ size_selector <- function(...) {
   )
 }
 
+# ----- size_selector_server ------
+#' @param input a shiny server input value.
+#'
+#' @details `size_selector_server()` provides the server and reactive values
+#' of `size` which controls the size of the points.
+#'
+#' @name plot_controls
+#' @export
 
 size_selector_server <- function(input) {
   list(
@@ -175,6 +201,15 @@ shape_selector <- function(...) {
     selected = 21
   )
 }
+
+# ----- shape_selector_server ------
+#' @param input a shiny server input value.
+#'
+#' @details `shape_selector_server()` provides the server and reactive values
+#' of `size` which controls the size of the points.
+#'
+#' @name plot_controls
+#' @export
 
 shape_selector_server <- function(input) {
   list(

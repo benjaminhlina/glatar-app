@@ -4,20 +4,32 @@
 \alias{plot_controls}
 \alias{plot_ui}
 \alias{pallete_selector}
+\alias{pallete_selector_server}
 \alias{alpha_selector}
+\alias{alpha_selector_server}
 \alias{size_selector}
+\alias{size_selector_server}
 \alias{shape_selector}
+\alias{shape_selector_server}
 \title{Plot control functions}
 \usage{
 plot_ui(title, plot_id, height, ...)
 
 pallete_selector(...)
 
+pallete_selector_server(input)
+
 alpha_selector(...)
+
+alpha_selector_server(input)
 
 size_selector(...)
 
+size_selector_server(input)
+
 shape_selector(...)
+
+shape_selector_server(input)
 }
 \arguments{
 \item{title}{the title of plot}
@@ -27,6 +39,8 @@ shape_selector(...)
 \item{height}{the height of the plot in pixels}
 
 \item{...}{additional parameters to be given for example a \code{NS()} object.}
+
+\item{input}{a shiny server input value.}
 }
 \description{
 These functions add different control features to different
@@ -39,12 +53,24 @@ the app.
 \code{pallete_selector()} provides user interface to select different palletes
 from \href{https://CRAN.R-project.org/package=viridis}{viridis}.
 
+\code{pallete_selector_server()} provides the server and reactive value
+to select different palletes from \href{https://CRAN.R-project.org/package=viridis}{viridis}.
+
 \code{alpha_selector()} provides user interface to select different values
 of \code{alpha} which controls transparency.
+
+\code{alpha_selector_server()} provides the server and reactive value to
+select different values of \code{alpha} which controls transparency.
 
 \code{size_selector()} provides user interface to select different values
 of \code{size} which controls the size of the points.
 
+\code{size_selector_server()} provides the server and reactive values
+of \code{size} which controls the size of the points.
+
 \code{shape_selector()} provides user interface to select different values
 of \code{shapes} which controls the shape type.
+
+\code{shape_selector_server()} provides the server and reactive values
+of \code{size} which controls the size of the points.
 }
