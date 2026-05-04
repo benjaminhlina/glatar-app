@@ -10,11 +10,19 @@ plot_ui(title, plot_id, height, ...)
 
 pallete_selector(...)
 
+pallete_selector_server(input)
+
 alpha_selector(...)
+
+alpha_selector_server(input)
 
 size_selector(...)
 
+size_selector_server(input)
+
 shape_selector(...)
+
+shape_selector_server(input)
 ```
 
 ## Arguments
@@ -35,6 +43,10 @@ shape_selector(...)
 
   additional parameters to be given for example a `NS()` object.
 
+- input:
+
+  a shiny server input value.
+
 ## Details
 
 `plot_ui()` provides user interface for any plot object throughout the
@@ -43,11 +55,24 @@ app.
 `pallete_selector()` provides user interface to select different
 palletes from [viridis](https://CRAN.R-project.org/package=viridis).
 
+`pallete_selector_server()` provides the server and reactive value to
+select different palletes from
+[viridis](https://CRAN.R-project.org/package=viridis).
+
 `alpha_selector()` provides user interface to select different values of
 `alpha` which controls transparency.
+
+`alpha_selector_server()` provides the server and reactive value to
+select different values of `alpha` which controls transparency.
 
 `size_selector()` provides user interface to select different values of
 `size` which controls the size of the points.
 
+`size_selector_server()` provides the server and reactive values of
+`size` which controls the size of the points.
+
 `shape_selector()` provides user interface to select different values of
 `shapes` which controls the shape type.
+
+`shape_selector_server()` provides the server and reactive values of
+`size` which controls the size of the points.

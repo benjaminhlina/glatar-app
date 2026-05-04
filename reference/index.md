@@ -119,9 +119,13 @@
 
 - [`plot_ui()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
   [`pallete_selector()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  [`pallete_selector_server()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
   [`alpha_selector()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  [`alpha_selector_server()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
   [`size_selector()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  [`size_selector_server()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
   [`shape_selector()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  [`shape_selector_server()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
   : Plot control functions
 
 - [`plot_message()`](https://benjaminhlina.github.io/glatar-app/reference/plot_message.md)
