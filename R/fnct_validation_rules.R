@@ -1,4 +1,19 @@
-# --- not blank rules
+# --- not blank rules -----
+#' Valdiation rules
+#'
+#' These functions supply different validation rules to be used with
+#' `{validator}`. They include things like a rule regarind column names,
+#' email styles, or whether the field can be blank.
+#'
+#' @param required_fields is a vector containing the fields to apply the validation
+#' rule to.
+#'
+#' @details `rule_blank()` checks whether a feild is blank.
+#'
+#' @return a rule to be evaluated by `{validator}`.
+#'
+#' @name rule_functions
+#' @export
 rule_blank <- function(required_fields) {
   rule <- stats::setNames(
     lapply(required_fields, function(x) {
@@ -10,6 +25,16 @@ rule_blank <- function(required_fields) {
 }
 
 # --- chec column names -----
+
+#' @param required_fields is a vector containing the fields to apply the validation
+#' rule to.
+#'
+#' @details `rule_column_names()` checks the column names.
+#'
+#' @return a rule to be evaluated by `{validator}`.
+#'
+#' @name rule_functions
+#' @export
 rule_column_names <- function(required_fields) {
   rule <- stats::setNames(
     lapply(required_fields, function(x) {
@@ -19,14 +44,35 @@ rule_column_names <- function(required_fields) {
   )
   return(rule)
 }
-# --- special email rule
-rule_email <- list(
-  valid_email = substitute(
-    grepl("@", submission_email) & grepl("\\.", submission_email)
+# --- special email rule ---
+#' @param submission_email the email of the submitter.
+#'
+#' @details `rule_email()` checks if the submission email is in a valid format.
+#'
+#' @return a rule to be evaluated by `{validator}`.
+#'
+#' @name rule_functions
+#' @export
+
+rule_email <- function(submission_email) {
+  rule <- list(
+    valid_email = substitute(
+      grepl("@", submission_email) & grepl("\\.", submission_email)
+    )
   )
-)
+  return(rule)
+}
 
 # --- length == 1 rules
+#' @param required_fields is a vector containing the fields to apply the validation
+#' rule to.
+#'
+#' @details `rule_len()` checks if the length of the column equals 1.
+#'
+#' @return a rule to be evaluated by `{validator}`.
+#'
+#' @name rule_functions
+#' @export
 rule_len <- function(required_fields) {
   rule <- stats::setNames(
     lapply(required_fields, function(x) {
@@ -38,6 +84,16 @@ rule_len <- function(required_fields) {
 }
 
 # ----- rule match -----
+#' @param exprs is the validation rule expression to be checked
+#' @param field is the column of interest, usually this is `col_name`
+#' or `issue`/.
+#'
+#' @details `rule_match()` checks if the valid exprssion matches a given rule.
+#'
+#' @return a rule to be evaluated by `{validator}`.
+#'
+#' @name rule_functions
+#' @export
 rule_match <- function(exprs, field) {
   matched_rule <- vapply(
     exprs,
@@ -50,7 +106,17 @@ rule_match <- function(exprs, field) {
   return(matched_rule)
 }
 
-# --- not NA rules
+# --- not NA rules -----
+#' @param required_fields is a vector containing the fields to apply the validation
+#' rule to.
+#'
+#'
+#' @details `rule_na()` checks if a column is `NA`.
+#'
+#' @return a rule to be evaluated by `{validator}`.
+#'
+#' @name rule_functions
+#' @export
 rule_na <- function(required_fields) {
   rule <- stats::setNames(
     lapply(required_fields, function(x) {
