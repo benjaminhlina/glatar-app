@@ -194,6 +194,14 @@ be able to write their own issues.
 - [`register_ui()`](https://benjaminhlina.github.io/glatar-app/reference/register_ui.md)
   : Registration User Interface
 
+- [`rule_blank()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
+  [`rule_column_names()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
+  [`rule_email()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
+  [`rule_len()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
+  [`rule_match()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
+  [`rule_na()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
+  : Valdiation rules
+
 - [`rule_map`](https://benjaminhlina.github.io/glatar-app/reference/rule_map.md)
   :
 
