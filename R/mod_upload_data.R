@@ -432,6 +432,10 @@ upload_data_server <- function(id, con, auth_state) {
           validated = FALSE
         )
 
+        cli::cli_alert_danger(
+          "The error report is: {.val {nrow(error_report)}} and 
+        class {.val {class(error_report)}}"
+        )
         output$error_table <- shiny::renderTable({
           error_report
         })
