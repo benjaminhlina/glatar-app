@@ -19,6 +19,7 @@
 \alias{get_tables_needed}
 \alias{get_taxa_col}
 \alias{get_theme_choices}
+\alias{get_valid_taxonomy}
 \alias{get_valid_values}
 \alias{get_var_types}
 \title{Get functions}
@@ -73,6 +74,8 @@ get_theme_choices(
   length_vars,
   energy_vars
 )
+
+get_valid_taxonomy(df)
 
 get_valid_values(con)
 
@@ -160,6 +163,9 @@ the database and joins variables and grouping variables of interest for
 summarizing.
 
 \code{get_tables_needed()} this gets the tables of interest
+
+\code{get_valid_taxonomy()} gets valid common and scientific names
+from \code{tbl_taxonomy} within the the db.
 
 \code{get_valid_values()} gets all the schemas in the database and
 grabs all the constraints and cleans them up so we can use the

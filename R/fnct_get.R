@@ -610,8 +610,33 @@ get_theme_choices <- function(
   return(choices)
 }
 
+# ----- get valid taxonomy ------
+#' @param df a `tbl_lazy`.
+#'
+#' @details
+#' `get_valid_taxonomy()` gets valid common and scientific names
+#' from `tbl_taxonomy` within the the db.
+#' @name get_functions
+#' @export
+get_valid_taxonomy <- function(df) {
+  valid_common <- df |>
+    dplyr::pull(common_name) |>
+    unique() |>
+    na.omit()
 
-# ---- get valid values
+  valid_scientific <- df |>
+    dplyr::pull(scientific_name) |>
+    unique() |>
+    na.omit()
+
+  valid_taxonomy <- list(
+    valid_common = valid_common,
+    valid_scientific = valid_scientific
+  )
+  return(valid_taxonomy)
+}
+
+# ---- get valid values ------
 #' @param con a valid `DBI` connection to a PostgreSQL database.
 #'
 #' @details
