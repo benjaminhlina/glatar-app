@@ -5,7 +5,12 @@
 \alias{data_tables}
 \alias{data_types}
 \alias{good_groups}
+\alias{not_null_fields}
+\alias{numeric_fields}
 \alias{protected_tabs}
+\alias{sample_required_fields}
+\alias{sources_required_fields}
+\alias{submission_required_fields}
 \alias{themes}
 \title{Vector functions}
 \usage{
@@ -15,7 +20,17 @@ data_types()
 
 good_groups()
 
+not_null_fields()
+
+numeric_fields()
+
 protected_tabs()
+
+sample_required_fields()
+
+sources_required_fields()
+
+submission_required_fields()
 
 themes()
 }
