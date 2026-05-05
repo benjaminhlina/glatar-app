@@ -2,7 +2,7 @@
 
 This function uses an `observerEvent()` to adjust dropdown menus so that
 when other selections beside `"All"` is selected it will not allow
-`"All"` to be selected until the entire box is cleared.
+`"All` to be selected until the entire box is cleared.
 
 ## Usage
 
@@ -26,4 +26,4 @@ exclusive_all_observer(input, session, id)
 
 ## Value
 
-an Event that excludes \`"All"“
+an Event that excludes `"All"`

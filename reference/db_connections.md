@@ -18,4 +18,4 @@ start_db_con(username = NULL)
 
 ## Value
 
-returns a connection object.
+Returns a connection object.

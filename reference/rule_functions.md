@@ -40,17 +40,7 @@ rule_na(required_fields)
 
 ## Value
 
-a rule to be evaluated by `{validator}`.
-
-a rule to be evaluated by `{validator}`.
-
-a rule to be evaluated by `{validator}`.
-
-a rule to be evaluated by `{validator}`.
-
-a rule to be evaluated by `{validator}`.
-
-a rule to be evaluated by `{validator}`.
+A rule to be evaluated by `{validator}`.
 
 ## Details
 

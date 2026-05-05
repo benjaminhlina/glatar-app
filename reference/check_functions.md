@@ -18,7 +18,7 @@ check_taxonomy_match(input_values, db_values)
 
 - x:
 
-  a \`vector
+  a \`vector“
 
 - file_path:
 

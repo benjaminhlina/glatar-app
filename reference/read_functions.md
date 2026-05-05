@@ -58,7 +58,7 @@ read_xl(
 
 ## Value
 
-`read_col_types()` returns a vector that has each column type for a
+`read_col_types()` returns a `vector` that has each column type for a
 given excel file.
 
 `read_xl()`returns a `data.frame` with the a given database table.

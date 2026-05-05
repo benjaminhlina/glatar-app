@@ -24,11 +24,7 @@ validate_tbl_submission(df)
 
 ## Value
 
-returns a `validate` object.
-
-returns a `validate` object.
-
-returns a `validate` object.
+Returns a `validate` object.
 
 ## Details
 
