@@ -4,7 +4,7 @@
 #'
 #' @param id the shiny namespace id name (i.e., `"home"`).
 #'
-#' @details `docs_ui()` a shiny UI.
+#' @details `home_tab_ui()` a shiny UI.
 #'
 #' @name home_module
 #' @export

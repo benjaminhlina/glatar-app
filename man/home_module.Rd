@@ -14,5 +14,5 @@ home_tab_ui(id)
 Provides the the home tab for the app.
 }
 \details{
-\code{docs_ui()} a shiny UI.
+\code{home_tab_ui()} a shiny UI.
 }
