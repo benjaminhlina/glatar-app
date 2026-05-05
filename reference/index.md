@@ -6,6 +6,10 @@
   [`app_version_label()`](https://benjaminhlina.github.io/glatar-app/reference/App-version.md)
   : App version functions
 
+- [`about_ui()`](https://benjaminhlina.github.io/glatar-app/reference/about_module.md)
+  [`about_server()`](https://benjaminhlina.github.io/glatar-app/reference/about_module.md)
+  : About User Interface
+
 - [`add_new_id()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
   [`add_source_id()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
   [`add_sub_sor_tbl()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
@@ -62,6 +66,10 @@
   [`display_validation_status()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   : Display functions
 
+- [`docs_ui()`](https://benjaminhlina.github.io/glatar-app/reference/docs_module.md)
+  [`docs_server()`](https://benjaminhlina.github.io/glatar-app/reference/docs_module.md)
+  : Documentation User Interface
+
 - [`exclusive_all_observer()`](https://benjaminhlina.github.io/glatar-app/reference/exclusive_all_observer.md)
   : Exclude all observer
 
@@ -99,9 +107,22 @@
 - [`glatar_diagram_ui()`](https://benjaminhlina.github.io/glatar-app/reference/glatar_diagram.md)
   : GLATAR diagram
 
+- [`home_tab_ui()`](https://benjaminhlina.github.io/glatar-app/reference/home_module.md)
+  : Home User Interface
+
+- [`how_to_server()`](https://benjaminhlina.github.io/glatar-app/reference/how_to_server_module.md)
+  : How to Use Server
+
+- [`how_to_ui()`](https://benjaminhlina.github.io/glatar-app/reference/how_to_use_module.md)
+  : How to Use User Interface
+
 - [`load_indicator()`](https://benjaminhlina.github.io/glatar-app/reference/load_indicator.md)
   [`load_indicator_hide()`](https://benjaminhlina.github.io/glatar-app/reference/load_indicator.md)
   : Load Indicator functions
+
+- [`tab_auth_server()`](https://benjaminhlina.github.io/glatar-app/reference/login_modal_server.md)
+  [`logout_server()`](https://benjaminhlina.github.io/glatar-app/reference/login_modal_server.md)
+  : Authorization Server
 
 - [`msg_dropdowns()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
   [`msg_hist_ui()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
