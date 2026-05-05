@@ -812,7 +812,7 @@ display_validation_status <- function(
           ),
           style = "color:red; font-weight:600;"
         ),
-        shiny::tableOutput(ns("msg_table"))
+        shiny::tableOutput(ns("error_table"))
       )
     }
   })
