@@ -23,5 +23,5 @@ Provides the upload data tab.
 \details{
 \code{upload_data_ui()} provides the upload data user interface.
 
-\code{upload_data_server()} provides the upload data server .
+\code{upload_data_server()} provides the upload data server.
 }

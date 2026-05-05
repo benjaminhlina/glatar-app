@@ -1,3 +1,14 @@
+#' View Map Tab
+#'
+#' Provides the mapping tab.
+#'
+#' @param id the shiny namespace id name (i.e., `"view_map"`).
+#'
+#' @details `view_map_ui()` provides the mappping user interface.
+#'
+#' @name view_map_module
+#' @export
+
 view_map_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -19,6 +30,14 @@ view_map_ui <- function(id) {
 }
 
 # ---- server -----
+#' @param id the shiny namespace id name (i.e., `"view_map"`).
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#'
+#' @details `view_map_server()` provides the mapping server.
+#'
+#' @name view_map_module
+#' @export
+
 view_map_server <- function(id, con) {
   shiny::moduleServer(id, function(input, output, session) {
     output$map <- leaflet::renderLeaflet({

@@ -1,3 +1,14 @@
+#' Source Tab
+#'
+#' Provides the source tab.
+#'
+#' @param id the shiny namespace id name (i.e., `"view_source"`).
+#'
+#' @details `view_source_ui()` provides the source user interface.
+#'
+#' @name source_module
+#' @export
+
 view_source_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -23,6 +34,16 @@ view_source_ui <- function(id) {
     )
   )
 }
+
+# ----- server -----
+#' @param id the shiny namespace id name (i.e., `"view_source"`).
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param main_input the shiny input from the main server.
+#'
+#' @details `view_source_server()` provides the source server.
+#'
+#' @name source_module
+#' @export
 
 view_source_server <- function(id, con, main_input) {
   shiny::moduleServer(id, function(input, output, session) {

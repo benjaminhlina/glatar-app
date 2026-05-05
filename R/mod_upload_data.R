@@ -128,7 +128,7 @@ upload_data_ui <- function(id) {
 #' @param con a `DBI` conection to, in this case PostgreSQL database.
 #' @param auth_state the authorization state to login.
 #'
-#' @details `upload_data_server()` provides the upload data server .
+#' @details `upload_data_server()` provides the upload data server.
 #'
 #' @name upload_data_module
 #' @export

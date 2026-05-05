@@ -1,3 +1,14 @@
+#' Summary Info Tab
+#'
+#' Provides the summary info tab.
+#'
+#' @param id the shiny namespace id name (i.e., `"summary_info"`).
+#'
+#' @details `view_summary_info_ui()` provides the summary info user interface.
+#'
+#' @name summary_info_module
+#' @export
+
 view_summary_info_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -44,6 +55,18 @@ view_summary_info_ui <- function(id) {
 }
 
 # ----- summmary server --------
+
+#' @param id the shiny namespace id name (i.e., `"summary_info"`).
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param main_input the shiny input from the main server.
+#' @param summary_sidebar_vals a `reactiveVal()` object produced by `summary_sidebar_server()`.
+#' The inputs from this dictate what is displayed in the main panel.
+#'
+#' @details `summary_info_server()` provides the summary info server.
+#'
+#' @name summary_info_module
+#' @export
+#'
 summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observeEvent(

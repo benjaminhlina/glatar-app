@@ -1,3 +1,14 @@
+#' Scatter Plot Tab
+#'
+#' Provides the scatter plot tab.
+#'
+#' @param id the shiny namespace id name (i.e., `"scatter_plot"`).
+#'
+#' @details `view_scatter_plot_ui()` provides the scatter plot user interface.
+#'
+#' @name scatter_plot_module
+#' @export
+
 view_scatter_plot_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -51,6 +62,17 @@ view_scatter_plot_ui <- function(id) {
   )
 }
 
+# ----- server -----
+#' @param id the shiny namespace id name (i.e., `"scatter_plot"`).
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param main_input the shiny input from the main server.
+#' @param scatter_sidebar_vals a `reactiveVal()` object produced by `scatter_sidebar_server()`.
+#' The inputs from this dictate what is displayed in the main panel.
+#'
+#' @details `scatter_plot_server()` provides the scatter plot server.
+#'
+#' @name scatter_plot_module
+#' @export
 
 scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
   shiny::moduleServer(id, function(input, output, session) {
