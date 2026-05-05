@@ -270,6 +270,7 @@ sample_required_fields <- function() {
 #' @name vector_functions
 #'
 #' @export
+
 sources_required_fields <- function() {
   sources_required_fields <- c(
     "source_id",
