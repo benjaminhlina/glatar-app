@@ -1,11 +1,10 @@
-#' About User Interface
+#' About Tab
 #'
-#' Provides the User Interface (UI) for the about tab
+#' Provides the about tab within the app.
 #'
 #' @param id the shiny namespace id name (i.e., `"about"`).
 #'
-#'
-#' @return `about_ui()` a shiny UI.
+#' @details `about_ui()` a shiny UI.
 #'
 #' @name about_module
 #' @export
@@ -87,15 +86,10 @@ about_ui <- function(id) {
     )
   )
 }
-
-#' About Server
-#'
-#' Provides the server for the about tab
-#'
+# ----- server about -----
 #' @param id the shiny namespace id name (i.e., `"about"`).
 #'
-#'
-#' @return `about_server()` a shiny module server.
+#' @details `about_server()` a shiny module server.
 #'
 #' @name about_module
 #' @export

@@ -3,16 +3,16 @@
 \name{home_module}
 \alias{home_module}
 \alias{home_tab_ui}
-\title{Home User Interface}
+\title{Home Tab}
 \usage{
 home_tab_ui(id)
 }
 \arguments{
 \item{id}{the shiny namespace id name (i.e., \code{"home"}).}
 }
-\value{
-\code{docs_ui()} a shiny UI.
-}
 \description{
-Provides the User Interface (UI) for the home tab
+Provides the the home tab for the app.
+}
+\details{
+\code{docs_ui()} a shiny UI.
 }

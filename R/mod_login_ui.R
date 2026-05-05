@@ -13,12 +13,11 @@
 #' @param off a `logical` value that turns on and off the authorization
 #' server. Default is `FALSE`. This switch is for development only.
 #'
-#'
-#' @return a shiny modal
+#' @details `tab_auth_server()` a shiny modal
 #'
 #' @name login_modal_server
 #' @export
-#'
+
 tab_auth_server <- function(
   input,
   output,
@@ -106,4 +105,40 @@ tab_auth_server <- function(
     auth_state = auth_state,
     logout = logout
   )
+}
+# ----- logout -----
+#' @param id the shiny namespace id name (i.e., `"logout"`).
+#' @param parent_session a shiny server session.
+#'
+#' @details `logout_server()` a modal that asks the user if they really want to logout.
+#' This prevents accidental logouts.
+#'
+#' @name login_modal_server
+#' @export
+
+logout_server <- function(id, parent_session) {
+  shiny::moduleServer(id, function(input, output, session) {
+    shiny::observeEvent(parent_session$input$tabs, {
+      if (parent_session$input$tabs == "logout") {
+        shinydashboard::updateTabItems(session, "tabs", "home")
+        shiny::showModal(shiny::modalDialog(
+          title = "Confirm Logout",
+          "Are you sure you want to log out?",
+          footer = shiny::tagList(
+            shiny::modalButton("Cancel"),
+            shiny::actionButton(
+              session$ns("confirm_logout"),
+              "Logout",
+              class = "btn btn-danger"
+            )
+          )
+        ))
+      }
+    })
+
+    shiny::observeEvent(input$confirm_logout, {
+      shiny::removeModal()
+      session$reload()
+    })
+  })
 }

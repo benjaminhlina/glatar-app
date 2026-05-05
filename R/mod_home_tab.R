@@ -1,11 +1,10 @@
-#' Home User Interface
+#' Home Tab
 #'
-#' Provides the User Interface (UI) for the home tab
+#' Provides the the home tab for the app.
 #'
 #' @param id the shiny namespace id name (i.e., `"home"`).
 #'
-#'
-#' @return `docs_ui()` a shiny UI.
+#' @details `docs_ui()` a shiny UI.
 #'
 #' @name home_module
 #' @export

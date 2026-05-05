@@ -3,16 +3,16 @@
 \name{how_to_use_module}
 \alias{how_to_use_module}
 \alias{how_to_ui}
-\title{How to Use User Interface}
+\title{How to Use Tab}
 \usage{
 how_to_ui(id)
 }
 \arguments{
 \item{id}{the shiny namespace id name (i.e., \code{"how_to_use"}).}
 }
-\value{
-\code{how_to_ui()} a shiny UI.
-}
 \description{
-Provides the User Interface (UI) for the How to Use tab
+Provides the How to Use tab in the app.
+}
+\details{
+\code{how_to_ui()} a shiny UI.
 }

@@ -4,7 +4,7 @@
 \alias{about_module}
 \alias{about_ui}
 \alias{about_server}
-\title{About User Interface}
+\title{About Tab}
 \usage{
 about_ui(id)
 
@@ -13,13 +13,11 @@ about_server(id)
 \arguments{
 \item{id}{the shiny namespace id name (i.e., \code{"about"}).}
 }
-\value{
+\description{
+Provides the about tab within the app.
+}
+\details{
 \code{about_ui()} a shiny UI.
 
 \code{about_server()} a shiny module server.
-}
-\description{
-Provides the User Interface (UI) for the about tab
-
-Provides the server for the about tab
 }

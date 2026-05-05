@@ -1,3 +1,16 @@
+# ------- Raw Data Sidebar UI  -----
+#' Raw Data Sidebar
+#'
+#' Provides the sidebar for the raw data pane.
+#'
+#' @param id the shiny namespace id name (i.e., `"raw_sidebar"`).
+#'
+#' @return `raw_data_sidebar_ui()` that provides user interface for raw data
+#' sidebar
+#'
+#' @name raw_data_module
+#' @export
+
 raw_data_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -78,7 +91,17 @@ raw_data_sidebar_ui <- function(id) {
   )
 }
 
-
+# ----- raw data server ----
+#'
+#' Provides
+#'
+#' @param id the shiny namespace id name (i.e., `"raw_sidebar"`).
+#'
+#' @return `raw_data_sidebar_ui()` that provides user interface for raw data
+#' sidebar
+#'
+#' @name raw_data_module
+#' @export
 raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observe({

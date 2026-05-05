@@ -4,7 +4,7 @@
 \alias{docs_module}
 \alias{docs_ui}
 \alias{docs_server}
-\title{Documentation User Interface}
+\title{Documentation Tab}
 \usage{
 docs_ui(id)
 
@@ -13,13 +13,11 @@ docs_server(id)
 \arguments{
 \item{id}{the shiny namespace id name (i.e., \code{"docs"}).}
 }
-\value{
+\description{
+Provides the documentation tab.
+}
+\details{
 \code{docs_ui()} a shiny UI.
 
 \code{docs_server()} a shiny module server.
-}
-\description{
-Provides the User Interface (UI) for the documentation tab
-
-Provides the server for the documentation tab
 }
