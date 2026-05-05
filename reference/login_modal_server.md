@@ -3,8 +3,6 @@
 Provides the authorization server for the login modal that displays on
 two locked tabs, uploading and user specific data.
 
-Provides the logout modal to ask the user if they would like to logout.
-
 ## Usage
 
 ``` r
@@ -55,9 +53,9 @@ logout_server(id, parent_session)
 
   a shiny server session.
 
-## Value
+## Details
 
-a shiny modal
+`tab_auth_server()` a shiny modal
 
-a modal that asks the user if they really want to logout. This prevents
-accidental logouts.
+`logout_server()` a modal that asks the user if they really want to
+logout. This prevents accidental logouts.

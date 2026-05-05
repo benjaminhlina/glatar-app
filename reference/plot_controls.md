@@ -23,6 +23,10 @@ size_selector_server(input)
 shape_selector(...)
 
 shape_selector_server(input)
+
+zoom_slider_ui(ns, id, label)
+
+zoom_slider_server(input)
 ```
 
 ## Arguments
@@ -46,6 +50,18 @@ shape_selector_server(input)
 - input:
 
   a shiny server input value.
+
+- ns:
+
+  a shiny namespace object e.g., `ns`.
+
+- id:
+
+  a shiny namespace object e.g., `"zoom_x"`.
+
+- label:
+
+  a shiny namespace object e.g., `"Zoom X Axis"`.
 
 ## Details
 
@@ -76,3 +92,9 @@ select different values of `alpha` which controls transparency.
 
 `shape_selector_server()` provides the server and reactive values of
 `size` which controls the size of the points.
+
+`zoom_slider_ui()` provides the the user interface for zoom slider on
+the plot panel.
+
+`zoom_slider_server()` provides the server and reactive values of zoom
+slider which controls the zoom on the x and y axis.

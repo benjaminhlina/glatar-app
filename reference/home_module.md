@@ -1,6 +1,6 @@
-# Home User Interface
+# Home Tab
 
-Provides the User Interface (UI) for the home tab
+Provides the the home tab for the app.
 
 ## Usage
 
@@ -14,7 +14,7 @@ home_tab_ui(id)
 
   the shiny namespace id name (i.e., `"home"`).
 
-## Value
+## Details
 
 [`docs_ui()`](https://benjaminhlina.github.io/glatar-app/reference/docs_module.md)
 a shiny UI.

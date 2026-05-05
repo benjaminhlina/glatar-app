@@ -1,8 +1,6 @@
-# About User Interface
+# About Tab
 
-Provides the User Interface (UI) for the about tab
-
-Provides the server for the about tab
+Provides the about tab within the app.
 
 ## Usage
 
@@ -18,7 +16,7 @@ about_server(id)
 
   the shiny namespace id name (i.e., `"about"`).
 
-## Value
+## Details
 
 `about_ui()` a shiny UI.
 

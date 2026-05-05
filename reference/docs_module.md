@@ -1,8 +1,6 @@
-# Documentation User Interface
+# Documentation Tab
 
-Provides the User Interface (UI) for the documentation tab
-
-Provides the server for the documentation tab
+Provides the documentation tab.
 
 ## Usage
 
@@ -18,7 +16,7 @@ docs_server(id)
 
   the shiny namespace id name (i.e., `"docs"`).
 
-## Value
+## Details
 
 `docs_ui()` a shiny UI.
 

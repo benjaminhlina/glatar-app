@@ -22,7 +22,6 @@
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/glatar_app.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/glatar_diagram.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/home_module.html</loc></url>
-<url><loc>https://benjaminhlina.github.io/glatar-app/reference/how_to_server_module.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/how_to_use_module.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/index.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/load_indicator.html</loc></url>
@@ -32,6 +31,7 @@
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/plot_controls.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/plot_message.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/ram_tracker.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/raw_data_module.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/read_functions.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/reg_confirmation_email_body.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/register_fields.html</loc></url>
@@ -40,17 +40,25 @@
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/register_ui.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/rule_functions.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/rule_map.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/scatter_plot_module.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/search_functions.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/send_email.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/source_module.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/split_tables.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/start_up.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/submission_email_body.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/summary_info_module.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/summary_sidebar_module.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/tab_login_modal.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/tab_register_modal.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/taxa_search_module.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/taxa_submission_email_body.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/update_zoom_slider.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/upload_data_module.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/upload_to_db.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/validation_functions.html</loc></url>
 <url><loc>https://benjaminhlina.github.io/glatar-app/reference/vector_functions.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/view_data_module.html</loc></url>
+<url><loc>https://benjaminhlina.github.io/glatar-app/reference/view_map_module.html</loc></url>
 </urlset>
 

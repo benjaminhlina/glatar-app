@@ -49,7 +49,7 @@ be able to write their own issues.
 
 - [`about_ui()`](https://benjaminhlina.github.io/glatar-app/reference/about_module.md)
   [`about_server()`](https://benjaminhlina.github.io/glatar-app/reference/about_module.md)
-  : About User Interface
+  : About Tab
 
 - [`add_new_id()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
   [`add_source_id()`](https://benjaminhlina.github.io/glatar-app/reference/add_functions.md)
@@ -109,7 +109,7 @@ be able to write their own issues.
 
 - [`docs_ui()`](https://benjaminhlina.github.io/glatar-app/reference/docs_module.md)
   [`docs_server()`](https://benjaminhlina.github.io/glatar-app/reference/docs_module.md)
-  : Documentation User Interface
+  : Documentation Tab
 
 - [`exclusive_all_observer()`](https://benjaminhlina.github.io/glatar-app/reference/exclusive_all_observer.md)
   : Exclude all observer
@@ -149,13 +149,11 @@ be able to write their own issues.
   : GLATAR diagram
 
 - [`home_tab_ui()`](https://benjaminhlina.github.io/glatar-app/reference/home_module.md)
-  : Home User Interface
-
-- [`how_to_server()`](https://benjaminhlina.github.io/glatar-app/reference/how_to_server_module.md)
-  : How to Use Server
+  : Home Tab
 
 - [`how_to_ui()`](https://benjaminhlina.github.io/glatar-app/reference/how_to_use_module.md)
-  : How to Use User Interface
+  [`how_to_server()`](https://benjaminhlina.github.io/glatar-app/reference/how_to_use_module.md)
+  : How to Use Tab
 
 - [`load_indicator()`](https://benjaminhlina.github.io/glatar-app/reference/load_indicator.md)
   [`load_indicator_hide()`](https://benjaminhlina.github.io/glatar-app/reference/load_indicator.md)
@@ -190,6 +188,8 @@ be able to write their own issues.
   [`size_selector_server()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
   [`shape_selector()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
   [`shape_selector_server()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  [`zoom_slider_ui()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
+  [`zoom_slider_server()`](https://benjaminhlina.github.io/glatar-app/reference/plot_controls.md)
   : Plot control functions
 
 - [`plot_message()`](https://benjaminhlina.github.io/glatar-app/reference/plot_message.md)
@@ -197,6 +197,10 @@ be able to write their own issues.
 
 - [`ram_tracker()`](https://benjaminhlina.github.io/glatar-app/reference/ram_tracker.md)
   : Ram Tracker
+
+- [`raw_data_sidebar_ui()`](https://benjaminhlina.github.io/glatar-app/reference/raw_data_module.md)
+  [`raw_data_sidebar_server()`](https://benjaminhlina.github.io/glatar-app/reference/raw_data_module.md)
+  : Raw Data Sidebar
 
 - [`read_col_types()`](https://benjaminhlina.github.io/glatar-app/reference/read_functions.md)
   [`read_xl()`](https://benjaminhlina.github.io/glatar-app/reference/read_functions.md)
@@ -230,11 +234,21 @@ be able to write their own issues.
 
   A `data.frame` containing validation rules and names
 
+- [`scatter_sidebar_ui()`](https://benjaminhlina.github.io/glatar-app/reference/scatter_plot_module.md)
+  [`scatter_sidebar_server()`](https://benjaminhlina.github.io/glatar-app/reference/scatter_plot_module.md)
+  [`view_scatter_plot_ui()`](https://benjaminhlina.github.io/glatar-app/reference/scatter_plot_module.md)
+  [`scatter_plot_server()`](https://benjaminhlina.github.io/glatar-app/reference/scatter_plot_module.md)
+  : Scatter Plot Sidebar
+
 - [`search_table()`](https://benjaminhlina.github.io/glatar-app/reference/search_functions.md)
   : Search functions
 
 - [`send_email()`](https://benjaminhlina.github.io/glatar-app/reference/send_email.md)
   : Send Email
+
+- [`view_source_ui()`](https://benjaminhlina.github.io/glatar-app/reference/source_module.md)
+  [`view_source_server()`](https://benjaminhlina.github.io/glatar-app/reference/source_module.md)
+  : Source Tab
 
 - [`split_tables()`](https://benjaminhlina.github.io/glatar-app/reference/split_tables.md)
   : Split Tables
@@ -245,17 +259,33 @@ be able to write their own issues.
 - [`submission_email_body()`](https://benjaminhlina.github.io/glatar-app/reference/submission_email_body.md)
   : Submission Email Body
 
+- [`view_summary_info_ui()`](https://benjaminhlina.github.io/glatar-app/reference/summary_info_module.md)
+  [`summary_info_server()`](https://benjaminhlina.github.io/glatar-app/reference/summary_info_module.md)
+  : Summary Info Tab
+
+- [`summary_sidebar_ui()`](https://benjaminhlina.github.io/glatar-app/reference/summary_sidebar_module.md)
+  [`summary_sidebar_server()`](https://benjaminhlina.github.io/glatar-app/reference/summary_sidebar_module.md)
+  : Summary Table Sidebar
+
 - [`tab_login_modal()`](https://benjaminhlina.github.io/glatar-app/reference/tab_login_modal.md)
   : Tab Login Modal
 
 - [`tab_register_modal()`](https://benjaminhlina.github.io/glatar-app/reference/tab_register_modal.md)
   : Tab Register Modal
 
+- [`taxa_search_ui()`](https://benjaminhlina.github.io/glatar-app/reference/taxa_search_module.md)
+  [`taxa_search_server()`](https://benjaminhlina.github.io/glatar-app/reference/taxa_search_module.md)
+  : Taxa Search Tab
+
 - [`taxa_submission_email_body()`](https://benjaminhlina.github.io/glatar-app/reference/taxa_submission_email_body.md)
   : Taxa Submission Email Body
 
 - [`update_zoom_slider()`](https://benjaminhlina.github.io/glatar-app/reference/update_zoom_slider.md)
   : Update Zoom Slider
+
+- [`upload_data_ui()`](https://benjaminhlina.github.io/glatar-app/reference/upload_data_module.md)
+  [`upload_data_server()`](https://benjaminhlina.github.io/glatar-app/reference/upload_data_module.md)
+  : Upload Data Tab
 
 - [`upload_to_db()`](https://benjaminhlina.github.io/glatar-app/reference/upload_to_db.md)
   : Upload New Data to Database
@@ -276,4 +306,12 @@ be able to write their own issues.
   [`submission_required_fields()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`themes()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   : Vector functions
+
+- [`view_data_ui()`](https://benjaminhlina.github.io/glatar-app/reference/view_data_module.md)
+  [`view_data_server()`](https://benjaminhlina.github.io/glatar-app/reference/view_data_module.md)
+  : View Raw Data Tab
+
+- [`view_map_ui()`](https://benjaminhlina.github.io/glatar-app/reference/view_map_module.md)
+  [`view_map_server()`](https://benjaminhlina.github.io/glatar-app/reference/view_map_module.md)
+  : View Map Tab
 
