@@ -201,7 +201,7 @@
 - [`the_golden_lance()`](https://benjaminhlina.github.io/glatar-app/reference/validation_functions.md)
   [`validate_tbl_sources()`](https://benjaminhlina.github.io/glatar-app/reference/validation_functions.md)
   [`validate_tbl_submission()`](https://benjaminhlina.github.io/glatar-app/reference/validation_functions.md)
-  : Validator funtions
+  : Validator functions
 
 - [`data_tables()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`data_types()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)

@@ -1,4 +1,4 @@
-# Validator funtions
+# Validator functions
 
 These functions work within their own enviornment. They take in a
 `data.frame` and a set of `rules` either supplied by `rule_*` functions
