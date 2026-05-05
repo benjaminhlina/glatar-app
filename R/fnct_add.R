@@ -345,7 +345,7 @@ add_valid_cols <- function(df, valid_values) {
 
 add_valid_taxonomy <- function(df, species_list) {
   # ---- get tax from db ----
-  valid_taxonomy <- valid_taxonomy(species_list)
+  valid_taxonomy <- get_valid_taxonomy(species_list)
 
   valid_common_sentence <- stringr::str_to_sentence(valid_taxonomy$valid_common)
   valid_sci_sentence <- stringr::str_to_sentence(
