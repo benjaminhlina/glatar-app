@@ -3,16 +3,23 @@
 \name{how_to_use_module}
 \alias{how_to_use_module}
 \alias{how_to_ui}
+\alias{how_to_server}
 \title{How to Use Tab}
 \usage{
 how_to_ui(id)
+
+how_to_server(id, parent_session)
 }
 \arguments{
 \item{id}{the shiny namespace id name (i.e., \code{"how_to_use"}).}
+
+\item{parent_session}{a shiny server session.}
 }
 \description{
 Provides the How to Use tab in the app.
 }
 \details{
 \code{how_to_ui()} a shiny UI.
+
+\code{how_to_server()} a shiny module server.
 }

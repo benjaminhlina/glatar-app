@@ -391,15 +391,14 @@ how_to_ui <- function(id) {
   )
 }
 
-# ---- server -----
+# ---- server ----
 #' @param id the shiny namespace id name (i.e., `"how_to_use"`).
 #' @param parent_session a shiny server session.
 #'
 #' @details `how_to_server()` a shiny module server.
 #'
-#' @name how_to_server_module
+#' @name how_to_use_module
 #' @export
-
 how_to_server <- function(id, parent_session) {
   shiny::moduleServer(id, function(input, output, session) {
     # Map each actionLink id to its shinydashboard tabName
