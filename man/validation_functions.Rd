@@ -18,10 +18,6 @@ validate_tbl_submission(df)
 }
 \value{
 returns a \code{validate} object.
-
-returns a \code{validate} object.
-
-returns a \code{validate} object.
 }
 \description{
 These functions work within their own enviornment. They take

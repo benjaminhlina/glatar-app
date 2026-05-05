@@ -89,7 +89,6 @@ the_golden_lance <- function(df) {
 #' @details
 #'  `validate_tbl_sources()` validates incoming data to be uploaded to `tbl_sources`.
 #'
-#' @return returns a `validate` object.
 #'
 #' @name validation_functions
 #' @export
@@ -131,7 +130,6 @@ validate_tbl_sources <- function(df) {
 #' @details
 #'  `validate_tbl_submission()` validates incoming data to be uploaded to `tbl_submission`.
 #'
-#' @return returns a `validate` object.
 #'
 #' @name validation_functions
 #' @export
