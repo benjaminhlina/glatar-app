@@ -1,5 +1,24 @@
 # ----- tab server ------
-
+#' Authorization Server
+#'
+#' Provides the authorization server for the login modal that displays
+#' on two locked tabs, uploading and user specific data.
+#'
+#' @param input a shiny input object.
+#' @param output a shiny output object.
+#' @param session a shiny session.
+#' @param credentials a `data.frame` containing login credentials
+#' @param sidebar_id a `vector` containing the sidebar ids to allow
+#' the login to display.
+#' @param off a `logical` value that turns on and off the authorization
+#' server. Default is `FALSE`. This switch is for development only.
+#'
+#'
+#' @return a shiny modal
+#'
+#' @name login_modal_server
+#' @export
+#'
 tab_auth_server <- function(
   input,
   output,
