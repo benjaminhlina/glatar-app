@@ -15,7 +15,7 @@
 #' he uses to fight evil. This function validates incoming data to be uploaded to `tbl_samples`.
 #' Let `the_golden_lance()` have its say.
 #'
-#' @return returns a `validate` object.
+#' @return Returns a `validate` object.
 #'
 #'
 #' @name validation_functions

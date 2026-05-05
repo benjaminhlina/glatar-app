@@ -34,17 +34,7 @@ rule to.}
 or \code{issue}/.}
 }
 \value{
-a rule to be evaluated by \code{{validator}}.
-
-a rule to be evaluated by \code{{validator}}.
-
-a rule to be evaluated by \code{{validator}}.
-
-a rule to be evaluated by \code{{validator}}.
-
-a rule to be evaluated by \code{{validator}}.
-
-a rule to be evaluated by \code{{validator}}.
+A rule to be evaluated by \code{{validator}}.
 }
 \description{
 These functions supply different validation rules to be used with

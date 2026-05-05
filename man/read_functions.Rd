@@ -38,7 +38,7 @@ to snake case and follows the database shcema. Defaults to \code{TRUE}.}
 to snake case and follows the database shcema. Defaults to  `NULL``.}
 }
 \value{
-\code{read_col_types()} returns a vector that has each column type
+\code{read_col_types()} returns a \code{vector} that has each column type
 for a given excel file.
 
 \code{read_xl()}returns a \code{data.frame} with the a given database table.

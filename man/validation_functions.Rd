@@ -17,7 +17,7 @@ validate_tbl_submission(df)
 \item{df}{a \code{data.frame} that requires validation.}
 }
 \value{
-returns a \code{validate} object.
+Returns a \code{validate} object.
 }
 \description{
 These functions work within their own enviornment. They take

@@ -8,7 +8,7 @@
 #' @param username The username for user specific connections.
 #' Default is `NULL` and will use default user.
 #'
-#' @return returns a connection object.
+#' @return Returns a connection object.
 #'
 #' @name db_connections
 #' @export

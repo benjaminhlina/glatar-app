@@ -4,7 +4,7 @@
 #'
 #' These functions check different conditions
 #'
-#' @param x a `vector
+#' @param x a `vector``
 #'
 #' @name check_functions
 #' @export

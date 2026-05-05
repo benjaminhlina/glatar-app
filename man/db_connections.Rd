@@ -12,7 +12,7 @@ start_db_con(username = NULL)
 Default is \code{NULL} and will use default user.}
 }
 \value{
-returns a connection object.
+Returns a connection object.
 }
 \description{
 This function uses environment supplied variables, \code{{DBI}},

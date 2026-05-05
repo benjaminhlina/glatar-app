@@ -10,7 +10,7 @@
 #'
 #' @details `rule_blank()` checks whether a feild is blank.
 #'
-#' @return a rule to be evaluated by `{validator}`.
+#' @return A rule to be evaluated by `{validator}`.
 #'
 #' @name rule_functions
 #' @export
@@ -31,7 +31,6 @@ rule_blank <- function(required_fields) {
 #'
 #' @details `rule_column_names()` checks the column names.
 #'
-#' @return a rule to be evaluated by `{validator}`.
 #'
 #' @name rule_functions
 #' @export
@@ -49,7 +48,6 @@ rule_column_names <- function(required_fields) {
 #'
 #' @details `rule_email()` checks if the submission email is in a valid format.
 #'
-#' @return a rule to be evaluated by `{validator}`.
 #'
 #' @name rule_functions
 #' @export
@@ -69,7 +67,6 @@ rule_email <- function(submission_email) {
 #'
 #' @details `rule_len()` checks if the length of the column equals 1.
 #'
-#' @return a rule to be evaluated by `{validator}`.
 #'
 #' @name rule_functions
 #' @export
@@ -90,7 +87,6 @@ rule_len <- function(required_fields) {
 #'
 #' @details `rule_match()` checks if the valid exprssion matches a given rule.
 #'
-#' @return a rule to be evaluated by `{validator}`.
 #'
 #' @name rule_functions
 #' @export
@@ -113,7 +109,6 @@ rule_match <- function(exprs, field) {
 #'
 #' @details `rule_na()` checks if a column is `NA`.
 #'
-#' @return a rule to be evaluated by `{validator}`.
 #'
 #' @name rule_functions
 #' @export

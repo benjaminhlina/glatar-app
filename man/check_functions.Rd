@@ -17,7 +17,7 @@ check_tab_credentials(user, pass, credentials)
 check_taxonomy_match(input_values, db_values)
 }
 \arguments{
-\item{x}{a `vector}
+\item{x}{a `vector``}
 
 \item{file_path}{the file path supplied by reactive handler}
 

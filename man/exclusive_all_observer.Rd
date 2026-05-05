@@ -14,11 +14,11 @@ exclusive_all_observer(input, session, id)
 \item{id}{the dropdown object to apply the observer}
 }
 \value{
-an Event that excludes `"All"``
+an Event that excludes \code{"All"}
 }
 \description{
 This function uses an \code{observerEvent()} to adjust dropdown
 menus so that when other selections beside \code{"All"} is selected
-it will not allow \code{"All"} to be selected until the entire box
+it will not allow \verb{"All} to be selected until the entire box
 is cleared.
 }

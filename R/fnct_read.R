@@ -12,7 +12,7 @@
 #'
 #' @details `read_col_types()`` reads in a file and determiens the number of
 #' columns and the column types
-#' @return  `read_col_types()` returns a vector that has each column type
+#' @return  `read_col_types()` returns a `vector` that has each column type
 #' for a given excel file.
 #'
 #' @name read_functions
