@@ -59,6 +59,8 @@ get_theme_choices(
   energy_vars
 )
 
+get_valid_taxonomy(df)
+
 get_valid_values(con)
 
 get_var_types(df, var)
@@ -182,6 +184,9 @@ the database and joins variables and grouping variables of interest for
 summarizing.
 
 `get_tables_needed()` this gets the tables of interest
+
+`get_valid_taxonomy()` gets valid common and scientific names from
+`tbl_taxonomy` within the the db.
 
 `get_valid_values()` gets all the schemas in the database and grabs all
 the constraints and cleans them up so we can use the constraints to

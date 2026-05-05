@@ -13,7 +13,17 @@ data_types()
 
 good_groups()
 
+not_null_fields()
+
+numeric_fields()
+
 protected_tabs()
+
+sample_required_fields()
+
+sources_required_fields()
+
+submission_required_fields()
 
 themes()
 ```

@@ -56,7 +56,9 @@ cleaned prior to being displayed (e.g., schema constraints)</p>
 <span></span>
 <span><span class="fu">rename_to_db_col</span><span class="op">(</span><span class="va">df</span>, <span class="va">con</span>, <span class="va">table_name</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">clean_row_index</span><span class="op">(</span><span class="va">row_index_str</span>, min_run <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">clean_row_index</span><span class="op">(</span><span class="va">row_index_str</span>, min_run <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">clean_validate_report</span><span class="op">(</span><span class="va">confrontation</span>, table_name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -106,8 +108,7 @@ Default value is <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-table-name">table_name<a class="anchor" aria-label="anchor" href="#arg-table-name"></a></dt>
-<dd><p>the table name in the database that each
-column name is assinged to.</p></dd>
+<dd><p>the table name the validation rpoert belongs to.</p></dd>
 
 
 <dt id="arg-row-index-str">row_index_str<a class="anchor" aria-label="anchor" href="#arg-row-index-str"></a></dt>
@@ -118,6 +119,10 @@ validation</p></dd>
 <dt id="arg-min-run">min_run<a class="anchor" aria-label="anchor" href="#arg-min-run"></a></dt>
 <dd><p>minimum number of consecutive numbers before it condenses
 the row numbers. Default is <code>5</code>.</p></dd>
+
+
+<dt id="arg-confrontation">confrontation<a class="anchor" aria-label="anchor" href="#arg-confrontation"></a></dt>
+<dd><p>a <code>validate</code> object that is class <code>confrontation</code> to be cloeaned.</p></dd>
 
 </dl></div>
 

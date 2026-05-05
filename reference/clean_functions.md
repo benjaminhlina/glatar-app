@@ -19,6 +19,8 @@ match_to_db_col(col_name, db_cols)
 rename_to_db_col(df, con, table_name)
 
 clean_row_index(row_index_str, min_run = 5)
+
+clean_validate_report(confrontation, table_name = NULL)
 ```
 
 ## Arguments
@@ -67,7 +69,7 @@ clean_row_index(row_index_str, min_run = 5)
 
 - table_name:
 
-  the table name in the database that each column name is assinged to.
+  the table name the validation rpoert belongs to.
 
 - row_index_str:
 
@@ -78,3 +80,7 @@ clean_row_index(row_index_str, min_run = 5)
 
   minimum number of consecutive numbers before it condenses the row
   numbers. Default is `5`.
+
+- confrontation:
+
+  a `validate` object that is class `confrontation` to be cloeaned.

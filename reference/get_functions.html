@@ -100,6 +100,8 @@ given table in the database.</p>
 <span>  <span class="va">energy_vars</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">get_valid_taxonomy</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">get_valid_values</span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">get_var_types</span><span class="op">(</span><span class="va">df</span>, <span class="va">var</span><span class="op">)</span></span></code></pre></div>
@@ -217,6 +219,8 @@ the <code>shiny</code> UI.</p>
 the database and joins variables and grouping variables of interest for
 summarizing.</p>
 <p><code>get_tables_needed()</code> this gets the tables of interest</p>
+<p><code>get_valid_taxonomy()</code> gets valid common and scientific names
+from <code>tbl_taxonomy</code> within the the db.</p>
 <p><code>get_valid_values()</code> gets all the schemas in the database and
 grabs all the constraints and cleans them up so we can use the
 constraints to validate data.</p>
