@@ -1,3 +1,15 @@
+#' About User Interface
+#'
+#' Provides the User Interface (UI) for the about tab
+#'
+#' @param id the shiny namespace id name (i.e., `"about"`).
+#'
+#'
+#' @return `about_ui()` a shiny UI.
+#'
+#' @name about_module
+#' @export
+
 about_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -76,6 +88,17 @@ about_ui <- function(id) {
   )
 }
 
+#' About Server
+#'
+#' Provides the server for the about tab
+#'
+#' @param id the shiny namespace id name (i.e., `"about"`).
+#'
+#'
+#' @return `about_server()` a shiny module server.
+#'
+#' @name about_module
+#' @export
 about_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     # future logic here

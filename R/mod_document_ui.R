@@ -1,3 +1,15 @@
+#' Documentation User Interface
+#'
+#' Provides the User Interface (UI) for the documentation tab
+#'
+#' @param id the shiny namespace id name (i.e., `"docs"`).
+#'
+#'
+#' @return `docs_ui()` a shiny UI.
+#'
+#' @name docs_module
+#' @export
+
 docs_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -130,9 +142,20 @@ docs_ui <- function(id) {
     )
   )
 }
+#' Documentation Server
+#'
+#' Provides the server for the documentation tab
+#'
+#' @param id the shiny namespace id name (i.e., `"docs"`).
+#'
+#'
+#' @return `docs_server()` a shiny module server.
+#'
+#' @name docs_module
+#' @export
 
 docs_server <- function(id) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     # ---- future logic -----
   })
 }

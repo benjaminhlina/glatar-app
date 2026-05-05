@@ -1,3 +1,15 @@
+#' Home User Interface
+#'
+#' Provides the User Interface (UI) for the home tab
+#'
+#' @param id the shiny namespace id name (i.e., `"home"`).
+#'
+#'
+#' @return `docs_ui()` a shiny UI.
+#'
+#' @name home_module
+#' @export
+
 home_tab_ui <- function(id) {
   ns <- shiny::NS(id)
 

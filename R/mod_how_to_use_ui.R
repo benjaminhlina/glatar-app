@@ -1,3 +1,15 @@
+#' How to Use User Interface
+#'
+#' Provides the User Interface (UI) for the How to Use tab
+#'
+#' @param id the shiny namespace id name (i.e., `"how_to_use"`).
+#'
+#'
+#' @return `how_to_ui()` a shiny UI.
+#'
+#' @name how_to_use_module
+#' @export
+
 how_to_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -380,6 +392,18 @@ how_to_ui <- function(id) {
   )
 }
 
+#' How to Use Server
+#'
+#' Provides the server for the documentation tab
+#'
+#' @param id the shiny namespace id name (i.e., `"how_to_use"`).
+#' @param parent_session a shiny server session.
+#'
+#'
+#' @return `how_to_server()` a shiny module server.
+#'
+#' @name how_to_server_module
+#' @export
 
 how_to_server <- function(id, parent_session) {
   shiny::moduleServer(id, function(input, output, session) {
