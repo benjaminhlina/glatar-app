@@ -8,6 +8,7 @@
 \alias{match_to_db_col}
 \alias{rename_to_db_col}
 \alias{clean_row_index}
+\alias{clean_validate_report}
 \title{Clean functions}
 \usage{
 clean_all_validations(...)
@@ -21,6 +22,8 @@ match_to_db_col(col_name, db_cols)
 rename_to_db_col(df, con, table_name)
 
 clean_row_index(row_index_str, min_run = 5)
+
+clean_validate_report(confrontation, table_name = NULL)
 }
 \arguments{
 \item{...}{objects to be cleaned. Usually validation reports}
@@ -45,14 +48,15 @@ Default value is \code{TRUE}.}
 
 \item{con}{PostgreSQL connection object using \code{{DBI}}}
 
-\item{table_name}{the table name in the database that each
-column name is assinged to.}
+\item{table_name}{the table name the validation rpoert belongs to.}
 
 \item{row_index_str}{a column containing the row index from submitted data during
 validation}
 
 \item{min_run}{minimum number of consecutive numbers before it condenses
 the row numbers. Default is \code{5}.}
+
+\item{confrontation}{a \code{validate} object that is class \code{confrontation} to be cloeaned.}
 }
 \description{
 These functions clean up \code{data.frames} and \code{vectors} that

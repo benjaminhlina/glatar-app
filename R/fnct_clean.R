@@ -252,3 +252,190 @@ clean_row_index <- function(row_index_str, min_run = 5) {
   out <- paste(parts, collapse = ", ")
   return(out)
 }
+
+# ----- clean validation report ------
+#' @param confrontation a `validate` object that is class `confrontation` to be cloeaned.
+#' @param table_name the table name the validation rpoert belongs to.
+#'
+#' @name clean_functions
+#' @export
+
+clean_validate_report <- function(confrontation, table_name = NULL) {
+  df <- validate::as.data.frame(confrontation)
+
+  original_data <- confrontation$._keys$keyset
+
+  common_name_suggestions <- attr(original_data, "common_name_suggestions")
+  scientific_name_suggestions <- attr(
+    original_data,
+    "scientific_name_suggestions"
+  )
+
+  cli::cli_alert_info(
+    "Common suggestions found:
+                      {!is.null(common_name_suggestions)}"
+  )
+  cli::cli_alert_info(
+    "Scientific suggestions found:
+                      {!is.null(scientific_name_suggestions)}"
+  )
+
+  # if valdiate doens't return anything then  return nulll
+  if (nrow(df) == 0) {
+    return(NULL)
+  }
+
+  # transfer forw number
+  df <- df |>
+    dplyr::group_by(name) |>
+    dplyr::mutate(
+      data_row = dplyr::row_number() # This cycles 1, 2, 3, 4... within each rule
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      col_name = dplyr::case_when(
+        grepl("%vin% colnames", expression) ~ gsub(
+          '.*"([^"]+)".*',
+          '\\1',
+          expression
+        ),
+        # Handle %vin% expressions: get the word before %vin%
+        grepl("%vin%", expression) ~ sub(
+          "^\\s*(\\w+)\\s+%vin%.*",
+          "\\1",
+          expression
+        ),
+
+        # Handle comparison expressions (month - 1 >= ..., etc.)
+        grepl("[-+].*[><=]", expression) ~ sub(
+          "^\\s*(\\w+)\\s+[-+].*",
+          "\\1",
+          expression
+        ),
+
+        # Handle function calls with commas - get first word before
+        # comma in innermost parens
+        grepl("\\([^()]*,", expression) ~ {
+          temp <- sub(".*\\(([^()]+)\\).*", "\\1", expression)
+          sub("^\\s*([^,]+).*", "\\1", temp)
+        },
+
+        # Handle function calls without commas - get content of innermost parens
+        grepl("\\(", expression) ~ sub(".*\\(([^()]+)\\).*", "\\1", expression),
+
+        grepl("^\\.valid_", expression) ~ sub(
+          "^\\.valid_([^ =]+).*",
+          "\\1",
+          expression
+        ),
+
+        # Default: return the expression as-is
+        .default = expression
+      ),
+      # Clean up any remaining quotes or whitespace
+      col_name = trimws(gsub('"', '', col_name))
+      # col_name = sub(".*\\(([^,\\)]+).*", "\\1", expression)
+    )
+
+  # ----- grab only bad columns -----
+  bad <- df |>
+    dplyr::filter(value %in% FALSE)
+
+  # ----- if tehre are non-return NULL -----
+  if (nrow(bad) == 0) {
+    return(NULL)
+  }
+
+  rule_col <- rule_match(bad$expression, "col")
+  rule_issue <- rule_match(bad$expression, "issue")
+
+  cli::cli_alert_success(
+    "What is is the issue {.field {unique(bad$name)}}"
+  )
+
+  # ----- create pretty names -----
+  out <- bad |>
+    dplyr::mutate(
+      col_name = dplyr::coalesce(rule_col, col_name),
+      Issue = dplyr::case_when(
+        grepl("nrow\\(\\.\\) == 1", expression) ~
+          "Sheet is empty - please enter data and reupload",
+
+        grepl("publication_type", expression) ~
+          "Invalid publication type - must be Journal Article, Book,
+         Book Section, Report, or Unpublished",
+
+        grepl('%vin% colnames', expression) ~ paste0(
+          "Missing required column(s):",
+          gsub('.*"([^"]+)".*', '\\1', expression),
+          " - you have altered the data entry template -
+          please reupload an unaltered file"
+        ),
+        grepl("numeric__", name) ~ "Field needs to be numeric",
+
+        !is.na(rule_issue) ~ rule_issue,
+
+        grepl("is.na", expression) ~ "Required field - cannot be empty",
+
+        .default = expression
+      ),
+      col_name = stringr::str_remove(col_name, ".valid_"),
+    ) |>
+    dplyr::select(Row = data_row, Column = col_name, Issue)
+
+  if (!is.character(common_name_suggestions)) {
+    common_name_suggestions <- character(0)
+  }
+
+  if (!is.character(scientific_name_suggestions)) {
+    scientific_name_suggestions <- character(0)
+  }
+
+  row_offset <- if (table_name %in% c("tbl_submission", "tbl_sources")) {
+    4
+  } else {
+    5
+  }
+
+  out <- out |>
+    dplyr::mutate(
+      Suggestion = dplyr::case_when(
+        Column %in%
+          "common_name" &
+          !is.null(common_name_suggestions) &
+          Row <= length(common_name_suggestions) &
+          !is.na(common_name_suggestions[Row]) ~
+          paste0("Did you mean: ", common_name_suggestions[Row], "?"),
+        Column == "scientific_name" &
+          !is.null(scientific_name_suggestions) &
+          Row <= length(scientific_name_suggestions) &
+          !is.na(scientific_name_suggestions[Row]) ~
+          paste0("Did you mean: ", scientific_name_suggestions[Row], "?"),
+        .default = NA
+      ),
+      Row = Row + row_offset
+    )
+
+  cli::cli_alert_info("Rows with suggestions: {sum(!is.na(out$Suggestion))}")
+  cli::cli_alert_success(
+    "Suggestions are the following:
+                         {.val {paste(unique(na.omit(out$Suggestion)),
+                         collapse = ';')}}"
+  )
+  # ---- clean this up -----
+  out <- out |>
+    dplyr::group_by(Column, Issue) |>
+    dplyr::summarise(
+      `Row Index` = clean_row_index(paste(
+        sort(unique(Row)),
+        collapse = ", "
+      )),
+      Suggestion = paste(unique(na.omit(Suggestion)), collapse = "; ")
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      Suggestion = dplyr::if_else(nzchar(Suggestion), Suggestion, "-")
+    )
+
+  return(out)
+}
