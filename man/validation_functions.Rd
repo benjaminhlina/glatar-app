@@ -5,7 +5,7 @@
 \alias{the_golden_lance}
 \alias{validate_tbl_sources}
 \alias{validate_tbl_submission}
-\title{Validator funtions}
+\title{Validator functions}
 \usage{
 the_golden_lance(df)
 
