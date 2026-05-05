@@ -16,7 +16,7 @@ clean_all_validations <- function(...) {
   dots <- rlang::enquos(...)
 
   reports <- purrr::imap(dots, function(x, nm) {
-    res <- pretty_validate_report(
+    res <- clean_validate_report(
       rlang::eval_tidy(x),
       table_name = nm
     )
