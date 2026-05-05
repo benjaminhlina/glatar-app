@@ -63,6 +63,7 @@ utils::globalVariables(c(
   "sd",
   "source_id",
   "submission_id",
+  "submission_email",
   "table_name",
   "tsn",
   "user_sample_id",
