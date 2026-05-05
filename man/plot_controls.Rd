@@ -11,6 +11,8 @@
 \alias{size_selector_server}
 \alias{shape_selector}
 \alias{shape_selector_server}
+\alias{zoom_slider_ui}
+\alias{zoom_slider_server}
 \title{Plot control functions}
 \usage{
 plot_ui(title, plot_id, height, ...)
@@ -30,6 +32,10 @@ size_selector_server(input)
 shape_selector(...)
 
 shape_selector_server(input)
+
+zoom_slider_ui(ns, id, label)
+
+zoom_slider_server(input)
 }
 \arguments{
 \item{title}{the title of plot}
@@ -41,6 +47,12 @@ shape_selector_server(input)
 \item{...}{additional parameters to be given for example a \code{NS()} object.}
 
 \item{input}{a shiny server input value.}
+
+\item{ns}{a shiny namespace object e.g., \code{ns}.}
+
+\item{id}{a shiny namespace object e.g., \code{"zoom_x"}.}
+
+\item{label}{a shiny namespace object e.g., \code{"Zoom X Axis"}.}
 }
 \description{
 These functions add different control features to different
@@ -73,4 +85,10 @@ of \code{shapes} which controls the shape type.
 
 \code{shape_selector_server()} provides the server and reactive values
 of \code{size} which controls the size of the points.
+
+\code{zoom_slider_ui()} provides the the user interface for
+zoom slider on the plot panel.
+
+\code{zoom_slider_server()} provides the server and reactive values
+of zoom slider which controls the zoom on the x and y axis.
 }

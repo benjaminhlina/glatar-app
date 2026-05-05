@@ -216,3 +216,40 @@ shape_selector_server <- function(input) {
     shape = shiny::reactive(input$shape)
   )
 }
+
+
+# ----- zoom_slider_ui ------
+#' @param ns a shiny namespace object e.g., `ns`.
+#' @param id a shiny namespace object e.g., `"zoom_x"`.
+#' @param label a shiny namespace object e.g., `"Zoom X Axis"`.
+#'
+#' @details `zoom_slider_ui()` provides the the user interface for
+#' zoom slider on the plot panel.
+#'
+#' @name plot_controls
+#' @export
+#'
+zoom_slider_ui <- function(ns, id, label) {
+  shiny::sliderInput(
+    inputId = ns(id),
+    label = label,
+    min = 0,
+    max = 100,
+    value = c(0, 100)
+  )
+}
+
+# ----- zoom slider server -----
+#' @param input a shiny server input value.
+#'
+#' @details `zoom_slider_server()` provides the server and reactive values
+#' of zoom slider which controls the zoom on the x and y axis.
+#'
+#' @name plot_controls
+#' @export
+zoom_slider_server <- function(input) {
+  list(
+    zoom_x = shiny::reactive(input$zoom_x),
+    zoom_y = shiny::reactive(input$zoom_y)
+  )
+}
