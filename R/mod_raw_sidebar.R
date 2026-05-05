@@ -5,7 +5,7 @@
 #'
 #' @param id the shiny namespace id name (i.e., `"raw_sidebar"`).
 #'
-#' @return `raw_data_sidebar_ui()` that provides user interface for raw data
+#' @details `raw_data_sidebar_ui()` that provides user interface for raw data
 #' sidebar
 #'
 #' @name raw_data_module
@@ -92,13 +92,12 @@ raw_data_sidebar_ui <- function(id) {
 }
 
 # ----- raw data server ----
-#'
-#' Provides
-#'
 #' @param id the shiny namespace id name (i.e., `"raw_sidebar"`).
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param main_input the shiny input from the main server.
+#' @param auth_state the authorization state to login.
 #'
-#' @return `raw_data_sidebar_ui()` that provides user interface for raw data
-#' sidebar
+#' @details `raw_data_sidebar_server()` provides the raw data sidebar server.
 #'
 #' @name raw_data_module
 #' @export

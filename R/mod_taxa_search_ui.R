@@ -1,3 +1,14 @@
+#' Taxa Search Tab
+#'
+#' Provides the taxa search tab.
+#'
+#' @param id the shiny namespace id name (i.e., `"taxa_search"`).
+#'
+#' @details `taxa_search_ui()` provides the taxa search user interface.
+#'
+#' @name taxa_search_module
+#' @export
+
 taxa_search_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -23,7 +34,16 @@ taxa_search_ui <- function(id) {
   )
 }
 
+
 # ----- server taxa search -----
+
+#' @param id the shiny namespace id name (i.e., `"taxa_search"`).
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#'
+#' @details `taxa_search_server()` provides the taxa search server.
+#'
+#' @name taxa_search_module
+#' @export
 taxa_search_server <- function(id, con) {
   shiny::moduleServer(id, function(input, output, session) {
     filtered_taxa <- create_searching_data(

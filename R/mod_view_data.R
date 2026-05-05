@@ -1,3 +1,14 @@
+#' View Raw Data Tab
+#'
+#' Provides the raw data tab.
+#'
+#' @param id the shiny namespace id name (i.e., `"view_data"`).
+#'
+#' @details `view_data_ui()` provides the view data user interface.
+#'
+#' @name view_data_module
+#' @export
+
 view_data_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -33,6 +44,18 @@ view_data_ui <- function(id) {
 
 
 # ---- server ----
+#' @param id the shiny namespace id name (i.e., `"view_data"`).
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param main_input the shiny input from the main server.
+#' @param raw_sidebar_vals a `reactiveVal()` object produced by `raw_data_sidebar_server()`.
+#' The inputs from this dictate what is displayed in the main panel.
+#' @param auth_state the authorization state to login.
+#'
+#' @details `view_data_server()` provides the raw data tab server.
+#'
+#' @name view_data_module
+#' @export
+
 view_data_server <- function(
   id,
   con,

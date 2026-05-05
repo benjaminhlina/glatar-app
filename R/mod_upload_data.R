@@ -1,3 +1,14 @@
+#' Upload Data Tab
+#'
+#' Provides the upload data tab.
+#'
+#' @param id the shiny namespace id name (i.e., `"insert_data"`).
+#'
+#' @details `upload_data_ui()` provides the upload data user interface.
+#'
+#' @name upload_data_module
+#' @export
+
 upload_data_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -111,6 +122,16 @@ upload_data_ui <- function(id) {
   )
 }
 
+# ----- server -----
+
+#' @param id the shiny namespace id name (i.e., `"insert_data"`).
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param auth_state the authorization state to login.
+#'
+#' @details `upload_data_server()` provides the upload data server .
+#'
+#' @name upload_data_module
+#' @export
 
 upload_data_server <- function(id, con, auth_state) {
   shiny::moduleServer(id, function(input, output, session) {

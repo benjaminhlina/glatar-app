@@ -1,3 +1,14 @@
+#' Summary Table Sidebar
+#'
+#' Provides the sidebar for the summary table pane.
+#'
+#' @param id the shiny namespace id name (i.e., `"summary_sidebar"`).
+#'
+#' @details `summary_sidebar_ui()` provides the summary table sidebar user interface.
+#'
+#' @name summary_sidebar_module
+#' @export
+
 summary_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -96,8 +107,16 @@ summary_sidebar_ui <- function(id) {
     )
   )
 }
+# ----- summmary -----
 
-
+#' @param id the shiny namespace id name (i.e., `"summary_sidebar"`).
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param main_input the shiny input from the main server
+#'
+#' @details `summary_sidebar_server()` provides the summary table sidebar server.
+#'
+#' @name summary_sidebar_module
+#' @export
 summary_sidebar_server <- function(id, con, main_input) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observe({

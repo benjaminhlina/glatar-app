@@ -1,4 +1,15 @@
 # ----- scatter sidebar -----
+#' Scatter Plot Sidebar
+#'
+#' Provides the sidebar for the scatter plot pane.
+#'
+#' @param id the shiny namespace id name (i.e., `"scatter_sidebar"`).
+#'
+#' @details `scatter_sidebar_ui()` that provides user interface for scatter plot
+#' sidebar.
+#'
+#' @name scatter_plot_module
+#' @export
 scatter_sidebar_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -95,6 +106,16 @@ scatter_sidebar_ui <- function(id) {
   )
 }
 # ---- scatter_sidebar_server -----
+
+#' @param id the shiny namespace id name (i.e., `"scatter_sidebar"`).
+#' @param con a `DBI` conection to, in this case PostgreSQL database.
+#' @param main_input the shiny input from the main server
+#'
+#' @details `scatter_sidebar_server()` provides the scatter plot sidebar server.
+#'
+#' @name scatter_plot_module
+#' @export
+
 scatter_sidebar_server <- function(id, con, main_input) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observe({

@@ -12,14 +12,19 @@ raw_data_sidebar_server(id, con, main_input, auth_state)
 }
 \arguments{
 \item{id}{the shiny namespace id name (i.e., \code{"raw_sidebar"}).}
-}
-\value{
-\code{raw_data_sidebar_ui()} that provides user interface for raw data
-sidebar
 
-\code{raw_data_sidebar_ui()} that provides user interface for raw data
-sidebar
+\item{con}{a \code{DBI} conection to, in this case PostgreSQL database.}
+
+\item{main_input}{the shiny input from the main server.}
+
+\item{auth_state}{the authorization state to login.}
 }
 \description{
 Provides the sidebar for the raw data pane.
+}
+\details{
+\code{raw_data_sidebar_ui()} that provides user interface for raw data
+sidebar
+
+\code{raw_data_sidebar_server()} provides the raw data sidebar server.
 }
