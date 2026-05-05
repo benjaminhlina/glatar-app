@@ -16,5 +16,4 @@ home_tab_ui(id)
 
 ## Details
 
-[`docs_ui()`](https://benjaminhlina.github.io/glatar-app/reference/docs_module.md)
-a shiny UI.
+`home_tab_ui()` a shiny UI.
