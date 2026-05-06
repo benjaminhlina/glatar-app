@@ -31,7 +31,7 @@ upload_data_ui <- function(id) {
         shiny::tags$li(
           shiny::tags$a(
             "Basic Data Entry Template (v21)",
-            href = "data-entry-template/GLATAR_data_entry_template_v21.xlsx",
+            href = "www/data-entry-template/GLATAR_data_entry_template_v21.xlsx",
             download = "GLATAR_data_entry_template_v21.xlsx",
             target = "_blank"
           )
@@ -42,7 +42,7 @@ upload_data_ui <- function(id) {
         shiny::tags$li(
           shiny::tags$a(
             "Extended Data Entry Template (v21)",
-            href = "data-entry-template/GLATAR_data_entry_template_v21_long.xlsx",
+            href = "www/data-entry-template/GLATAR_data_entry_template_v21_long.xlsx",
             download = "GLATAR_data_entry_template_v21_long.xlsx",
             target = "_blank",
             style = "display: inline;"
