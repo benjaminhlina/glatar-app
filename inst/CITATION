@@ -5,10 +5,6 @@ bibentry(
    "David Deslauriers", "Mark W. Kershner", "Charles P. Madenjian",
    "Steven A. Pothoven", "Michael D. Rennie", "Benjamin L. Hlina"),
   journal = "Journal of Great Lakes Research",
-  year = ,
-  volume = "In Reivew",
-  number = ,
-  pages = ,
-  doi = ,
+  year = "In Reivew",
   url = "https://glatar.org"
 )
