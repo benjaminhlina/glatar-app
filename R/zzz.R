@@ -1,5 +1,12 @@
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage("version 0.1.0 ('Galtar and the Princess')")
+  n_funs <- length(getNamespaceExports(pkgname))
+  packageStartupMessage(
+    "version 0.1.0 ('Galtar and the Princess')\n",
+    n_funs,
+    " functions available. Use ?",
+    pkgname,
+    " to get started."
+  )
 }
 
 utils::globalVariables(c(

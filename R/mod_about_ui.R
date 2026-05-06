@@ -81,7 +81,12 @@ about_ui <- function(id) {
     shiny::tags$ul(
       shiny::tags$li(
         "If you use this toolbox in your research, please cite appropriately using the
-        following: [INSERT CITATION]."
+        following: 
+        Johnson, T.B., Breck, J.E., Chipps, S.R., Deslauriers, D., Kershner, M.W., 
+        Madenjian, C.P., Pothoven, S.A., Rennie, M.D., Hlina, B.L. (",
+        shiny::tags$em("In Review"),
+        ") The Great Lakes Aquatic Tissue Analysis Repository (GLATAR). 
+        Journal of Great Lakes Research."
       )
     )
   )
