@@ -315,7 +315,7 @@ themes <- function() {
     "Stable Isotopes",
     "Amino Acids",
     "Fatty Acids",
-    "Contaminates",
+    "Contaminants",
     "Thiamine"
   )
   return(themes)
