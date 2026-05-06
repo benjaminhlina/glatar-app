@@ -1,0 +1,14 @@
+bibentry(
+  bibtype = "Article",
+  title = "The Great Lakes Aquatic Tissue Analysis Repository (GLATAR)",
+  author =  c("Timothy B. Johnson", "James E. Breck", "Steven R. Chipps",
+   "David Deslauriers", "Mark W. Kershner", "Charles P. Madenjian",
+   "Steven A. Pothoven", "Michael D. Rennie", "Benjamin L. Hlina"),
+  journal = "Journal of Great Lakes Research",
+  year = ,
+  volume = "In Reivew",
+  number = ,
+  pages = ,
+  doi = ,
+  url = "https://glatar.org"
+)
