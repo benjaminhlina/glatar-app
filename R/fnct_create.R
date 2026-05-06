@@ -185,7 +185,11 @@ create_mean_data <- function(data, input_source) {
     #  # can use  init = base_df
     grouped_summary_df <- Reduce(
       function(x, y) {
-        dplyr::full_join(x, y, by = summary_grouping_vars)
+        dplyr::full_join(
+          x,
+          y,
+          by = c("organism_type", "data_type", summary_grouping_vars)
+        )
       },
       summary_list
       # init = base_df
