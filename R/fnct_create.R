@@ -135,6 +135,8 @@ create_mean_data <- function(data, input_source) {
       return(grouped_summary_df)
     }
 
+    # ----- df here maybe needs to be base_df? ------
+    # maybe not?
     summary_list <- lapply(y_vals, function(v) {
       mapped_var <- fix_var_generic(df = df, var_raw = v)
 
