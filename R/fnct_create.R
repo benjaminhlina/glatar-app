@@ -158,7 +158,11 @@ create_mean_data <- function(data, input_source) {
       }
 
       grouped_summary_df <- df_filtered |>
-        dplyr::group_by(dplyr::across(dplyr::all_of(summary_grouping_vars))) |>
+        dplyr::group_by(dplyr::across(dplyr::all_of(c(
+          "organism_type",
+          "data_type",
+          summary_grouping_vars
+        )))) |>
         dplyr::summarise(
           !!paste0(var_label, " (mean)") := mean(
             .data[[var_to_summarise]],
@@ -188,7 +192,7 @@ create_mean_data <- function(data, input_source) {
     grouped_summary_df <- grouped_summary_df |>
       dplyr::left_join(
         base_df,
-        by = summary_grouping_vars,
+        by = c("organism_type", "data_type", summary_grouping_vars),
         na_matches = "na"
       ) |>
       dplyr::relocate(
