@@ -586,7 +586,7 @@ get_theme_choices <- function(
       colnames(),
     "Fatty Acids" = dplyr::tbl(con, "tbl_fatty_acid") |>
       colnames(),
-    "Contaminates" = dplyr::tbl(con, "tbl_contaminants") |>
+    "Contaminats" = dplyr::tbl(con, "tbl_contaminants") |>
       colnames(),
     "Thiamine" = dplyr::tbl(con, "tbl_thiamine") |>
       colnames(),
