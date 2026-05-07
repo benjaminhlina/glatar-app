@@ -206,11 +206,6 @@ create_mean_data <- function(data, input_source) {
       })()
     # run query x
     grouped_summary_df <- grouped_summary_df |>
-      dplyr::left_join(
-        base_df,
-        by = c("organism_type", "data_type", summary_grouping_vars),
-        na_matches = "na"
-      ) |>
       dplyr::relocate(
         "organism_type",
         "data_type",
