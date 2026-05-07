@@ -194,7 +194,16 @@ create_mean_data <- function(data, input_source) {
       },
       summary_list
       # init = base_df
-    )
+    ) |>
+      dplyr::collect() |> # coalesce needs to happen in R not SQL
+      (\(df) {
+        n_cols <- grep("^n(\\..*)?$", names(df), value = TRUE)
+        dplyr::mutate(
+          df,
+          n = do.call(pmax, c(df[n_cols], list(na.rm = TRUE)))
+        ) |>
+          dplyr::select(-dplyr::any_of(setdiff(n_cols, "n")))
+      })()
     # run query x
     grouped_summary_df <- grouped_summary_df |>
       dplyr::left_join(
@@ -214,7 +223,6 @@ create_mean_data <- function(data, input_source) {
       dplyr::filter(
         dplyr::if_any(contains("(mean)"), ~ !is.na(.x))
       ) |>
-      dplyr::collect() |>
       dplyr::group_by(dplyr::across(dplyr::any_of(c(
         "organism_type",
         "data_type",
