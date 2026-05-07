@@ -166,6 +166,7 @@ create_mean_data <- function(data, input_source) {
           summary_grouping_vars
         )))) |>
         dplyr::summarise(
+          n = sum(as.integer(!is.na(.data[[var_to_summarise]])), na.rm = TRUE),
           !!paste0(var_label, " (mean)") := mean(
             .data[[var_to_summarise]],
             na.rm = TRUE
