@@ -315,29 +315,17 @@ summary_sidebar_server <- function(id, con, main_input) {
     })
     # make this into a function that sidebar exports out
     register_summary <- function(input_source) {
-      output$download_summary <- shiny::downloadHandler(
-        filename = function() {
-          paste0("glatar_summary_tbl_", Sys.Date(), ".xlsx")
-        },
-        content = function(file) {
-          shiny::req(input_source)
-          df <- input_source$summary_df()()
-          shiny::req(df)
-          writexl::write_xlsx(df, file)
-        }
+      export_excel(
+        input_source = input_source,
+        file_name = "glatar_summary_tbl_",
+        output = output,
+        output_id = "download_summary",
+        tabs = "summary_info",
+        id = id,
+        input = input,
+        session = session,
+        df_name = "summary_df"
       )
-
-      observe({
-        shiny::req(input$tabs == "summary_info")
-        shiny::req(input_source)
-        df <- input_source$summary_df()()
-
-        # toggle button
-        shinyjs::toggleState(
-          session$ns("download_summary"),
-          condition = !is.null(df) && nrow(df) > 0
-        )
-      })
     }
 
     # ----- export what we need from the server ----

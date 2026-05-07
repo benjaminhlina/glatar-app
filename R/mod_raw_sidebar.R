@@ -300,30 +300,19 @@ raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
       )
     })
     # make this into a function that sidebar exports out
+
     register_raw <- function(input_source) {
-      output$download_raw <- shiny::downloadHandler(
-        filename = function() {
-          paste0("glatar_raw_tbl_", Sys.Date(), ".xlsx")
-        },
-        content = function(file) {
-          shiny::req(input_source)
-          df <- input_source$raw_df()()
-          req(df)
-          writexl::write_xlsx(df, file)
-        }
+      export_excel(
+        input_source = input_source,
+        file_name = "glatar_raw_tbl_",
+        output = output,
+        output_id = "download_raw",
+        tabs = "view_data",
+        id = id,
+        input = input,
+        session = session,
+        df_name = "raw_df"
       )
-
-      shiny::observe({
-        shiny::req(input$tabs == "view_data")
-        shiny::req(input_source)
-        df <- input_source$raw_df()()
-
-        # toggle button
-        shinyjs::toggleState(
-          session$ns("download_raw"),
-          condition = !is.null(df) && nrow(df) > 0
-        )
-      })
     }
 
     # ----- export what we need from the server ----
