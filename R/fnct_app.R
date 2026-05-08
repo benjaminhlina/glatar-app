@@ -138,12 +138,14 @@ glatar_app <- function() {
       shiny::conditionalPanel(
         "input.tabs == 'view_data'",
         raw_data_sidebar_ui("raw_sidebar")
+      ),
+      shiny::conditionalPanel(
+        "input.tabs == 'view_source'",
+        source_sidebar_ui("source_sidebar")
       )
     ),
     # ---- create display panes ----
     shinydashboard::dashboardBody(
-      
-
       # add  analytics
       shiny::tags$head(
         # shiny::HTML('<script src="/glatar/gtag.js"></script>'),
@@ -291,11 +293,17 @@ glatar_app <- function() {
 
     # ----- view source -----
 
-    view_source_server(
-      id = "view_source",
-      con = con,
+    source_sidebar_vals <- source_sidebar_server(
+      "source_sidebar",
       main_input = input
     )
+    view_source <- view_source_server(
+      id = "view_source",
+      con = con,
+      main_input = input,
+      source_sidebar_vals = source_sidebar_vals
+    )
+    source_sidebar_vals$register_source(view_source)
     # ---- upload data -----
     upload_data_server("insert_data", con, auth_state = tab_auth$auth_state)
     # ---- taxa search -----
