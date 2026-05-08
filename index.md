@@ -62,14 +62,48 @@ appropriate server functions that map to a given `ui` (e.g.,
 `"view_summary"` tab in ui with the same shiny namespace name being used
 in the server).
 
-From there, there are `fnct_*.R` files and `mod_*.R` files. `mod_*.R`
-files contain modules and modals that contain ui and server functions
-that are directly used in either the `ui` or `server` within
+From there, there are `fnct_*.R` files and `mod_*.R` files.
+
+`mod_*.R` files contain modules and modals that contain ui and server
+functions that are directly used in either the `ui` or `server` within
 [`glatar_app()`](https://benjaminhlina.github.io/glatar-app/reference/glatar_app.md).
+
+``` r
+├── R
+│   ├── mod_about_ui.R
+│   ├── mod_document_ui.R
+│   ├── mod_glatar_diagram.R
+│   ├── mod_home_tab.R
+│   ├── mod_how_to_use_ui.R
+│   ├── mod_login_ui.R
+│   ├── mod_raw_sidebar.R
+│   ├── mod_register.R
+│   ├── mod_scatter_sidebar.R
+│   ├── mod_source_sidebar.R
+│   ├── mod_summary_sidebar.R
+│   ├── mod_taxa_search_ui.R
+│   ├── mod_upload_data.R
+│   ├── mod_view_data.R
+│   ├── mod_view_map.R
+│   ├── mod_view_scatter_plot.R
+│   ├── mod_view_source.R
+│   ├── mod_view_summer_info.R
+```
 
 Any `fnct_*.R` files contain functiosn that are to be used in a
 `mod_*.R` file. There are a total of 30 `fcnt_*.R` files with {`glatar`}
 having 161 functions in total.
+
+``` r
+
+├── R
+│   ├── fnct_add.R
+│   ├── fnct_app_version.R
+│   ├── fnct_check.R
+│   ├── fnct_clean.R
+│   ├── fnct_clear.R
+......
+```
 
 # GitHub Actions and Server Deployment
 
