@@ -35,7 +35,6 @@ To run the app use the following:
 
 ``` r
 library(glatar)
-
 glatar_app()
 ```
 To view the overall progress of the package please see news
