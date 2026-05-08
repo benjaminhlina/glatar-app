@@ -7,7 +7,7 @@ Provides the sidebar for the source table pane.
 ``` r
 source_sidebar_ui(id)
 
-source_sidebar_server(id, main_input, source_sidebar_vals)
+source_sidebar_server(id, main_input)
 ```
 
 ## Arguments
