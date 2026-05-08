@@ -73,6 +73,9 @@
 - [`exclusive_all_observer()`](https://benjaminhlina.github.io/glatar-app/reference/exclusive_all_observer.md)
   : Exclude all observer
 
+- [`export_excel()`](https://benjaminhlina.github.io/glatar-app/reference/export_functions.md)
+  : Exporf functions
+
 - [`fix_case_types()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
   [`fix_table_order()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
   [`fix_title_label()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
@@ -208,6 +211,10 @@
 - [`view_source_ui()`](https://benjaminhlina.github.io/glatar-app/reference/source_module.md)
   [`view_source_server()`](https://benjaminhlina.github.io/glatar-app/reference/source_module.md)
   : Source Tab
+
+- [`source_sidebar_ui()`](https://benjaminhlina.github.io/glatar-app/reference/source_sidebar_module.md)
+  [`source_sidebar_server()`](https://benjaminhlina.github.io/glatar-app/reference/source_sidebar_module.md)
+  : Source Table Sidebar
 
 - [`split_tables()`](https://benjaminhlina.github.io/glatar-app/reference/split_tables.md)
   : Split Tables
