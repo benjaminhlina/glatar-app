@@ -39,13 +39,15 @@ view_source_ui <- function(id) {
 #' @param id the shiny namespace id name (i.e., `"view_source"`).
 #' @param con a `DBI` conection to, in this case PostgreSQL database.
 #' @param main_input the shiny input from the main server.
+#' @param source_sidebar_vals a `reactiveVal()` object produced by `source_sidebar_server()`.
+#' The inputs from this dictate what is displayed in the main panel.
 #'
 #' @details `view_source_server()` provides the source server.
 #'
 #' @name source_module
 #' @export
 
-view_source_server <- function(id, con, main_input) {
+view_source_server <- function(id, con, main_input, source_sidebar_vals) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -74,7 +76,7 @@ view_source_server <- function(id, con, main_input) {
     )
 
     # reactive export df
-    # source_export_df <- shiny::reactiveVal(NULL)
+    source_export_df <- shiny::reactiveVal(NULL)
 
     # # create summary data
     source_data <- create_source_data(
@@ -107,13 +109,13 @@ view_source_server <- function(id, con, main_input) {
     )
 
     # # ---- run exporte -----
-    # shiny::observe({
-    #   raw_export_df(filtered_raw_data_df_names())
-    # })
+    shiny::observe({
+      source_export_df(filtered_source())
+    })
 
     # ----- return this so it can be exported -----
-    # return(list(
-    #   raw_df = filtered_raw_data_df_names
-    # ))
+    return(list(
+      source_df = filtered_source
+    ))
   })
 }

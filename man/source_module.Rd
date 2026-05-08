@@ -8,7 +8,7 @@
 \usage{
 view_source_ui(id)
 
-view_source_server(id, con, main_input)
+view_source_server(id, con, main_input, source_sidebar_vals)
 }
 \arguments{
 \item{id}{the shiny namespace id name (i.e., \code{"view_source"}).}
@@ -16,6 +16,9 @@ view_source_server(id, con, main_input)
 \item{con}{a \code{DBI} conection to, in this case PostgreSQL database.}
 
 \item{main_input}{the shiny input from the main server.}
+
+\item{source_sidebar_vals}{a \code{reactiveVal()} object produced by \code{source_sidebar_server()}.
+The inputs from this dictate what is displayed in the main panel.}
 }
 \description{
 Provides the source tab.
