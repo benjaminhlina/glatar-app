@@ -161,13 +161,14 @@ glatar_app <- function() {
           src = "https://cdn.jsdelivr.net/gh/Appsilon/shiny.tictoc@v0.2.0/shiny-tic-toc.min.js"
         ),
         # ------ add in img right click disable -----
-        tags$script(HTML('
-          $(document).on("contextmenu", "img", function(e) {
-          e.preventDefault();
-          return false;
-          });
-        ')),
-
+        # tags$script(HTML(
+        #   '
+        #   $(document).on("contextmenu", "img", function(e) {
+        #   e.preventDefault();
+        #   return false;
+        #   });
+        # '
+        # )),
       ),
       # CSS for fixed footer
       app_version_head(),
