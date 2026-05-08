@@ -18,7 +18,7 @@ edited and redeveloped.
 
 # Installation and Running the App
 
-The [glatar](https://glatar.org) pacakge can be intsalled in R using the
+The [glatar](https://glatar.org) package can be intsalled in R using the
 following:
 
 ``` r
@@ -31,7 +31,6 @@ To run the app use the following:
 ``` r
 
 library(glatar)
-
 glatar_app()
 ```
 
@@ -90,7 +89,7 @@ functions that are directly used in either the `ui` or `server` within
 │   ├── mod_view_summer_info.R
 ```
 
-Any `fnct_*.R` files contain functiosn that are to be used in a
+Any `fnct_*.R` files contain functions that are to be used in a
 `mod_*.R` file. There are a total of 30 `fcnt_*.R` files with {`glatar`}
 having 161 functions in total.
 
