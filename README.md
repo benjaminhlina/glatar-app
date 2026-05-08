@@ -17,7 +17,7 @@ https://github.com/benjaminhlina/glatar-app/actions/workflows/build_docker.yaml
 # Great Lakes Aquatic Tissue Analysis Repository (GLATAR) App 
 
 The [{glatar}](https://benjaminhlina.github.io/glatar-app/) is an R package that
-creates a {shiny} app that interfaces with the GLATAR PostgreSQL database to provide a 
+creates a [{shiny}](https://shiny.posit.co/) app that interfaces with the GLATAR PostgreSQL database to provide a 
 seamless and rich interface. 
 
 The app can be accessed at [glatar.org](https://glatar.org/) and provides the ability to upload (i.e., if you are a contributing member), map, view raw data (i.e., 
@@ -47,8 +47,10 @@ nginx and shiny configuration files, and html.
 
 The structure of the package is the following: 
 
+``` r
 ├── R
 │   ├── app_glatar.R
+```
 
 contains `glatar_app()` which builds the `ui`, `server` and runs `shiny::shinyApp(ui = ui, server = server)`. 
 
@@ -63,24 +65,23 @@ and modals that contain ui and server functions that are directly used in either
 Any `fnct_*.R` files contain functiosn that are to be used in a `mod_*.R` file. 
 There are a total of 30 `fcnt_*.R` files with {`glatar`} having 161 functions in total. 
 
-## GitHub Actions and Server Deployment 
+# GitHub Actions and Server Deployment 
 
 The package and app are deployed using GitHub Actions (GHA). When a push to the 
-main branch of the repository occurs the first two actions to be triggered are [R CMD Check]() and [pkgdown](). R CMD check, checks if the package can be built while pkgdown 
+main branch of the repository occurs the first two actions to be triggered are [R CMD Check](https://github.com/benjaminhlina/glatar-app/actions/workflows/R_CMD_check.yaml) and [pkgdown](). R CMD check, checks if the package can be built while pkgdown 
 deploys the R package to a pkgdown website. 
 
-Upon the R CMD Check compliting, it triggers a GHA that builds a docker container that installs all of the package needed to support {glatar} using renv, it then installs a fresh version of `{glatar}` and copies the `app.R` file which contains the following: 
-
+Upon the R CMD Check completing, it triggers a GHA that [builds a docker container](https://github.com/benjaminhlina/glatar-app/actions/workflows/build_docker.yaml) that installs all of the package needed to support {glatar} using renv, it then installs a fresh version of `{glatar}` and copies the `app.R` file which contains the following: 
 ``` r
 library(glatar)
-
 glatar_app()
 ```
+
 This will allow the shiny-server to run properly and executes the `shiny_entry.sh` file. This file contains environmental variables and calls shiny-server. This docker container is registred on GitHub Container Registery (GHCR). 
 
-Once complete, another GHA is triggered which uses docker composer (i.e, `docker-compose.yaml`) to deploy the shiny app in its container, and an nginx and certbot containers on to a Digital Ocean's Droplet. 
+Once complete, another [GHA](https://github.com/benjaminhlina/glatar-app/actions/workflows/deploy_compose_do.yaml) is triggered which uses docker composer (i.e, `docker-compose.yaml`) to deploy the shiny app in its container, and an nginx and certbot containers on to a Digital Ocean's Droplet. 
 
-Lastly, once that GHA is complete, a GHA checks if the app returns a `200` status and if the logs run to confirm the app has been deployed properly. 
+Lastly, once that GHA is complete, a [GHA checks](https://github.com/benjaminhlina/glatar-app/actions/workflows/check_shiny_status.yaml) if the app returns a `200` status and if the logs run to confirm the app has been deployed properly. 
 
 # Contribution and Issue Policy 
 If you would like to contribute please feel free to fork the repository, create a branch, implement your changes and submit a PR for review. 
