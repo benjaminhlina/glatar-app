@@ -8,7 +8,7 @@
 \usage{
 source_sidebar_ui(id)
 
-source_sidebar_server(id, main_input, source_sidebar_vals)
+source_sidebar_server(id, main_input)
 }
 \arguments{
 \item{id}{the shiny namespace id name (i.e., \code{"source_sidebar"}).}

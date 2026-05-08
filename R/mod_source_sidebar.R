@@ -34,7 +34,7 @@ source_sidebar_ui <- function(id) {
 #'
 #' @name source_sidebar_module
 #' @export
-source_sidebar_server <- function(id, main_input, source_sidebar_vals) {
+source_sidebar_server <- function(id, main_input) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observe({
       shinyjs::toggle(
