@@ -9,7 +9,9 @@ check_empty_character(x)
 
 check_sheets(file_path, output)
 
-check_tab_credentials(user, pass, credentials)
+check_email(x, arg_name = NULL)
+
+check_tab_credentials(user, valid_users)
 
 check_taxonomy_match(input_values, db_values)
 ```
@@ -28,17 +30,17 @@ check_taxonomy_match(input_values, db_values)
 
   shiny object to output too
 
+- arg_name:
+
+  the name of the argument
+
 - user:
 
   a `vector` containing the username
 
-- pass:
+- valid_users:
 
-  a `vector` containing the password
-
-- credentials:
-
-  a `dataframe` containing username and password
+  a `vector` containinng valid user
 
 - input_values:
 

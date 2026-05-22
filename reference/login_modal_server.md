@@ -10,7 +10,7 @@ tab_auth_server(
   input,
   output,
   session,
-  credentials,
+  valid_users_emails,
   sidebar_id = "tabs",
   off = FALSE
 )
@@ -32,9 +32,9 @@ logout_server(id, parent_session)
 
   a shiny session.
 
-- credentials:
+- valid_users_emails:
 
-  a `data.frame` containing login credentials
+  a `vector` containing the valid user email
 
 - sidebar_id:
 

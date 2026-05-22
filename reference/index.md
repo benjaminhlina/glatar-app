@@ -22,6 +22,7 @@
 
 - [`check_empty_character()`](https://benjaminhlina.github.io/glatar-app/reference/check_functions.md)
   [`check_sheets()`](https://benjaminhlina.github.io/glatar-app/reference/check_functions.md)
+  [`check_email()`](https://benjaminhlina.github.io/glatar-app/reference/check_functions.md)
   [`check_tab_credentials()`](https://benjaminhlina.github.io/glatar-app/reference/check_functions.md)
   [`check_taxonomy_match()`](https://benjaminhlina.github.io/glatar-app/reference/check_functions.md)
   : Check functions
@@ -124,6 +125,10 @@
 - [`tab_auth_server()`](https://benjaminhlina.github.io/glatar-app/reference/login_modal_server.md)
   [`logout_server()`](https://benjaminhlina.github.io/glatar-app/reference/login_modal_server.md)
   : Authorization Server
+
+- [`make_pg_username()`](https://benjaminhlina.github.io/glatar-app/reference/make_functions.md)
+  [`make_temp_password()`](https://benjaminhlina.github.io/glatar-app/reference/make_functions.md)
+  : Make functions
 
 - [`msg_dropdowns()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)
   [`msg_hist_ui()`](https://benjaminhlina.github.io/glatar-app/reference/msg_functions.md)

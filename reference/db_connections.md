@@ -6,7 +6,7 @@ This function uses environment supplied variables, `{DBI}`, and
 ## Usage
 
 ``` r
-start_db_con(username = NULL)
+start_db_con(username = NULL, password = NULL)
 ```
 
 ## Arguments
@@ -14,6 +14,11 @@ start_db_con(username = NULL)
 - username:
 
   The username for user specific connections. Default is `NULL` and will
+  use default user.
+
+- password:
+
+  The passward for user specific connections. Default is `NULL` and will
   use default user.
 
 ## Value
