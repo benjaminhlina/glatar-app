@@ -5,10 +5,13 @@
 \alias{start_db_con}
 \title{Start Database Connection}
 \usage{
-start_db_con(username = NULL)
+start_db_con(username = NULL, password = NULL)
 }
 \arguments{
 \item{username}{The username for user specific connections.
+Default is \code{NULL} and will use default user.}
+
+\item{password}{The passward for user specific connections.
 Default is \code{NULL} and will use default user.}
 }
 \value{
