@@ -677,7 +677,6 @@ get_valid_values <- function(con) {
 }
 
 # ---- get vart types ----
-#' @param con a valid `DBI` connection to a PostgreSQL database.
 #' @param df a `tbl_lazy`.
 #' @param var a variable of interst to get unique values.
 #'
