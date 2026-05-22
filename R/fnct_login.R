@@ -42,10 +42,6 @@ tab_login_modal <- function(failed = FALSE) {
       label = shiny::tags$span(shiny::icon("envelope"), " Email"),
       placeholder = "user.name@example.com"
     ),
-    shiny::passwordInput(
-      "tab_login_pass",
-      label = shiny::tags$span(shiny::icon("lock"), " Password")
-    ),
     shiny::tags$p(
       "Don't have an account?",
       shiny::actionLink("go_to_register", "Request access here."),
