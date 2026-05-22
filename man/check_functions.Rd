@@ -15,7 +15,7 @@ check_sheets(file_path, output)
 
 check_email(x, arg_name = NULL)
 
-check_tab_credentials(user, pass, credentials)
+check_tab_credentials(user, valid_users)
 
 check_taxonomy_match(input_values, db_values)
 }
@@ -28,9 +28,7 @@ check_taxonomy_match(input_values, db_values)
 
 \item{user}{a \code{vector} containing the username}
 
-\item{pass}{a \code{vector} containing the password}
-
-\item{credentials}{a \code{dataframe} containing username and password}
+\item{valid_users}{a \code{vector} containinng valid user}
 
 \item{input_values}{a \code{vector} of common and species names in incoming
 excel sheet.}

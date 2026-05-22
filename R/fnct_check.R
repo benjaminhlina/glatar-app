@@ -55,7 +55,7 @@ check_email <- function(x, arg_name = NULL) {
     arg_name <- rlang::as_label(rlang::enexpr(x))
   }
 
-  email_pattern <- "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+  email_pattern <- "^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*\\.[A-Za-z]{2,}$"
 
   invalid <- is.na(x) | !grepl(email_pattern, x)
 
@@ -75,21 +75,19 @@ check_email <- function(x, arg_name = NULL) {
 # Works with the same `credentials` data frame shinymanager uses.
 
 #' @param user a `vector` containing the username
-#' @param pass a `vector` containing the password
-#' @param credentials a `dataframe` containing username and password
+#' @param valid_users a `vector` containinng valid user
 #'
 #' @name check_functions
 #' @export
 
-check_tab_credentials <- function(user, pass, credentials) {
-  cd <- credentials[
-    tolower(trimws(credentials$user)) == tolower(trimws(user)),
-  ]
-  if (nrow(cd) == 0) {
+check_tab_credentials <- function(user, valid_users) {
+  cd <- tolower(trimws(valid_users)) == tolower(trimws(user))
+
+  if (length(cd) == 0 || !any(cd)) {
     return(FALSE)
   }
-  # Plain-text comparison — replace with hash check if needed
-  isTRUE(cd$password[1] == pass)
+
+  return(TRUE)
 }
 
 
