@@ -26,6 +26,8 @@ check_taxonomy_match(input_values, db_values)
 
 \item{output}{shiny object to output too}
 
+\item{arg_name}{the name of the argument}
+
 \item{user}{a \code{vector} containing the username}
 
 \item{valid_users}{a \code{vector} containinng valid user}

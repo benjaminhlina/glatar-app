@@ -47,6 +47,7 @@ check_sheets <- function(file_path, output) {
 
 #'
 #' @param x a `vector``
+#' @param arg_name the name of the argument
 #'
 #' @name check_functions
 #' @export
