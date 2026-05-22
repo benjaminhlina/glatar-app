@@ -45,6 +45,32 @@ check_sheets <- function(file_path, output) {
   }
 }
 
+#'
+#' @param x a `vector``
+#'
+#' @name check_functions
+#' @export
+check_email <- function(x, arg_name = NULL) {
+  if (is.null(arg_name)) {
+    arg_name <- rlang::as_label(rlang::enexpr(x))
+  }
+
+  email_pattern <- "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+
+  invalid <- is.na(x) | !grepl(email_pattern, x)
+
+  if (any(invalid)) {
+    cli::cli_abort(
+      paste0(
+        "`{arg_name}` contains invalid email(s): ",
+        paste(x[invalid], collapse = ", ")
+      )
+    )
+  }
+
+  invisible(TRUE)
+}
+
 # ----- Credential checker -----
 # Works with the same `credentials` data frame shinymanager uses.
 

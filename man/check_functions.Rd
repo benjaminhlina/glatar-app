@@ -4,6 +4,7 @@
 \alias{check_functions}
 \alias{check_empty_character}
 \alias{check_sheets}
+\alias{check_email}
 \alias{check_tab_credentials}
 \alias{check_taxonomy_match}
 \title{Check functions}
@@ -11,6 +12,8 @@
 check_empty_character(x)
 
 check_sheets(file_path, output)
+
+check_email(x, arg_name = NULL)
 
 check_tab_credentials(user, pass, credentials)
 
