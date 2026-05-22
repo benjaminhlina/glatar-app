@@ -74,6 +74,7 @@ utils::globalVariables(c(
   "table_name",
   "tsn",
   "user_sample_id",
+  "valid_users_emails",
   "valid_values",
   "value",
   "values",

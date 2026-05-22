@@ -7,9 +7,9 @@
 #' @param input a shiny input object.
 #' @param output a shiny output object.
 #' @param session a shiny session.
-#' @param credentials a `data.frame` containing login credentials
 #' @param sidebar_id a `vector` containing the sidebar ids to allow
 #' the login to display.
+#' @param valid_users_emails a `vector` containing the valid user email
 #' @param off a `logical` value that turns on and off the authorization
 #' server. Default is `FALSE`. This switch is for development only.
 #'
@@ -22,7 +22,7 @@ tab_auth_server <- function(
   input,
   output,
   session,
-  credentials,
+  valid_users_emails,
   sidebar_id = "tabs",
   off = FALSE
 ) {
@@ -36,6 +36,8 @@ tab_auth_server <- function(
   auth_state <- shiny::reactiveVal(FALSE)
   pending_tab <- shiny::reactiveVal(NULL)
   login_failed <- shiny::reactiveVal(FALSE)
+  password <- shiny::reactiveVal(FALSE)
+  username <- shiny::reactiveVal(FALSE)
 
   # ------ Intercept tab navigation ------
   shiny::observeEvent(
@@ -57,14 +59,18 @@ tab_auth_server <- function(
   shiny::observeEvent(input$tab_login_submit, {
     valid <- check_tab_credentials(
       input$tab_login_user,
-      input$tab_login_pass,
-      credentials
+      valid_users_emails
     )
 
     if (valid) {
       auth_state(TRUE)
       login_failed(FALSE)
       dest <- pending_tab()
+      # Create username and password using your functions
+      username <- make_pg_username(input$tab_login_user)
+      password <- make_temp_password(input$tab_login_user)
+      username(username)
+      password(password)
       pending_tab(NULL)
 
       shiny::removeModal()
@@ -102,7 +108,9 @@ tab_auth_server <- function(
   }
 
   list(
+    username = username,
     auth_state = auth_state,
+    password = password,
     logout = logout
   )
 }

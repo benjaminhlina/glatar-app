@@ -10,7 +10,7 @@ tab_auth_server(
   input,
   output,
   session,
-  credentials,
+  valid_users_emails,
   sidebar_id = "tabs",
   off = FALSE
 )
@@ -24,7 +24,7 @@ logout_server(id, parent_session)
 
 \item{session}{a shiny session.}
 
-\item{credentials}{a \code{data.frame} containing login credentials}
+\item{valid_users_emails}{a \code{vector} containing the valid user email}
 
 \item{sidebar_id}{a \code{vector} containing the sidebar ids to allow
 the login to display.}

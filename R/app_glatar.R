@@ -225,8 +225,8 @@ glatar_app <- function() {
     tab_auth <- tab_auth_server(
       input = input,
       output = output,
+      valid_users_emails = valid_users_emails,
       session = session,
-      credentials = credentials,
       # off = TRUE
     )
 
@@ -275,16 +275,27 @@ glatar_app <- function() {
       main_input = input,
       scatter_sidebar_vals = scatter_sidebar_vals
     )
+    # ----- create user connection ----
+    user_con <- reactive({
+      req(tab_auth$auth_state()) # blocks until auth_state is truthy
+      req(tab_auth$username())
+      req(tab_auth$password())
+
+      start_db_con(
+        username = tab_auth$username(),
+        password = tab_auth$password()
+      )
+    })
     # ----- get tables -----
     raw_sidebar_vals <- raw_data_sidebar_server(
       "raw_sidebar",
-      con,
+      user_con(),
       main_input = input,
       auth_state = tab_auth$auth_state
     )
     view_data <- view_data_server(
       "view_data",
-      con,
+      user_con(),
       main_input = input,
       raw_sidebar_vals = raw_sidebar_vals,
       auth_state = tab_auth$auth_state
@@ -306,7 +317,11 @@ glatar_app <- function() {
     )
     source_sidebar_vals$register_source(view_source)
     # ---- upload data -----
-    upload_data_server("insert_data", con, auth_state = tab_auth$auth_state)
+    upload_data_server(
+      "insert_data",
+      user_con(),
+      auth_state = tab_auth$auth_state
+    )
     # ---- taxa search -----
     taxa_search_server("taxa_search", con)
     docs_server("docs")

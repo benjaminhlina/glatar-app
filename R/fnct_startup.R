@@ -36,11 +36,9 @@ start_up <- function() {
     directoryPath = system.file('js', package = "glatar")
   )
 
-  credentials <- data.frame(
-    user = Sys.getenv("SHINY_USER"),
-    password = Sys.getenv("SHINY_PASSWORD"),
-    stringsAsFactors = FALSE
-  )
+  valid_users_emails <- dplyr::tbl(con, "tbl_registration") |>
+    dplyr::distinct(email) |>
+    dplyr::pull()
   # ---- create ui ----
   cli::cli_alert_info("Starting the App")
 
@@ -51,7 +49,7 @@ start_up <- function() {
     naming_conventions = naming_conventions,
     nice_name_lookup = nice_name_lookup,
     rule_map = rule_map,
-    credentials = credentials
+    valid_users_emails = valid_users_emails
   )
   return(startup)
 }
