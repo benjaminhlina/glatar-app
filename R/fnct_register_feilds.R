@@ -23,7 +23,7 @@ register_fields <- function(...) {
     shiny::tags$div(
       style = "text-align:center; margin-bottom:24px;",
       shiny::tags$img(
-        src = "www/logo/glfc-logo.png",
+        src = "www/logo/glatar_logo.png",
         width = 80,
         style = "display:block; margin:0 auto 12px auto;"
       ),

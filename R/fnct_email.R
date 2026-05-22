@@ -20,7 +20,7 @@ reg_confirmation_email_body <- function(first, last, affil, email) {
       '
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px;">
 
-        <img src="https://glatar.org/www/logo/glfc-logo.png"
+        <img src="https://glatar.org/www/logo/glatar_logo.png"
              width="80" style="display:block; margin: 0 auto 16px auto;" />
 
         <h2 style="text-align:center; color:#2c3e50;">Registration Received</h2>
