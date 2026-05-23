@@ -84,7 +84,7 @@ view_source_server <- function(id, con, main_input, source_sidebar_vals) {
       main_input = main_input,
       # input_source = source_sidebar_vals,
       tab = "view_source",
-      activated = source_activated()
+      activated = source_activated
     )
     observe({
       cli::cli_alert_info("Class of source: {.val {class(source_data())}}")

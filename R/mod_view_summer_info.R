@@ -107,7 +107,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       input_source = summary_sidebar_vals,
       tab = "summary_info",
       var_field = "y_variable",
-      activated = summary_activated()
+      activated = summary_activated
     )
 
     # filtered summary by waterbody and species

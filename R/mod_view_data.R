@@ -103,7 +103,7 @@ view_data_server <- function(
       input_source = raw_sidebar_vals,
       tab = "view_data",
       var_field = "y_variable",
-      activated = raw_activated()
+      activated = raw_activated
     )
 
     # filtered summary by waterbody and species
@@ -116,6 +116,12 @@ view_data_server <- function(
     filtered_raw_data_df_names <- shiny::reactive({
       shiny::req(auth_state())
       shiny::req(filtered_raw_data())
+      shiny::validate(
+        shiny::need(
+          isTRUE(raw_sidebar_vals$has_data()),
+          "No data available. Please submit data before viewing results."
+        )
+      )
 
       filtered_raw_data() |>
         dplyr::rename_with(~ convert_nice_name(.x))
