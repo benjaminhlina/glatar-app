@@ -144,7 +144,7 @@ raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
         sidebar_df <- create_sidebar_df(con)
 
         nrows <- sidebar_df() |>
-          dplyr::slice_min(n = 1) |>
+          dplyr::slice_min(order_by = sample_id) |>
           dplyr::collect()
 
         if (nrow(nrows) == 0) {
