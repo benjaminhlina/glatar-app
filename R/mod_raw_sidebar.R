@@ -118,6 +118,7 @@ raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
     numeric_names_r <- shiny::reactiveVal(NULL)
     length_vars_r <- shiny::reactiveVal(NULL)
     energy_vars_r <- shiny::reactiveVal(NULL)
+    has_data <- shiny::reactiveVal(NULL)
 
     raw_choices <- reactive({
       shiny::req(input$themes)
@@ -141,6 +142,30 @@ raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
         shiny::req(!initialized())
 
         sidebar_df <- create_sidebar_df(con)
+
+        shiny::req(sidebar_df)
+
+        if (nrow(sidebar_df) == 0) {
+          has_data(FALSE)
+          no_data <- c("No data available" = "")
+
+          raw_sidesbars <- c("themes", paste0("raw_", sidebar_names()))
+
+          purrr::walk(
+            raw_sidesbars,
+            ~ shiny::updateSelectInput(session, .x, choices = no_data)
+          )
+          shiny::updateSelectizeInput(
+            session,
+            "raw_y_variable",
+            choices = no_data
+          )
+
+          initialized(TRUE)
+
+          return()
+        }
+        has_data(TRUE)
 
         filters <- c(
           "raw_waterbody_filter",
@@ -319,6 +344,7 @@ raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
     # we need grouping and hist variables we also need the function
 
     return(list(
+      has_data = shiny::reactive(has_data()),
       data_types = shiny::reactive(input$raw_data_types),
       organism_type = shiny::reactive(input$raw_organism_type),
       grouping_vars = shiny::reactive(input$raw_selected_col),

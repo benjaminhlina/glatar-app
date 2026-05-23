@@ -264,7 +264,20 @@ sample_required_fields <- function() {
   )
   return(sample_required_fields)
 }
-
+# ----- sidebars ------
+#' @name vector_functions
+#'
+#' @export
+sidebar_names <- function() {
+  sidebar_names <- c(
+    "data_types",
+    "waterbody_filter",
+    "organism_type",
+    "species_filter",
+    "selected_col"
+  )
+  return(sidebar_names)
+}
 
 # ----- sources ------
 #' @name vector_functions

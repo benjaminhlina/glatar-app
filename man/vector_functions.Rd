@@ -9,6 +9,7 @@
 \alias{numeric_fields}
 \alias{protected_tabs}
 \alias{sample_required_fields}
+\alias{sidebar_names}
 \alias{sources_required_fields}
 \alias{submission_required_fields}
 \alias{themes}
@@ -27,6 +28,8 @@ numeric_fields()
 protected_tabs()
 
 sample_required_fields()
+
+sidebar_names()
 
 sources_required_fields()
 
