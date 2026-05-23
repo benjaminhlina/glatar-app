@@ -273,6 +273,7 @@
   [`numeric_fields()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`protected_tabs()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`sample_required_fields()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
+  [`sidebar_names()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`sources_required_fields()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`submission_required_fields()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)
   [`themes()`](https://benjaminhlina.github.io/glatar-app/reference/vector_functions.md)

@@ -21,6 +21,8 @@ protected_tabs()
 
 sample_required_fields()
 
+sidebar_names()
+
 sources_required_fields()
 
 submission_required_fields()
