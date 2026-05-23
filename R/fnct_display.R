@@ -625,6 +625,8 @@ display_sub_map_msg <- function(
 #' @param output_id the id name of the output, e.g., `"summary_histogram"`.
 #' @param search a logitcal value that determines whether `datatable()` from
 #' `DT` has a search bar or not. Default value is `TRUE`.
+#' @param has_data is `NULL` and is to be used to supply sidebar values
+#' for viewing raw data. `
 #'
 #' @name display_functions
 #' @export
@@ -633,9 +635,18 @@ display_table <- function(
   data,
   output,
   output_id = "summary_table_output",
-  search = TRUE
+  search = TRUE,
+  has_data = NULL
 ) {
   output[[output_id]] <- DT::renderDT({
+    if (!is.null(sidebar_vals)) {
+      shiny::validate(
+        shiny::need(
+          isTRUE(has_data()),
+          "No data available. Please submit data before viewing results."
+        )
+      )
+    }
     shiny::req(data())
     # get data
     df <- data()

@@ -33,7 +33,13 @@ display_sub_map_msg(
   validated_samples
 )
 
-display_table(data, output, output_id = "summary_table_output", search = TRUE)
+display_table(
+  data,
+  output,
+  output_id = "summary_table_output",
+  search = TRUE,
+  has_data = NULL
+)
 
 display_upload_status(
   ns,
@@ -85,6 +91,9 @@ validated \code{tbl_samples}.}
 
 \item{search}{a logitcal value that determines whether \code{datatable()} from
 \code{DT} has a search bar or not. Default value is \code{TRUE}.}
+
+\item{has_data}{is \code{NULL} and is to be used to supply sidebar values
+for viewing raw data. `}
 
 \item{upload_succeeded}{a \code{tryCatch()} that tries to submit the split tables
 to the database. The returning object is a logical value, \code{TRUE} or \code{FALSE}
