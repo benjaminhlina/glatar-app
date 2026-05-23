@@ -115,14 +115,13 @@ view_data_server <- function(
 
     filtered_raw_data_df_names <- shiny::reactive({
       shiny::req(auth_state())
-      shiny::req(filtered_raw_data())
       shiny::validate(
         shiny::need(
           isTRUE(raw_sidebar_vals$has_data()),
           "No data available. Please submit data before viewing results."
         )
       )
-
+      shiny::req(filtered_raw_data())
       filtered_raw_data() |>
         dplyr::rename_with(~ convert_nice_name(.x))
     })
