@@ -143,9 +143,11 @@ raw_data_sidebar_server <- function(id, con, main_input, auth_state) {
 
         sidebar_df <- create_sidebar_df(con)
 
-        shiny::req(sidebar_df)
+        nrows <- sidebar_df() |>
+          dplyr::slice_head(n = 1) |>
+          dplyr::collect()
 
-        if (nrow(sidebar_df) == 0) {
+        if (nrow(nrows) == 0) {
           has_data(FALSE)
           no_data <- c("No data available" = "")
 
