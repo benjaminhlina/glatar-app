@@ -27,7 +27,13 @@ display_sub_map_msg(
   validated_samples
 )
 
-display_table(data, output, output_id = "summary_table_output", search = TRUE)
+display_table(
+  data,
+  output,
+  output_id = "summary_table_output",
+  search = TRUE,
+  has_data = NULL
+)
 
 display_upload_status(
   ns,
@@ -102,6 +108,11 @@ display_validation_status(
 
   a logitcal value that determines whether `datatable()` from `DT` has a
   search bar or not. Default value is `TRUE`.
+
+- has_data:
+
+  is `NULL` and is to be used to supply sidebar values for viewing raw
+  data. \`
 
 - upload_succeeded:
 
