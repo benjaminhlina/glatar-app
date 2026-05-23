@@ -103,7 +103,7 @@ view_data_server <- function(
       input_source = raw_sidebar_vals,
       tab = "view_data",
       var_field = "y_variable",
-      activated = raw_activated()
+      activated = raw_activated
     )
 
     # filtered summary by waterbody and species
