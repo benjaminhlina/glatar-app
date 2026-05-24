@@ -507,14 +507,14 @@ display_submission_map <- function(
 
     # Show the actual coordinates for debugging
     cli::cli_alert_info(
-      "Locations validated: {nrow(location_summary)} location{?s} 
-      ({min(location_summary$n_samples)}-{max(location_summary$n_samples)} 
+      "Locations validated: {nrow(location_summary)} location{?s}
+      ({min(location_summary$n_samples)}-{max(location_summary$n_samples)}
       samples per location)"
     )
     cli::cli_alert_info(
-      "Coordinates: lat range [{min(location_summary$latitude, na.rm=TRUE)}, 
-      {max(location_summary$latitude, na.rm=TRUE)}], 
-      lon range [{min(location_summary$longitude, na.rm=TRUE)}, 
+      "Coordinates: lat range [{min(location_summary$latitude, na.rm=TRUE)},
+      {max(location_summary$latitude, na.rm=TRUE)}],
+      lon range [{min(location_summary$longitude, na.rm=TRUE)},
       {max(location_summary$longitude, na.rm=TRUE)}]"
     )
 
@@ -643,7 +643,7 @@ display_table <- function(
       has_data <- input_source$has_data()
       shiny::validate(
         shiny::need(
-          isTRUE(has_data),
+          isFALSE(has_data),
           "No data available. Please submit data before viewing results."
         )
       )
