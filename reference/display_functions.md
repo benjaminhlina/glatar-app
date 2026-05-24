@@ -32,7 +32,7 @@ display_table(
   output,
   output_id = "summary_table_output",
   search = TRUE,
-  has_data = NULL
+  input_source = NULL
 )
 
 display_upload_status(
@@ -79,9 +79,8 @@ display_validation_status(
 
 - input_source:
 
-  usually an object created by a sidebar function. These objects tend to
-  be `reactive()` outcomes from `observe()` or `observeEvent()` calls
-  within a module.
+  is `NULL` and is to be used to supply sidebar values for viewing raw
+  data. \`
 
 - ns:
 
@@ -108,11 +107,6 @@ display_validation_status(
 
   a logitcal value that determines whether `datatable()` from `DT` has a
   search bar or not. Default value is `TRUE`.
-
-- has_data:
-
-  is `NULL` and is to be used to supply sidebar values for viewing raw
-  data. \`
 
 - upload_succeeded:
 
