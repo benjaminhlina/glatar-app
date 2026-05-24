@@ -643,7 +643,7 @@ display_table <- function(
       has_data <- input_source$has_data()
       shiny::validate(
         shiny::need(
-          isFALSE(has_data),
+          !isFALSE(has_data),
           "No data available. Please submit data before viewing results."
         )
       )
