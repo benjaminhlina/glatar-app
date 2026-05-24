@@ -19,7 +19,7 @@ view_data_ui <- function(id) {
       style = "display:none;",
       shiny::h2("Raw Data"),
       shiny::p(
-        "This panel displays user specific submitted raw data. Use the theme dropdown to select a theme of data of interest. 
+        "This panel displays user specific submitted raw data. Use the theme dropdown to select a theme of data of interest.
         Select the variables of interest and use the other dropdowns to filter the raw data."
       ),
       shiny::fluidRow(
@@ -124,7 +124,7 @@ view_data_server <- function(
       data = filtered_raw_data_df_names,
       output,
       output_id = "raw_data_output",
-      has_data = raw_sidebar_vals$has_data
+      input_source = raw_sidebar_vals
     )
 
     # ---- run exporte -----
