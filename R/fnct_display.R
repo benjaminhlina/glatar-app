@@ -625,7 +625,7 @@ display_sub_map_msg <- function(
 #' @param output_id the id name of the output, e.g., `"summary_histogram"`.
 #' @param search a logitcal value that determines whether `datatable()` from
 #' `DT` has a search bar or not. Default value is `TRUE`.
-#' @param has_data is `NULL` and is to be used to supply sidebar values
+#' @param input_source is `NULL` and is to be used to supply sidebar values
 #' for viewing raw data. `
 #'
 #' @name display_functions
@@ -636,13 +636,14 @@ display_table <- function(
   output,
   output_id = "summary_table_output",
   search = TRUE,
-  has_data = NULL
+  input_source = NULL
 ) {
   output[[output_id]] <- DT::renderDT({
-    if (!is.null(sidebar_vals)) {
+    if (!is.null(input_source)) {
+      has_data <- input_source$has_data()
       shiny::validate(
         shiny::need(
-          isTRUE(has_data()),
+          isTRUE(has_data),
           "No data available. Please submit data before viewing results."
         )
       )
@@ -720,7 +721,7 @@ display_upload_status <- function(
           cli::symbol$cross,
           " Upload failed ",
           cli::symbol$line,
-          " no data was saved. 
+          " no data was saved.
           Please check your data and try again.
          </span>"
         )
@@ -746,7 +747,7 @@ display_upload_status <- function(
           paste0(
             "<span style='color: green;'>",
             cli::symbol$tick,
-            " Confirmation email 
+            " Confirmation email
              sent successfully to ",
             user_email,
             ".</span>"
@@ -817,8 +818,8 @@ display_validation_status <- function(
         shiny::p(
           paste0(
             cli::symbol$cross,
-            " Validation failed - please fix the following issues. 
-          If you can not resolve the issue (e.g., common name not in the database) 
+            " Validation failed - please fix the following issues.
+          If you can not resolve the issue (e.g., common name not in the database)
           please contact the GLATAR manager"
           ),
           style = "color:red; font-weight:600;"
