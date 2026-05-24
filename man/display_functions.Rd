@@ -38,7 +38,7 @@ display_table(
   output,
   output_id = "summary_table_output",
   search = TRUE,
-  has_data = NULL
+  input_source = NULL
 )
 
 display_upload_status(
@@ -71,9 +71,8 @@ display_validation_status(
 
 \item{...}{additional arguments}
 
-\item{input_source}{usually an object created by a sidebar
-function. These objects tend to be \code{reactive()} outcomes from
-\code{observe()} or \code{observeEvent()} calls within a module.}
+\item{input_source}{is \code{NULL} and is to be used to supply sidebar values
+for viewing raw data. `}
 
 \item{ns}{a namespace object created from \code{NS()} from \code{shiny}}
 
@@ -91,9 +90,6 @@ validated \code{tbl_samples}.}
 
 \item{search}{a logitcal value that determines whether \code{datatable()} from
 \code{DT} has a search bar or not. Default value is \code{TRUE}.}
-
-\item{has_data}{is \code{NULL} and is to be used to supply sidebar values
-for viewing raw data. `}
 
 \item{upload_succeeded}{a \code{tryCatch()} that tries to submit the split tables
 to the database. The returning object is a logical value, \code{TRUE} or \code{FALSE}
