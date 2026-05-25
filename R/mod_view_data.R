@@ -126,8 +126,18 @@ view_data_server <- function(
     #   output_id = "no_data_message",
     #   input_source = raw_sidebar_vals
     # )
+    # output$no_data_message <- shiny::renderUI({
+    #   if (!isTRUE(raw_sidebar_vals$has_data())) {
+    #     shiny::div(
+    #       class = "alert alert-warning",
+    #       shiny::icon("triangle-exclamation"),
+    #       "No data available. Please submit data through the upload pane.
+    #       Once uploaded, when logged in it will display. "
+    #     )
+    #   }
+    # })
 
-    output[["no_data_message"]] <- shiny::renderUI({
+    output$no_data_message <- shiny::renderUI({
       if (!isTRUE(raw_sidebar_vals$has_data())) {
         shiny::div(
           class = "alert alert-warning",
