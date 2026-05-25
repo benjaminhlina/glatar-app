@@ -121,32 +121,22 @@ view_data_server <- function(
         dplyr::rename_with(~ convert_nice_name(.x))
     })
 
-    # display_warning(
-    #   output = output,
-    #   output_id = "no_data_message",
-    #   input_source = raw_sidebar_vals
-    # )
+    display_warning(
+      output = output,
+      output_id = "no_data_message",
+      input_source = raw_sidebar_vals
+    )
+
     # output$no_data_message <- shiny::renderUI({
     #   if (!isTRUE(raw_sidebar_vals$has_data())) {
     #     shiny::div(
     #       class = "alert alert-warning",
     #       shiny::icon("triangle-exclamation"),
-    #       "No data available. Please submit data through the upload pane.
-    #       Once uploaded, when logged in it will display. "
+    #       "No data is available. For your raw data to be viewable on this
+    #       pane, please submit data through the upload pane."
     #     )
     #   }
     # })
-
-    output$no_data_message <- shiny::renderUI({
-      if (!isTRUE(raw_sidebar_vals$has_data())) {
-        shiny::div(
-          class = "alert alert-warning",
-          shiny::icon("triangle-exclamation"),
-          "No data is available. For your raw data to be viewable on this
-          pane, please submit data through the upload pane."
-        )
-      }
-    })
 
     display_table(
       data = filtered_raw_data_df_names,

@@ -776,10 +776,10 @@ display_warning <- function(
   output_id = "no_data_message",
   input_source
 ) {
-  has_data <- input_source$has_data()
+  has_data_warning <- input_source$has_data()
 
   output[[output_id]] <- shiny::renderUI({
-    if (!isTRUE(has_data)) {
+    if (!isTRUE(has_data_warning)) {
       shiny::div(
         class = "alert alert-warning",
         shiny::icon("triangle-exclamation"),
