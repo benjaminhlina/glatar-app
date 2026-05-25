@@ -22,13 +22,13 @@ view_data_ui <- function(id) {
         "This panel displays user specific submitted raw data. Use the theme dropdown to select a theme of data of interest.
         Select the variables of interest and use the other dropdowns to filter the raw data."
       ),
-      shiny::uiOutput(ns("no_data_message")),
       shiny::fluidRow(
         shinydashboard::box(
           title = "Raw Data Table",
           status = "primary",
           solidHeader = TRUE,
           width = 12,
+          shiny::uiOutput(ns("no_data_message")),
           shiny::div(
             style = "overflow-x: auto; width: 100%;",
             shinycssloaders::withSpinner(
