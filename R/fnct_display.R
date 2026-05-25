@@ -693,7 +693,6 @@ display_table <- function(
 #' @export
 
 display_upload_status <- function(
-  ns,
   output,
   output_id = "upload_status",
   upload_succeeded = NULL,
@@ -776,10 +775,9 @@ display_warning <- function(
   output_id = "no_data_message",
   input_source
 ) {
-  has_data_warning <- input_source$has_data()
-
   output[[output_id]] <- shiny::renderUI({
-    if (!isTRUE(has_data_warning)) {
+    has_data <- input_source$has_data()
+    if (!isTRUE(has_data)) {
       shiny::div(
         class = "alert alert-warning",
         shiny::icon("triangle-exclamation"),

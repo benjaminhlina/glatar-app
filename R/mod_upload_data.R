@@ -534,7 +534,6 @@ upload_data_server <- function(id, con, auth_state) {
       # Create a message to display
       display_upload_status(
         output = output,
-        ns = ns,
         output_id = "upload_status",
         upload_succeeded = upload_succeeded,
         submission_results = submission_results,
