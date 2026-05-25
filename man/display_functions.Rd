@@ -37,7 +37,6 @@ display_sub_map_msg(
 display_table(data, output, output_id = "summary_table_output", search = TRUE)
 
 display_upload_status(
-  ns,
   output,
   output_id = "upload_status",
   upload_succeeded = NULL,
