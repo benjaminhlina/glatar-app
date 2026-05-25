@@ -18,7 +18,7 @@ make_pg_username <- function(email) {
   check_email(email, "email")
   user_name <- paste0(
     "usr_",
-    tolower(gsub("[^a-z0-9]", "_", sub("@.*", "", email)))
+    gsub("[^a-z0-9]", "_", tolower(sub("@.*", "", email)))
   )
   return(user_name)
 }
