@@ -123,7 +123,7 @@ view_data_server <- function(
 
     display_warning(
       output = output,
-      ouput_id = "no_data_message",
+      output_id = "no_data_message",
       input_source = raw_sidebar_vals
     )
 
