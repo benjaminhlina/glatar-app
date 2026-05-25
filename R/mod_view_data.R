@@ -126,7 +126,8 @@ view_data_server <- function(
         shiny::div(
           class = "alert alert-warning",
           shiny::icon("triangle-exclamation"),
-          "No data available for the selected filters. Please adjust your selections."
+          "No data available. Please submit data through the upload pane.
+          Once uploaded, when logged in it will display. "
         )
       }
     })
