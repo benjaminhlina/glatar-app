@@ -625,8 +625,6 @@ display_sub_map_msg <- function(
 #' @param output_id the id name of the output, e.g., `"summary_histogram"`.
 #' @param search a logitcal value that determines whether `datatable()` from
 #' `DT` has a search bar or not. Default value is `TRUE`.
-#' @param input_source is `NULL` and is to be used to supply sidebar values
-#' for viewing raw data. `
 #'
 #' @name display_functions
 #' @export
@@ -635,19 +633,9 @@ display_table <- function(
   data,
   output,
   output_id = "summary_table_output",
-  search = TRUE,
-  input_source = NULL
+  search = TRUE
 ) {
   output[[output_id]] <- DT::renderDT({
-    if (!is.null(input_source)) {
-      has_data <- input_source$has_data()
-      shiny::validate(
-        shiny::need(
-          !isFALSE(has_data),
-          "No data available. Please submit data before viewing results."
-        )
-      )
-    }
     shiny::req(data())
     # get data
     df <- data()
@@ -770,6 +758,33 @@ display_upload_status <- function(
           "</span><br>",
           email_msg
         )
+      )
+    }
+  })
+}
+# ------ display warning -----
+#' @param output an output within a shiny module.
+#' @param output_id the id name of the output, e.g., `"summary_histogram"`.
+#' @param input_source usually an object created by a sidebar
+#' function. These objects tend to be `reactive()` outcomes from
+#' `observe()` or `observeEvent()` calls within a module.
+#' @name display_functions
+#' @export
+
+display_warning <- function(
+  output,
+  output_id = "no_data_message",
+  input_source
+) {
+  has_data <- input_source$has_data()
+
+  output[[output_id]] <- shiny::renderUI({
+    if (!isTRUE(has_data)) {
+      shiny::div(
+        class = "alert alert-warning",
+        shiny::icon("triangle-exclamation"),
+        "No data is available. For your raw data to be viewable on this
+          pane, please submit data through the upload pane."
       )
     }
   })

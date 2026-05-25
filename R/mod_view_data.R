@@ -121,22 +121,16 @@ view_data_server <- function(
         dplyr::rename_with(~ convert_nice_name(.x))
     })
 
-    output$no_data_message <- shiny::renderUI({
-      if (!isTRUE(raw_sidebar_vals$has_data())) {
-        shiny::div(
-          class = "alert alert-warning",
-          shiny::icon("triangle-exclamation"),
-          "No data available. Please submit data through the upload pane.
-          Once uploaded, when logged in it will display. "
-        )
-      }
-    })
+    display_warning(
+      output = output,
+      ouput_id = "no_data_message",
+      input_source = raw_sidebar_vals
+    )
 
     display_table(
       data = filtered_raw_data_df_names,
       output,
-      output_id = "raw_data_output",
-      input_source = raw_sidebar_vals
+      output_id = "raw_data_output"
     )
 
     # ---- run exporte -----
