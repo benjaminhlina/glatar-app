@@ -22,6 +22,7 @@ view_data_ui <- function(id) {
         "This panel displays user specific submitted raw data. Use the theme dropdown to select a theme of data of interest.
         Select the variables of interest and use the other dropdowns to filter the raw data."
       ),
+      shiny::uiOutput(ns("no_data_message")),
       shiny::fluidRow(
         shinydashboard::box(
           title = "Raw Data Table",
@@ -118,6 +119,16 @@ view_data_server <- function(
       shiny::req(filtered_raw_data())
       filtered_raw_data() |>
         dplyr::rename_with(~ convert_nice_name(.x))
+    })
+
+    output$no_data_message <- shiny::renderUI({
+      if (!isTRUE(raw_sidebar_vals$has_data())) {
+        shiny::div(
+          class = "alert alert-warning",
+          shiny::icon("triangle-exclamation"),
+          "No data available for the selected filters. Please adjust your selections."
+        )
+      }
     })
 
     display_table(
