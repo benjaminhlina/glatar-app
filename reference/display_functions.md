@@ -27,13 +27,7 @@ display_sub_map_msg(
   validated_samples
 )
 
-display_table(
-  data,
-  output,
-  output_id = "summary_table_output",
-  search = TRUE,
-  input_source = NULL
-)
+display_table(data, output, output_id = "summary_table_output", search = TRUE)
 
 display_upload_status(
   ns,
@@ -44,6 +38,8 @@ display_upload_status(
   email_succeeded = NULL,
   user_email = NULL
 )
+
+display_warning(output, output_id = "no_data_message", input_source)
 
 display_validation_status(
   ns,
@@ -79,8 +75,9 @@ display_validation_status(
 
 - input_source:
 
-  is `NULL` and is to be used to supply sidebar values for viewing raw
-  data. \`
+  usually an object created by a sidebar function. These objects tend to
+  be `reactive()` outcomes from `observe()` or `observeEvent()` calls
+  within a module.
 
 - ns:
 

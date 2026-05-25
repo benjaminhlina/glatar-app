@@ -64,6 +64,7 @@
   [`display_sub_map_msg()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   [`display_table()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   [`display_upload_status()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
+  [`display_warning()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   [`display_validation_status()`](https://benjaminhlina.github.io/glatar-app/reference/display_functions.md)
   : Display functions
 

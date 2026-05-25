@@ -66,13 +66,7 @@ table) with a <code>render*()</code> function from <code>shiny</code>.</p>
 <span>  <span class="va">validated_samples</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">display_table</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">output</span>,</span>
-<span>  output_id <span class="op">=</span> <span class="st">"summary_table_output"</span>,</span>
-<span>  search <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  input_source <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
+<span><span class="fu">display_table</span><span class="op">(</span><span class="va">data</span>, <span class="va">output</span>, output_id <span class="op">=</span> <span class="st">"summary_table_output"</span>, search <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">display_upload_status</span><span class="op">(</span></span>
 <span>  <span class="va">ns</span>,</span>
@@ -83,6 +77,8 @@ table) with a <code>render*()</code> function from <code>shiny</code>.</p>
 <span>  email_succeeded <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  user_email <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">display_warning</span><span class="op">(</span><span class="va">output</span>, output_id <span class="op">=</span> <span class="st">"no_data_message"</span>, <span class="va">input_source</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">display_validation_status</span><span class="op">(</span></span>
 <span>  <span class="va">ns</span>,</span>
@@ -119,8 +115,9 @@ table) with a <code>render*()</code> function from <code>shiny</code>.</p>
 
 
 <dt id="arg-input-source">input_source<a class="anchor" aria-label="anchor" href="#arg-input-source"></a></dt>
-<dd><p>is <code>NULL</code> and is to be used to supply sidebar values
-for viewing raw data. `</p></dd>
+<dd><p>usually an object created by a sidebar
+function. These objects tend to be <code>reactive()</code> outcomes from
+<code>observe()</code> or <code>observeEvent()</code> calls within a module.</p></dd>
 
 
 <dt id="arg-ns">ns<a class="anchor" aria-label="anchor" href="#arg-ns"></a></dt>
