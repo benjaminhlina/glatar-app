@@ -99,7 +99,7 @@ functions that are directly used in either the `ui` or `server` within
 ```
 
 Next, any `fnct_*.R` files have functions that are to be used in either
-in other functions found in `fnct_*.R` files or directly in `mod_*.R`
+other functions found in `fnct_*.R` files or directly in `mod_*.R`
 files. There are a total of 31 `fcnt_*.R` files with
 [glatar](https://glatar.org) having 166 functions in total.
 
