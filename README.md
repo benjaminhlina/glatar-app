@@ -96,7 +96,7 @@ From there, there are `mod_*.R` and`fnct_*.R` files.
 ```
 
 
-Next, any `fnct_*.R` files have functions that are to be used in either in other functions found in 
+Next, any `fnct_*.R` files have functions that are to be used in either other functions found in 
 `fnct_*.R` files or directly in `mod_*.R` files. 
 There are a total of 31 `fcnt_*.R` files with `{glatar}` having 166 functions in total. 
 
