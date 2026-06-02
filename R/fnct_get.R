@@ -691,12 +691,17 @@ get_var_types <- function(df, var) {
   # Only keep non-NA length types
   var_types <- var_types[!is.na(var_types)]
 
+  # If no valid types found, return a named NA sentinel so callers don't break
+  if (length(var_types) == 0) {
+    label <- paste0("No Data for - ", var)
+    return(stats::setNames(NA_character_, label))
+  }
+
   # Create synthetic variable names and labels
   if (any(var_types %in% c("fork", "standard", "total", "carapace"))) {
     vars <- paste0("length_mm__", var_types)
     labels <- paste0(stringr::str_to_title(var_types), " Length (mm)")
-  }
-  if (
+  } else if (
     any(
       var_types %in%
         c(
