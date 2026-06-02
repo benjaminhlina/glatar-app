@@ -28,18 +28,15 @@ upload_to_db <- function(con, tables_to_submit) {
             "Submitting table: {tbl_name} with {nrow(df)} rows..."
           )
 
-          # RLS blocks COPY-based bulk inserts; insert row-by-row instead
-
-          for (i in seq_len(nrow(df))) {
-            row_df <- df[i, , drop = FALSE]
-            sql_insert <- DBI::sqlAppendTable(
-              con,
-              tbl_name,
-              row_df,
-              row.names = FALSE
-            )
-            DBI::dbExecute(con, sql_insert)
-          }
+          # dbAppendTable uses COPY which is blocked by RLS; sqlAppendTable
+          # generates a single multi-row INSERT statement that RLS can evaluate.
+          sql_insert <- DBI::sqlAppendTable(
+            con,
+            tbl_name,
+            df,
+            row.names = FALSE
+          )
+          DBI::dbExecute(con, sql_insert)
 
           cli::cli_alert_success("{tbl_name} submitted successfully")
           submission_results[[tbl_name]] <- list(
