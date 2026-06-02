@@ -348,7 +348,7 @@ upload_data_server <- function(id, con, auth_state) {
               dplyr::mutate(
                 dplyr::across(
                   where(\(x) is.logical(x) && all(is.na(x))),
-                  as.integer
+                  as.numeric
                 )
               )
 
