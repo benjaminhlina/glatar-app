@@ -344,7 +344,13 @@ upload_data_server <- function(id, con, auth_state) {
             tbl_samples_submitted <- add_taxonomic_groups(
               tbl_samples_submitted,
               species_list = species_list
-            )
+            ) |>
+              dplyr::mutate(
+                dplyr::across(
+                  where(\(x) is.logical(x) && all(is.na(x))),
+                  as.integer
+                )
+              )
 
             # doo the same to source -----
             tbl_source_submitted <- tbl_source_submitted |>

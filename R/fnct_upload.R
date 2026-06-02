@@ -32,7 +32,12 @@ upload_to_db <- function(con, tables_to_submit) {
 
           for (i in seq_len(nrow(df))) {
             row_df <- df[i, , drop = FALSE]
-            sql_insert <- DBI::sqlAppendTable(con, tbl_name, row_df)
+            sql_insert <- DBI::sqlAppendTable(
+              con,
+              tbl_name,
+              row_df,
+              row.names = FALSE
+            )
             DBI::dbExecute(con, sql_insert)
           }
 
