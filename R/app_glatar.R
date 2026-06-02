@@ -318,8 +318,8 @@ glatar_app <- function() {
     source_sidebar_vals$register_source(view_source)
     # ---- upload data -----
     upload_data_server(
-      "insert_data",
-      user_con(),
+      id = "insert_data",
+      con = user_con(),
       auth_state = tab_auth$auth_state
     )
     # ---- taxa search -----

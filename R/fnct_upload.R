@@ -28,7 +28,10 @@ upload_to_db <- function(con, tables_to_submit) {
             "Submitting table: {tbl_name} with {nrow(df)} rows..."
           )
 
-          DBI::dbAppendTable(con, tbl_name, df) # all writes inside the single transaction
+          # DBI::dbAppendTable(con, tbl_name, df) # all writes inside the single transaction
+          # due to row level security we need to do the following
+          sql_insert <- DBI::sqlAppendTable(con, tbl_name, df)
+          DBI::dbExecute(con, sql_insert)
 
           cli::cli_alert_success("{tbl_name} submitted successfully")
           submission_results[[tbl_name]] <- list(
