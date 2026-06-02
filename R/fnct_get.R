@@ -752,6 +752,4 @@ get_var_types <- function(df, var) {
   #   )
   # }
   # c("ug/mg sample weigh"t, "% total protein")
-
-  # stats::setNames(vars, labels) # names = labels, values = synthetic variable codes
 }
