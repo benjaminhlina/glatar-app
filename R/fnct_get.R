@@ -701,6 +701,7 @@ get_var_types <- function(df, var) {
   if (any(var_types %in% c("fork", "standard", "total", "carapace"))) {
     vars <- paste0("length_mm__", var_types)
     labels <- paste0(stringr::str_to_title(var_types), " Length (mm)")
+    return(stats::setNames(vars, labels))
   } else if (
     any(
       var_types %in%
@@ -715,6 +716,7 @@ get_var_types <- function(df, var) {
 
     vars <- paste0("energy_units__", var_types)
     labels <- paste0("Energy Density (", var_types, ")")
+    return(stats::setNames(vars, labels))
   }
   # if (
   #   any(
@@ -751,5 +753,5 @@ get_var_types <- function(df, var) {
   # }
   # c("ug/mg sample weigh"t, "% total protein")
 
-  stats::setNames(vars, labels) # names = labels, values = synthetic variable codes
+  # stats::setNames(vars, labels) # names = labels, values = synthetic variable codes
 }
