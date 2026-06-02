@@ -30,6 +30,12 @@ upload_to_db <- function(con, tables_to_submit) {
 
           # dbAppendTable uses COPY which is blocked by RLS; sqlAppendTable
           # generates a single multi-row INSERT statement that RLS can evaluate.
+          #
+          # for (i in seq_len(nrow(df))) {
+          #   row_df <- df[i, , drop = FALSE]
+          #   sql_insert <- DBI::sqlAppendTable(con, tbl_name, row_df)
+          #   DBI::dbExecute(con, sql_insert)
+          # }
           sql_insert <- DBI::sqlAppendTable(
             con,
             tbl_name,
