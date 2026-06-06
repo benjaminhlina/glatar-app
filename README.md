@@ -61,7 +61,7 @@ The structure of the package is the following:
 │   ├── app_glatar.R
 ```
 
-with `app_glatar.R` contains `glatar_app()` which builds the `ui`, `server` and runs `shiny::shinyApp(ui = ui, server = server)`. 
+with `app_glatar.R` containing `glatar_app()` which builds the `ui`, `server` and runs `shiny::shinyApp(ui = ui, server = server)`. 
 
 The `ui` contains a list of tabs, panels, and sidebars to build given the corresponding 
 module functions. While `server` contains the appropriate server functions that map 
@@ -112,7 +112,7 @@ There are a total of 31 `fcnt_*.R` files with `{glatar}` having 166 functions in
 # GitHub Actions and Server Deployment 
 
 The package and app are deployed using GitHub Actions (GHA). When a push to the 
-main branch of the repository occurs the first two actions to be triggered are [R CMD Check](https://github.com/benjaminhlina/glatar-app/actions/workflows/R_CMD_check.yaml) and [pkgdown](https://github.com/benjaminhlina/glatar-app/actions/workflows/pkgdown.yaml). R CMD check, checks if the package can be built while pkgdown deploys the documentation to a pkgdown website. 
+main branch of the repository occurs or cron job runs, the first two actions to be triggered are [R CMD Check](https://github.com/benjaminhlina/glatar-app/actions/workflows/R_CMD_check.yaml) and [pkgdown](https://github.com/benjaminhlina/glatar-app/actions/workflows/pkgdown.yaml). R CMD check, checks if the package can be built while pkgdown deploys the documentation to a pkgdown website. 
 
 Upon the R CMD Check successfully completing, a GHA is triggered that [builds a docker container](https://github.com/benjaminhlina/glatar-app/actions/workflows/build_docker.yaml). This container uses [rocker's shiny image](https://hub.docker.com/r/rocker/shiny) and installs all of the packages needed to support `{glatar}` using `{renv}` and `{pak}`, it then installs a fresh version of `{glatar}` and copies the `app.R` file in the main directory. This file contains the following: 
 ``` r
