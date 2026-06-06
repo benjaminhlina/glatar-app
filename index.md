@@ -61,7 +61,7 @@ The structure of the package is the following:
 │   ├── app_glatar.R
 ```
 
-with `app_glatar.R` contains
+with `app_glatar.R` containing
 [`glatar_app()`](https://benjaminhlina.github.io/glatar-app/reference/glatar_app.md)
 which builds the `ui`, `server` and runs
 `shiny::shinyApp(ui = ui, server = server)`.
@@ -122,8 +122,8 @@ There are a total of 31 `fcnt_*.R` files with
 # GitHub Actions and Server Deployment
 
 The package and app are deployed using GitHub Actions (GHA). When a push
-to the main branch of the repository occurs the first two actions to be
-triggered are [R CMD
+to the main branch of the repository occurs or cron job runs, the first
+two actions to be triggered are [R CMD
 Check](https://github.com/benjaminhlina/glatar-app/actions/workflows/R_CMD_check.yaml)
 and
 [pkgdown](https://github.com/benjaminhlina/glatar-app/actions/workflows/pkgdown.yaml).
