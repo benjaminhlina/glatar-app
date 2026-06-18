@@ -109,7 +109,7 @@ Next, any `fnct_*.R` files have functions that are to be used in either other fu
 ```
 There are a total of 31 `fcnt_*.R` files with `{glatar}` having 166 functions in total between `fcnt_*.R`, `mod_*.R`, `app_glatar.R`. 
 
-# GitHub Actions and Server Deployment 
+# Continuous Integration (CI) and Server Deployment 
 
 The package and app are deployed using GitHub Actions (GHA). When a push to the 
 main branch of the repository occurs or cron job runs, the first two actions to be triggered are [R CMD Check](https://github.com/benjaminhlina/glatar-app/actions/workflows/R_CMD_check.yaml) and [pkgdown](https://github.com/benjaminhlina/glatar-app/actions/workflows/pkgdown.yaml). R CMD check, checks if the package can be built while pkgdown deploys the documentation to a pkgdown website. 
@@ -126,7 +126,7 @@ Once complete, another [GHA](https://github.com/benjaminhlina/glatar-app/actions
 
 Lastly, once that GHA is complete, a [GHA checks](https://github.com/benjaminhlina/glatar-app/actions/workflows/check_shiny_status.yaml) if the app returns a `200` status and if the logs run to confirm the app has been deployed properly. 
 
-# Contribution and Issue Policy 
+# Contribution and Issues Policy 
 If you would like to contribute please feel free to fork the repository, create a branch, implement your changes, and submit a PR for review. 
 
 This repository will not be accepting LLM submitted PRs nor PRs that contain directly copy and pasted code from LLMs that has not be vetted and edited. 
