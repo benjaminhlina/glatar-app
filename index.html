@@ -118,7 +118,7 @@
 <p>There are a total of 31 <code>fcnt_*.R</code> files with <a href="https://glatar.org" class="external-link">glatar</a> having 166 functions in total between <code>fcnt_*.R</code>, <code>mod_*.R</code>, <code>app_glatar.R</code>.</p>
 </div>
 <div class="section level1">
-<h1 id="github-actions-and-server-deployment">GitHub Actions and Server Deployment<a class="anchor" aria-label="anchor" href="#github-actions-and-server-deployment"></a>
+<h1 id="continuous-integration-ci-and-server-deployment">Continuous Integration (CI) and Server Deployment<a class="anchor" aria-label="anchor" href="#continuous-integration-ci-and-server-deployment"></a>
 </h1>
 <p>The package and app are deployed using GitHub Actions (GHA). When a push to the main branch of the repository occurs or cron job runs, the first two actions to be triggered are <a href="https://github.com/benjaminhlina/glatar-app/actions/workflows/R_CMD_check.yaml" class="external-link">R CMD Check</a> and <a href="https://github.com/benjaminhlina/glatar-app/actions/workflows/pkgdown.yaml" class="external-link">pkgdown</a>. R CMD check, checks if the package can be built while pkgdown deploys the documentation to a pkgdown website.</p>
 <p>Upon the R CMD Check successfully completing, a GHA is triggered that <a href="https://github.com/benjaminhlina/glatar-app/actions/workflows/build_docker.yaml" class="external-link">builds a docker container</a>. This container uses <a href="https://hub.docker.com/r/rocker/shiny" class="external-link">rocker’s shiny image</a> and installs all of the packages needed to support <a href="https://glatar.org" class="external-link">glatar</a> using <a href="https://rstudio.github.io/renv/" class="external-link">renv</a> and <a href="https://pak.r-lib.org/" class="external-link">pak</a>, it then installs a fresh version of <a href="https://glatar.org" class="external-link">glatar</a> and copies the <code>app.R</code> file in the main directory. This file contains the following:</p>
@@ -130,7 +130,7 @@
 <p>Lastly, once that GHA is complete, a <a href="https://github.com/benjaminhlina/glatar-app/actions/workflows/check_shiny_status.yaml" class="external-link">GHA checks</a> if the app returns a <code>200</code> status and if the logs run to confirm the app has been deployed properly.</p>
 </div>
 <div class="section level1">
-<h1 id="contribution-and-issue-policy">Contribution and Issue Policy<a class="anchor" aria-label="anchor" href="#contribution-and-issue-policy"></a>
+<h1 id="contribution-and-issues-policy">Contribution and Issues Policy<a class="anchor" aria-label="anchor" href="#contribution-and-issues-policy"></a>
 </h1>
 <p>If you would like to contribute please feel free to fork the repository, create a branch, implement your changes, and submit a PR for review.</p>
 <p>This repository will not be accepting LLM submitted PRs nor PRs that contain directly copy and pasted code from LLMs that has not be vetted and edited.</p>

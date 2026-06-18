@@ -119,7 +119,7 @@ There are a total of 31 `fcnt_*.R` files with
 [glatar](https://glatar.org) having 166 functions in total between
 `fcnt_*.R`, `mod_*.R`, `app_glatar.R`.
 
-# GitHub Actions and Server Deployment
+# Continuous Integration (CI) and Server Deployment
 
 The package and app are deployed using GitHub Actions (GHA). When a push
 to the main branch of the repository occurs or cron job runs, the first
@@ -163,7 +163,7 @@ checks](https://github.com/benjaminhlina/glatar-app/actions/workflows/check_shin
 if the app returns a `200` status and if the logs run to confirm the app
 has been deployed properly.
 
-# Contribution and Issue Policy
+# Contribution and Issues Policy
 
 If you would like to contribute please feel free to fork the repository,
 create a branch, implement your changes, and submit a PR for review.
