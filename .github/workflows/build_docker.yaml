@@ -5,9 +5,7 @@ on:
     workflows: ["R CMD check"]
     types:
       - completed
-  workflow_dispatch: 
-  schedule:
-    - cron: '0 4 * * 2'  
+  workflow_dispatch:  
 
 env:
   REGISTRY: ghcr.io
