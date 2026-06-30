@@ -135,7 +135,7 @@ validate_tbl_sources <- function(df) {
 #' @export
 validate_tbl_submission <- function(df) {
   required_fields <- submission_required_fields()
-  submisison_email <- df$submisison_email
+  submission_email <- df$submission_email
 
   if (!all(required_fields %in% colnames(df))) {
     rules <- do.call(
@@ -153,7 +153,7 @@ validate_tbl_submission <- function(df) {
         rule_len(required_fields),
         rule_na(required_fields),
         rule_blank(required_fields),
-        rule_email(submisison_email)
+        rule_email(submission_email)
       )
     )
   }
