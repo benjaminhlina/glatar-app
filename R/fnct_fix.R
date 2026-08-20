@@ -127,6 +127,7 @@ fix_title_label <- function(x, max = NULL) {
 #'
 #' @export
 fix_var_generic <- function(df, var_raw) {
+  shiny::req(df, var_raw)
   # detect if it's one of the synthetic length vars
   if (grepl("^length_mm__", var_raw)) {
     # split if length_mm__ is presnet in
