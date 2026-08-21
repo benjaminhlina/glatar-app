@@ -360,6 +360,8 @@ clean_validate_report <- function(confrontation, table_name = NULL) {
       Issue = dplyr::case_when(
         grepl("nrow\\(\\.\\) == 1", expression) ~
           "Sheet is empty - please enter data and reupload",
+        grepl("valid_users_email", expression) ~
+          "Please make sure your email matches the one that is registered.",
 
         grepl("publication_type", expression) ~
           "Invalid publication type - must be Journal Article, Book,
