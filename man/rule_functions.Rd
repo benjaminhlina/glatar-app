@@ -5,6 +5,7 @@
 \alias{rule_blank}
 \alias{rule_column_names}
 \alias{rule_email}
+\alias{rule_email_registered}
 \alias{rule_len}
 \alias{rule_match}
 \alias{rule_na}
@@ -15,6 +16,8 @@ rule_blank(required_fields)
 rule_column_names(required_fields)
 
 rule_email(submission_email)
+
+rule_email_registered(submission_email)
 
 rule_len(required_fields)
 
@@ -45,6 +48,8 @@ email styles, or whether the field can be blank.
 \code{rule_blank()} checks whether a feild is blank.
 
 \code{rule_column_names()} checks the column names.
+
+\code{rule_email()} checks if the submission email is in a valid format.
 
 \code{rule_email()} checks if the submission email is in a valid format.
 

@@ -133,7 +133,7 @@ validate_tbl_sources <- function(df) {
 #'
 #' @name validation_functions
 #' @export
-validate_tbl_submission <- function(df) {
+validate_tbl_submission <- function(df, valid_users_emails) {
   required_fields <- submission_required_fields()
   submission_email <- df$submission_email
 
@@ -153,11 +153,16 @@ validate_tbl_submission <- function(df) {
         rule_len(required_fields),
         rule_na(required_fields),
         rule_blank(required_fields),
-        rule_email(submission_email)
+        rule_email(submission_email),
+        rule_email_registered(submission_email)
       )
     )
   }
-  out <- validate::confront(df, rules)
+  out <- validate::confront(
+    df,
+    rules,
+    ref = list(valid_users_emails = valid_users_emails)
+  )
 
   return(out)
 }

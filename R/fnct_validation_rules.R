@@ -61,6 +61,25 @@ rule_email <- function(submission_email) {
   return(rule)
 }
 
+#' @param submission_email the email of the submitter.
+#'
+#' @details `rule_email()` checks if the submission email is in a valid format.
+#'
+#'
+#' @name rule_functions
+#' @export
+
+# New rule helper, consistent with rule_email() etc.
+rule_email_registered <- function(submission_email) {
+  rule <- list(
+    registered_email = substitute(
+      submission_email %in% valid_users_emails
+    )
+  )
+  return(rule)
+}
+
+
 # --- length == 1 rules
 #' @param required_fields is a vector containing the fields to apply the validation
 #' rule to.

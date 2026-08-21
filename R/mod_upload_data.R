@@ -164,7 +164,10 @@ upload_data_server <- function(id, con, auth_state) {
         rename = FALSE
       )
       # ---- validate tbl_submission -----
-      agent_submission <- validate_tbl_submission(tbl_submission_submitted)
+      agent_submission <- validate_tbl_submission(
+        tbl_submission_submitted,
+        valid_users_emails = valid_users_emails
+      )
 
       # ----- read_table source  -----
       tbl_source_submitted <- read_xl(
