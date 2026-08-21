@@ -13,6 +13,8 @@ rule_column_names(required_fields)
 
 rule_email(submission_email)
 
+rule_email_registered(submission_email)
+
 rule_len(required_fields)
 
 rule_match(exprs, field)
@@ -47,6 +49,8 @@ A rule to be evaluated by `{validator}`.
 `rule_blank()` checks whether a feild is blank.
 
 `rule_column_names()` checks the column names.
+
+`rule_email()` checks if the submission email is in a valid format.
 
 `rule_email()` checks if the submission email is in a valid format.
 

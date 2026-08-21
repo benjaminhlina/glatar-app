@@ -193,6 +193,7 @@
 - [`rule_blank()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
   [`rule_column_names()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
   [`rule_email()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
+  [`rule_email_registered()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
   [`rule_len()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
   [`rule_match()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)
   [`rule_na()`](https://benjaminhlina.github.io/glatar-app/reference/rule_functions.md)

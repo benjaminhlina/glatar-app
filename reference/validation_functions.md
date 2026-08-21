@@ -13,7 +13,7 @@ the_golden_lance(df)
 
 validate_tbl_sources(df)
 
-validate_tbl_submission(df)
+validate_tbl_submission(df, valid_users_emails)
 ```
 
 ## Arguments

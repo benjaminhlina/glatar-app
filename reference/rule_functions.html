@@ -49,6 +49,8 @@ email styles, or whether the field can be blank.</p>
 <span></span>
 <span><span class="fu">rule_email</span><span class="op">(</span><span class="va">submission_email</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">rule_email_registered</span><span class="op">(</span><span class="va">submission_email</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">rule_len</span><span class="op">(</span><span class="va">required_fields</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">rule_match</span><span class="op">(</span><span class="va">exprs</span>, <span class="va">field</span><span class="op">)</span></span>
@@ -86,6 +88,7 @@ or <code>issue</code>/.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>rule_blank()</code> checks whether a feild is blank.</p>
 <p><code>rule_column_names()</code> checks the column names.</p>
+<p><code>rule_email()</code> checks if the submission email is in a valid format.</p>
 <p><code>rule_email()</code> checks if the submission email is in a valid format.</p>
 <p><code>rule_len()</code> checks if the length of the column equals 1.</p>
 <p><code>rule_match()</code> checks if the valid exprssion matches a given rule.</p>
