@@ -57,8 +57,9 @@ tab_auth_server <- function(
 
   # ------ Handle login submission ------
   shiny::observeEvent(input$tab_login_submit, {
+    user_input <- trimws(input$tab_login_user)
     valid <- check_tab_credentials(
-      input$tab_login_user,
+      user_input,
       valid_users_emails
     )
 
