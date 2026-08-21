@@ -126,6 +126,7 @@ validate_tbl_sources <- function(df) {
 }
 # ----- validate_tbl_submission ------
 #' @param df a `data.frame` that requires validation.
+#' @param valid_users_emails a `vector` that contains the valid user emails in the db.
 #'
 #' @details
 #'  `validate_tbl_submission()` validates incoming data to be uploaded to `tbl_submission`.

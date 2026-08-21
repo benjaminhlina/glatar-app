@@ -15,6 +15,8 @@ validate_tbl_submission(df, valid_users_emails)
 }
 \arguments{
 \item{df}{a \code{data.frame} that requires validation.}
+
+\item{valid_users_emails}{a \code{vector} that contains the valid user emails in the db.}
 }
 \value{
 Returns a \code{validate} object.
