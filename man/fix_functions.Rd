@@ -3,12 +3,15 @@
 \name{fix_functions}
 \alias{fix_functions}
 \alias{fix_case_types}
+\alias{fix_logical_types}
 \alias{fix_table_order}
 \alias{fix_title_label}
 \alias{fix_var_generic}
 \title{Fix Functions}
 \usage{
 fix_case_types(df)
+
+fix_logical_types(x, target_type)
 
 fix_table_order(split_tables)
 
@@ -19,10 +22,12 @@ fix_var_generic(df, var_raw)
 \arguments{
 \item{df}{a \code{data.frame}}
 
+\item{x}{a vector of selected variables.}
+
+\item{target_type}{a \code{character} indcaiting the type to convert into e.g. \code{"as.numeric"}.}
+
 \item{split_tables}{a \code{list} containing inported data as \code{data.frames} ready
 to be submited. `}
-
-\item{x}{a vector of selected variables.}
 
 \item{max}{the maximum nmber of objects to permit
 before the function starts condense the names. Defaults to \code{4}.}
@@ -36,6 +41,8 @@ the required user interface and database. For example case types
 \details{
 \code{fix_case_types} fix case types once validation has occured for incoming
 data into the database.
+
+\code{fix_logical_types} fix logic types that are blank and \code{NA}
 
 \code{fix_table_order} fixes the order of the tables within the \code{list} so we
 can iteratively load data into the the database. The proper order is

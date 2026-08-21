@@ -43,6 +43,19 @@ fix_case_types <- function(df) {
   return(df)
 }
 
+#' @param x a `vector`
+#' @param target_type a `character` indcaiting the type to convert into e.g. `"as.numeric"`.
+#'
+#' @details
+#' `fix_logical_types` fix logic types that are blank and `NA`
+#' @name fix_functions
+#'
+#' @export
+
+fix_logical_types <- function(x, target_type) {
+  if (is.logical(x)) match.fun(target_type)(x) else x
+}
+
 # ---- fix table order -----
 #'
 #' @param split_tables a `list` containing inported data as `data.frames` ready
