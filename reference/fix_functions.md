@@ -8,6 +8,8 @@ required user interface and database. For example case types
 ``` r
 fix_case_types(df)
 
+fix_logical_types(x, target_type)
+
 fix_table_order(split_tables)
 
 fix_title_label(x, max = NULL)
@@ -21,14 +23,18 @@ fix_var_generic(df, var_raw)
 
   a `data.frame`
 
+- x:
+
+  a vector of selected variables.
+
+- target_type:
+
+  a `character` indcaiting the type to convert into e.g. `"as.numeric"`.
+
 - split_tables:
 
   a `list` containing inported data as `data.frames` ready to be
   submited. \`
-
-- x:
-
-  a vector of selected variables.
 
 - max:
 
@@ -43,6 +49,8 @@ fix_var_generic(df, var_raw)
 
 `fix_case_types` fix case types once validation has occured for incoming
 data into the database.
+
+`fix_logical_types` fix logic types that are blank and `NA`
 
 `fix_table_order` fixes the order of the tables within the `list` so we
 can iteratively load data into the the database. The proper order is

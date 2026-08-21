@@ -42,6 +42,8 @@ the required user interface and database. For example case types</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fix_case_types</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">fix_logical_types</span><span class="op">(</span><span class="va">x</span>, <span class="va">target_type</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">fix_table_order</span><span class="op">(</span><span class="va">split_tables</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">fix_title_label</span><span class="op">(</span><span class="va">x</span>, max <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
@@ -57,13 +59,17 @@ the required user interface and database. For example case types</p>
 <dd><p>a <code>data.frame</code></p></dd>
 
 
+<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p>a vector of selected variables.</p></dd>
+
+
+<dt id="arg-target-type">target_type<a class="anchor" aria-label="anchor" href="#arg-target-type"></a></dt>
+<dd><p>a <code>character</code> indcaiting the type to convert into e.g. <code>"as.numeric"</code>.</p></dd>
+
+
 <dt id="arg-split-tables">split_tables<a class="anchor" aria-label="anchor" href="#arg-split-tables"></a></dt>
 <dd><p>a <code>list</code> containing inported data as <code>data.frames</code> ready
 to be submited. `</p></dd>
-
-
-<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>a vector of selected variables.</p></dd>
 
 
 <dt id="arg-max">max<a class="anchor" aria-label="anchor" href="#arg-max"></a></dt>
@@ -79,6 +85,7 @@ before the function starts condense the names. Defaults to <code>4</code>.</p></
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>fix_case_types</code> fix case types once validation has occured for incoming
 data into the database.</p>
+<p><code>fix_logical_types</code> fix logic types that are blank and <code>NA</code></p>
 <p><code>fix_table_order</code> fixes the order of the tables within the <code>list</code> so we
 can iteratively load data into the the database. The proper order is
 <code>tbl_submission</code>, <code>tbl_sources</code>, and `tbl_samples“ the an other supporting

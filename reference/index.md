@@ -79,6 +79,7 @@
   : Exporf functions
 
 - [`fix_case_types()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
+  [`fix_logical_types()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
   [`fix_table_order()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
   [`fix_title_label()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
   [`fix_var_generic()`](https://benjaminhlina.github.io/glatar-app/reference/fix_functions.md)
