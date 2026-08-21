@@ -357,6 +357,27 @@ upload_data_server <- function(id, con, auth_state) {
               dplyr::select(-source_id) |>
               dplyr::rename(source_id = .source_id)
 
+            tbl_source_submitted <- tbl_source_submitted |>
+              dplyr::mutate(
+                publication_year = fix_logical_types(
+                  publication_year,
+                  "as.integer"
+                ),
+                issue = fix_logical_types(issue, "as.numeric"),
+                across(
+                  c(
+                    journal_name,
+                    volume,
+                    pages,
+                    publisher,
+                    editor,
+                    ibsn,
+                    doi
+                  ),
+                  ~ fix_logical_types(.x, "as.character")
+                )
+              )
+
             # ------ get tables to split -----
             tables_to_split <- get_column_map(con) |>
               dplyr::filter(
