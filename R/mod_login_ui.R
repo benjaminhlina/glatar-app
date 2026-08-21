@@ -68,8 +68,8 @@ tab_auth_server <- function(
       login_failed(FALSE)
       dest <- pending_tab()
       # Create username and password using your functions
-      username <- make_pg_username(input$tab_login_user)
-      password <- make_temp_password(input$tab_login_user)
+      username <- make_pg_username(user_input)
+      password <- make_temp_password(user_input)
       username(username)
       password(password)
       pending_tab(NULL)
