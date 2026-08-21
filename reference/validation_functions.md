@@ -22,6 +22,10 @@ validate_tbl_submission(df, valid_users_emails)
 
   a `data.frame` that requires validation.
 
+- valid_users_emails:
+
+  a `vector` that contains the valid user emails in the db.
+
 ## Value
 
 Returns a `validate` object.
