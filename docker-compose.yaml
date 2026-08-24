@@ -1,7 +1,6 @@
 services:
   nginx:
     image: nginx:latest
-    # container_name: glatar-nginx
     ports:
       - "80:80"
       - "443:443"
@@ -16,7 +15,7 @@ services:
       - shiny-net
       - edge-net
 
-  certbot: 
+  certbot:
     image: certbot/certbot
     volumes:
       - ./certbot/www:/var/www/certbot
@@ -49,19 +48,5 @@ services:
 networks:
   shiny-net:
     driver: bridge
-    
-
-# nginx.conf
-
-# all Shiny containers are on the same 
-# network and share the same service name shiny. 
-# Docker DNS will load balance automatically:
-# worker_processes auto;
-# events { worker_connections 1024; }
-
-# http {
-#     upstream shiny_upstream {
-#         server shiny:3838;  # Docker DNS will resolve multiple containers automatically
-#     }
-
-
+  edge-net:
+    external: true
