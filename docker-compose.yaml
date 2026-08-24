@@ -14,6 +14,7 @@ services:
       - shiny
     networks:
       - shiny-net
+      - edge-net
 
   certbot: 
     image: certbot/certbot
