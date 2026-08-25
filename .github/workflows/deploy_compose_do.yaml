@@ -65,7 +65,6 @@ jobs:
         run: |      
           # Copy nginx.conf to the server
           scp -i ~/.ssh/deploy_key ./nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/nginx.conf
-          scp -i ~/.ssh/deploy_key ./temp-nginx.conf ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/temp-nginx.conf
 
           # copy docker-compose.yaml 
           scp -i ~/.ssh/deploy_key ./docker-compose.yaml ${SERVER_USER}@${SERVER_HOST}:/opt/glatar/docker-compose.yaml
@@ -90,46 +89,15 @@ jobs:
           # Login to GHCR
           
           echo "${GHCR_TOKEN}" | docker login ghcr.io -u benjaminhlina --password-stdin
-          
 
           # docker compose everything together 
           docker compose pull
-
-          # 4. Check if SSL certificates already exist
-          CERT_DIR="./certbot/conf/live/glatar.org"
-          
-          if [ ! -d "\$CERT_DIR" ]; then
-            echo "SSL Certificate not found. Using temp-nginx.conf for ACME bootstrap..."
-
-            # Backup main nginx.conf and replace with temp-nginx.conf
-            cp nginx.conf nginx.conf.bak
-            cp temp-nginx.conf nginx.conf
-
-            # Start Nginx & Certbot on Port 80
-            docker compose up -d nginx certbot
-
-            echo "Waiting for Nginx to boot..."
-            sleep 5
-
-            # Issue multi-domain certificate
-            echo "Requesting Let's Encrypt SSL certificate..."
-            docker compose exec certbot certbot certonly --webroot \
-              -w /var/www/certbot \
-              -d glatar.org -d www.glatar.org -d gbif.glatar.org \
-              --email ${CERT_EMAIL} --agree-tos --non-interactive
-
-            # Restore production HTTPS Nginx config
-            echo "Restoring production HTTPS Nginx config..."
-            mv nginx.conf.bak nginx.conf
-          fi
 
           # add down 
           docker compose down
           
           docker compose up -d --scale shiny=3 --remove-orphans
 
-          # 6. Reload Nginx to apply any configuration updates or new certs
-          docker compose exec nginx nginx -s reload || true
 
           docker image prune -f
 
