@@ -19,3 +19,4 @@
 ^data-raw$
 ^docker-compose\.yaml$
 ^CODE_OF_CONDUCT\.md$
+^temp-nginx\.conf$

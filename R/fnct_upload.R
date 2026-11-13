@@ -74,7 +74,7 @@ upload_to_db <- function(con, tables_to_submit) {
                               rolled back: {e$message}"
       )
       shiny::showNotification(
-        "Upload failed. No data was saved.",
+        "Upload failed. No data were saved.",
         type = "error"
       )
       FALSE
