@@ -18,7 +18,10 @@
 fix_case_types <- function(df) {
   df <- df |>
     dplyr::mutate(
-      dplyr::across(common_name:family, ~ stringr::str_to_sentence(.x)),
+      dplyr::across(
+        common_name:family,
+        ~ stringr::str_to_sentence(.x)
+      ),
       length_type = tolower(length_type),
       waterbody = tools::toTitleCase(waterbody),
       data_type = stringr::str_to_sentence(data_type),
@@ -40,6 +43,7 @@ fix_case_types <- function(df) {
       energy_units = .energy_units,
       sample_id = .sample_id
     )
+
   return(df)
 }
 

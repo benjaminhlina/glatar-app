@@ -708,9 +708,13 @@ display_upload_status <- function(
           cli::symbol$cross,
           " Upload failed ",
           cli::symbol$line,
-          " no data was saved.
+          " no data were submitted to the database.
           Please check your data and try again.
-         </span>"
+          If this continues to fail, ",
+          "please contact Benjamin Hlina at ",
+          "<a href='mailto:benjamin.hlina@gmail.com'>benjamin.hlina@gmail.com</a>",
+          " to inquire about the issue.",
+          "</span>"
         )
       )
     } else {
